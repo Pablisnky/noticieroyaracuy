@@ -1,0 +1,59 @@
+pcabeza7@gmail.com       pppp-> suscriptor
+pablo@gmail.com          pppp  -> periodista
+monica@gmail.com         mmmm   -> suscriptor
+ll@ll.ll                 llll (relojes)   -> suscriptor
+yury@gmail.com           yyyy    -> suscriptor
+qq@qq.qq                 qqqq     -> suscriptor
+kk@kk.kk                 kkkk    -> suscriptor
+patricia@gmail.com       patricia  -> suscriptor
+jean@gmail.com           jjjj     -> suscriptor
+*******************************************************************************
+Resoluciones
+    320 x 534 (Maria Esther Samsumg mini S3)
+    320 x 570 (Maria Esther ZTE)
+    320 x 640 (Pablo Alcatel - Antonieta)
+    360 x 720 (Lisbella)
+    393 x 873 (Lisbella Redmi uso diario)
+    360 x 800 (Lisbella Redmi solo fotos)
+    393 x 851 (Monica - Esther Xiaomi - Orlando Valladares)
+    ---------------
+    1280 x 800 (tablet Canaima horizontal)
+    600 x 900 (labtop Canaima)
+    ---------------
+    1366 x 768 (Pablo Labtop)
+    1280 x 1024 (Lisbella PC)
+*******************************************************************************
+/* .efectoZoom{ contenedor
+	overflow:hidden;
+}
+.efectoZoom:hover .efectoZoom--imagen{ imagen
+	transition:all .5s ease-in-out;
+	-webkit-transform:scale(1.3);
+	transform:scale(1.3);
+	filter: opacity(.6);
+}  */
+*******************************************************************************
+extension = gd esta extencion en php.ini se activo para que pudiera funcionar las funciones imagecreatefromjpeg()
+*******************************************************************************
+los archivos 
+                "Comprimir_imagen.php" 
+                "Panel_C.php" 
+                "Panel_Clasificados_C.php
+                "Panel_Artista_C.php"
+                "Panel_Denuncias_C.php"
+                "Suscriptor_C.php"
+
+    local_remoto.php
+    ---------------
+    A_Catalogos.js
+    A_YaracuyEnViedo.js
+    funcionesVarias.js
+    E_Museo.js
+tiene la opcion de subir a servidor remoto y servidor local, esta debe ser cambiada segun la condicion
+
+*******************************************************************************
+Todos los contoladores que abren la vista de un formulario abren una sesión para impedir recargar la vista,
+esta sesión se cierra en el controlador que recibe el formulario
+
+
+*******************************************************************************
