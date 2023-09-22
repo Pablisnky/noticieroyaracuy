@@ -131,6 +131,19 @@
                         <p class="cont_portada--seccion borde_3">{{$Row->seccion}} </p>
                     </div> 
                 </div>
+
+                <!-- BOTONES DEL PANEL FRONTAL (solo en dispositivos moviles)-->	
+                <div class="cont_boton--categoria">
+                    <div>
+                        <label class="boton boton--corto"><a class="Default_font--white boton_a" href="{{ route('GaleriaArte') }}">Galería</a></label> 
+                    </div>        
+                    <div>
+                        <label class="boton boton--corto"><a class="Default_font--white boton_a"" href="{{ route('Noticias') }}">Mas noticias</a></label> 
+                    </div>         
+                    <div>
+                        <label class="boton boton--corto"><a class="Default_font--white boton_a"" href="{{ route('Marketplace') }}">Marketplace</a></label> 
+                    </div>        
+                </div>
             </section>
         @endforeach
         

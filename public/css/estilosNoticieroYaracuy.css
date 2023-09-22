@@ -1395,7 +1395,7 @@ textarea{
 	height: 50px;
 	margin: 2px;
 	cursor: pointer;
-	object-fit: cover; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
+	object-fit: contain; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
 } 
 .noticiaImgMiniatura--Atras{
 	width: 50px;
@@ -3881,14 +3881,10 @@ ul .menuContenedor_3{
 	padding: 1% 5%;
 	border-radius: 15px;
 }
-.active {
-	background-color: var(--OficialOscuro);
-	color: white!important;
-    display: inline-block;
-    width: 20px;
-    text-align: center;
-    margin: auto 1%;
-    border-radius: 50%;
+.active{
+	font-weight: bold;
+	border-bottom: 1px solid #000;
+	padding-bottom: 3px;
 }
 .cont_PanelnoticiasGenerales{
 	margin-top: 15%;

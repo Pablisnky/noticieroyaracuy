@@ -55,8 +55,7 @@
 
                             <!-- FECHA -->
                             <label class="cont_panel--label">Fecha</label>
-                            <label class="cont_panel--fecha">{{ $Not_Prin->fecha }}</label>
-                            
+                            <label class="cont_panel--fecha">{{ \Carbon\Carbon::parse(strtotime($Not_Prin->fecha))->format('d-m-Y') }}</label>
                             <!-- COMPARTIR -->
                             <div>
                                 <label class="cont_panel--label">Compartir</label>

@@ -24,7 +24,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     // usar en local
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/publicidad/';
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/publicidad/';
                 }
             } 
             else if($Bandera == 'ImagenPerfilArtista'){ //viene de Panel_C/recibeArtistaAgregado
@@ -35,18 +35,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     // usar en local
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/galeria/' . $ID_Suscriptor . '_' . $NombreArtista . '_' . $ApellidoArtista . '/perfil/';
-                }
-            }
-            else if($Bandera == 'ImagenPrincipalNoticia'){
-                
-                if($Servidor == 'Remoto'){
-                    // Usar en remoto        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/noticias/';
-                }
-                else{
-                    // usar en local        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/noticias/';
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/galeria/' . $ID_Suscriptor . '_' . $NombreArtista . '_' . $ApellidoArtista . '/perfil/';
                 }
             }
             else if($Bandera == 'imagenesSecUndariaNoticia'){
@@ -57,7 +46,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     // usar en local        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/noticias/';
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/noticias/';
                 }
             }
             else if($Bandera == 'imagenProducto'){ //viene de CuentaComercial_C/recibeProductoPublicar
@@ -68,7 +57,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     //usar en local        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';             
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';             
                 }
             }
             else if($Bandera == 'imagenSecundariiaProducto'){ //viene de CuentaComercial_C/recibeProductoPublicar
@@ -79,7 +68,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     // usar en local        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';             
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';             
                 }
             }
             else if($Bandera == 'imagenAgenda'){ //viene de CuentaComercial_C/recibeAgendaAgregada
@@ -90,7 +79,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     //usar en local         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/agenda/';             
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/agenda/';             
                 }
             } 
             else if($Bandera == 'imagenCatalogo'){ //viene de Suscriptor_C/actualizaNombreComercial
@@ -101,7 +90,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     //usar en local         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/clasificados/' . $_SESSION['ID_Suscriptor'] . '/';             
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . $_SESSION['ID_Suscriptor'] . '/';             
                 }
             }
             else if($Bandera == 'imagenSecundariiaProdActualizar'){  
@@ -112,7 +101,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     //usar en local         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/'; 
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/'; 
                 }
             }   
             else if($Bandera == 'ActualizaImagenPrincipalNoticia'){
@@ -123,10 +112,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     //usar en local         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/noticias/';
-                    echo $Patch . '<br>';
-                    echo $Servidor . '<br>';
-                    // exit;
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/noticias/';
                 }
             }
             else if($Bandera == 'imagenPortafolio'){
@@ -137,7 +123,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     //usar en local         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/galeria/' . $ID_Suscriptor . '_' . $NombreArtista . '_' . $ApellidoArtista . '/perfil/';
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/galeria/' . $ID_Suscriptor . '_' . $NombreArtista . '_' . $ApellidoArtista . '/perfil/';
                 }
             } 
             else if($Bandera == 'imagenObra'){
@@ -148,7 +134,7 @@ trait Comprimir_Imagen{
                 }
                 else{
                     //usar en local         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/galeria/' . $ID_Suscriptor . '_' . $NombreArtista . '_' . $ApellidoArtista . '/';
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/galeria/' . $ID_Suscriptor . '_' . $NombreArtista . '_' . $ApellidoArtista . '/';
                 }
             } 
             else if($Bandera == 'ImagenDenuncia'){
@@ -159,7 +145,31 @@ trait Comprimir_Imagen{
                 }
                 else{
                     //usar en local         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/denuncias/';
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/denuncias/';
+                }
+            } 
+            else if($Bandera == 'ImagenEfemeride'){
+                
+                if($Servidor == 'Remoto'){
+                    //Usar en remoto        
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/efemerides/';
+                }
+                else{
+                    //usar en local         
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/efemerides/';
+                }
+            }
+            else if($Bandera == 'ImagenPrincipalNoticia'){
+                
+                if($Servidor == 'Remoto'){
+                    // Usar en remoto        
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/noticias/';
+                }
+                else{
+                    // usar en local        
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/noticias/';
+                    // echo  $Patch;
+                    // exit;
                 }
             }
 
@@ -176,7 +186,7 @@ trait Comprimir_Imagen{
                     //Si las imagenes tienen una resolución y un peso aceptable se suben tal cual
                     if($medidasimagen[0] < 1280 && $Tamanio_Imagen < 300000){
                      
-                        move_uploaded_file($Temporal_Imagen, $Patch . '/' . $Nombre_Imagen);	
+                        move_uploaded_file($Temporal_Imagen, $Patch . $Nombre_Imagen);	
                     }
                     else{
                         
@@ -219,18 +229,17 @@ trait Comprimir_Imagen{
                         $cal = 8;
                         
                         if($Tipo_Imagen == 'image/jpeg'){
-                            imagejpeg($lienzo, $Patch . '/' . $Nombre_Imagen);
+                            imagejpeg($lienzo, $Patch . $Nombre_Imagen);
                         }
                         else if($Tipo_Imagen=='image/jpg'){
-                            imagegif($lienzo, $Patch . '/' . $Nombre_Imagen);
+                            imagegif($lienzo, $Patch . $Nombre_Imagen);
                         }
                         else if($Tipo_Imagen == 'image/png'){
-                            imagepng($lienzo, $Patch . '/' . $Nombre_Imagen);
+                            imagepng($lienzo, $Patch . $Nombre_Imagen);
                         }
                         else if($Tipo_Imagen=='image/gif'){
-                            imagegif($lienzo, $Patch . '/' . $Nombre_Imagen);
+                            imagegif($lienzo, $Patch . $Nombre_Imagen);
                         }
-
                         // echo 'fichero comprimido exitosamente';
                         // exit;
                     }

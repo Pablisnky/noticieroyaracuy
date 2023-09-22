@@ -23,10 +23,10 @@
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name='twitter:image' content='<?php //echo RUTA_URL?>/public/images/clasificados/<?php //echo $Datos['Producto']['ID_Suscriptor']?>/productos/<?php //echo $Datos['Imagenes']['nombre_img'];?>'>
 		        
-		<link rel="stylesheet" type="text/css" href="{{ asset('/css/estilosNoticieroYaracuy.css?v=' . rand()) }}"/>
-		{{-- <link rel="stylesheet" type="text/css" href="<?php //echo RUTA_URL;?>/public/css/MediaQuery_EstilosNoticieroYaracuy_350.css?v=<?php //echo rand();?>"/>
-		<link rel="stylesheet" type="text/css" href="<?php //echo RUTA_URL?>/public/css/MediaQuery_EstilosNoticieroYaracuy_370.css?v=<?php //echo rand();?>"/>
-		<link rel="stylesheet" type="text/css" href="<?php //echo RUTA_URL;?>/public/css/MediaQuery_EstilosNoticieroYaracuy_800.css?v=<?php //echo rand();?>"/> --}}
+		<link rel="stylesheet" href="{{ asset('/css/estilosNoticieroYaracuy.css?v=' . rand()) }}"/>
+		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_350.css?v=' . rand()) }}"/>
+		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_370.css?v=' . rand()) }}"/>
+		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_800.css?v=' . rand()) }}"/>
 		
 		<!-- CDN FUENTES DE GOOGLE-->
         <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=RLato|Raleway:400|Montserrat|Gruppo'>        

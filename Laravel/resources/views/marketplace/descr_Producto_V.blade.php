@@ -23,6 +23,7 @@
         <div class="contenedor_122"> 
             <div class="contGridUna">               
                 <div id="Imagen_Principal"> 
+                    
                     <!-- TEXTO VERTICAL -->
                     <?php
                     if($producto->nuevo == 'Nuevo'){   ?>                        

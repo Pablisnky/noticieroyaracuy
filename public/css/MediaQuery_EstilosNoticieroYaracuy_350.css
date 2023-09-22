@@ -263,8 +263,11 @@
     width: 100%;
 }
 .cont_detalle--imagen{
-	height: 85vw;
-	margin-top: 15%;
+	height: fit-content;
+	max-height: 85vw;
+	margin-bottom: 1%;
+	/* height: 85vw; */
+	/* margin-top: 15%; */
 }
 .cont_detalle--imagenMiniatura{
 	width: 50px;
@@ -366,9 +369,10 @@
 }
 .detalle_cont--hr{
 	width: 40%;
-	margin: 7% auto 5% auto;
+	margin: 7% auto;
 }
 .detalle_cont--fuente{
+	margin-top: 5%;
 	font-size: 0.7em
 }
 .detalle_cont--contenido{
@@ -382,6 +386,7 @@
 .detalle_cont--redesSociales{
 	width: 70%;
 	margin-left: 15%;
+	margin-top: initial;
 }
 .detalle_cont--redesSociales-facebook{
 	width: 45%;

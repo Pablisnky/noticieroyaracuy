@@ -56,7 +56,7 @@
                     <hr class="detalle_cont--hr">
                 </div>    
             
-                <p></p>
+                {{-- <p></p> --}}
         
                 <!-- COMPARTIR REDES SOCIALES -->
                 <div class="detalle_cont--redesSociales">
@@ -74,10 +74,27 @@
                     <!-- WHATSAPP -->
                     <div class="whatsapp detalle_cont--red">
                     <?php 
-                        // $Titulo = $Datos['detalleNoticia'][0]['titulo'];         
+                        // $Titulo = $noticia->titulo;         
                     ?>
-                    <a href="" data-action="share/whatsapp/share"><img class="detalle_cont--redesSociales-Whatsapp" alt="Whatsapp" src="{{ asset('/images/Whatsapp.png') }}"/></a>
+                    <a href="whatsapp://send?text={{ $noticia->titulo }}nbsp;{{ route('DetalleNoticia', $noticia->ID_Noticia) }}" data-action="share/whatsapp/share"><img class="detalle_cont--redesSociales-Whatsapp" alt="Whatsapp" src="{{ asset('/images/Whatsapp.png') }}"/></a>
                     </div>            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </div> 
 
                 @if(isset($comentariosCantidad["Cantidad_Comentarios"]) )

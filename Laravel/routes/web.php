@@ -54,7 +54,7 @@ Route::get('panelPeriodista/publicidad', [PanelPeriodista_C::class, 'publicidad'
 Route::get('panelPeriodista/agregar', [PanelPeriodista_C::class, 'agregar_noticia'])->name('AgregarNoticia');
 Route::get('panelPeriodista/agregarEfemeride', [PanelPeriodista_C::class, 'agregar_efemeride'])->name('AgregarEfemeride');
 Route::get('panelPeriodista/actualizar/{id_noticia}/{bandera}', [PanelPeriodista_C::class, 'actualizar_noticia'])->name('ActualizarNoticia');
-Route::post('panelPeriodista/recibeActualizar/', [PanelPeriodista_C::class, 'recibeNoti_actualizada'])->name('SendActualizarNoticia');
+Route::post('panelPeriodista/recibeActualizar/', [PanelPeriodista_C::class, 'recibeNoti_actualizada'])->name('RecibeActualizarNoticia');
 Route::post("panelPeriodista/recibeAgregar", [PanelPeriodista_C::class, 'recibeAgregarNoticia'])->name('RecibeAgregarNoticia'); 
 Route::post("panelPeriodista/recibeEfemeride", [PanelPeriodista_C::class, 'recibeEfemerideAgregada'])->name('RecibeEfemerideAgregada');
 // llamada desde js via Ajax
@@ -71,21 +71,11 @@ Route::post("regis", [Registro_C::class, 'recibeRegistroSuscriptor'])->name('Rec
 // Noticias_C ******************************************************
 // Route::get('noticia', [Noticias_C::class, 'index']);
 Route::controller(Noticias_C::class)->group(function(){
-
-    Route::get('noticias', 'index')->name('Noticias');
-    
-    // Route::get('noticia/noticias_V', '');
-
-    // Muestra una noticia especifica
+    Route::get('noticias', 'index')->name('Noticias');   
     Route::get('noticias/detalleNoticia/{id_noticia}', 'detalleNoticia')->name('DetalleNoticia');
-
-    // Route::get('noticia/{detalle}', 'detalleNoticia');
-
     // llamada desde js via Ajax
     Route::get('noticia/verificaLogin/{ID_Noticia}/{bandera}/{ID_Comentario}','Verificar_Login')->name('NoticiaLogin');
-
     Route::get('noticia/{id_noticia}/{comentario}', 'recibeComentario');
-
     // Route::get('noticia/verificaLogin/{id_noticia}/{bandera}/{id_comentario}','Verificar_Login')->name('noticiaLogin');
 });
 

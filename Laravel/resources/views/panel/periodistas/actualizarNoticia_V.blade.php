@@ -14,7 +14,7 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
     <div class="cont_panel--actualizar">   
-        <form action="{{ route('SendActualizarNoticia') }}" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarActualizarNoticia()">	
+        <form action="{{ route('RecibeActualizarNoticia') }}" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarActualizarNoticia()">	
             {!! csrf_field() !!}
 
             <fieldset class="fieldset_1" id="Portada"> 
@@ -157,7 +157,7 @@
                         <!-- FUENTE -->
                         <label class="cont_panel--label">Fuente</label>
                         <select class="login_cont--select borde--input" name="fuente" id="Fuente" onchange="especificarFuente()">
-                            <option>{{ $noticiaActualizar->fuente }}</option>
+                            <option hidden>{{ $noticiaActualizar->fuente }}</option>
                             @foreach($fuentes as $Key)  
                                 <option>{{ $Key->fuente }}</option>
                             @endforeach

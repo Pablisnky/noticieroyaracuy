@@ -7,6 +7,7 @@ use App\Models\Noticias_M;
 use App\Models\Secciones_M;  
 use App\Models\Efemerides_M;  
 use App\Models\Imagenes_M;
+use App\Models\ImagenesEfemerides_M;
 use App\Models\Anuncios_M;
 use App\Models\Periodistas_M;   
 use App\Models\Fuentes_M;   
@@ -45,9 +46,10 @@ class PanelPeriodista_C extends Controller
         else{        
             //CONSULTA las noticias de portada
             $NoticiasPortadas = Noticias_M::
-                select('noticias.ID_Noticia', 'titulo', 'municipio', 'fecha')
+                select('ID_Noticia', 'titulo', 'municipio', 'fecha')
                 ->where('fecha','=', $this->Hoy)
                 ->where('ID_Periodista','=', session('id_periodista'))
+                ->orderBy('ID_Noticia', 'desc')
                 ->get();
                 // echo gettype($NoticiasPortadas);
                 // return $NoticiasPortadas;
@@ -340,33 +342,51 @@ class PanelPeriodista_C extends Controller
             // return $ID_Noticia;
             
             //Se verifica si la fuente de la noticia ya existe en la BD, sino existe se inserta
+            // $VerificaFuente = Fuentes_M::
+            //     select('ID_Fuente','fuente')
+            //     ->where('ID_Periodista','=', session('id_periodista'))
+            //     ->orderBy('fuente', 'desc')
+            //     ->get();
+            //     // return $VerificaFuente;
+
+            // $AgregaFuente = [];
+            // $palabra_a_buscar = $Fuente;
+            // foreach($VerificaFuente as $key => $value)	:
+            //     // $value es un objeto y debe convertirse en array
+            //     $value = get_object_vars($value);
+            //     $Indice = array_search($palabra_a_buscar, $value);
+            //     if($Indice){//si la fuente existe entra al IF
+            //         //No se inserta en la BD	
+            //         array_push($AgregaFuente, $palabra_a_buscar);
+
+            //         // echo '<pre>';
+            //         // print_r($AgregaFuente);
+            //         // echo '</pre>';
+            //     }
+            // endforeach;
+
+            // if($AgregaFuente == Array()){//Si $AgregaFuente esta vacio, la fuente no existe y se inserta en BD
+            //     //Se INSERTA la nueva fuente 
+            //     return 'entro';
+            //     // $this->Panel_M->InsertarFuente($_SESSION['ID_Periodista'], $Fuente);					
+            // }
+
+            //Se verifica si la fuente de la noticia ya existe en la BD, sino existe se inserta
             $VerificaFuente = Fuentes_M::
                 select('ID_Fuente','fuente')
                 ->where('ID_Periodista','=', session('id_periodista'))
+                ->where('fuente','=', $Fuente)
                 ->orderBy('fuente', 'desc')
-                ->get();
+                ->first();     
                 // return $VerificaFuente;
-
-            $AgregaFuente = [];
-            $palabra_a_buscar = $Fuente;
-            foreach($VerificaFuente as $key => $value)	:
-                // $value es un objeto y debe convertirse en array
-                $value = get_object_vars($value);
-                $Indice = array_search($palabra_a_buscar, $value);
-                if($Indice){//si la fuente existe entra al IF
-                    //No se inserta en la BD	
-                    array_push($AgregaFuente, $palabra_a_buscar);
-
-                    // echo '<pre>';
-                    // print_r($AgregaFuente);
-                    // echo '</pre>';
-                }
-            endforeach;
-
-            if($AgregaFuente == Array()){//Si $AgregaFuente esta vacio, la fuente no existe y se inserta en BD
+                    
+            if($VerificaFuente == null){// Si $VerificaFuente esta vacio, la fuente no existe y se inserta en BD
                 //Se INSERTA la nueva fuente 
-                return 'entro';
-                // $this->Panel_M->InsertarFuente($_SESSION['ID_Periodista'], $Fuente);					
+                Fuentes_M::insert(
+                    ['ID_Periodista' => session('id_periodista'),
+                    'fuente' => $Fuente
+                    ]
+                );
             }
 
             // Se inserta los ID en la tabla de dependencias transitivas "noticias_secciones" 
@@ -573,10 +593,8 @@ class PanelPeriodista_C extends Controller
             $Nombre_imagenEfemeride = $_FILES['imagenEfemeride']['name'];
             $Tipo_imagenEfemeride = $_FILES['imagenEfemeride']['type'];
             $Tamanio_imagenEfemeride = $_FILES['imagenEfemeride']['size'];
+            $Temporal_imagenEfemeride = $_FILES['imagenEfemeride']['tmp_name'];
 
-            // echo "Titulo : " . $Titulo . '<br>';
-            // echo "Contenido : " . $Contenido . '<br>';
-            // echo "Fecha : " . $Fecha . '<br>';
             // echo "Nombre_imagen : " . $Nombre_imagenEfemeride . '<br>';
             // echo "Tipo_imagen : " .  $Tipo_imagenEfemeride . '<br>';
             // echo "Tamanio_imagen : " .  $Tamanio_imagenEfemeride . '<br>';
@@ -598,44 +616,28 @@ class PanelPeriodista_C extends Controller
                 'fecha' => $Fecha
                 ]
             );
-
             $ID_Efemeride = Efemerides_M::latest('ID_Efemeride')->first()->ID_Efemeride;
             return $ID_Efemeride;
             
             //Se INSERTA la imagen principal de la efemeride
+            ImagenesEfemerides_M::insert(
+                ['ID_Efemeride' => $ID_Efemeride,
+                'nombre_ImagenEfemeride' => $Nombre_imagenEfemeride,
+                'tipo_ImagenEfemeride' => $Tipo_imagenEfemeride,
+                'tamanio_ImagenEfemeride' => $Tamanio_imagenEfemeride,
+                'imagenPrincipalEfemeride' => 1
+                ]
+            );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-            $this->Panel_M->InsertarImagenPrincipalEfemeride($ID_Efemeride, $Nombre_imagenEfemeride, $Tipo_imagenEfemeride, $Tamanio_imagenEfemeride);
-
-            if($this->Servidor == 'Remoto'){
-                //Usar en remoto
-                $Directorio = $_SERVER['DOCUMENT_ROOT'] . '/public/images/efemerides/';
-            }
-            else{
-                // usar en local
-                $Directorio = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/NoticieroYaracuy/public/images/efemerides/';
-            }
-            
-            //Se mueve la imagen desde el directorio temporal a la ruta indicada anteriormente utilizando la función move_uploaded_files
-            move_uploaded_file($_FILES['imagenEfemeride']['tmp_name'], $Directorio . $Nombre_imagenEfemeride);
+            // INSSERTA IMAGEN PRINCIPAL DE EFEMERIDE EN SERVIDOR
+            // se comprime y se inserta el archivo en el directorio de servidor 
+            $BanderaImg = 'ImagenEfemeride';
+            // metodo en Traits Comprimir_imagen
+            $this->imagen_comprimir($BanderaImg, $this->Servidor, $Nombre_imagenEfemeride, $Tipo_imagenEfemeride, $Tamanio_imagenEfemeride, $Temporal_imagenEfemeride);	
         // }				
 
-        // header("Location:" . RUTA_URL . "/Panel_C/efemerides");
-        // die();
+        return redirect()->action([PanelPeriodista_C::class,'efemerides']); 
+        die();
     }
 
     // *************************************************************************************************
@@ -752,30 +754,25 @@ class PanelPeriodista_C extends Controller
 
         return redirect()->action([PanelPeriodista_C::class,'index']);
         die();
-    }
+    }  
 
-    
+    // *************************************************************************************************
+    // *************************************************************************************************
+    // *************************************************************************************************
+    // *************************************************************************************************
+    // *************************************************************************************************
+
     // recibe formulario que actualiza una noticia
     public function recibeNoti_actualizada(Request $Request){
-        if(session('actualizarNoticia') == 1906){
-            session()->forget('actualizarNoticia'); //se borra la sesión. 
+        // if(session('actualizarNoticia') == 1906){
+        //     session()->forget('actualizarNoticia'); //se borra la sesión. 
                     
-            $ID_Noticia = $Request->get('ID_Noticia');
-            $Seccion = $Request->get('seccion');
-            $Titulo = $Request->get('titulo');
-            $Sub_Titulo = $Request->get('subtitulo'); 
-            $Contenido = $Request->get('contenido'); 
-            $Municipio = $Request->get('municipio');	
+            $ID_Noticia = $Request->get('ID_Noticia');	
             $Fecha = $Request->get('fecha');	
             $Fuente = $Request->get('fuente');		
             $Bandera = $Request->get('bandera');
 
             // echo "ID_Noticia: " . $ID_Noticia . '<br>';
-            // echo "Seccion: " . $Seccion . '<br>';
-            // echo "Titulo : " . $Titulo . '<br>';
-            // echo "SubTitulo : " . $Sub_Titulo . '<br>';
-            // echo "Contenido : " . $Contenido . '<br>';
-            // echo "Municipio : " . $Municipio . '<br>';
             // echo "Fecha : " . $Fecha . '<br>';
             // echo "Fuente : " . $Fuente . '<br>';
             // echo "Bandera : " . $Bandera . '<br>';
@@ -792,37 +789,25 @@ class PanelPeriodista_C extends Controller
                 $ActualizarNoticia->subtitulo = $Request->input('subtitulo');
                 $ActualizarNoticia->contenido = $Request->input('contenido');
                 $ActualizarNoticia->municipio = $Request->input('municipio');
+                $ActualizarNoticia->fuente = $Request->input('fuente');
                 $ActualizarNoticia->save();
            
             //Se verifica si la fuente de la noticia ya existe en la BD, sino existe se inserta
             $VerificaFuente = Fuentes_M::
                 select('ID_Fuente','fuente')
                 ->where('ID_Periodista','=', session('id_periodista'))
+                ->where('fuente','=', $Fuente)
                 ->orderBy('fuente', 'desc')
-                ->get();     
-                //return $VerificaFuente = $VerificaFuente == null ? null : $VerificaFuente;
+                ->first();     
+                // return $VerificaFuente;
                     
-            $AgregaFuente = [];
-            $palabra_a_buscar = $Fuente;
-            foreach($VerificaFuente as $key => $value)	:
-                // echo $key . '<br>';
-                // echo gettype($value) . '<br>';
-                // $value es un objeto y debe convertirse en array
-                $value = get_object_vars($value);
-                // echo gettype($value);
-                $Indice = array_search($palabra_a_buscar, $value);
-                if($Indice){//si la fuente existe entra al IF  sino existe se debe insertar en la BD	
-                    array_push($AgregaFuente, $palabra_a_buscar);
-
-                    // echo '<pre>';
-                    // print_r($AgregaFuente);
-                    // echo '</pre>';
-                }
-            endforeach;
-
-            if($AgregaFuente == Array()){// Si $AgregaFuente esta vacio, la fuente no existe y se inserta en BD
+            if($VerificaFuente == null){// Si $VerificaFuente esta vacio, la fuente no existe y se inserta en BD
                 //Se INSERTA la nueva fuente 
-                // $this->Panel_M->InsertarFuente($Fuente);
+                Fuentes_M::insert(
+                    ['ID_Periodista' => session('id_periodista'),
+                    'fuente' => $Fuente
+                    ]
+                );
             }
         
             // Se ACTUALIZA los ID_Seccion en la tabla de dependencias transitivas
@@ -1047,11 +1032,11 @@ class PanelPeriodista_C extends Controller
                 return redirect()->action([PanelPeriodista_C::class,'not_Generales']);
                 die();
             }
-        }
-        else{
-            echo 'La sesion no existe';
-            // return redirect()->action([Inicio_C::class]); 
-            die();
-        }
+        // }
+        // else{
+        //     echo 'La sesion no existe';
+        //     // return redirect()->action([Inicio_C::class]); 
+        //     die();
+        // }
     }
 }
