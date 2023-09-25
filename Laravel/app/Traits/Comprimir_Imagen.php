@@ -211,9 +211,6 @@ trait Comprimir_Imagen{
                         if($Tipo_Imagen == 'image/jpeg'){
                             imagejpeg($lienzo, $Patch . $Nombre_Imagen);
                         }
-                        else if($Tipo_Imagen=='image/jpg'){
-                            imagegif($lienzo, $Patch . $Nombre_Imagen);
-                        }
                         else if($Tipo_Imagen == 'image/png'){
                             imagepng($lienzo, $Patch . $Nombre_Imagen);
                         }

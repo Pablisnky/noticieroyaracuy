@@ -217,7 +217,7 @@ class PanelPeriodista_C extends Controller
             $Efemerides = Efemerides_M::
                 select('efemeride.ID_Efemeride','titulo','contenido','fecha','nombre_ImagenEfemeride')
                 ->join('imagenesefemerides', 'efemeride.ID_Efemeride','=','imagenesefemerides.ID_Efemeride') 
-                ->orderBy('ID_Efemeride', 'desc')
+                ->orderBy('ID_Efemeride', 'desc')->limit(30)
                 ->get();
                 // return $Efemerides;
         
@@ -1025,30 +1025,23 @@ class PanelPeriodista_C extends Controller
        
        // Se eliminan las imagenes del directorio del servidor
         foreach($NombreImagenes as $Key)	:
-            if($this->Servidor == 'Remoto'){
-                // en remoto
-                if(file_exists($Key['nombre_imagenNoticia'])){
-                    unlink($_SERVER['DOCUMENT_ROOT'] . '/public/images/noticias/' . $Key['nombre_imagenNoticia']); 
-                }
-            }
-            else{
-                // en local
-                if(file_exists($Key['nombre_imagenNoticia'])){
-                    unlink($_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/noticias/' .$Key->nombre_imagenNoticia); 
-                }
+            $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/noticias/' .$Key->nombre_imagenNoticia);
+
+            if($Ruta){
+                unlink($_SERVER['DOCUMENT_ROOT'] . 'images/noticias/' .$Key->nombre_imagenNoticia); 
             }
         endforeach;
-            
+         
         // Se eliminan las imagenes de la BD
         $EliminaImagenes = Imagenes_M::       
             where('ID_Noticia','=', $ID_Noticia)
-            ->delete(); //returns true/false
+            ->delete();
             // return $EliminaImagenes;      
 
         // Elimina noticia de BD
         $EliminaNoticia = Noticias_M::       
             where('ID_Noticia','=', $ID_Noticia)
-            ->delete(); //returns true/false
+            ->delete();
             // return $EliminaNoticia; 	
         
         // // Elimina video de BD
@@ -1057,10 +1050,42 @@ class PanelPeriodista_C extends Controller
         return redirect()->action([PanelPeriodista_C::class,'index']);
         die();
     }  
+    
+    // ELimina efemeride 
+    public function eliminar_efemeride($ID_Efemeride){
+       
+        // Se consultan el nombre de la imagenen de la efemeride para eliminarla del directorio
+        $NombreImagenEfemeride = ImagenesEfemerides_M::
+            select('nombre_ImagenEfemeride')
+            ->where('ID_Efemeride','=', $ID_Efemeride) 
+            ->first();
+            // return $NombreImagenEfemeride;
+       
+       // Se elimina la imagen del directorio del servidor                
+        $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/efemerides/' .$NombreImagenEfemeride->nombre_imagenNoticia);
+
+        if($Ruta){
+            unlink($_SERVER['DOCUMENT_ROOT'] . 'images/efemerides/' . $NombreImagenEfemeride->nombre_ImagenEfemeride); 
+        }
+            
+        // Se elimina la imagen de la BD
+        $EliminaImagen = ImagenesEfemerides_M::       
+            where('ID_Efemeride','=', $ID_Efemeride)
+            ->delete(); 
+            return $EliminaImagen;      
+
+        // Elimina efemeride de BD
+        $EliminaEfemeride = Efemerides_M::       
+            where('ID_Efemeride','=', $ID_Efemeride)
+            ->delete(); 
+            return $EliminaEfemeride; 	
+        
+        return redirect()->action([PanelPeriodista_C::class,'efemerides']);
+        die();
+    } 
 
     //Eliminar imagen secundaria de noticia
     public function eliminar_imagenSecundariaNoticia($ID_Imagen){
-        // echo $ID_Imagen . '<br>'; 
         
         // Se consultan el nombre de la imagen de la noticia para eliminarl del directorio
         $nombre_imagenNoticia = Imagenes_M::
@@ -1068,25 +1093,17 @@ class PanelPeriodista_C extends Controller
             ->where('ID_Imagen','=', $ID_Imagen) 
             ->first();
             // return $nombre_imagenNoticia;
+            
+        $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/noticias/' . $nombre_imagenNoticia->nombre_imagenNoticia);
 
-        // Se eliminan la imagen del directorio del servidor
-        if($this->Servidor == 'Remoto'){
-            // en remoto
-            if(file_exists($nombre_imagenNoticia)){
-                unlink($_SERVER['DOCUMENT_ROOT'] . '/images/noticias/' . $nombre_imagenNoticia->nombre_imagenNoticia); 
-            }
-        }
-        else{
-            // en local
-            if(file_exists($nombre_imagenNoticia)){
-                unlink($_SERVER['DOCUMENT_ROOT'] . '/images/noticias/' .$nombre_imagenNoticia->nombre_imagenNoticia); 
-            }
+        if($Ruta){
+            unlink($_SERVER['DOCUMENT_ROOT'] . 'images/noticias/' . $nombre_imagenNoticia->nombre_imagenNoticia); 
         }
 
         // Se elimina la imagen de la BD
         $EliminaImagen = Imagenes_M::       
             where('ID_Imagen','=', $ID_Imagen)
             ->delete(); 
-            //return $EliminaImagen;       //returns true / false
+            //return $EliminaImagen; 
     }
 }

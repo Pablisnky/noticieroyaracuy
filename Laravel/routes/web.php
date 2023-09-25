@@ -65,8 +65,9 @@ Route::post('panelPeriodista/recibeActualizar/', [PanelPeriodista_C::class, 'rec
 Route::post("panelPeriodista/recibeAgregar", [PanelPeriodista_C::class, 'recibeAgregarNoticia'])->name('RecibeAgregarNoticia'); 
 Route::post("panelPeriodista/recibeEfemeride", [PanelPeriodista_C::class, 'recibeEfemerideAgregada'])->name('RecibeEfemerideAgregada');
 // via Ajax
-Route::get('panelPeriodista/secciones', [PanelPeriodista_C::class, 'secciones'])->name('SeccionesNoticia');
+Route::get('panelPeriodista/secciones', [PanelPeriodista_C::class, 'secciones'])->name('SeccionesNoticia'); 
 Route::get('panelPeriodista/eliminaNoticia/{id_noticia}', [PanelPeriodista_C::class, 'eliminar_noticia'])->name('EliminarNoticia');  
+Route::get('panelPeriodista/eliminaEfemeride/{id_efemeride}', [PanelPeriodista_C::class, 'eliminar_efemeride'])->name('EliminarEfemeride'); 
 Route::get('panelPeriodista/actualizarNoticia/{id_imagenSec}', [PanelPeriodista_C::class, 'eliminar_imagenSecundariaNoticia'])->name('EliminarImgSecundaria');  
 
 

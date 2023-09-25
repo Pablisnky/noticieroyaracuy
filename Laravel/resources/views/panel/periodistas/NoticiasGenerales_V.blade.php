@@ -148,6 +148,9 @@
     
         <!--Carga mediante Ajax las noticias con el titular escrito en la busqueda solicitada desde buscador_V.php -->
     <div class="contenedor_58" id="Muestra_Titular"></div>
+    
+    <!-- solo para debuguear cuando se elimina una noticia -->
+    {{-- <div style="margin-top: 10%" id="ReadOnly"></div> --}}
 
     <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
     <script src="{{ asset('/js/E_NoticiasGenerales.js?v=' . rand()) }}"></script>

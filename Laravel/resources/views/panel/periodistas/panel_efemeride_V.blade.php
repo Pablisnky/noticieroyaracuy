@@ -15,10 +15,10 @@
 
         <legend class="legend_1">Efemerides</legend>
             @foreach($efemerides as $Row)
-                <div style="display: flex; margin-bottom: 30px">
+                <div style="display: flex; margin-bottom: 30px" id="{{ $Row['ID_Efemeride'] }}">
                 
                     <!-- IMAGEN EFEMERIDE -->
-                    <div style=" width: 30%">       
+                    <div style=" width: 100%">       
                         <figure>
                             <img class="cont_panel--imagen" name="imagenPrincipal" alt="Fotografia Principal" src="{{ asset('/images/efemerides/' . $Row->nombre_ImagenEfemeride) }}"/> 
                         </figure>
@@ -44,15 +44,22 @@
                         {{-- <a href="{{ RUTA_URL?>/Panel_C/eliminar_noticia_principal/{{ $Not_Gen['ID_Efemeride'];?>" rel="noopener noreferrer">Publicidad</a> --}}
                         
                         <!-- ELIMINAR -->
-                        <a href="<?php //echo RUTA_URL?>/Panel_C/eliminar_efemeride/<?php //echo $Row['ID_Efemeride'];?>,<?php //echo $Row['nombre_ImagenEfemeride'];?>" rel="noopener noreferrer">Eliminar</a>
+                        {{-- <a href="<?php //echo RUTA_URL?>/Panel_C/eliminar_efemeride/<?php //echo $Row['ID_Efemeride'];?>,<?php //echo $Row['nombre_ImagenEfemeride'];?>" rel="noopener noreferrer">Eliminar</a> --}}
+                        
+                        <label style="margin-left: 50px; color: blue;" class="Default_pointer" onclick="EliminarEfemeride('{{$Row->ID_Efemeride }}','{{ route('EliminarEfemeride', ['id_efemeride' => $Row->ID_Efemeride]) }}')">Eliminar</label>
                     </div>
                 </div>
             @endforeach    
         </fieldset>
     </div>
     
+    <!-- solo para debuguear cuando se elimina una noticia -->
+    {{-- <div id="ReadOnly"></div> --}}
+    
     <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
+    <script src="{{ asset('/js/E_Efemeride.js?v='. rand()) }}"></script>
+    <script src="{{ asset('/js/A_Efemeride.js?v='. rand()) }}"></script>
 
-    @include('layouts/partiers/footer')
+    {{-- @include('layouts/partiers/footer') --}}
 
 @endsection()
