@@ -16,7 +16,7 @@ trait Comprimir_Imagen{
             // echo '<br>';
             // exit;
             
-            if($Bandera == 'ImagenPublicidad'){ //viene de Panel_C/recibePublicidadAgregada
+            if($Bandera == 'ImagenPublicidad'){
                 
                 if($Servidor == 'Remoto'){
                     // Usar en remoto
@@ -27,7 +27,7 @@ trait Comprimir_Imagen{
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/publicidad/';
                 }
             } 
-            else if($Bandera == 'ImagenPerfilArtista'){ //viene de Panel_C/recibeArtistaAgregado
+            else if($Bandera == 'ImagenPerfilArtista'){
                 
                 if($Servidor == 'Remoto'){
                     // Usar en remoto
@@ -38,18 +38,7 @@ trait Comprimir_Imagen{
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/galeria/' . $ID_Suscriptor . '_' . $NombreArtista . '_' . $ApellidoArtista . '/perfil/';
                 }
             }
-            else if($Bandera == 'imagenesSecUndariaNoticia'){
-                
-                if($Servidor == 'Remoto'){
-                    // Usar en remoto        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/noticias/';
-                }
-                else{
-                    // usar en local        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/noticias/';
-                }
-            }
-            else if($Bandera == 'imagenProducto'){ //viene de CuentaComercial_C/recibeProductoPublicar
+            else if($Bandera == 'imagenProducto'){ 
                 
                 if($Servidor == 'Remoto'){
                     //Usar en remoto         
@@ -60,7 +49,7 @@ trait Comprimir_Imagen{
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';             
                 }
             }
-            else if($Bandera == 'imagenSecundariiaProducto'){ //viene de CuentaComercial_C/recibeProductoPublicar
+            else if($Bandera == 'imagenSecundariiaProducto'){
                 
                 if($Servidor == 'Remoto'){
                     //Usar en remoto         
@@ -71,7 +60,7 @@ trait Comprimir_Imagen{
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';             
                 }
             }
-            else if($Bandera == 'imagenAgenda'){ //viene de CuentaComercial_C/recibeAgendaAgregada
+            else if($Bandera == 'imagenAgenda'){
                 
                 if($Servidor == 'Remoto'){
                     // Usar en remoto        
@@ -82,7 +71,7 @@ trait Comprimir_Imagen{
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/agenda/';             
                 }
             } 
-            else if($Bandera == 'imagenCatalogo'){ //viene de Suscriptor_C/actualizaNombreComercial
+            else if($Bandera == 'imagenCatalogo'){
                 
                 if($Servidor == 'Remoto'){
                     //Usar en remoto        
@@ -103,18 +92,7 @@ trait Comprimir_Imagen{
                     //usar en local         
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/'; 
                 }
-            }   
-            else if($Bandera == 'ActualizaImagenPrincipalNoticia'){
-                
-                if($Servidor == 'Remoto'){
-                    // Usar en remoto        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/noticias/';
-                }
-                else{
-                    //usar en local         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/noticias/';
-                }
-            }
+            }  
             else if($Bandera == 'imagenPortafolio'){
                 
                 if($Servidor == 'Remoto'){
@@ -159,7 +137,7 @@ trait Comprimir_Imagen{
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/efemerides/';
                 }
             }
-            else if($Bandera == 'ImagenPrincipalNoticia'){
+            else if($Bandera == 'ImagenNoticia'){
                 
                 if($Servidor == 'Remoto'){
                     // Usar en remoto        
@@ -168,18 +146,17 @@ trait Comprimir_Imagen{
                 else{
                     // usar en local        
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/noticias/';
-                    // echo  $Patch;
-                    // exit;
                 }
             }
 
             if(isset($Nombre_Imagen)){
-                                
+                // echo $Patch . $Nombre_Imagen . '<br>';  
+
                 //Parámetros optimización, resolución máxima permitida
                 $max_ancho = 1280;
-                $max_alto = 900;
+                $max_alto = 900;  
                 
-                if($Tipo_Imagen == 'image/png' || $Tipo_Imagen == 'image/jpeg' || $Tipo_Imagen == 'image/jpg' || $Tipo_Imagen == 'image/gif'){
+                if($Tipo_Imagen == 'image/png' || $Tipo_Imagen == 'image/jpeg' || $Tipo_Imagen == 'image/jpg' || $Tipo_Imagen == 'image/gif' || $Tipo_Imagen == 'image/webp'){
                 
                     $medidasimagen= getimagesize($Temporal_Imagen);
             
@@ -202,6 +179,9 @@ trait Comprimir_Imagen{
                         else if($Tipo_Imagen =='image/gif'){
                             $original = imagecreatefromgif($rtOriginal);
                         }
+                        else if($Tipo_Imagen =='image/webp'){
+                            $original = imagecreatefromwebp($rtOriginal);
+                        }	
             
                         list($ancho,$alto) = getimagesize($rtOriginal);
             
@@ -240,13 +220,16 @@ trait Comprimir_Imagen{
                         else if($Tipo_Imagen=='image/gif'){
                             imagegif($lienzo, $Patch . $Nombre_Imagen);
                         }
+                        else if($Tipo_Imagen=='image/webp'){
+                            imagewebp($lienzo, $Patch . $Nombre_Imagen);
+                        }
                         // echo 'fichero comprimido exitosamente';
                         // exit;
                     }
                 }
                 else{
-                    // echo 'fichero no soportado';
-                    // exit;
+                    echo 'fichero no soportado';
+                    exit;
                 } 
             }
         }

@@ -2,7 +2,7 @@
 if(session('id_periodista') == 1){  ?>
 
     <div class="cont_panel--menu"  id="MenuResponsive">
-        <a class="h_2 bordeAlerta" href=""">{{ session('nombreSuscriptor') }}  {{ session('apellidoSuscriptor') }}</a>
+        <a class="h_2 bordeAlerta" href="">{{ session('nombreSuscriptor') }}  {{ session('apellidoSuscriptor') }}</a>
         
         <ul class="cont_panel--ul">
             <li><a class="{{request()->routeIs('AgregarNoticia') ? 'active' : ''}} cont_panel--li" href="{{ route('AgregarNoticia') }}">Agregar noticia</a></li>

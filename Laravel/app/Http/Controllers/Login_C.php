@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Suscriptor_M; 
 use App\Models\Periodistas_M; 
 use App\Models\PeriodistaPasword_M;
-use App\Models\SuscriptorPasword_M;
+use App\Models\SuscriptorPasword_M; 
+use App\Models\CodigoRecuperacion_M;
 
 class Login_C extends Controller
 {
@@ -17,7 +18,7 @@ class Login_C extends Controller
             die(); 
         }
         else{
-            $ID_Comentario = !empty($ID_Comentario) ? $ID_Comentario: 'SinID_Comentario';
+            // $ID_Comentario = !empty($ID_Comentario) ? $ID_Comentario: 'SinID_Comentario';
 
             // echo "ID_Noticia =" .  $ID_Noticia ."<br>";
             // echo "BAndera =" .  $Bandera ."<br>";
@@ -69,11 +70,11 @@ class Login_C extends Controller
             }
             else if($Bandera == 'denuncia'){//Bamdera creada en Contraloria_C/VerificaLogin Entra cuando se desea realizar una denuncia
 
-                $Datos=[
-                    'id_noticia' => 'SinID_Denuncia',
-                    'id_comentario' => 'SinID_Comentario',
-                    'bandera' => $Bandera
-                ];
+                // $Datos=[
+                //     'id_noticia' => 'SinID_Denuncia',
+                //     'id_comentario' => 'SinID_Comentario',
+                //     'bandera' => $Bandera
+                // ];
 
                 // echo "<pre>";
                 // print_r($Datos);
@@ -81,23 +82,15 @@ class Login_C extends Controller
                 // exit();
 
                 //carga la vista login_V en formulario login
-                $this->vista("header/header_noticia");
-                $this->vista("view/login_V", $Datos);
+                // $this->vista("header/header_noticia");
+                // $this->vista("view/login_V", $Datos);
             }
-            else{//cuando viene del menu hamburguesa o de carita
-
-                $Datos=[
-                    'id_noticia' => $ID_Noticia,
-                    'bandera' => $Bandera,
-                    'id_comentario' => $ID_Comentario
-                ];
-
-                // echo "<pre>";
-                // print_r($Datos);
-                // echo "</pre>";
-                // exit();
-
-                return view('login_V', ['id_noticia' => $ID_Noticia, 'id_comentario' => $ID_Comentario, 'bandera' => $Bandera]);
+            else{
+                return view('login_V', [
+                    'id_noticia' => $ID_Noticia, 
+                    'id_comentario' => $ID_Comentario, 
+                    'bandera' => $Bandera
+                ]);
             }
         }
        
@@ -108,9 +101,9 @@ class Login_C extends Controller
         $CorreoEnviado = strtolower($Request->get('correo_Arr'));
         $ClaveEnviada = $Request->get('clave_Arr'); 
         $Bandera = $Request->get('bandera');
-        echo $CorreoEnviado . '<br>';
-        echo $ClaveEnviada . '<br>';
-        echo $Bandera . '<br>';
+        // echo $CorreoEnviado . '<br>';
+        // echo $ClaveEnviada . '<br>';
+        // echo $Bandera . '<br>';
         // exit;
         
         if(!empty($CorreoEnviado) AND empty(!$ClaveEnviada)){
@@ -124,9 +117,9 @@ class Login_C extends Controller
                     
             //Se CONSULTA si el correo existe como periodista
             $Periodista = Periodistas_M::
-                    where('correoPeriodista','=', $Request->get('correo_Arr'))
-                    ->first();
-                    // return $Periodista = $Periodista == null ? null : $Periodista;
+                where('correoPeriodista','=', $Request->get('correo_Arr'))
+                ->first();
+                // return $Periodista = $Periodista == null ? null : $Periodista;
                         
             // $Datos = ['suscriptor' => $Suscriptor, 'periodista' => $Periodista];
             // return $ID_Periodista;
@@ -160,7 +153,7 @@ class Login_C extends Controller
                     // exit;
                     
                     if($Bandera == 'comentar'){// si va a hacer un comentario en una noticia y esta logeado
-                        header('Location:'. RUTA_URL . '/Noticias_C/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#ContedorComentario');
+                        // header('Location:'. RUTA_URL . '/Noticias_C/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#ContedorComentario');
                         die();
                     }
                 //     else if($Bandera == 'SinLogin'){// si va a hacer un comentario y esta logeado
@@ -191,23 +184,15 @@ class Login_C extends Controller
                         // require_once(RUTA_APP . "/controladores/Panel_Denuncias_C.php");
                         // $Denuncias = new Panel_Denuncias_C();
                         // $Cant_Denuncias = $Denuncias->denunciasSuscriptor($ID_Suscriptor);
-
-                        // $Datos = [
-                        //     'ID_Suscriptor' => $ID_Suscriptor,
-                        //     'nombre' => $Nombre,
-                        //     'apellido' => $Apellido,
-                        //     'clasificados' => $Comerciante,
-                        //     'obras' => $Cant_Obras,
-                        //     'denuncias' => $Cant_Denuncias
-                        // ];
-
-                        // echo '<pre>';
-                        // print_r($Datos);
-                        // echo '</pre>';
-                        // exit;
-
-                        $this->vista("header/header_suscriptor");
-                        $this->vista("suscriptores/suscrip_Inicio_V", $Datos);
+                        
+                        return view('panel/suscriptores/suscrip_Inicio_V', [
+                            //     'ID_Suscriptor' => $ID_Suscriptor,
+                            //     'nombre' => $Nombre,
+                            //     'apellido' => $Apellido,
+                            //     'clasificados' => $Comerciante,
+                            //     'obras' => $Cant_Obras,
+                            //     'denuncias' => $Cant_Denuncias
+                        ]);
                     }
                 }
                 else{ //en caso de clave o usuario incorrecto
@@ -269,8 +254,159 @@ class Login_C extends Controller
         }
     }
 
+    // Muestra formulario para solicitar cambio de clave
+    public function solicitudNuevaCLave(){
+        return view('modal/modal_recuperarCorreo_V', [
+            'bandera' => 'solicitarCambio'
+        ]);
+    }
+
+    // Envia codigo de recuperacion de contraseña al correo suministrado por el usuario
+    public function recuperar_Clave(Request $Request){
+        $Correo = strtolower($Request->get('correo'));
+        // echo 'Correo= ' . $Correo . '<br>';
+        
+        //Se genera un numero aleatorio que será el código de recuperación de contraseña
+        //alimentamos el generador de aleatorios
+        mt_srand (time());
+
+        //generamos un número aleatorio
+        $Aleatorio = mt_rand(100000,999999);
+        
+        $Fecha = date("Y-m-d"); 
+        $Hora = date("h:i a");
+        // echo $Fecha . '<br>';
+        // echo $Hora . '<br>';
+        // exit;
+
+        //Se INSERTA el código aleatorio en la tabla "codigo-recuperacion" para asociarlo al correo del usuario
+        CodigoRecuperacion_M::insert(
+            ['correo' => $Correo, 
+            'codigoAleatorio' => $Aleatorio,
+            'codigoVerificado' => 0,
+            'fechaSolicitud' => $Fecha,
+            'horaSolicitud' => $Hora
+            ]
+        );
+
+        //Se envia correo al usuario informandole el código que debe insertar para verificar
+        // $email_subject = 'Recuperación de contraseña';
+        // $email_to = $Correo;
+        // $headers = 'From: NoticieroYaracuy<administrador@noticieroyaracuy.com>';
+        // $email_message = 'Código de recuperación de contraseña: ' . $Aleatorio;
+
+        //     //  echo $email_to . '<br>';
+        //     //  echo $email_subject . '<br>';
+        //     //  echo $email_message . '<br>';
+        //     //  echo $headers . '<br>';
+        // mail($email_to, $email_subject, $email_message, $headers);
+
+        return view('modal/modal_recuperarCorreo_V', [
+            'correo' => $Correo,
+            'bandera' => 'aleatorioinsertado'
+        ]);
+    }
+
+    //LLamado desde modal_recuperarCorreo_V.php
+    public function recibeCodigoRecuperacion(Request $Request){
+        $CodigoUsuario = $Request->get('ingresarCodigo');
+        $Correo = strtolower($Request->get('correo'));
+        // echo 'CodigoUsuario= ' . $CodigoUsuario . '<br>';
+        // echo 'Correo= ' . $Correo . '<br>';
+        // exit;
+
+        // EL numero aleatorio es de tipo string se debe cambiar a entero
+        // echo gettype($CodigoUsuario) . "<br>";
+        settype($CodigoUsuario,"integer");
+        // echo gettype($CodigoUsuario) . "<br>";
+
+        //Se comprueba el código enviado por el usuario con el código que hay en la BD
+        $VerificaCodigo = CodigoRecuperacion_M::
+            select('codigoAleatorio','codigoVerificado')  
+            ->where('correo', '=', $Correo)
+            ->where('codigoAleatorio', '=', $CodigoUsuario)
+            ->first();      
+            // return $VerificaCodigo;
+
+        if($VerificaCodigo == Array() ){//Si el codigo que envia el usuario es diferente al almacenado en BD
+
+            return view('modal/modal_recuperarCorreo_V', [
+                'correo' => $Correo,
+                'bandera' => 'nuevoIntento'
+            ]);
+        }
+        else{//Si los códigos coinciden se permite hacer el cambio de contraseña
+
+            //Se ACTUALIZA en la BD que el codigo ha sido usado y verificado
+            CodigoRecuperacion_M:: 
+            where('correo', '=', $Correo)
+            ->update(['codigoVerificado' => 1]);
+
+            return view('modal/modal_recuperarCorreo_V', [
+                'correo' => $Correo,
+                'bandera' => 'verificado'
+            ]);
+        }
+    }
+
+    public function recibeCambioClave(Request $Request){
+        $ClaveNueva = $Request->get('claveNueva');
+        $RepiteClaveNueva = $Request->get('repiteClaveNueva');
+        $Correo = strtolower($Request->get('correo'));
+
+        // echo "Clave nueva= " . $ClaveNueva . "<br>";
+        // echo "Repite clave nueva= " . $RepiteClaveNueva . "<br>";
+        // echo "Correo= " . $Correo . "<br>";
+        // exit;
+
+        //Se verifica que las claves recibidas sean iguales
+        if($ClaveNueva == $RepiteClaveNueva){
+            //se cifra la contraseña con un algoritmo de encriptación
+            $ClaveCifrada = password_hash($ClaveNueva, PASSWORD_DEFAULT);
+            // echo "Clave cifrada= " . $ClaveCifrada . "<br>";
+            // exit;
+
+            //Se consulta el ID_Suscriptor correspondiente al correo
+            $ID_Suscriptor = Suscriptor_M::
+                select('ID_Suscriptor')  
+                ->where('correoSuscriptor', '=', $Correo)
+                ->first();      
+                // return $ID_Suscriptor;
+
+            if($ID_Suscriptor != Array()){
+                //Se actualiza en la base de datos la clave del usuario                    
+                $Cambio = SuscriptorPasword_M:: 
+                    where('ID_Suscriptor', '=', $ID_Suscriptor->ID_Suscriptor)
+                    ->update(['claveCifrada' => $ClaveCifrada]);
+                    // return $Cambio;
+
+                //Se destruyen las cookies que recuerdan la contraseña antigua, creadas en validarSesion.php
+                // echo "Cookie_usuario= " . $_COOKIE["id_usuario"] . "<br>";
+                // echo "Cookie_clave= " . $_COOKIE["clave"] . "<br>";
+
+                // setcookie("id_usuario",'',time()-100);
+                // setcookie("clave",'',time()-100);
+
+                return view('modal/modal_recuperarCorreo_V', [
+                    'bandera' => 'acuseRecibo'
+                ]);
+            }
+            else{
+                echo 'No exist el correo';
+                echo "<a class='Inicio_16' href='javascript:history.go(-3)'>Regresar</a>";
+                exit;
+            }
+        }
+        else{
+            echo 'Las contraseñas no coinciden';
+            echo '<br>';
+            echo "<a href='javascript: history.go(-1)'>Regresar</a>";
+        }
+    }
+
     public function cerrar_Sesion(){
         session()->forget('id_periodista');
+        session()->forget('id_suscriptor');
         
         return redirect()->action([Inicio_C::class]);   
         die();

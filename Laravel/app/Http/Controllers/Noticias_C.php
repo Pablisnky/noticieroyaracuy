@@ -18,9 +18,9 @@ class Noticias_C extends Controller{
 
         //Se CONSULTA las seccion       
         $Secciones = Secciones_M::
-                select('ID_Seccion', 'seccion')
-                ->get();
-                // return $Secciones;
+            select('ID_Seccion', 'seccion')
+            ->get();
+            // return $Secciones;
            
         $NoticiasSeccion = [];
         $CantidadSeccion = [];
@@ -79,8 +79,6 @@ class Noticias_C extends Controller{
             ->join('anuncios', 'noticias_anuncios.ID_Anuncio','=','anuncios.ID_Anuncio') 
             ->get();  
             // return $Anuncios;
-
-        // return response()->json(['Datos' => $NoticiasSeccion]);
         
         return view('noticias.noticias_V', [
             'secciones' => $Secciones, 
@@ -108,7 +106,7 @@ class Noticias_C extends Controller{
             find($ID_Noticia);
             // return $Noticia;
         
-        // CONSULTA la imagen principal de la noticia seleccionada
+        // CONSULTA las imagenes de la noticia seleccionada
         $ImagenesNoticia = Imagenes_M::
             select('ID_Noticia', 'ID_Imagen', 'nombre_imagenNoticia', 'ImagenPrincipal')
             ->where('ID_Noticia','=', $ID_Noticia)

@@ -51,7 +51,7 @@
 
                         <!-- CONTRASEÑA -->
                         <label class="login_cont--label">Contraseña</label>
-                        <input class="login_cont--input borde--input" type="password" name="clave_Arr" id="Clave"  autocomplete="off"/>             
+                        <input class="login_cont--input borde--input" type="password" name="clave_Arr" id="Clave" autocomplete="off"/>             
 
                         <!-- RECORDAR DATOS -->
                         <div class="contenedor_45">
@@ -73,7 +73,7 @@
             <!-- RECUPERAR CONTRASEÑA -->
             <div class="login_cont--recuperarClave">	
                 <p>¿Olvidaste tu contraseña?</p>
-                <label class="Default_link Default_pointer" id="Label_7">Recuperala</label>
+                <a class="Default_link Default_pointer" href="{{ route('SolicitudNuevaCLave') }}">Recuperala</a>
                 <br><br>
 
                 <p>¿Quieres suscribirte?</p>
@@ -84,17 +84,10 @@
                 <a href="#">Crea contenido</a>
             </div>
         </div>
-
-        <!-- VENTANA MODAL PARA RECUPERAR CONTRASEÑA -->
-        <div class="Default_ocultar" id="Contenedor_43"">
-            <?php 
-                $Datos = '';
-                // require(RUTA_APP . "/vistas/modal/modal_recuperarCorreo_V.php"); 
-            ?>
-        </div>
     </section>
 
-    @include('layouts/partiers/footer')
+    {{-- @include('layouts/partiers/footer') --}}
 
-    <script src="{{ asset('/js/funcionesVarias.js') }}"></script>
+    <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
+    <script src="{{ asset('/js/E_Login.js?v='. rand()) }}"></script>
 @endsection()

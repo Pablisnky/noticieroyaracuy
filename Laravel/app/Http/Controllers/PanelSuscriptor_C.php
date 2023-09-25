@@ -65,53 +65,57 @@ use Illuminate\Http\Request;
 			// exit;   
             
             $this->vista("header/header_suscriptor");
-            $this->vista("suscriptores/suscrip_perfil_V", $Datos);
+            $this->vista("panel/suscriptores/suscrip_perfil_V", $Datos);
         } 
         
         //carga el dashboard de suscriptores
-        public function accesoSuscriptor($ID_Suscriptor){
-            echo 'hola';
-            exit;
-            if(!empty($_SESSION['ID_Suscriptor'])){
+        public function accesoSuscriptor(){
+            // if(!empty($_SESSION['ID_Suscriptor'])){
                 //Se consultan datos del suscriptor
-                $Suscriptor = $this->ConsultaSuscriptor_M->consultarSuscriptor($ID_Suscriptor);
+                // $Suscriptor = $this->ConsultaSuscriptor_M->consultarSuscriptor($ID_Suscriptor);
                 
                 //Se CONSULTA al controlador Panel_Clasificado_C la cantidad de anuncios clasificados que tiene el suscriptor.
-                $Comerciante = $this->Instancia_Panel_C->clasificadoSuscriptor($ID_Suscriptor);
+                // $Comerciante = $this->Instancia_Panel_C->clasificadoSuscriptor($ID_Suscriptor);
 
                 //Se comunica con al controlador Panel_Denuncias_C
-                require_once(RUTA_APP . "/controladores/Panel_Denuncias_C.php");
-                $this->Instancia_PanelDenuncia_C = new Panel_Denuncias_C();
+                // require_once(RUTA_APP . "/controladores/Panel_Denuncias_C.php");
+                // $this->Instancia_PanelDenuncia_C = new Panel_Denuncias_C();
                 
                 //Se CONSULTA al controlador Panel_Denuncias_C la cantidad de denuncias que ha realizado el suscriptor.
-                $Denuncias = $this->Instancia_PanelDenuncia_C->denunciasSuscriptor($ID_Suscriptor);
+                // $Denuncias = $this->Instancia_PanelDenuncia_C->denunciasSuscriptor($ID_Suscriptor);
 
                 //CONSULTA cuantos comentarios ha realizado un suscriptor
-                $Comentarios = $this->ConsultaSuscriptor_M->consultarComentarios($ID_Suscriptor);
+                // $Comentarios = $this->ConsultaSuscriptor_M->consultarComentarios($ID_Suscriptor);
 
-                $Datos = [
-                    'ID_Suscriptor' => $Suscriptor[0]['ID_Suscriptor'],
-                    'nombre' => $Suscriptor[0]['nombreSuscriptor'],
-                    'apellido' => $Suscriptor[0]['apellidoSuscriptor'],
-                    'Pseudonimmo' => $Suscriptor[0]['pseudonimoSuscripto'],
-                    'telefono' => $Suscriptor[0]['telefonoSuscriptor'],
-                    'clasificados' => $Comerciante,
-                    'denuncias' => $Denuncias ,
-                    'comentarios' => $Comentarios
-                ];
+                // $Datos = [
+                //     'ID_Suscriptor' => $Suscriptor[0]['ID_Suscriptor'],
+                //     'nombre' => $Suscriptor[0]['nombreSuscriptor'],
+                //     'apellido' => $Suscriptor[0]['apellidoSuscriptor'],
+                //     'Pseudonimmo' => $Suscriptor[0]['pseudonimoSuscripto'],
+                //     'telefono' => $Suscriptor[0]['telefonoSuscriptor'],
+                //     'clasificados' => $Comerciante,
+                //     'denuncias' => $Denuncias ,
+                //     'comentarios' => $Comentarios
+                // ];
 
                 // echo "<pre>";
                 // print_r($Datos);
                 // echo "</pre>";
                 // exit;
 
-                $this->vista("header/header_suscriptor");
-                $this->vista("suscriptores/suscrip_Inicio_V", $Datos);
-            }
-            else{
-                header('location:' . RUTA_URL . '/CerrarSesion_C');
-                die();
-            }
+                return view('panel/suscriptores/suscrip_Inicio_V', [
+                    //     'ID_Suscriptor' => $ID_Suscriptor,
+                    //     'nombre' => $Nombre,
+                    //     'apellido' => $Apellido,
+                    //     'clasificados' => $Comerciante,
+                    //     'obras' => $Cant_Obras,
+                    //     'denuncias' => $Cant_Denuncias
+                ]);
+            // }
+            // else{
+            //     header('location:' . RUTA_URL . '/CerrarSesion_C');
+            //     die();
+            // }
         }
 
         //CONSULTA los datos de todos los suscriptores

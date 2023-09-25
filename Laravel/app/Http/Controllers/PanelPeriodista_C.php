@@ -210,14 +210,14 @@ class PanelPeriodista_C extends Controller
         ]);
     }
 		
-    //Muestra efemerides
+    //Muestra panel de todas las efemerides
     public function efemerides(){ 
         // if(isset($_SESSION['ID_Periodista'])){
             //CONSULTA las efemerides en el panel periddistas
             $Efemerides = Efemerides_M::
                 select('efemeride.ID_Efemeride','titulo','contenido','fecha','nombre_ImagenEfemeride')
                 ->join('imagenesefemerides', 'efemeride.ID_Efemeride','=','imagenesefemerides.ID_Efemeride') 
-                ->orderBy('fecha', 'desc')
+                ->orderBy('ID_Efemeride', 'desc')
                 ->get();
                 // return $Efemerides;
         
@@ -269,9 +269,6 @@ class PanelPeriodista_C extends Controller
     // muestra formulario para agregar una efemeride
     public function agregar_efemeride(){
         // if($_SESSION["ID_Periodista"]){
-            // El metodo vista() se encuentra en el archivo app/clases/Controlador.php
-            // $this->vista('header/header_SoloEstilos');
-            // $this->vista('view/agregarEfemerides_V');
                
             return view('panel/periodistas/agregarEfemerides_V');
         // }
@@ -299,7 +296,7 @@ class PanelPeriodista_C extends Controller
 
             function filtrado($datos){
                 $datos = trim($datos); // Elimina espacios antes y después de los datos
-                // $datos = stripslashes($datos); // Elimina backslashes \
+                $datos = stripslashes($datos); // Elimina backslashes \
                 $datos = htmlspecialchars($datos); // Traduce caracteres especiales en entidades HTML
                 return $datos;
             }
@@ -486,9 +483,9 @@ class PanelPeriodista_C extends Controller
               
                 // INSSERTA IMAGEN PRINCIPAL DE NOTICIA EN SERVIDOR
                 // se comprime y se inserta el archivo en el directorio de servidor 
-                $BanderaImg = 'ImagenPrincipalNoticia';
+                $BanderaImg = 'ImagenNoticia';
                 // metodo en Traits Comprimir_imagen
-                $this->imagen_comprimir($BanderaImg, $this->Servidor, $Nombre_imagenPrincipal, $Tipo_imagenPrincipal,$Tamanio_imagenPrincipal, $Temporal_imagenPrincipal);	
+                $this->imagen_comprimir($BanderaImg, $this->Servidor, $Nombre_imagenPrincipal, $Tipo_imagenPrincipal, $Tamanio_imagenPrincipal, $Temporal_imagenPrincipal);	
             }
 
             //INSERTAR IMAGENES SECUNDARIAS NOTICIA
@@ -497,9 +494,9 @@ class PanelPeriodista_C extends Controller
                 for($i = 0; $i < $Cantidad; $i++){
                     //nombre original del fichero en la máquina cliente.
                     $Nombre_imagenSecundaria = $_FILES['imagenesSecUndariaNoticia']['name'][$i];
-                    $Ruta_Temporal_imagenSecundaria = $_FILES['imagenesSecUndariaNoticia']['tmp_name'][$i];
-                    $tipo_imagenSecundaria = $_FILES['imagenesSecUndariaNoticia']['type'][$i];
                     $tamanio_imagenSecundaria = $_FILES['imagenesSecUndariaNoticia']['size'][$i];
+                    $tipo_imagenSecundaria = $_FILES['imagenesSecUndariaNoticia']['type'][$i];
+                    $Ruta_Temporal_imagenSecundaria = $_FILES['imagenesSecUndariaNoticia']['tmp_name'][$i];
                     // echo "Nombre_imagen : " . $Nombre_imagenSecundaria . '<br>';
                     // echo "Tipo_imagen : " .  $Ruta_Temporal_imagenSecundaria . '<br>';
                     // echo "Tamanio_imagen : " .  $tipo_imagenSecundaria . '<br>';
@@ -513,14 +510,22 @@ class PanelPeriodista_C extends Controller
                     // Se coloca nuumero randon al principio del nombrde de la imagen para evitar que existan imagenes duplicadas
                     $Nombre_imagenSecundaria = mt_rand() . '_' . $Nombre_imagenSecundaria;
 
-                    // INSSERTA IMAGEN SECUNDARIA DE NOTICIA EN SERVIDOR
+                    //Se INSERTAN las fotografias secundarias de la noticia en BD
+                    Imagenes_M::insert(
+                        ['ID_Noticia' => $ID_Noticia, 
+                        'nombre_imagenNoticia' => $Nombre_imagenSecundaria,
+                        'tamanio_imagenNoticia' => $tamanio_imagenSecundaria,
+                        'tipo_imagenNoticia' => $tipo_imagenSecundaria,
+                        'ImagenPrincipal' => 0
+                        ]
+                    );
+
+                    // INSSERTA IMAGENES SECUNDARIAS DE NOTICIA EN SERVIDOR
                     // se comprime y se inserta el archivo en el directorio de servidor 
-                    $Bandera = 'imagenesSecUndariaNoticia';
-                    // $this->Comprimir->index($Bandera, $Nombre_imagenSecundaria, $tipo_imagenSecundaria,$tamanio_imagenSecundaria, $Ruta_Temporal_imagenSecundaria);	
-                    
-                    //Se INSERTAN las fotografias secundarias de la noticia
-                    // $this->Panel_M->insertarFotografiasSecun($ID_Noticia, $Nombre_imagenSecundaria, $tipo_imagenSecundaria, $tamanio_imagenSecundaria);
-                }
+                    $BanderaImgSec = 'ImagenNoticia';
+                    // metodo en Traits Comprimir_imagen
+                    $this->imagen_comprimir($BanderaImgSec, $this->Servidor, $Nombre_imagenSecundaria, $tipo_imagenSecundaria, $tamanio_imagenSecundaria, $Ruta_Temporal_imagenSecundaria);	                   
+                } 
             }
 
             // INSERTAR IMAGEN ANUNCIO PUBLICITARIO
@@ -576,7 +581,7 @@ class PanelPeriodista_C extends Controller
 
             function filtrado($datos){
                 $datos = trim($datos); // Elimina espacios antes y después de los datos
-                // $datos = stripslashes($datos); // Elimina backslashes \
+                $datos = stripslashes($datos); // Elimina backslashes \
                 $datos = htmlspecialchars($datos); // Traduce caracteres especiales en entidades HTML
                 return $datos;
             }
@@ -617,10 +622,10 @@ class PanelPeriodista_C extends Controller
                 ]
             );
             $ID_Efemeride = Efemerides_M::latest('ID_Efemeride')->first()->ID_Efemeride;
-            return $ID_Efemeride;
+            // return $ID_Efemeride;
             
             //Se INSERTA la imagen principal de la efemeride
-            ImagenesEfemerides_M::insert(
+            $VerificaInsert = ImagenesEfemerides_M::insert(
                 ['ID_Efemeride' => $ID_Efemeride,
                 'nombre_ImagenEfemeride' => $Nombre_imagenEfemeride,
                 'tipo_ImagenEfemeride' => $Tipo_imagenEfemeride,
@@ -628,6 +633,7 @@ class PanelPeriodista_C extends Controller
                 'imagenPrincipalEfemeride' => 1
                 ]
             );
+            // return $VerificaInsert;
 
             // INSSERTA IMAGEN PRINCIPAL DE EFEMERIDE EN SERVIDOR
             // se comprime y se inserta el archivo en el directorio de servidor 
@@ -708,54 +714,6 @@ class PanelPeriodista_C extends Controller
         ]);
     }
     
-    // ELimina noticia 
-    public function eliminar_noticia($ID_Noticia){
-       
-        // falta eliminar de la tabla de dependencia transitiva "noticias_secciones"
-        // falta eliminar del servidor el video
-
-        // Se consultan los nombres de las imagenes de la noticia para eliminarlas del directorio
-        $NombreImagenes = Imagenes_M::
-                select('nombre_imagenNoticia')
-                ->where('ID_Noticia','=', $ID_Noticia) 
-                ->get();
-                // return $NombreImagenes;
-       
-       // Se eliminan las imagenes del directorio del servidor
-        foreach($NombreImagenes as $Key)	:
-            if($this->Servidor == 'Remoto'){
-                // en remoto
-                if(file_exists($Key['nombre_imagenNoticia'])){
-                    unlink($_SERVER['DOCUMENT_ROOT'] . '/public/images/noticias/' . $Key['nombre_imagenNoticia']); 
-                }
-            }
-            else{
-                // en local
-                if(file_exists($Key['nombre_imagenNoticia'])){
-                    unlink($_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/noticias/' .$Key->nombre_imagenNoticia); 
-                }
-            }
-        endforeach;
-            
-        // Se eliminan las imagenes de la BD
-        $EliminaImagenes = Imagenes_M::       
-                where('ID_Noticia','=', $ID_Noticia)
-                ->delete(); //returns true/false
-                // return $EliminaImagenes;      
-
-        // Elimina noticia de BD
-        $EliminaNoticia = Noticias_M::       
-            where('ID_Noticia','=', $ID_Noticia)
-            ->delete(); //returns true/false
-            // return $EliminaNoticia; 	
-        
-        // // Elimina video de BD
-        // $this->Panel_M->eliminarVideoNoticia($ID_Noticia);
-
-        return redirect()->action([PanelPeriodista_C::class,'index']);
-        die();
-    }  
-
     // *************************************************************************************************
     // *************************************************************************************************
     // *************************************************************************************************
@@ -901,53 +859,59 @@ class PanelPeriodista_C extends Controller
                 $Nombre_imagenPrincipal = mt_rand() . '_' . $Nombre_imagenPrincipal;
                                 
                 // ACTTUALIZA IMAGEN PRINCIPAL DE NOTICIA EN SERVIDOR
-                // se comprime y se inserta el archivo en el directorio de servidor 
-                
-                $BanderaImg = 'ActualizaImagenPrincipalNoticia';
+                // se comprime y se inserta el archivo en el directorio de servidor                 
+                $BanderaImg = 'ImagenNoticia';
                 // metodo en Traits Comprimir_imagen
                 $this->imagen_comprimir($BanderaImg, $this->Servidor, $Nombre_imagenPrincipal, $Tipo_imagenPrincipal,$Tamanio_imagenPrincipal, $Temporal_imagenPrincipal);	
                 
                 //Se ACTUALIZA la imagen principal de la noticia en BD
                 $ActualizarImagenNoticia = Imagenes_M:: 
-                        find($ID_imagen);	
-                        $ActualizarImagenNoticia->nombre_imagenNoticia = $Nombre_imagenPrincipal;
-                        $ActualizarImagenNoticia->tamanio_imagenNoticia = $Tamanio_imagenPrincipal;
-                        $ActualizarImagenNoticia->tipo_imagenNoticia = $Tipo_imagenPrincipal;
-                        $ActualizarImagenNoticia->save();
+                    find($ID_imagen);	
+                    $ActualizarImagenNoticia->nombre_imagenNoticia = $Nombre_imagenPrincipal;
+                    $ActualizarImagenNoticia->tamanio_imagenNoticia = $Tamanio_imagenPrincipal;
+                    $ActualizarImagenNoticia->tipo_imagenNoticia = $Tipo_imagenPrincipal;
+                    $ActualizarImagenNoticia->save();
             }
 
-            // //IMAGENES SECUNDARIAS;
-            // if($_FILES['imagenesSecundarias']['name'][0] != ''){
-            //     $Cantidad = count($_FILES['imagenesSecundarias']['name']);
-            //     for($i = 0; $i < $Cantidad; $i++){
-            //         //nombre original del fichero en la máquina cliente.
-            //         $Nombre_imagenSecundaria = $_FILES['imagenesSecundarias']['name'][$i];
-            //         $Ruta_Temporal_imagenSecundaria = $_FILES['imagenesSecundarias']['tmp_name'][$i];
-            //         $tipo_imagenSecundaria = $_FILES['imagenesSecundarias']['type'][$i];
-            //         $tamanio_imagenSecundaria = $_FILES['imagenesSecundarias']['size'][$i];
-            //         // echo "Nombre_imagen : " . $Nombre_imagenSecundaria . '<br>';
-            //         // echo "Tipo_imagen : " .  $Ruta_Temporal_imagenSecundaria . '<br>';
-            //         // echo "Tamanio_imagen : " .  $tipo_imagenSecundaria . '<br>';
-            //         // echo "Tamanio_imagen : " .  $tamanio_imagenSecundaria . '<br>';
-            //         // exit;
+            // ACTUALIZA IMAGENES SECUNDARIAS DE NOTICIA
+            if($_FILES['imagenesSecundarias']['name'][0] != ''){
+                $Cantidad = count($_FILES['imagenesSecundarias']['name']);
+                for($i = 0; $i < $Cantidad; $i++){
+                    //nombre original del fichero en la máquina cliente.
+                    $Nombre_imagenSecundaria = $_FILES['imagenesSecundarias']['name'][$i];
+                    $tamanio_imagenSecundaria = $_FILES['imagenesSecundarias']['size'][$i];
+                    $tipo_imagenSecundaria = $_FILES['imagenesSecundarias']['type'][$i];
+                    $Ruta_Temporal_imagenSecundaria = $_FILES['imagenesSecundarias']['tmp_name'][$i];
+                    // echo "Nombre_imagen : " . $Nombre_imagenSecundaria . '<br>';
+                    // echo "Tipo_imagen : " .  $Ruta_Temporal_imagenSecundaria . '<br>';
+                    // echo "Tamanio_imagen : " .  $tipo_imagenSecundaria . '<br>';
+                    // echo "Tamanio_imagen : " .  $tamanio_imagenSecundaria . '<br>';
+                    // exit;
+                
+                    //Quitar de la cadena del nombre de la imagen todo lo que no sean números, letras o puntos
+                    $Nombre_imagenSecundaria = preg_replace('([^A-Za-z0-9.])', '', $Nombre_imagenSecundaria);
+
+                    // Se coloca nuumero randon al principio del nombrde de la imagen para evitar que existan imagenes duplicadas
+                    $Nombre_imagenSecundaria = mt_rand() . '_' . $Nombre_imagenSecundaria;
                     
-            //         if($this->Servidor == 'Remoto'){
-            //             //Usar en remoto
-            //             $directorio_3 = $_SERVER['DOCUMENT_ROOT'] . '/public/images/noticias/';
-            //         }
-            //         else{
-            //             //usar en local
-            //             $directorio_3 = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/NoticieroYaracuy/public/images/noticias/';
-            //         }
+                    // SE ACTTUALIZAN IMAGENES SECUNDARIAS DE NOTICIA EN SERVIDOR
+                    // se comprime y se inserta el archivo en el directorio de servidor                 
+                    $BanderaImgSec = 'ImagenNoticia';
+                    // metodo en Traits Comprimir_imagen
+                    $this->imagen_comprimir($BanderaImgSec, $this->Servidor, $Nombre_imagenSecundaria, $tipo_imagenSecundaria,$tamanio_imagenSecundaria, $Ruta_Temporal_imagenSecundaria);	
 
-            //         //Subimos el fichero al servidor
-            //         move_uploaded_file($Ruta_Temporal_imagenSecundaria, $directorio_3.$_FILES['imagenesSecundarias']['name'][$i]);
+                    //Se INSERTAR nuevas imagenes secundarias de la noticia
+                    Imagenes_M::insert(
+                        ['ID_Noticia' => $ID_Noticia, 
+                        'nombre_imagenNoticia' => $Nombre_imagenSecundaria,
+                        'tamanio_imagenNoticia' => $tamanio_imagenSecundaria,
+                        'tipo_imagenNoticia' => $tipo_imagenSecundaria,
+                        'ImagenPrincipal' => 0
+                        ]
+                    );
+                }
+            }
 
-            //         //Se INSERTAR nuevas imagenes secundarias de la noticia
-            //         $this->Panel_M->insertarFotografiasSecun($ID_Noticia, $Nombre_imagenSecundaria, $tipo_imagenSecundaria, $tamanio_imagenSecundaria);
-            //     }
-            // }
-            
             // // ANUNCIO PUBLICITARIO
             // //Si se cambio el anuncio publicitario se procede a actualizarlo
             // if($_POST['actualizar'] == 'SiActualizar'){
@@ -1038,5 +1002,91 @@ class PanelPeriodista_C extends Controller
         //     // return redirect()->action([Inicio_C::class]); 
         //     die();
         // }
+    }
+
+    // *************************************************************************************************
+    // *************************************************************************************************
+    // *************************************************************************************************
+    // *************************************************************************************************
+    // *************************************************************************************************
+    
+    // ELimina noticia 
+    public function eliminar_noticia($ID_Noticia){
+       
+        // falta eliminar de la tabla de dependencia transitiva "noticias_secciones"
+        // falta eliminar del servidor el video
+
+        // Se consultan los nombres de las imagenes de la noticia para eliminarlas del directorio
+        $NombreImagenes = Imagenes_M::
+            select('nombre_imagenNoticia')
+            ->where('ID_Noticia','=', $ID_Noticia) 
+            ->get();
+            // return $NombreImagenes;
+       
+       // Se eliminan las imagenes del directorio del servidor
+        foreach($NombreImagenes as $Key)	:
+            if($this->Servidor == 'Remoto'){
+                // en remoto
+                if(file_exists($Key['nombre_imagenNoticia'])){
+                    unlink($_SERVER['DOCUMENT_ROOT'] . '/public/images/noticias/' . $Key['nombre_imagenNoticia']); 
+                }
+            }
+            else{
+                // en local
+                if(file_exists($Key['nombre_imagenNoticia'])){
+                    unlink($_SERVER['DOCUMENT_ROOT'] . '/proyectos/nuevoNoticiero/public/images/noticias/' .$Key->nombre_imagenNoticia); 
+                }
+            }
+        endforeach;
+            
+        // Se eliminan las imagenes de la BD
+        $EliminaImagenes = Imagenes_M::       
+            where('ID_Noticia','=', $ID_Noticia)
+            ->delete(); //returns true/false
+            // return $EliminaImagenes;      
+
+        // Elimina noticia de BD
+        $EliminaNoticia = Noticias_M::       
+            where('ID_Noticia','=', $ID_Noticia)
+            ->delete(); //returns true/false
+            // return $EliminaNoticia; 	
+        
+        // // Elimina video de BD
+        // $this->Panel_M->eliminarVideoNoticia($ID_Noticia);
+
+        return redirect()->action([PanelPeriodista_C::class,'index']);
+        die();
+    }  
+
+    //Eliminar imagen secundaria de noticia
+    public function eliminar_imagenSecundariaNoticia($ID_Imagen){
+        // echo $ID_Imagen . '<br>'; 
+        
+        // Se consultan el nombre de la imagen de la noticia para eliminarl del directorio
+        $nombre_imagenNoticia = Imagenes_M::
+            select('nombre_imagenNoticia')
+            ->where('ID_Imagen','=', $ID_Imagen) 
+            ->first();
+            // return $nombre_imagenNoticia;
+
+        // Se eliminan la imagen del directorio del servidor
+        if($this->Servidor == 'Remoto'){
+            // en remoto
+            if(file_exists($nombre_imagenNoticia)){
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/images/noticias/' . $nombre_imagenNoticia->nombre_imagenNoticia); 
+            }
+        }
+        else{
+            // en local
+            if(file_exists($nombre_imagenNoticia)){
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/images/noticias/' .$nombre_imagenNoticia->nombre_imagenNoticia); 
+            }
+        }
+
+        // Se elimina la imagen de la BD
+        $EliminaImagen = Imagenes_M::       
+            where('ID_Imagen','=', $ID_Imagen)
+            ->delete(); 
+            //return $EliminaImagen;       //returns true / false
     }
 }

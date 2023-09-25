@@ -125,7 +125,7 @@
 				
 				<!-- MAPA -->
 				<figure class="tapa-logo--mapa Default_pointer">
-					<img id="Abrir" src="{{ asset('/images/Mapa-Venezuela-yaracuy.png')}}"/>
+					<img id="Abrir" src="{{ asset('/images/Mapa-Venezuela-yaracuy.png') }}"/>
 				</figure>
 			</div>
 

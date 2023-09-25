@@ -38,7 +38,7 @@
 
                 <div class="cont_detalle_Producto--suscriptor">
                     <img style="width: 1.5em; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/pintor/outline_palette_black_24dp.png'?>"/>
-                    <a class="cont_detalle_Producto--p Default_font--black" href="<?php //echo RUTA_URL . '/Login_C/index/SinID_Noticia,SinBandera';?>">Exponer obras</a>
+                    <a class="cont_detalle_Producto--p Default_font--black" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}">Exponer obras</a>
                 </div>
                         
                 <!-- <div class="cont_detalle_Producto--suscriptor">
@@ -63,9 +63,9 @@
             @foreach($suscriptoresArtistas as $Row)
                 <div class="cont_artista--informacion "> 
                     <a href="{{ route('Artista', ['ID_Suscriptor' => $Row->ID_SUscriptor]) }}">
-                        <figure class="efectoZoom">
+                        <figure class="efectoZoom"> 
                             <img class="cont_Artista--img borde_1 efectoBrillo efectoZoom--imagen" name="imagenNoticia" alt="Fotografia Artista" src="{{ asset('/images/galeria/' . $Row->ID_SUscriptor . '_' . $Row->nombreSuscriptor . '_' . $Row->apellidoSuscriptor . '/perfil/' . $Row->nombre_imagenPortafolio) }}"/>
-                        </figure>
+                        </figure> 
                     </a>
                     <div>
                         <p class="cont_Artista--leyenda_1 Default_font--black">{{ $Row->nombreSuscriptor . ' ' . $Row->apellidoSuscriptor }}</p>

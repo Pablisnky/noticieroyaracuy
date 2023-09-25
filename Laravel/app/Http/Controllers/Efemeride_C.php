@@ -19,6 +19,7 @@ class Efemeride_C extends Controller
             select('titulo','contenido','fecha','nombre_ImagenEfemeride')
             ->where('fecha','=', $Hoy)
             ->join('imagenesefemerides', 'efemeride.ID_Efemeride','=','imagenesefemerides.ID_Efemeride') 
+            ->orderBy('efemeride.ID_Efemeride', 'desc')
             ->get();
             // echo gettype($Efemeride);
             // return $Efemeride;

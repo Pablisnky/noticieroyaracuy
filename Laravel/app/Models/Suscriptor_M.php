@@ -9,7 +9,8 @@ class Suscriptor_M extends Model
 {
     use HasFactory;
 
-    protected $table = 'suscriptores';
-    protected $primaryKey  = 'ID_Suscriptor';
     // public $TimesTamp = false;
+    protected $table = 'suscriptores';
+    protected $primaryKey  = 'ID_Suscriptor'; 
+    protected $fillable = ['nombreSuscriptor','apellidoSuscriptor','estadoSuscriptor','pseudonimoSuscripto','nombre_imagenPortafolio','paisSuscriptor','telefonoSuscriptor'];
 }

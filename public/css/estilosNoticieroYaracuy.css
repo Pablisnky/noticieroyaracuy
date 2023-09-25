@@ -2820,7 +2820,6 @@ ul .menuContenedor_3{
 	position: fixed;
 	top: 85px;
 	width: 100%;
-	
 }
 .sectionModal--sinProducto{
 	position: absolute;
@@ -2829,7 +2828,7 @@ ul .menuContenedor_3{
 }
 .cont_suscriptor--item{
 	width: 45%;
-	min-height: 15vw;
+	min-height: 10vw;
 	margin-bottom: 5%;
 	cursor: pointer;
 }

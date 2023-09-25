@@ -9,7 +9,7 @@ class ImagenesEfemerides_M extends Model
 {
     use HasFactory;
 
-    public $TimesTamp = true;
+    public $TimesTamp = false;
     protected $table = 'imagenesefemerides';
     protected $primaryKey  = 'ID_ImagenEfemeride';
 }

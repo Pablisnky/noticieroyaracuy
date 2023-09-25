@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_PanelPortada')
+@extends('layouts.partiers.header_SoloEstilos')
 
 @section('titulo', 'Panel periodista')
 
@@ -170,6 +170,7 @@
 
             <!-- IMAGENES SECUNDARIAS -->
             <fieldset class="fieldset_1">   
+                
                 <!-- AGREGAR MAS IMAGENES SECUNDARIAS -->
                 <label class="actualizar_cont--label Default_pointer" for="imgSec"><img class=" actualizar_cont--span" src="{{ asset('/iconos/agregar/outline_add_circle_outline_black_24dp.png') }}"/></label>
                 <input class="Default_ocultar" type="file" name="imagenesSecundarias[]" multiple="multiple" id="imgSec" onchange="muestraImgSecundarias()"/>
@@ -184,7 +185,7 @@
                             <input class="Default_ocultar" type="file" name="img_sSecundaria"  id="imgInp_3"/>
                             <div class="cont_edit--dosBotones" id="Cont_Botones--{{ $Row->ID_Imagen }}">
                                 <div>
-                                    <img class="Default_pointer" style="width: 2em" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="EliminarImagenSecundaria('{{  $Row->ID_Imagen }}','Cont_Botones--{{ $Row['ID_Imagen'] }}')"/>
+                                    <img class="Default_pointer" style="width: 2em" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="EliminarImagenSecundaria('{{  $Row->ID_Imagen }}','Cont_Botones--{{ $Row['ID_Imagen'] }}','{{ route('EliminarImgSecundaria', $Row->ID_Imagen ) }}')"/>
                                 </div>
                             </div> 
                             <figure id="{{ $Row->ID_Imagen }}"> 
@@ -219,7 +220,9 @@
 
     <!--div alimentado desde modal_coleccionesDisponibles_V.php que muestra las colecciones publicitarios -->    
     <!-- <div id="Contenedor_92"></div> -->
-
+    
+    <!-- solo para debuguear cuando se elimina una noticia -->
+    {{-- <div id="ReadOnly"></div> --}}
 
     <script src="{{ asset('/js/funcionesVarias.js?v=' . rand()) }}"></script>
     <script src="{{ asset('/js/A_ActualizarNoticia.js?v=' . rand()) }}"></script>
