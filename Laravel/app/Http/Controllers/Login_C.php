@@ -238,7 +238,7 @@ class Login_C extends Controller
                     //     setcookie('clave','',time() - 3600,'/');
                     // }
 
-                    return redirect()->action([PanelPeriodista_C::class,'index']);   
+                    return redirect()->action([PanelPeriodistaController::class,'index']);   
                     die();
                 }
                 else{ //en caso de clave incorrecta
@@ -261,7 +261,7 @@ class Login_C extends Controller
         ]);
     }
 
-    // Envia codigo de recuperacion de contraseña al correo suministrado por el usuario
+    // recive correo y envia codigo de recuperacion de contraseña al correo suministrado por el usuario
     public function recuperar_Clave(Request $Request){
         $Correo = strtolower($Request->get('correo'));
         // echo 'Correo= ' . $Correo . '<br>';
@@ -273,8 +273,8 @@ class Login_C extends Controller
         //generamos un número aleatorio
         $Aleatorio = mt_rand(100000,999999);
         
-        $Fecha = date("Y-m-d"); 
-        $Hora = date("h:i a");
+        // $Fecha = date("Y-m-d"); 
+        // $Hora = date("h:i a");
         // echo $Fecha . '<br>';
         // echo $Hora . '<br>';
         // exit;
@@ -283,9 +283,9 @@ class Login_C extends Controller
         CodigoRecuperacion_M::insert(
             ['correo' => $Correo, 
             'codigoAleatorio' => $Aleatorio,
-            'codigoVerificado' => 0,
-            'fechaSolicitud' => $Fecha,
-            'horaSolicitud' => $Hora
+            'codigoVerificado' => 0
+            // 'fechaSolicitud' => $Fecha,
+            // 'horaSolicitud' => $Hora
             ]
         );
 
@@ -375,10 +375,9 @@ class Login_C extends Controller
 
             if($ID_Suscriptor != Array()){
                 //Se actualiza en la base de datos la clave del usuario                    
-                $Cambio = SuscriptorPasword_M:: 
+                SuscriptorPasword_M:: 
                     where('ID_Suscriptor', '=', $ID_Suscriptor->ID_Suscriptor)
                     ->update(['claveCifrada' => $ClaveCifrada]);
-                    // return $Cambio;
 
                 //Se destruyen las cookies que recuerdan la contraseña antigua, creadas en validarSesion.php
                 // echo "Cookie_usuario= " . $_COOKIE["id_usuario"] . "<br>";

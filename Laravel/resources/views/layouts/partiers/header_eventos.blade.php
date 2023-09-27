@@ -53,7 +53,7 @@
 								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/YaracuyEnVideo_C';?>" rel="noopener noreferrer">Yaracuy en videos</a></li>
 								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Efemeride_C';?>" rel="noopener noreferrer">Efemérides</a></li>
 								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Agenda_C';?>" rel="noopener noreferrer">Agenda de eventos</a></li>
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Clasificados_C';?>" rel="noopener noreferrer">Clasificados</a></li> 
+								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/ClasificadoController';?>" rel="noopener noreferrer">Clasificados</a></li> 
 								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Publicidad_C';?>" rel="noopener noreferrer">Directorio comercial</a></li>
 								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Obituario_C';?>" rel="noopener noreferrer">Obituario</a></li>
 								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Menu_C/afiliacion';?>" rel="noopener noreferrer">Tarifas</a></li>
@@ -93,7 +93,7 @@
 					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="<?php //echo RUTA_URL . '/Noticias_C/NoticiasGenerales';?>">Mas noticias</a></label> 
 				</div>         
 				<div>
-					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="<?php //echo RUTA_URL . '/Clasificados_C';?>">Clasificados</a></label> 
+					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="<?php //echo RUTA_URL . '/ClasificadoController';?>">Clasificados</a></label> 
 				</div>          
 				<div>
 					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="<?php //echo RUTA_URL . '/GaleriaArte_C';?>">Galeria de arte</a></label> 

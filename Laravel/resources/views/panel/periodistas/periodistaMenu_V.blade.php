@@ -31,7 +31,7 @@ else{   ?>
             <li><a class="{{request()->routeIs('Index') ? 'active' : ''}} cont_panel--li" href="{{ route('Index') }}" rel="noopener noreferrer">Noticias en portada</a></li>           
             <li><a class="{{request()->routeIs('NoticiasGenerales') ? 'active' : ''}} cont_panel--li" href="{{ route('NoticiasGenerales') }}" rel="noopener noreferrer">Noticias generales</a></li>  
             <li><a class="{{request()->routeIs('Efemerides') ? 'active' : ''}} cont_panel--li" href="{{ route('Efemerides') }}">Efemerides</a></li>
-            <li><a class="{{request()->routeIs('Agenda') ? 'active' : ''}} cont_panel--li" href="{{ route('Agenda') }}">Agenda de eventos</a></li>
+            <li><a class="{{request()->routeIs('Agenda') ? 'active' : ''}} cont_panel--li" href="{{ route('Agenda') }}">Agenda</a></li>
             <li><a class="{{request()->routeIs('Publicidad') ? 'active' : ''}} cont_panel--li" href="{{ route('Publicidad') }}">Anuncio publicitario</a></li>
             <li><a class="cont_panel--li" href="{{ route('NoticiasPortada') }}">Sitio web</a></li>
 

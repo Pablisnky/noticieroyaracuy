@@ -1,6 +1,6 @@
-@extends('layouts.partiers.header_PanelPortada')
+@extends('layouts.partiers.header_PanelAgenda')
 
-@section('titulo', 'Panel periodista')
+@section('titulo', 'Panel agenda')
 
 @section('contenido')
 
@@ -11,12 +11,12 @@
         <fieldset class="fieldset_1" id="Rowcipales"> 
 
             <!-- ICONO AGREGAR -->
-            <a href="" rel="noopener noreferrer"><img class="cont_modal--agregar Default_pointer" src="{{ asset('/iconos/agregar/outline_add_circle_outline_black_24dp.png') }}"/></a>       
+            <a href="{{ route('AgregarAgenda') }}" rel="noopener noreferrer"><img class="cont_modal--agregar Default_pointer" src="{{ asset('/iconos/agregar/outline_add_circle_outline_black_24dp.png') }}"/></a>       
             
             <legend class="legend_1">Agenda de eventos</legend>
            
             @foreach($agenda as $Row)
-                <div class="cont_panel--publicidad">                
+                <div class="cont_panel--publicidad" id="{{ $Row['ID_Agenda'] }}"">                
                     <!-- IMAGN  -->
                     <div class="cont_panel__agenda--imagen">       
                         <figure>
@@ -39,7 +39,7 @@
                             <!-- <a href="<?php //echo RUTA_URL?>/Panel_C/<?php //echo $Row['ID_Agenda'];?>" rel="noopener noreferrer">Publicidad</a> -->
                             
                             <!-- ELIMINAR -->
-                            <a href="#" rel="noopener noreferrer">Eliminar</a>
+                            <label style="margin-left: 50px; color: blue;" class="Default_pointer" onclick="EliminarAgenda('{{$Row->ID_Agenda }}','{{ route('EliminarAgenda', ['id_agenda' => $Row->ID_Agenda]) }}')">Eliminar</label>
                         </div>
                     </div> 
                 </div>
@@ -47,7 +47,9 @@
         </fieldset>
     </div>
 
-    <script src="{{ asset('/javascript/funcionesVarias.js?v='. rand()) }}"></script>
+    <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
+    <script src="{{ asset('/js/E_PanelAgenda.js?v='. rand()) }}"></script>
+    <script src="{{ asset('/js/A_PanelAgenda.js?v='. rand()) }}"></script>
 
     @include('layouts/partiers/footer')
 

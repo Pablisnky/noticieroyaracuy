@@ -3522,7 +3522,7 @@ ul .menuContenedor_3{
 	background-color: black; 
 	display: block; 
 	margin-left: 25%; 
-	margin-top: 50%
+	margin-top: 50%;
 }
 .cont_artista--redesSociales{
 	display: flex;
@@ -4253,6 +4253,9 @@ ul .menuContenedor_3{
 .tabla2__td1{
 	font-weight: bold;
 	/* width: 30%; */
+}
+.cont_artista-flecha{
+	display: block;
 }
 
 

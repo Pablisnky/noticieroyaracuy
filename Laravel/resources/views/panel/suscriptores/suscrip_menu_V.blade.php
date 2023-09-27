@@ -2,7 +2,7 @@
 
 <div class="cont_panel--menu" id="MenuResponsive">
     <div class="cont_panel--div-1">
-        {{-- <h1 class="cont_panel--h"><?php //echo $Datos["nombre"] . " ". $Datos["apellido"]?></h1> --}}
+        <a class="h_2 bordeAlerta" href="">{{ session('nombreSuscriptor') }}  {{ session('apellidoSuscriptor') }}</a>
     </div>          
     
     <ul class="cont_panel--ul">

@@ -10,7 +10,7 @@
     <div class="cont_panel--main">
         <fieldset class="fieldset_1" id="Rowcipales"> 
 
-        <!-- ICONO AGREGAR <?php //echo RUTA_URL?>/Panel_C/agregar_efemeride-->
+        <!-- ICONO AGREGAR -->
         <a href="{{ route('AgregarEfemeride') }}" rel="noopener noreferrer"><img class="cont_modal--agregar Default_pointer" src="{{ asset('/iconos/agregar/outline_add_circle_outline_black_24dp.png') }}"/></a> 
 
         <legend class="legend_1">Efemerides</legend>
@@ -43,9 +43,7 @@
                         <!-- PUBLICIDAD -->
                         {{-- <a href="{{ RUTA_URL?>/Panel_C/eliminar_noticia_principal/{{ $Not_Gen['ID_Efemeride'];?>" rel="noopener noreferrer">Publicidad</a> --}}
                         
-                        <!-- ELIMINAR -->
-                        {{-- <a href="<?php //echo RUTA_URL?>/Panel_C/eliminar_efemeride/<?php //echo $Row['ID_Efemeride'];?>,<?php //echo $Row['nombre_ImagenEfemeride'];?>" rel="noopener noreferrer">Eliminar</a> --}}
-                        
+                        <!-- ELIMINAR -->                        
                         <label style="margin-left: 50px; color: blue;" class="Default_pointer" onclick="EliminarEfemeride('{{$Row->ID_Efemeride }}','{{ route('EliminarEfemeride', ['id_efemeride' => $Row->ID_Efemeride]) }}')">Eliminar</label>
                     </div>
                 </div>

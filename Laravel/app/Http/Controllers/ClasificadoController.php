@@ -9,7 +9,7 @@ use App\Traits\Divisas;
 use App\Http\Controllers\Suscriptor_C;
 
 
-class Clasificados_C extends Controller
+class ClasificadoController extends Controller
 {
     use Divisas; //Traits
     
@@ -26,9 +26,9 @@ class Clasificados_C extends Controller
         // echo $this->Dolar . '<br>';
     }
         
-    // Muestra la vista con todos los clasificados, los muestra de manera aleatoria
+    // Muestra la vista con todos los productos, los muestra de manera aleatoria
     public function index(){  
-        //Consulta todos los productos publicados en clasificados  
+        //Consulta todos los productos publicados  
         $Productos = DB::connection('mysql_2')->table('productos') 
             ->select('productos.ID_Producto','ID_Suscriptor','opciones.ID_Opcion','producto','nombre_img','opcion', 'precioBolivar','precioDolar','cantidad','nuevo')
             ->join('imagenes', 'productos.ID_Producto','=','imagenes.ID_Producto') 
@@ -38,10 +38,6 @@ class Clasificados_C extends Controller
             ->inRandomOrder()
             ->get(); 
             // return $Productos; 
-        
-            //Solicita el precio del dolar al Trait Divisas
-            // $this->Dolar = $this->ValorDolar();
-            // echo $this->Dolar . '<br>';
             
             //Solicita datos del suscriptor al controlador Suscriptor_C   
             $Suscriptores = $this->Instancia_Suscriptor_C->suscriptores();

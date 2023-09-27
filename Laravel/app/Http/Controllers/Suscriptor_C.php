@@ -39,7 +39,7 @@ class Suscriptor_C extends Controller
             select('ID_Suscriptor','nombreSuscriptor','apellidoSuscriptor','estadoSuscriptor','nombre_imagenPortafolio','paisSuscriptor') 
             ->where('nombre_imagenPortafolio', '!=', '')
             ->get();
-            // return $Suscriptores; 
+            return $Suscriptores; 
     } 
 
     public function accesoSuscriptor(){

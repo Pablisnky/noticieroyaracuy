@@ -1480,14 +1480,8 @@
 	margin-left: 25%;
 }
 .cont_galeria--obras{
-	padding-top: 10%;
+	padding-top: 15%;
  }
-.cont_artista--icono{
-	background-color: black; 
-	/* display: inline-block;  */
-	margin-left: 0%; 
-	margin-top: 0%
-}
 .cont_agenda_h1{
    background-color:initial;
    position: initial;
@@ -1505,6 +1499,7 @@
 .Default--textoVertical{	
 	writing-mode: initial; 
 	transform: rotate(0deg); 
+	width: 100%;
  } 
 .cont_yaracuyVideo--small{
 	font-size: 4.5vw;
@@ -2177,6 +2172,17 @@
 .tabla2__td1{
 	font-weight: bold;
 	width: 35%;
+}
+.texto-artista{
+	text-align: center; 
+	margin-left: initial;
+}
+.cont_artista--icono{
+	margin-left: 0%; 
+	margin-top: 0%
+}
+.cont_artista-flecha{
+	display: flex;
 }
 
 

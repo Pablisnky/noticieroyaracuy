@@ -19,7 +19,7 @@ use App\Models\Videos_M;
 use App\Traits\ServidorUse;
 use App\Traits\Comprimir_Imagen;
 
-class PanelPeriodista_C extends Controller
+class PanelPeriodistaController extends Controller
 {    
     use ServidorUse; //Traits
     use Comprimir_Imagen; //Traits
@@ -274,6 +274,17 @@ class PanelPeriodista_C extends Controller
         // }
         // else{
         //     header("Location:" . RUTA_URL . "/CerrarSesion_C");
+        // }
+    }
+
+    // muestra formulario para agregar un evento en agenda
+    public function agregar_agenda(){
+        // if($_SESSION["ID_Periodista"]){
+
+            return view('panel/periodistas/agregarAgenda_V');
+        // }
+        // else{
+            // header("Location:" . RUTA_URL . "/CerrarSesion_C");
         // }
     }
 
@@ -566,11 +577,11 @@ class PanelPeriodista_C extends Controller
             //     exit;
             // }
             
-            return redirect()->action([PanelPeriodista_C::class,'index']); 
+            return redirect()->action([PanelPeriodistaController::class,'index']); 
             die();
         }
         else{
-            return redirect()->action([PanelPeriodista_C::class,'index']); 
+            return redirect()->action([PanelPeriodistaController::class,'index']); 
             die();
         }
     }
@@ -642,7 +653,56 @@ class PanelPeriodista_C extends Controller
             $this->imagen_comprimir($BanderaImg, $this->Servidor, $Nombre_imagenEfemeride, $Tipo_imagenEfemeride, $Tamanio_imagenEfemeride, $Temporal_imagenEfemeride);	
         // }				
 
-        return redirect()->action([PanelPeriodista_C::class,'efemerides']); 
+        return redirect()->action([PanelPeriodistaController::class,'efemerides']); 
+        die();
+    }
+    
+    // recibe formulario que agrega evento en agenda
+    public function recibeAgendaAgregada(Request $Request){
+        // if(isset($_FILES['imagenAgenda']["name"])){	
+
+            $Caducidad = $Request->get('caducidad');
+            		
+            $Nombre_imagenAgenda = $_FILES['imagenAgenda']['name'];
+            $Tipo_imagenAgenda = $_FILES['imagenAgenda']['type'];
+            $Tamanio_imagenAgenda = $_FILES['imagenAgenda']['size'];
+            $Temporal_imagenAgenda = $_FILES['imagenAgenda']['tmp_name'];
+
+            // echo "Caducidad : " . $Caducidad . '<br>';
+            // echo "Nombre_imagen : " . $Nombre_imagenAgenda . '<br>';
+            // echo "Tipo_imagen : " .  $Tipo_imagenAgenda . '<br>';
+            // echo "Tamanio_imagen : " .  $Tamanio_imagenAgenda . '<br>';
+            // echo "Temporal_imagen : " .  $Temporal_imagenAgenda . '<br>';
+            // exit;
+            
+            //Quitar de la cadena del nombre de la imagen todo lo que no sean números, letras o puntos
+            $Nombre_imagenAgenda = preg_replace('([^A-Za-z0-9.])', '', $Nombre_imagenAgenda);
+
+            // Se coloca nuumero randon al principio del nombrde de la imagen para evitar que existan imagenes duplicadas
+            $Nombre_imagenAgenda = mt_rand() . '_' . $Nombre_imagenAgenda;
+            
+            // Se cambia el formato a la fecha para introducirla a la BD
+            $FechaCaducidad = \Carbon\Carbon::parse(strtotime($Caducidad))->format('Y-m-d');
+
+            //Se INSERTA en BD la informacion del evento agendado
+            Agenda_M::insert(
+                ['ID_Periodista' => session('id_periodista'),       
+                'caducidad' => $FechaCaducidad,
+                'nombre_imagenAgenda' => $Nombre_imagenAgenda,
+                'typo_imagenAgenda' => $Tipo_imagenAgenda,
+                'tamanio_imagenAgenda' => $Tamanio_imagenAgenda,
+                'disponibilidad' => 'activado'
+                ]
+            );	
+            
+            // INSSERTA IMAGEN PRINCIPAL DE AGENDA EN SERVIDOR
+            // se comprime y se inserta el archivo en el directorio de servidor 
+            $BanderaImg = 'imagenAgenda';
+            // metodo en Traits Comprimir_imagen
+            $this->imagen_comprimir($BanderaImg, $this->Servidor, $Nombre_imagenAgenda, $Tipo_imagenAgenda, $Tamanio_imagenAgenda, $Temporal_imagenAgenda);	
+        // }				
+
+        return redirect()->action([PanelPeriodistaController::class,'agenda']); 
         die();
     }
 
@@ -989,11 +1049,11 @@ class PanelPeriodista_C extends Controller
             // }
 
             if($Bandera == 'Portada'){                
-                return redirect()->action([PanelPeriodista_C::class,'index']);   
+                return redirect()->action([PanelPeriodistaController::class,'index']);   
                 die();
             }
             else{
-                return redirect()->action([PanelPeriodista_C::class,'not_Generales']);
+                return redirect()->action([PanelPeriodistaController::class,'not_Generales']);
                 die();
             }
         // }
@@ -1047,7 +1107,7 @@ class PanelPeriodista_C extends Controller
         // // Elimina video de BD
         // $this->Panel_M->eliminarVideoNoticia($ID_Noticia);
 
-        return redirect()->action([PanelPeriodista_C::class,'index']);
+        return redirect()->action([PanelPeriodistaController::class,'index']);
         die();
     }  
     
@@ -1080,7 +1140,34 @@ class PanelPeriodista_C extends Controller
             ->delete(); 
             return $EliminaEfemeride; 	
         
-        return redirect()->action([PanelPeriodista_C::class,'efemerides']);
+        return redirect()->action([PanelPeriodistaController::class,'efemerides']);
+        die();
+    } 
+    
+    // ELimina agenda 
+    public function eliminar_agenda($ID_Agenda){
+       
+        // Se consultan el nombre de la imagenen de la agenda para eliminarla del directorio
+        $NombreImagenAgenda = Agenda_M::
+            select('nombre_imagenAgenda')
+            ->where('ID_Agenda','=', $ID_Agenda) 
+            ->first();
+            // return $NombreImagenAgenda;
+       
+       // Se elimina la imagen del directorio del servidor                
+        $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/agenda/' . $NombreImagenAgenda->nombre_imagenAgenda);
+
+        if($Ruta){
+            unlink($_SERVER['DOCUMENT_ROOT'] . 'images/agenda/' . $NombreImagenAgenda->nombre_imagenAgenda); 
+        }
+            
+        // Se elimina el evento agendado de la BD
+        $EliminaAgenda = Agenda_M::       
+            where('ID_Agenda','=', $ID_Agenda)
+            ->delete(); 
+            return $EliminaAgenda;      
+        
+        return redirect()->action([PanelPeriodistaController::class,'agenda']);
         die();
     } 
 

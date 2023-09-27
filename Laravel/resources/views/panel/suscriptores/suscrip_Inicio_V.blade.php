@@ -1,6 +1,6 @@
 @extends('layouts.partiers.header_suscriptor')
 
-@section('titulo', 'Eventos')
+@section('titulo', 'Dashboard suscriptor')
 
 @section('contenido')
 
@@ -32,9 +32,9 @@
                 <label class="label_5">0</label>
             </div>
         </a>
-
+        
         <!-- CLASIFICADOS -->
-        <a class="cont_suscriptor--item borde_1" href="<?php //echo RUTA_URL . '/Panel_Clasificados_C/Productos/' . $Datos['ID_Suscriptor']?>" rel="noopener noreferrer">
+        <a class="cont_suscriptor--item borde_1" href="{{ route('SuscriptorMarketplace', ['ID_Suscriptor' => session('id_suscriptor')]) }}" rel="noopener noreferrer">
             <div class="contenedor_27">
                 <h1 class="cont_suscriptor--h1">Marketplace</h1>
                 <label class="label_5"><?php //echo $Datos['clasificados']['cantidadAnncios'];?></label>

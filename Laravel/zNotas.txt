@@ -48,7 +48,7 @@ los archivos
     A_Catalogos.js
     A_YaracuyEnViedo.js
     funcionesVarias.js
-    E_Museo.js
+    E_Artista.js
 tiene la opcion de subir a servidor remoto y servidor local, esta debe ser cambiada segun la condicion
 
 *******************************************************************************

@@ -9,19 +9,19 @@
 
 	<div style="display: flex; min-height: 100vh;" id="Obra">	
 		
-		<!-- TEXTO VERTICAL -->
+		<!-- TEXTO VERTICAL flex-grow: 1; flex-shrink: 1; -->
 		<div class="cont_artista--vertical">
 
-			<div style="flex-grow: 1; flex-shrink: 1;">
+			<div  class="cont_artista-flecha">
 
 				<!-- FLECHA REGRESAR -->
 				<div> 
-					<a class="cont_artista--icono" href="{{ route('GaleriaArte') }}"><img src="{{ asset('/iconos/flecha/outline_arrow_back_white_24dp.png') }}"/></a>
+					<a style="" href="{{ route('GaleriaArte') }}"><img class="cont_artista--icono Default_pointer" src="{{ asset('/iconos/flecha/outline_arrow_back_white_24dp.png') }}"/></a>
 				</div>
 
 				<!-- NOMBRE ARTISTA -->
-				<div>
-					<p class="cont_artista--textoVertical Default--textoVertical" id="DescripcionArtista">{{ $datosArtistas->nombreSuscriptor . ' ' . $datosArtistas->apellidoSuscriptor }}</p>
+				<div style="flex-grow: 1; " >
+					<p class="cont_artista--textoVertical Default--textoVertical texto-artista" id="DescripcionArtista">{{ $datosArtistas->nombreSuscriptor . ' ' . $datosArtistas->apellidoSuscriptor }}</p>
 				</div>
 			</div>
 

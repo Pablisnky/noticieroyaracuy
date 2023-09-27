@@ -40,7 +40,9 @@ document.getElementById("Cont_obras--mosaico").addEventListener('click', functio
         var ID_Obra = e.target.id
         // console.log("ID_Obra", ID_Obra)
         
-        window.location.replace("http://localhost/proyectos/nuevoNoticiero/public/galeriaArte/obras/" + ID_Obra);
+        // window.location.replace("http://localhost/proyectos/nuevoNoticiero/public/galeriaArte/obras/" + ID_Obra);
+
+        window.location.replace("https://www.noticieroyaracuy.com/galeriaArte/obras/" + ID_Obra);
     }
 }, false)
 

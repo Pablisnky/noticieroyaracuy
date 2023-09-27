@@ -27,7 +27,7 @@ class Panel_Marketplace_C extends Controller
         // exit();
 
         // return $ClasificadosSuscriptor;
-        return view('suscriptores/suscrip_marketplace_V');
+        return view('panel/suscriptores/suscrip_marketplace_V');
     }
     
     //CONSULTA las secciones que tiene el catalogo de un suscriptor

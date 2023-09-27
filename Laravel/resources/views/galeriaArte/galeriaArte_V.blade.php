@@ -62,9 +62,9 @@
         <div class="cont_Artista--botones">
             @foreach($suscriptoresArtistas as $Row)
                 <div class="cont_artista--informacion "> 
-                    <a href="{{ route('Artista', ['ID_Suscriptor' => $Row->ID_SUscriptor]) }}">
+                    <a href="{{ route('Artista', ['ID_Suscriptor' => $Row->ID_Suscriptor]) }}">
                         <figure class="efectoZoom"> 
-                            <img class="cont_Artista--img borde_1 efectoBrillo efectoZoom--imagen" name="imagenNoticia" alt="Fotografia Artista" src="{{ asset('/images/galeria/' . $Row->ID_SUscriptor . '_' . $Row->nombreSuscriptor . '_' . $Row->apellidoSuscriptor . '/perfil/' . $Row->nombre_imagenPortafolio) }}"/>
+                            <img class="cont_Artista--img borde_1 efectoBrillo efectoZoom--imagen" name="imagenNoticia" alt="Fotografia Artista" src="{{ asset('/images/galeria/' . $Row->ID_Suscriptor . '_' . $Row->nombreSuscriptor . '_' . $Row->apellidoSuscriptor . '/perfil/' . $Row->nombre_imagenPortafolio) }}"/>
                         </figure> 
                     </a>
                     <div>

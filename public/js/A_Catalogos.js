@@ -149,7 +149,7 @@ function respuesta_UsuarioRegistrado(){
             //Coloca el cursor en el top de la pagina
             window.scroll(0, 0)
 
-            // Se recibe desde php (Clasificados_C/mostrarUsuario()) una cadena de texto con los datos del usuario que se guarda en A,
+            // Se recibe desde php (ClasificadoController/mostrarUsuario()) una cadena de texto con los datos del usuario que se guarda en A,
             var A = peticion.responseText 
             // console.log("Respuesta contolador= ", A)
 
