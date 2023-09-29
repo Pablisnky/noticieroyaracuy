@@ -35,7 +35,7 @@
                     @foreach($imagenesNoticia as $Row)
                         <div style="margin-top: 1%">
                             <figure>
-                                <img class="cont_detalle--imagenMiniatura borde_1" alt="Foto no disponible" src="{{ asset('/images/noticias/' . $Row['nombre_imagenNoticia']) }}" onclick="Llamar_VerMiniatura('<?php //echo $key['ID_Imagen']?>')"/>
+                                <img class="cont_detalle--imagenMiniatura borde_1" alt="Foto no disponible" src="{{ asset('/images/noticias/' . $Row['nombre_imagenNoticia']) }}" onclick="Llamar_VerMiniatura('{{ route('VerMiniatura', ['id_imagen' => $Row->ID_Imagen]) }}')"/>
                             </figure>
                         </div>
                     @endforeach
@@ -73,28 +73,8 @@
                     
                     <!-- WHATSAPP -->
                     <div class="whatsapp detalle_cont--red">
-                    <?php 
-                        // $Titulo = $noticia->titulo;         
-                    ?>
-                    <a href="whatsapp://send?text={{ $noticia->titulo }}nbsp;{{ route('DetalleNoticia', $noticia->ID_Noticia) }}" data-action="share/whatsapp/share"><img class="detalle_cont--redesSociales-Whatsapp" alt="Whatsapp" src="{{ asset('/images/Whatsapp.png') }}"/></a>
+                        <a href="whatsapp://send?text={{ $noticia->titulo }}. {{ route('DetalleNoticia', $noticia->ID_Noticia) }}" data-action="share/whatsapp/share"><img class="detalle_cont--redesSociales-Whatsapp" alt="Whatsapp" src="{{ asset('/images/Whatsapp.png') }}"/></a>
                     </div>            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </div> 
 
                 @if(isset($comentariosCantidad["Cantidad_Comentarios"]) )
@@ -176,7 +156,7 @@
         <div class="publicidad_cont--main" id="VentanaModal--Publicidad">	
             
             <!-- ICONO CERRAR -->
-            <img class="cont_modal--cerrar Default_pointer" style="width: 1em;" id="CerrarVentanaModal" src="      {{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}"/>	
+            <img class="cont_modal--cerrar Default_pointer" style="width: 1em;" id="CerrarVentanaModal" src=" {{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}"/>	
 
             <!-- IMAGEN DE PUBLICIDAD -->
             <div class="publicidad_cont--interno">

@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\PanelMarketplaceController;
 
     class PanelSuscriptor_C extends Controller{
         private $ConsultaSuscriptor_M;
         private $Suscriptor;
         private $Instancia_Panel_C;
-        private $Instancia_PanelDenuncia_C;
+        private $Instancia_PanelMarketplaceController;
 		private $Servidor;
 
         public function __construct(){
-            // En las otras paginas donde se requiera la sesion ID_Suscriptor no se utiliza sseion_star debido a que este archivo es requerido en todas ellas
-            // session_start();
             
-            // $this->ConsultaSuscriptor_M = $this->modelo("Suscriptor_M");
+            $this->Instancia_PanelMarketplaceController = new PanelMarketplaceController();
             
             //Se CONSULTA al controlador Panel_Clasificado_C las secciones existenete en BD
             // require_once(RUTA_APP . "/controladores/Panel_Clasificados_C.php");
@@ -69,13 +68,13 @@ use Illuminate\Http\Request;
         } 
         
         //carga el dashboard de suscriptores
-        public function accesoSuscriptor(){
+        public function accesoSuscriptor($ID_Suscriptor){
             // if(!empty($_SESSION['ID_Suscriptor'])){
                 //Se consultan datos del suscriptor
-                // $Suscriptor = $this->ConsultaSuscriptor_M->consultarSuscriptor($ID_Suscriptor);
-                
-                //Se CONSULTA al controlador Panel_Clasificado_C la cantidad de anuncios clasificados que tiene el suscriptor.
-                // $Comerciante = $this->Instancia_Panel_C->clasificadoSuscriptor($ID_Suscriptor);
+                // $Suscriptor = $this->ConsultaSuscriptor_M->consultarSuscriptor($ID_Suscriptor);s
+                //Se CONSULTA al controlador Panel_Clasificado_C la cantidad de productos publicados que tiene el suscriptor.
+                $CantidadProductos = $this->Instancia_PanelMarketplaceController->clasificadoSuscriptor($ID_Suscriptor);
+                // return $CantidadProductos;
 
                 //Se comunica con al controlador Panel_Denuncias_C
                 // require_once(RUTA_APP . "/controladores/Panel_Denuncias_C.php");
@@ -93,7 +92,7 @@ use Illuminate\Http\Request;
                 //     'apellido' => $Suscriptor[0]['apellidoSuscriptor'],
                 //     'Pseudonimmo' => $Suscriptor[0]['pseudonimoSuscripto'],
                 //     'telefono' => $Suscriptor[0]['telefonoSuscriptor'],
-                //     'clasificados' => $Comerciante,
+                //     'clasificados' => $CantidadProductos,
                 //     'denuncias' => $Denuncias ,
                 //     'comentarios' => $Comentarios
                 // ];
@@ -107,7 +106,7 @@ use Illuminate\Http\Request;
                     //     'ID_Suscriptor' => $ID_Suscriptor,
                     //     'nombre' => $Nombre,
                     //     'apellido' => $Apellido,
-                    //     'clasificados' => $Comerciante,
+                        'marketplace' => $CantidadProductos,
                     //     'obras' => $Cant_Obras,
                     //     'denuncias' => $Cant_Denuncias
                 ]);

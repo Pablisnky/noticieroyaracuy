@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded',function(){resize('Contenido')}, fa
 
 document.getElementById("Contenedor_91").addEventListener('click', function(){CerrarModalAnuncios('MostrarAnuncios')}, false)
 
-document.getElementById("Contenido").addEventListener('keydown', function(){autosize('Contenido')}, false)
+// document.getElementById("Contenido").addEventListener('keydown', function(){autosize('Contenido')}, false)
 
 //************************************************************************************************
     //obtiendo informacion del DOM para identificar el elemento donde se hizo click 
@@ -15,6 +15,7 @@ document.getElementById("Contenido").addEventListener('keydown', function(){auto
     //Muestra la cantidad de caracteres que quedan mientras se escribe
     function contarCaracteres(ID_Contador, ID_Contenido, Max){
         // console.log("______Desde contarCaracteres()______", ID_Contador + " / " + ID_Contenido + " / " + Max) 
+
         var max = Max; 
         var cadena = document.getElementById(ID_Contenido).value; 
         var longitud = cadena.length; 
@@ -62,6 +63,7 @@ document.getElementById("Contenido").addEventListener('keydown', function(){auto
     //Ajusta la altura del texarea según se vaya escribiendo en el mismo                
     function autosize(id){
         console.log("______Desde autosize()______", id)
+
         var el = document.getElementById(id);
         
         setTimeout(function(){

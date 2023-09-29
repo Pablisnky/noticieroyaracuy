@@ -31,10 +31,10 @@ function conexionAJAX(){
 
 // *************************************************************************************************
     //Muestra las miniaturas de las imagenes de una noticia
-    function Llamar_VerMiniatura(ID_ImagenMiniatura){
-        // console.log("______Desde Llamar_VerMiniatura()______", ID_ImagenMiniatura)
+    function Llamar_VerMiniatura(Ruta){
+        // console.log("______Desde Llamar_VerMiniatura()______", Ruta)
         
-        var url = "../muestraImagenSeleccionada/" + ID_ImagenMiniatura
+        var url = Ruta
         http_request.open('GET', url, true)  
         peticion.onreadystatechange = respuesta_VerMiniatura
         peticion.setRequestHeader("content-type","application/x-www-form-urlencoded")
@@ -57,7 +57,7 @@ function conexionAJAX(){
 // *************************************************************************************************
     //Verifica que el usuario este logeado antes de realizar un comentario 
     function Llamar_VerificarSuscripcion(Ruta){
-        console.log("______Desde Llamar_VerificarSuscripcion()______", Ruta  )
+        // console.log("______Desde Llamar_VerificarSuscripcion()______", Ruta  )
         
         var url = Ruta //en web.php se encuentra el detalle de la ruta
         http_request.open('GET', url, true)  
@@ -83,6 +83,7 @@ function conexionAJAX(){
     //Inserta un comentario de un suscriptor
     function Llamar_InsertarComentario(ID_Noticia){
         // console.log("______Desde Llamar_InsertarComentario()______", ID_Noticia )
+
         let Comentario = document.getElementById("Comentario").value
         // console.log(Comentario)
         
@@ -139,6 +140,7 @@ function conexionAJAX(){
     //Inserta una respuesta a un comentario existente
     function Llamar_InsertarRespuesta(ID_Comentario, ID_Respuesta, ID_LabelEnviar, ID_insertaRespuesta, ID_Noticia){
         // console.log("______Desde Llamar_InsertarRespuesta()______", ID_Comentario + "/" + ID_Respuesta + "/" + ID_LabelEnviar + "/" + ID_insertaRespuesta + "/" + ID_Noticia)
+
         let Respuesta = document.getElementById(ID_Respuesta).value
         // console.log(Respuesta)
         

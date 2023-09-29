@@ -1133,6 +1133,7 @@
 	width: 90%;
 }
 .contenedor_24{
+	margin: auto;
 	margin-top: 17%;
 	width: 95%;
 }
@@ -1169,17 +1170,13 @@
    margin: auto;
    margin-bottom: 5%;
 }
-.cont_panel--flex-left{
-	width: 55%; 
-	margin-right: 1.5%
-}
 .cont_panel--flex{
 	display: block; 
 	width: 100%;
 	margin-bottom: 20%;
 }
 .cont_panel--flex-left{
-	width: 60%; 
+	width: 100%; 
 	margin: auto;
 	margin-bottom: 5%;
 }
@@ -2024,6 +2021,17 @@
 	 padding: 1% 5%;
 	 font-size: 4.5vw;
  }
+ .section_10{
+	position: absolute;
+}
+.cont_panel--titulo{
+   width: 100%;
+}
+
+
+.cont_panel--textarea{
+	min-height: 500px;
+}
 
 
 

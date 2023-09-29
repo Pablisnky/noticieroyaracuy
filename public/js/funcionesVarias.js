@@ -42,7 +42,7 @@
 //************************************************************************************************
     //Oculta el menu principal en responsive haciendo click por fuera del boton menu
     if(document.getElementById("MenuResponsive")){
-        console.log("______Desde Delegación de eventos para ocultar el menu princpal()______")
+        // console.log("______Desde Delegación de eventos para ocultar el menu princpal()______")
 
         let div = document.getElementById("MenuResponsive")
         let C = document.getElementById("Tapa_Logo")
@@ -132,7 +132,8 @@
 //************************************************************************************************ 
     //ajusta la altura de un texarea con respecto al contenido que trae de la BD
     function resize(id){
-        console.log("______Desde resize()______", id) 
+        // console.log("______Desde resize()______", id) 
+        
         let text = document.getElementById(id);
         text.style.height = 'auto';
         text.style.height = text.scrollHeight + 'px';
@@ -158,11 +159,6 @@
         
         //Se confirma si se desea cerrar sesión
         if(ConfirmaCerrarSession == true){                     
-            
-            // remoto   
-            // window.location.href = "https://www.noticieroyaracuy.com/CerrarSesion_C";
-                
-            // local
             window.location.href = Ruta_CerrarSesion
         } 
         else{

@@ -29,15 +29,15 @@
         <a class="cont_suscriptor--item borde_1" href="<?php //echo RUTA_URL . '/Panel_Noticias_C/noticiaGuardada/' . $Datos['ID_Suscriptor']?>">
             <div class="contenedor_27">
                 <h1 class="cont_suscriptor--h1">Noticias guardadas</h1>
-                <label class="label_5">0</label>
+                <label class="label_5"></label>
             </div>
         </a>
         
-        <!-- CLASIFICADOS -->
+        <!-- MARKETPLACE -->
         <a class="cont_suscriptor--item borde_1" href="{{ route('SuscriptorMarketplace', ['ID_Suscriptor' => session('id_suscriptor')]) }}" rel="noopener noreferrer">
             <div class="contenedor_27">
                 <h1 class="cont_suscriptor--h1">Marketplace</h1>
-                <label class="label_5"><?php //echo $Datos['clasificados']['cantidadAnncios'];?></label>
+                <label class="label_5">{{ $marketplace->Cantidad_Productos }}</label>
             </div>
         </a>
 

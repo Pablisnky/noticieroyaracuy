@@ -42,11 +42,11 @@ trait Comprimir_Imagen{
                 
                 if($Servidor == 'Remoto'){
                     //Usar en remoto         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/'. session('id_suscriptor') . '/productos/';
                 }
                 else{
                     //usar en local        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';             
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. session('id_suscriptor') . '/productos/';             
                 }
             }
             else if($Bandera == 'imagenSecundariiaProducto'){

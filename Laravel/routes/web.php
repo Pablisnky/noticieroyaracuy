@@ -12,7 +12,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\Panel_Artista_C;
 use App\Http\Controllers\Panel_Denuncias_C;
 use App\Http\Controllers\PanelPeriodistaController;
-use App\Http\Controllers\Panel_Marketplace_C;
+use App\Http\Controllers\PanelMarketplaceController;
 use App\Http\Controllers\PanelSuscriptor_C; 
 use App\Http\Controllers\Registro_C;
 use App\Http\Controllers\Suscriptor_C;
@@ -74,7 +74,7 @@ Route::get('panelPeriodista/eliminaAgenda/{id_agenda}', [PanelPeriodistaControll
 Route::get('panelPeriodista/actualizarNoticia/{id_imagenSec}', [PanelPeriodistaController::class, 'eliminar_imagenSecundariaNoticia'])->name('EliminarImgSecundaria');  
 
 // PanelSuscriptor_C ******************************************************
-Route::get('panelSuscriptor', [PanelSuscriptor_C::class, 'accesoSuscriptor'])->name('DashboardPanelSuscriptor');
+Route::get('panelSuscriptor/{id_suscriptor}', [PanelSuscriptor_C::class, 'accesoSuscriptor'])->name('DashboardPanelSuscriptor');
 
 // Registro_C ******************************************************
 Route::get("regis", [Registro_C::class, 'suscripcion'])->name('registro');
@@ -87,7 +87,7 @@ Route::controller(Noticias_C::class)->group(function(){
     // via Ajax
     Route::get('noticia/verificaLogin/{ID_Noticia}/{bandera}/{ID_Comentario}','Verificar_Login')->name('NoticiaLogin');
     Route::get('noticia/{id_noticia}/{comentario}', 'recibeComentario');
-    // Route::get('noticia/verificaLogin/{id_noticia}/{bandera}/{id_comentario}','Verificar_Login')->name('noticiaLogin');
+    Route::get('noticia/detalleNoticia/miniatura/{id_imagen}','muestraImagenSeleccionada')->name('VerMiniatura');
 });
 
 // ClasificadoController ******************************************************
@@ -119,8 +119,11 @@ Route::post("suscriptor/actualizarPerfil", [Suscriptor_C::class, 'actualizarPerf
 // Panel_Denuncias_C **************************************************
 Route::get("denuncias/{ID_Suscriptor}", [Panel_Denuncias_C::class, 'index'])->name('SuscriptorDenuncias');
 
-// Panel_Marketplace_C ************************************************
-Route::get("marketplace/{ID_Suscriptor}", [Panel_Marketplace_C::class, 'index'])->name('SuscriptorMarketplace');
+// PanelMarketplaceController *****************************************
+Route::get("marketplace/{ID_Suscriptor}", [PanelMarketplaceController::class, 'index'])->name('SuscriptorMarketplace');
+Route::get("marketplace/actualizar/{id_producto}/{opcion}", [PanelMarketplaceController::class, 'actualizarProducto'])->name('ActualizarProducto');
+Route::get("marketplace/publicarProducto/{id_suscriptor}", [PanelMarketplaceController::class, 'publicar'])->name('PublicarProducto');
+Route::post("suscriptor/datosActualizar", [PanelMarketplaceController::class, 'recibeAtualizarProducto'])->name('RecibeAtualizarProducto');
 
 // Panel_Artista_C ****************************************************   
 Route::get("artista/{ID_Suscriptor}", [Panel_Artista_C::class, 'index'])->name('SuscriptorArtista');

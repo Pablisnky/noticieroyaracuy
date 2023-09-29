@@ -2,32 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
+use Illuminate\Support\Facades\DB;
 
-class Panel_Marketplace_C extends Controller
+use App\Traits\Divisas; 
+use App\Http\Controllers\Suscriptor_C;
+
+use App\Traits\ServidorUse;
+use App\Traits\Comprimir_Imagen;
+
+class PanelMarketplaceController extends Controller
 {
+    use Divisas; //Traits 
+    use ServidorUse; //Traits
+    use Comprimir_Imagen; //Traits
+
     private $ConsultaClasificados_M;
-    private $PrecioDolar;
-    private $InformacionSuscriptor;
+    private $Instancia_Suscriptor_C;
+    private $Dolar;
     private $Comprimir;
-
-    public function __construct(){
-        // session_start();
-    }
-         
-    //Da la cantidad de anuncios clasificados que tiene un suscriptor especifico
-    public function index($ID_Suscriptor){
-        // echo $ID_Suscriptor;
-        //se consultan los anuncios clasificados de un suscriptor
-        // $ClasificadosSuscriptor = $this->ConsultaClasificados_M->consultarAnunciosClasificados($ID_Suscriptor);
+    private $Servidor;
         
-        // echo "<pre>";
-        // print_r($ClasificadosSuscriptor);
-        // echo "</pre>";
-        // exit();
+    public function __construct(){
 
-        // return $ClasificadosSuscriptor;
-        return view('panel/suscriptores/suscrip_marketplace_V');
+        $this->Instancia_Suscriptor_C = new Suscriptor_C();
+        
+        $this->Servidor = $this->conexionServidor(); // metodo en Traits ServidorUse
+
+        // Solicita el precio del dolar al Trait Divisas
+        $this->Dolar = $this->ValorDolar();
+        // echo $this->Dolar . '<br>';
+    }
+
+    //Muestra todos los productos que tiene un suscriptor especifico
+    public function index($ID_Suscriptor){
+        
+        //se consultan los anuncios clasificados de un suscriptor
+        $ProductosSuscriptor = DB::connection('mysql_2')->table('productos') 
+            ->select('productos.ID_Producto','producto','opciones.ID_Opcion','opcion','opciones.precioBolivar','opciones.precioDolar','cantidad','nombre_img')
+            ->join('productos_opciones', 'productos.ID_Producto','=','productos_opciones.ID_Producto')
+            ->join('opciones', 'productos_opciones.ID_Opcion','=','opciones.ID_Opcion') 
+            ->join('imagenes', 'productos.ID_Producto','=','imagenes.ID_Producto') 
+            ->where("ID_Suscriptor",'=', $ID_Suscriptor)  
+            ->where("fotoPrincipal",'=', 1) 
+            ->orderBy('productos.producto', 'asc')
+            ->orderBy('opciones.opcion', 'asc')
+            ->get();
+            // return $ProductosSuscriptor;
+
+        return view('panel/suscriptores/suscrip_productos_V', [
+            'productos' => $ProductosSuscriptor
+        ]);
+    }
+    
+    //Da la cantidad de anuncios clasificados que tiene un suscriptor especifico
+    public function clasificadoSuscriptor($ID_Suscriptor){
+        
+        //se consultan los anuncios clasificados de un suscriptor
+        $ProductosSuscriptor = DB::connection('mysql_2')->table('productos') 
+            ->selectRaw('COUNT("ID_Producto") AS Cantidad_Productos')
+            ->where("ID_Suscriptor",'=', $ID_Suscriptor)  
+            ->first();
+            return $ProductosSuscriptor;
     }
     
     //CONSULTA las secciones que tiene el catalogo de un suscriptor
@@ -87,32 +123,99 @@ class Panel_Marketplace_C extends Controller
     
     // muestra la vista donde se carga un producto
     public function Publicar($ID_Suscriptor){
-        // echo 'ID_Suscriptor= ' . $ID_Suscriptor . '<br>';
-        // exit;
 
-        //Solicita el precio del dolar al controlador 
-        require(RUTA_APP . '/controladores/Divisas_C.php');
-        $this->PrecioDolar = new Divisas_C();
-        
         //se consultan las secciones del catalogo del suscriptor
-        $Secciones = $this->ConsultaClasificados_M->consultarSeccionesSuscriptor($ID_Suscriptor);
+        $Secciones = DB::connection('mysql_2')->table('secciones')
+            ->select('ID_Seccion', 'seccion')
+            ->where('ID_Suscriptor','=', $ID_Suscriptor)
+            ->first();
+            // return $Secciones; 
 
-        $Datos = [
-            'dolarHoy' => $this->PrecioDolar->Dolar,
+        return view('panel/suscriptores/suscrip_publicar_V', [
+            'dolarHoy' => $this->Dolar,
             'ID_Suscriptor' => $ID_Suscriptor,
             'secciones' => $Secciones
-        ];
-            
-        // echo "<pre>";
-        // print_r($Datos);
-        // echo "</pre>";
+        ]);            
+
+        // $_SESSION['Publicar'] = 1906; 
+        //Se crea esta sesion para impedir que se recargue la información enviada por el formulario mandandolo varias veces a la base de datos
+    }
+    
+    // muestra formulario para actualizar un producto especifico
+    public function actualizarProducto($ID_Producto){
+        
+        //CONSULTA las especiicaciones de un producto determinado
+        $Especificaciones = DB::connection('mysql_2')->table('productos')
+            ->select('productos.ID_Producto', 'opciones.ID_Opcion', 'producto','opcion','precioBolivar','precioDolar','cantidad','nuevo')
+            ->join('productos_opciones', 'productos.ID_Producto','=','productos_opciones.ID_Producto') 
+            ->join('opciones', 'productos_opciones.ID_Opcion','=','opciones.ID_Opcion') 
+            ->where('productos.ID_Producto','=',$ID_Producto)
+            ->first();
+            // return $Especificaciones; 
+
+        //CONSULTAN la imagen principal del producto
+        $ImagenPrin = DB::connection('mysql_2')->table('imagenes')
+            ->select('ID_Imagen', 'nombre_img')
+            ->where('ID_Producto','=',$ID_Producto)
+            ->where('fotoPrincipal','=', 1)
+            ->first();
+            // return $ImagenPrin; 
+        
+        //CONSULTAN las imagenes secundarias del producto
+        $ImagenSec = DB::connection('mysql_2')->table('imagenes')
+            ->select('ID_Imagen', 'nombre_img')
+            ->where('ID_Producto','=', $ID_Producto)
+            ->where('fotoPrincipal','=', 0)
+            ->get();
+            // return $ImagenSec;        
+        
+        // CONSULTAN la seccion donde esta un producto
+        $Seccion = DB::connection('mysql_2')->table('secciones')
+            ->select('secciones.ID_Seccion','seccion')
+            ->join('secciones_productos', 'secciones.ID_Seccion','=','secciones_productos.ID_Seccion') 
+            ->where('ID_Producto','=', $ID_Producto)
+            ->first();
+            // return $Seccion;        
+
+        // CONSULTA todas las secciones de un suscriptor
+        $Secciones = DB::connection('mysql_2')->table('secciones')
+            ->select('ID_Seccion','seccion')
+            ->where('ID_Suscriptor','=', session('id_suscriptor'))
+            ->get();
+            // return $Secciones;        
+                    
+        // se consultan la informacion del suscriptor
+        $Suscriptor = $this->Instancia_Suscriptor_C->index(session('id_suscriptor'));
+        // return $Suscriptor;
+        
+        return view('panel.suscriptores.suscrip_editar_prod_V', [
+            'ID_Suscriptor' => session('id_suscriptor'),
+            'especificaciones' => $Especificaciones,
+            'imagenPrin' => $ImagenPrin, 
+            'imagenSec' => $ImagenSec,
+            'dolarHoy' => $this->Dolar,
+            'seccion' => $Seccion,
+            'secciones' => $Secciones,      
+            'suscriptor' => $Suscriptor
+        ]);
+    }     
+    
+    // actualiza en nombre de una seccion
+    public function actualizarSeccion($DatosAgrupados){
+        //$DatosAgrupados contiene una cadena con el ID_Seccion y la sección separados por coma, se convierte en array para separar los elementos
+        // echo $DatosAgrupados;
         // exit();
 
-        $_SESSION['Publicar'] = 1906; 
-        //Se crea esta sesion para impedir que se recargue la información enviada por el formulario mandandolo varias veces a la base de datos
+        $DatosAgrupados = explode(',', $DatosAgrupados);
 
-        $this->vista('header/header_suscriptor');
-        $this->vista('suscriptores/suscrip_publicar_V', $Datos);
+        $Seccion = $DatosAgrupados[0];
+        $ID_Seccion = $DatosAgrupados[1];
+        
+        // echo $ID_Seccion;
+        // echo $Seccion;
+        // exit;
+
+        $this->ConsultaClasificados_M->actualizarSeccion($ID_Seccion, $Seccion);
     }
     
     //recibe el formulario para cargar un nuevo producto
@@ -270,37 +373,34 @@ class Panel_Marketplace_C extends Controller
     }
     
     //recibe formulario que actualiza la información de un producto
-    public function recibeAtualizarProducto(){
+    public function recibeAtualizarProducto(Request $Request){
         //Se reciben todos los campos del formulario, se verifica que son enviados por POST y que no estan vacios
-        if($_SERVER['REQUEST_METHOD'] == 'POST'&& !empty($_POST['producto']) && !empty($_POST['descripcion']) && !empty($_POST['precioBolivar']) && (!empty($_POST['precioDolar']) || $_POST['precioDolar'] == 0)){
+        // if($_SERVER['REQUEST_METHOD'] == 'POST'&& !empty($_POST['producto']) && !empty($_POST['descripcion']) && !empty($_POST['precioBolivar']) && (!empty($_POST['precioDolar']) || $_POST['precioDolar'] == 0)){
 
             //Recibe datos del producto a actualizar
             $RecibeProducto = [
-                'condicion' => !empty($_POST['grupo']) ? $_POST['grupo'] : 'NoAsignado',
-                'ID_Producto' => $_POST['id_producto'],
-                'ID_Opcion' => $_POST['id_opcion'],
-                'Producto' => $_POST['producto'],
-                'Descripcion' => $_POST['descripcion'],
-                // 'Descripcion' => preg_replace('[\n|\r|\n\r|\]','',$_POST, "descripcion", ), //evita los saltos de lineas realizados por el usuario al separar parrafos
-                'PrecioBs' => $_POST["precioBolivar"],
-                'PrecioDolar' => $_POST["precioDolar"],
-                'Cantidad' => empty($_POST['uni_existencia']) ? 0 : $_POST['uni_existencia'],
-                'ID_Suscriptor' => $_POST["id_suscriptor"],
-                'ID_Seccion' => $_POST["id_seccion"] 
+                'condicion' => !empty($Request->get('grupo')) ? $Request->get('grupo') : 'NoAsignado',
+                'ID_Producto' => $Request->get('id_producto'),
+                'ID_Opcion' => $Request->get('id_opcion'),
+                'Producto' => $Request->get('producto'),
+                'Descripcion' => $Request->get('descripcion'),
+                // 'Descripcion' => preg_replace('[\n|\r|\n\r|\)','',$_POST, "descripcion", ), //evita los saltos de lineas realizados por el usuario al separar parrafos
+                'PrecioBs' => $Request->get("precioBolivar"),
+                'PrecioDolar' => $Request->get("precioDolar"),
+                'Cantidad' => empty($Request->get('uni_existencia')) ? 0 : $Request->get('uni_existencia'),
+                'ID_Suscriptor' => $Request->get("id_suscriptor"),
+                'ID_Seccion' => $Request->get("id_seccion") 
             ];
-            // echo '<pre>';
-            // print_r($RecibeProducto);
-            // echo '</pre>';
-            // exit;
-        }
-        else{
-            echo 'Llene todos los campos obligatorios' . '<br>';
-            echo '<a href="javascript: history.go(-1)">Regresar</a>';
-            exit();
-        }
+            // return $RecibeProducto;
+        // }
+        // else{
+        //     echo 'Llene todos los campos obligatorios' . '<br>';
+        //     echo '<a href="javascript: history.go(-1)">Regresar</a>';
+        //     exit();
+        // }
 
-        require(RUTA_APP . '/helpers/Comprimir_Imagen.php');
-        $this->Comprimir = new Comprimir_Imagen();
+        // require(RUTA_APP . '/helpers/Comprimir_Imagen.php');
+        // $this->Comprimir = new Comprimir_Imagen();
 
         //IMAGEN PRINCIPAL
         // ********************************************************
@@ -324,13 +424,18 @@ class Panel_Marketplace_C extends Controller
             // Se coloca nuumero randon al principio del nombrde de la imagen para evitar que existan imagenes duplicadas
             $nombre_imgProductoActualizar = mt_rand() . '_' . $nombre_imgProductoActualizar;
 
+
+            //Se ACTUALIZA la fotografia principal del producto en BD            
+            DB::connection('mysql_2')->table('imagenes')
+            ->where('ID_Producto', $RecibeProducto['ID_Producto']) 
+            ->where('fotoPrincipal','=', 1)
+            ->update(['nombre_img' => $nombre_imgProductoActualizar,'tipoArchivo' => $tipo_imgProductoActualizar,'tamanoArchivo' => $tamanio_imgProductoActualizar]);
+
             // ACTUALIZA IMAGEN PRINCIPAL DE NOTICIA EN SERVIDOR
             // se comprime y se inserta el archivo en el directorio de servidor 
             $Bandera = 'imagenProducto';
-            $this->Comprimir->index($Bandera, $nombre_imgProductoActualizar, $tipo_imgProductoActualizar, $tamanio_imgProductoActualizar, $Temporal_imgProductoActualizar);
-
-            //Se ACTUALIZA la fotografia principal del producto
-            $this->ConsultaClasificados_M->actualizarImagenPrincipalProducto($RecibeProducto['ID_Producto'], $nombre_imgProductoActualizar, $tipo_imgProductoActualizar, $tamanio_imgProductoActualizar);
+            // metodo en Traits Comprimir_imagen
+            $this->imagen_comprimir($Bandera, $this->Servidor, $nombre_imgProductoActualizar, $tipo_imgProductoActualizar, $tamanio_imgProductoActualizar, $Temporal_imgProductoActualizar);
         }
         
         //ACTUALIZAR IMAGENES SECUNDARIAS PRODUCTO
@@ -368,13 +473,22 @@ class Panel_Marketplace_C extends Controller
         // ********************************************************
         //Estas sentencias de actualización deben realizarce por medio de transsacciones
 
-        $this->ConsultaClasificados_M->actualizarOpcion($RecibeProducto);
-        $this->ConsultaClasificados_M->actualizarProducto($RecibeProducto);
+        //Se ACTUALIZA la tabla opciones en BD            
+        DB::connection('mysql_2')->table('opciones')
+            ->where('ID_Opcion', $RecibeProducto['ID_Opcion']) 
+            ->update(['opcion' => $RecibeProducto['Descripcion'], 'precioBolivar' => $RecibeProducto['PrecioBs'], 'precioDolar' => $RecibeProducto['PrecioDolar'], 'cantidad' => $RecibeProducto['Cantidad']]);
+
+        //Se ACTUALIZA la tabla productos en BD   
+        DB::connection('mysql_2')->table('productos')
+            ->where('ID_Producto', $RecibeProducto['ID_Producto']) 
+            ->update(['producto' => $RecibeProducto['Producto']]);
         
         //ACTUALIZA la dependencia transitiva entre el producto y la seccions a la que pertenece
-        $this->ConsultaClasificados_M->actualizarDT_SecPro($RecibeProducto);
+        // $this->ConsultaClasificados_M->actualizarDT_SecPro($RecibeProducto);
 
-        $this->Productos($RecibeProducto['ID_Suscriptor']);
+        // $this->index($RecibeProducto['ID_Suscriptor']);
+        return redirect()->route("SuscriptorMarketplace",['ID_Suscriptor' => $RecibeProducto['ID_Suscriptor']]);
+        die();
     }
     
     // actualiza el nombre de una seccion
@@ -386,80 +500,6 @@ class Panel_Marketplace_C extends Controller
         // exit();
 
         $this->ConsultaClasificados_M->insertaSeccion($ID_Suscriptor, $Seccion);
-    }
-
-    // muestra formulario para actualizar un producto especifico
-    public function actualizarProducto($ID_Producto){
-        
-        //CONSULTA las especiicaciones de un producto determinado
-        $Especificaciones = $this->ConsultaClasificados_M->consultarDescripcionProducto($ID_Producto);
-
-        //CONSULTAN la imagen principal del producto
-        $ImagenPrin = $this->ConsultaClasificados_M->consultarImagenPrincipal($ID_Producto);
-        
-        //CONSULTAN las imagenes secundarias del producto
-        $ImagenSec = $this->ConsultaClasificados_M->consultarImagenSecundaria($ID_Producto);
-        
-        //CONSULTAN la seccion donde esta un producto
-        $Seccion = $this->ConsultaClasificados_M->consultarSeccion($ID_Producto);
-
-        //CONSULTA todas las secciones de un suscriptor
-        $Secciones = $this->ConsultaClasificados_M->consultarSeccionesSuscriptor($_SESSION["ID_Suscriptor"]);
-                    
-        //Solicita el precio del dolar al controlador 
-        require(RUTA_APP . '/controladores/Divisas_C.php');
-        $this->PrecioDolar = new Divisas_C();
-        
-        // VERIFICAR QUE SE TRAE LOS DATOS DE ACCESO A LA BD
-        // echo '<pre>';
-        // print_r($this->PrecioDolar);
-        // echo '</pre>';
-
-        // Se consulta el precio del dolar
-        $PrecioDolarHoy = $this->PrecioDolar->Dolar;
-
-        //se consultan la informacion del suscriptor
-        // $Suscriptor = $this->InformacionSuscriptor->index($_SESSION['ID_Suscriptor']);
-
-        $Datos = [
-            'ID_Suscriptor' => $_SESSION['ID_Suscriptor'],
-            'especificaciones' => $Especificaciones, //ID_Producto, ID_Opcion, producto, opcion, precioBolivar, precioDolar, cantidad, disponible
-            'imagenPrin' => $ImagenPrin, //ID_Imagen, nombre_img
-            'imagenSec' => $ImagenSec,
-            'dolarHoy' => $PrecioDolarHoy,
-            'seccion' => $Seccion,
-            'secciones' => $Secciones,      
-            // 'nombre' => $Suscriptor['nombreSuscriptor'],
-            // 'apellido' => $Suscriptor['apellidoSuscriptor'],
-            // 'Pseudonimmo' => $Suscriptor['pseudonimoSuscripto'],
-            // 'telefono' => $Suscriptor['telefonoSuscriptor']
-        ];
-
-        // echo '<pre>';
-        // print_r($Datos);
-        // echo '</pre>';
-        // exit();
-
-        $this->vista('header/header_suscriptor'); 
-        $this->vista('suscriptores/suscrip_editar_prod_V', $Datos);
-    }     
-    
-    // actualiza en nombre de una seccion
-    public function actualizarSeccion($DatosAgrupados){
-        //$DatosAgrupados contiene una cadena con el ID_Seccion y la sección separados por coma, se convierte en array para separar los elementos
-        // echo $DatosAgrupados;
-        // exit();
-
-        $DatosAgrupados = explode(',', $DatosAgrupados);
-
-        $Seccion = $DatosAgrupados[0];
-        $ID_Seccion = $DatosAgrupados[1];
-        
-        // echo $ID_Seccion;
-        // echo $Seccion;
-        // exit;
-
-        $this->ConsultaClasificados_M->actualizarSeccion($ID_Seccion, $Seccion);
     }
 
     public function eliminarProducto($DatosAgrupados){
@@ -496,10 +536,10 @@ class Panel_Marketplace_C extends Controller
             // unlink($_SERVER['DOCUMENT_ROOT'] . '/proyectos/noticieroyaracuy/public/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/' . $NombreImagenEliminar);
         endforeach;
         
-        $this->ConsultaClasificados_M->eliminarProductoOpcion($ID_Producto);
-        $this->ConsultaClasificados_M->eliminarImagenesProducto($ID_Producto);
-        $this->ConsultaClasificados_M->eliminarProducto($ID_Producto);
-        $this->ConsultaClasificados_M->eliminarOpcion($ID_Opcion);
+        // $this->ConsultaClasificados_M->eliminarProductoOpcion($ID_Producto);
+        // $this->ConsultaClasificados_M->eliminarImagenesProducto($ID_Producto);
+        // $this->ConsultaClasificados_M->eliminarProducto($ID_Producto);
+        // $this->ConsultaClasificados_M->eliminarOpcion($ID_Opcion);
           
         // *************************************************************************************
         // *************************************************************************************

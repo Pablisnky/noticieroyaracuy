@@ -147,14 +147,32 @@ class Noticias_C extends Controller{
         $Nombre = !empty($_SESSION["nombreSuscriptor"]) ? $_SESSION["nombreSuscriptor"] : 'No existe';
         $Apellido = !empty($_SESSION["apellidoSuscriptor"]) ? $_SESSION["apellidoSuscriptor"] : 'No existe';
 
-        return view('noticias.detalleNoticia_V', ['noticia' => $Noticia, 'imagenesNoticia' => $ImagenesNoticia, 'comentariosCantidad' => $ComentariosCantidad, 'comentarios' => $Comentarios, 'publicidad' => $Publicidad, 'id_suscriptor' => $ID_Suscriptor, 'nombre' => $Nombre, 'apellido' => $Apellido]);
+        return view('noticias.detalleNoticia_V', [
+            'noticia' => $Noticia, 
+            'imagenesNoticia' => $ImagenesNoticia, 
+            'comentariosCantidad' => $ComentariosCantidad, 
+            'comentarios' => $Comentarios, 
+            'publicidad' => $Publicidad, 
+            'id_suscriptor' => $ID_Suscriptor, 
+            'nombre' => $Nombre, 
+            'apellido' => $Apellido
+        ]);
         // Cuando el nombre de la variable coincide con la clave del array se puede utilizar la siguiente sintaxis:
         //  return view('noticias.detalleNoticia_V', compact(ID_Noticia))
     }
     
     // // muestra la imagen seleccionada en la miniatura de una noticia
-    public function muestraImagenSeleccionada(){
-        echo 'Controlador Noticias_C metodo muestraImagenSeleccionada';
+    public function muestraImagenSeleccionada($ID_Imagen){
+        //Se CONSULTA la imagen que se solicito en detalle
+        $DetalleImagen = Imagenes_M::
+            select('nombre_imagenNoticia')
+            ->where('ID_Imagen','=', $ID_Imagen)
+            ->first();
+            // return $DetalleImagen;
+       
+        return view('ajax.A_imagenSeleccionada_V', [
+            'imagenSeleccionada' => $DetalleImagen,
+        ]);
     }
     
     public function recibeComentario($ID_Noticia, $Comentario){	
@@ -163,11 +181,7 @@ class Noticias_C extends Controller{
         echo 'Variable ID_Noticia = ' . $ID_Noticia . '<br>';
         echo 'Variable Comentario = ' . $Comentario . '<br>';
     }
-    
-    // //Se inserta una respuesta a un comentario
-    // public function recibeRespuesta($ID_Comentario, $Respuesta, $ID_Noticia){
-    // }
-    
+        
     // Verifica que el usuario haya hecho login para poder comentar una noticia
     public function Verificar_Login($ID_Noticia, $Bandera, $ID_Comentario){
 

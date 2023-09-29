@@ -1067,7 +1067,7 @@
 	margin-bottom: 20%;
 }
 .cont_panel--flex-left{
-	width: 60%; 
+	width: 100%; 
 	margin: auto;
 	margin-bottom: 5%;
 }
@@ -2184,7 +2184,14 @@
 .cont_artista-flecha{
 	display: flex;
 }
+.cont_panel--titulo{
+   	width: 100%;
+}
 
+
+.cont_panel--textarea{
+	min-height: 400px;
+}
 
 
 

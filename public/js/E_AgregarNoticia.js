@@ -1,18 +1,16 @@
-// document.getElementById("Contenido").addEventListener('keydown', function(){autosize('Contenido')}, false)
-
+document.getElementById("Titulo").addEventListener('keydown', function(){autosize('Titulo')}, false)
+document.getElementById("Resumen").addEventListener('keyup', function(){autosize('Resumen')}, false)
+// document.getElementById("Contenido").addEventListener('keyup', function(){autosize('Contenido')}, false)
 
 document.getElementById("Titulo").addEventListener('keydown', function(){contarCaracteres("ContadorTitulo", "Titulo", 90)}, false)
 document.getElementById("Titulo").addEventListener('keydown', function(){valida_LongitudDes(90, "Titulo")}, false)
 document.getElementById("Titulo").addEventListener('keyup', function(){contarCaracteres("ContadorTitulo", "Titulo", 90)}, false)
 document.getElementById("Titulo").addEventListener('keyup', function(){valida_LongitudDes(90, "Titulo")}, false)
 
-
-
 document.getElementById("Resumen").addEventListener('keydown', function(){contarCaracteres("ContadorResumen", "Resumen", 120)}, false)
 document.getElementById("Resumen").addEventListener('keydown', function(){valida_LongitudDes(120, "Resumen")}, false)
 document.getElementById("Resumen").addEventListener('keyup', function(){contarCaracteres("ContadorResumen", "Resumen", 120)}, false)
 document.getElementById("Resumen").addEventListener('keyup', function(){valida_LongitudDes(120, "Resumen")}, false)
-
 
 document.getElementById("Contenido").addEventListener('keydown', function(){contarCaracteres("ContadorContenido", "Contenido", 7000)}, false)
 document.getElementById("Contenido").addEventListener('keydown', function(){valida_LongitudDes(7000, "Contenido")}, false)
@@ -20,9 +18,11 @@ document.getElementById("Contenido").addEventListener('keyup', function(){contar
 document.getElementById("Contenido").addEventListener('keyup', function(){valida_LongitudDes(7000, "Contenido")}, false)
 
 //llama a la funcion cuando detecta cambio en el textarea, Ej: al pegar un texto
-document.getElementById("Titulo").addEventListener("input", (event) => contarCaracteres("ContadorTitulo", "Titulo", 90));
-document.getElementById("Resumen").addEventListener("input", (event) => contarCaracteres("ContadorResumen", "Resumen", 120));
-document.getElementById("Contenido").addEventListener("input", (event) => autosize("Contenido"));
+// document.getElementById("Titulo").addEventListener("input", (event) => contarCaracteres("ContadorTitulo", "Titulo", 90));
+// document.getElementById("Resumen").addEventListener("input", (event) => contarCaracteres("ContadorResumen", "Resumen", 120));
+// document.getElementById("Titulo").addEventListener("input", (event) => autosize("Titulo"));
+// document.getElementById("Resumen").addEventListener("input", (event) => autosize("Resumen"));
+// document.getElementById("Contenido").addEventListener("input", (event) => autosize("Contenido"));
 //************************************************************************************************
     //obtiendo informacion del DOM para identificar el elemento donde se hizo click 
     // window.addEventListener("click", function(e){   
@@ -33,7 +33,8 @@ document.getElementById("Contenido").addEventListener("input", (event) => autosi
 //************************************************************************************************
     //Muestra la cantidad de caracteres que quedan mientras se escribe
     function contarCaracteres(ID_Contador, ID_Contenido, Max){
-        console.log("______Desde contarCaracteres()______", ID_Contador + " / " + ID_Contenido + " / " + Max) 
+        // console.log("______Desde contarCaracteres()______", ID_Contador + " / " + ID_Contenido + " / " + Max) 
+
         let max = Max; 
         // console.log(max) 
         let cadena = document.getElementById(ID_Contenido).value; 
@@ -54,7 +55,7 @@ document.getElementById("Contenido").addEventListener("input", (event) => autosi
     //Impide que se sigan introduciendo caracteres al alcanzar el limite maximo en un elmento
     let contenidoControlado = "";    
     function valida_LongitudDes(Max, ID_Contenido){
-        console.log("______Desde valida_LongitudDes()______", Max + " / "+ ID_Contenido) 
+        // console.log("______Desde valida_LongitudDes()______", Max + " / "+ ID_Contenido) 
                 
         let num_caracteres_permitidos = Max;
 
@@ -74,6 +75,7 @@ document.getElementById("Contenido").addEventListener("input", (event) => autosi
     var autoaumentar = false         
     function autosize(id){
         // console.log("______Desde autosize()______", id)
+
         if(autoaumentar == false){
             var el = document.getElementById(id);
             
@@ -82,7 +84,7 @@ document.getElementById("Contenido").addEventListener("input", (event) => autosi
                 el.style.cssText = 'height:' + el.scrollHeight + 'px';
             },0);
 
-            autoaumentar = true
+            // autoaumentar = true
         }
     }
 
@@ -90,6 +92,7 @@ document.getElementById("Contenido").addEventListener("input", (event) => autosi
     //ajusta la altura de un texarea con respecto al contenido que trae de la BD
     function resize(id){
         // console.log("______Desde resize()______", id) 
+        
         var text = document.getElementById(id);
         text.style.height = 'auto';
         text.style.height = text.scrollHeight+'px';

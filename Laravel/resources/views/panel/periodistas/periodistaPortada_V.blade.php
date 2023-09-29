@@ -16,8 +16,7 @@
                                     
                         <!-- IMAGEN NOTICIA -->
                         <div class="cont_panel--flex-left">      
-                            <figure>
-                                
+                            <figure>                                
                                 @foreach($imagenesNoticiasPortadas as $Row)  
                                     @if($Not_Prin->ID_Noticia == $Row->ID_Noticia)
                                         <img class="cont_panel--imagen" name="imagenPrincipal" alt="Fotografia Principal" src="{{ asset('/images/noticias/' .  $Row->nombre_imagenNoticia) }}"/> 

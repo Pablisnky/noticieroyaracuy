@@ -9,6 +9,8 @@ use App\Models\PeriodistaPasword_M;
 use App\Models\SuscriptorPasword_M; 
 use App\Models\CodigoRecuperacion_M;
 
+use Illuminate\Support\Facades\Cookie;
+
 class Login_C extends Controller
 {
     //Muestra el formulario de login, si no existe una sesión abierta
@@ -21,7 +23,7 @@ class Login_C extends Controller
             // $ID_Comentario = !empty($ID_Comentario) ? $ID_Comentario: 'SinID_Comentario';
 
             // echo "ID_Noticia =" .  $ID_Noticia ."<br>";
-            // echo "BAndera =" .  $Bandera ."<br>";
+            // echo "Bandera =" .  $Bandera ."<br>";
             // echo "ID_Comentario =" .  $ID_Comentario ."<br>";
             // exit;
 
@@ -31,15 +33,22 @@ class Login_C extends Controller
             
             // echo "Cookie periodista =" . $_COOKIE["id_periodista"] ."<br>";
             // echo "Cookie clave =" .  $_COOKIE["clave"] ."<br>";
-            // exit;
+            // exit;        setcookie('id_periodista')
 
-            if(isset($_COOKIE["id_periodista"]) AND isset($_COOKIE["clave"])){//Si la variable $_COOKIE esta establecida o creada
+           
+            if(!empty(Cookie::get('id_periodista')) AND !empty(Cookie::get('clave'))){//Si la variable $_COOKIE esta establecida o creada
 
-                // $Cookie_id_periodista = $_COOKIE["id_periodista"];
-                // $Cookie_clave = $_COOKIE["clave"];
+                $Cookie_id_periodista = Cookie::get('id_periodista') . '<br>';
+                $Cookie_clave = Cookie::get('clave'); 
+                // echo $Cookie_id_periodista . '<br>';
+                // echo $Cookie_clave . '<br>';
 
                 //Se CONSULTA el correo guardado como Cookie con el id_periodista como argumento, se consulta en todos los tipos de usuario que existe
-                // $CorreoPeriodista = $this->ConsultaLogin_M->consultarPeriodistaRecordado($Cookie_id_periodista);
+                $CorreoPeriodista = Periodistas_M::
+                    select('correoPeriodista')
+                    ->where('id_Periodista','=', $Cookie_id_periodista)
+                    ->first(); 
+                    // return $CorreoPeriodista;
 
                 // if(!empty($CorreoRecord_Com)){
                 //     $Correo = $CorreoPeriodista[0]['correo_AfiCom'];
@@ -50,26 +59,25 @@ class Login_C extends Controller
                 //     'claveRecord' => $Cookie_clave,
                 //     // 'bandera' => $Bandera
                 // ];
-                
-                // echo "<pre>";
-                // print_r($Datos);
-                // echo "</pre>";
-                // exit();
 
-                //Se entra al formulario de sesion que esta rellenado con los datos del usuario
-                // $this->vista("header/header_noticia");
-                // $this->vista("view/login_Vrecord", $Datos);
+                return view('login.login_Vrecord', [
+                    'correoRecord' => $CorreoPeriodista,
+                    'claveRecord' => $Cookie_clave,
+                ]);
             }
             else if($Bandera == 'comentar' || $Bandera == 'panelSuscriptor'){//Entra cuando viene de una noticia y desea hacer comentario o cambio de contraseña
 
+                echo $Bandera ;
                 return view('login_V', ['id_noticia' => $ID_Noticia, 'id_comentario' => $ID_Comentario, 'bandera' => $Bandera]);
             }
             else if($Bandera == 'responder'){//Entra cuando viene de una noticia y desea responder un comentario existente
                 
+                echo $Bandera ;
                 return view('login_V', ['id_noticia' => $ID_Noticia, 'id_comentario' => $ID_Comentario, 'bandera' => $Bandera]);
             }
             else if($Bandera == 'denuncia'){//Bamdera creada en Contraloria_C/VerificaLogin Entra cuando se desea realizar una denuncia
 
+                echo $Bandera ;
                 // $Datos=[
                 //     'id_noticia' => 'SinID_Denuncia',
                 //     'id_comentario' => 'SinID_Comentario',
@@ -100,10 +108,12 @@ class Login_C extends Controller
     public function ValidarSesion(Request $Request){
         $CorreoEnviado = strtolower($Request->get('correo_Arr'));
         $ClaveEnviada = $Request->get('clave_Arr'); 
-        $Bandera = $Request->get('bandera');
+        $Bandera = $Request->get('bandera'); 
+        $Recordar = $Request->get('recordar');
         // echo $CorreoEnviado . '<br>';
         // echo $ClaveEnviada . '<br>';
         // echo $Bandera . '<br>';
+        // echo $Recordar . '<br>';
         // exit;
         
         if(!empty($CorreoEnviado) AND empty(!$ClaveEnviada)){
@@ -151,6 +161,18 @@ class Login_C extends Controller
                     // echo session('apellidoSuscriptor') . '<br>';
                     // echo session('PseudonimoSuscriptor') . '<br>';
                     // exit;
+                    
+                    //Se crean las cookies para recordar al usuario en caso de que $Recordar exista
+                    if($Recordar == 1){
+                        // Se introduce una cookie en el ordenador del usuario con el ID_Usuario  y la cookie aleatoria porque el usuario marca la casilla de recordar
+                        setcookie('id_suscriptor', $Suscriptor->ID_Suscriptor, time()+365*24*60*60);
+                        setcookie('clave', $ClaveEnviada, time()+365*24*60*60);
+                    }
+                        // Se destruyen las cookie para dejar de recordar a usuario
+                    // if($No_Recordar == 1){
+                    //     setcookie('id_usuario','',time() - 3600,'/');
+                    //     setcookie('clave','',time() - 3600,'/');
+                    // }
                     
                     if($Bandera == 'comentar'){// si va a hacer un comentario en una noticia y esta logeado
                         // header('Location:'. RUTA_URL . '/Noticias_C/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#ContedorComentario');
@@ -227,11 +249,13 @@ class Login_C extends Controller
                     // exit;
 
                     //Se crean las cookies para recordar al usuario en caso de que $Recordar exista
-                    // if($Recordar == 1){
-                    //     // Se introduce una cookie en el ordenador del usuario con el identificador del usuario y la cookie aleatoria porque el usuario marca la casilla de recordar
-                    //     setcookie('id_periodista', $ID_Periodista, time()+365*24*60*60);
-                    //     setcookie('clave', $Clave, time()+365*24*60*60);
-                    // }
+                    if($Recordar == 1){
+                        // Se introduce una cookie en el ordenador del usuario con el ID_Usuario  y la cookie aleatoria porque el usuario marca la casilla de recordar
+                        Cookie::queue(Cookie::make('id_periodista', $ID_Periodista, time()+365*24*60*60));
+                        Cookie::queue(Cookie::make('clave', $ClaveEnviada, time()+365*24*60*60));
+                        // setcookie('id_periodista', $ID_Periodista, time()+365*24*60*60);
+                        // setcookie('clave', $ClaveEnviada, time()+365*24*60*60);
+                    }
                         // Se destruyen las cookie para dejar de recordar a usuario
                     // if($No_Recordar == 1){
                     //     setcookie('id_usuario','',time() - 3600,'/');

@@ -84,7 +84,7 @@
                                 @endforeach
                             </figure>
                         </div>
-                        <div style="width: 100%">
+                        <div style="width: 100%;">
 
                             <!-- TITULO -->
                             <label class="cont_panel--label">Titulo</label>

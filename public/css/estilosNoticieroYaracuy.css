@@ -1395,7 +1395,7 @@ textarea{
 	height: 50px;
 	margin: 2px;
 	cursor: pointer;
-	object-fit: contain; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
+	object-fit: cover; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
 } 
 .noticiaImgMiniatura--Atras{
 	width: 50px;
@@ -1974,7 +1974,7 @@ textarea{
 	margin: auto;
 	margin-top: 1%;
 	line-height: 30px;
-	min-height: 250px;
+	min-height: 500px;
 	width: 100%;	
 	padding: 1.5%;
 	display: block;
@@ -3011,8 +3011,8 @@ ul .menuContenedor_3{
 	flex-wrap: wrap;
 	justify-content: space-between;
 	width: 70%;
-	margin-top: 5%; 
-	margin-left: 20%;
+	padding-top: 7%; 
+	margin-left: 25%;
 }
 .cont_suscrip_ImgSec{
 	display:flex; 

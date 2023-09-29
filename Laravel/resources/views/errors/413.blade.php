@@ -129,7 +129,7 @@
         .notfound .notfound-404 {
             height: 158px;
             line-height: 153px;
-            margin-bottom: 5%
+            margin-bottom: 5%;
         }
 
         .notfound .notfound-404 h1 {
@@ -198,7 +198,7 @@
         <label style="font-size: 3.8vw; font-family: Gruppo; display: block; text-align: center; color:white">www.NoticieroYaracuy.com</label>
         <div class="notfound">
             <div class="notfound-404">
-                <h1>E<span>r</span>r<span>o</span>r</h1>
+                <h1>E<span>r</span><span>r</span><span>o</span>r</h1>
             </div>
             <p style="font-size: 2vw">La página no fue encntrada.</p>
             <a style="display: block; width: max-content; margin: auto; margin-top: 30px; margin-bottom: 30px" href="javascript:history.back()">

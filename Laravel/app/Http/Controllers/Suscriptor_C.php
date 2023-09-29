@@ -16,9 +16,9 @@ class Suscriptor_C extends Controller
     private $Comprimir;
     private $Servidor;
     
+    //CONSULTA los datos de un suscriptor especifico
     public function index($ID_Suscriptor){          
         
-        //CONSULTA los datos de un suscriptor especifico
         $Suscriptor = Suscriptor_M::
             all()//trae todos los registro de la tabla 
             ->where('ID_Suscriptor', '=', $ID_Suscriptor)
@@ -42,9 +42,9 @@ class Suscriptor_C extends Controller
             return $Suscriptores; 
     } 
 
-    public function accesoSuscriptor(){
+    public function accesoSuscriptor($ID_Suscriptor){
         return view('panel/suscriptores/suscrip_Inicio_V', [
-            //     'ID_Suscriptor' => $ID_Suscriptor,
+                'ID_Suscriptor' => $ID_Suscriptor,
             //     'nombre' => $Nombre,
             //     'apellido' => $Apellido,
             //     'clasificados' => $Comerciante,
