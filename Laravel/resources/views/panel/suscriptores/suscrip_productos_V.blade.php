@@ -18,17 +18,12 @@
                 <h2 class="h2_9">Anuncios clasificados</h2>
                 
                 <!-- ICONO AGREGAR -->
-                <a href="{{ route('PublicarProducto', ['id_suscriptor' => session('id_suscriptor')]) }}" rel="noopener noreferrer"><img class="cont_suscrip_productos--membrete--icono  Default_pointer" src="{{ asset('/iconos/agregar/outline_add_circle_outline_black_24dp.png') }}"/></a> 
+                <a href="{{ route('AgregarProducto', ['id_suscriptor' => session('id_suscriptor')]) }}" rel="noopener noreferrer"><img class="cont_suscrip_productos--membrete--icono  Default_pointer" src="{{ asset('/iconos/agregar/outline_add_circle_outline_black_24dp.png') }}"/></a> 
             </div>
 
-            <div class="contenedor_13 cont_suscrip_productos-13"> 
-                @php($Contador = 1)
-        
+            <div class="contenedor_13 cont_suscrip_productos-13" id="ContenedorPrincipal"> 
+                @php($Contador = 1)        
                 @foreach($productos as $arr)
-                {{-- 
-                //     $PrecioBolivar = number_format($arr["precioBolivar"], "2", ",", ".");
-                //     $PrecioDolar = number_format($arr["precioDolar"], "2", ",", "."); --}}
-
                     <div class="contenedor_95 contenedor_95--producto borde_1" id="{{ 'Cont_Producto_' . $Contador }}">
                     
                         <!-- IMAGEN PRINCIPAL -->
@@ -59,11 +54,13 @@
 
                             <label class="input_8" id="{{ 'EtiquetaPrecio_' . $Contador }}" > $ {{ number_format($arr->precioDolar, "2", ",", ".") }}</label>
 
-                            <!-- ACTUALIZAR - ELIMINAR -->
-                            <div class="contenedor_96" id="{{ $arr->ID_Producto }}">                
+                            <div class="contenedor_96" id="{{ $arr->ID_Producto }}"> 
+
+                                <!-- ACTUALIZAR -->               
                                 <a class="a_9" href="{{ route('ActualizarProducto', ['id_producto' => $arr->ID_Producto, 'opcion' => $arr->opcion]) }}">Actualizar</a>
                                 
-                                <label style="color: blue;" class="Default_pointer" onclick = "EliminarProducto('<?php //echo $ID_Producto;?>','<?php //echo $ID_Opcion?>')">Eliminar</label>
+                                <!-- ELIMINAR -->
+                                <label style="margin-left: 50px; color: blue;" class="Default_pointer" onclick="EliminarProducto('{{$arr->ID_Producto }}','{{ route('EliminarProducto', ['id_producto' => $arr->ID_Producto, 'id_opcion' => $arr->ID_Opcion]) }}')">Eliminar</label>
                             </div>
                         </div>
                     </div>
@@ -76,8 +73,8 @@
         </section>
         
         <script src="{{ asset('/js/funcionesVarias.js?v=' . rand()) }}"></script>
-        <script src="{{ asset('/js/E_suscrip_producto.js?v=' . rand()) }}"></script>
-        <script src="{{ asset('/js/A_Suscip_producto.js?v=' . rand()) }}"></script>
+        <script src="{{ asset('/js/E_Suscrip_productos.js?v=' . rand()) }}"></script>
+        <script src="{{ asset('/js/A_Suscrip_productos.js?v=' . rand()) }}"></script>
 
         <?php
     // }

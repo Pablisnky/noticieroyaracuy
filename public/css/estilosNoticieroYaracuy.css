@@ -2659,7 +2659,7 @@ ul .menuContenedor_3{
 	height: min-content;
 }
 .textarea_1{
-	width: 100%;
+	width: 95%;
 	resize: none;
 	font-size: 1em;
 	padding-left: 2%;
@@ -2669,6 +2669,7 @@ ul .menuContenedor_3{
 .cont_suscrip_publicar{
 	width: 60%;
 	margin: auto;
+	margin-left: 30%; /*20% ancho del menu y 10% para centrar*/
 	padding-top: 5%;
 	min-height: 90%;
 	padding-bottom: 10%;

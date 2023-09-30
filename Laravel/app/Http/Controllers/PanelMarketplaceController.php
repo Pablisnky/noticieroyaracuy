@@ -122,7 +122,7 @@ class PanelMarketplaceController extends Controller
     }
     
     // muestra la vista donde se carga un producto
-    public function Publicar($ID_Suscriptor){
+    public function agregar($ID_Suscriptor){
 
         //se consultan las secciones del catalogo del suscriptor
         $Secciones = DB::connection('mysql_2')->table('secciones')
@@ -131,7 +131,7 @@ class PanelMarketplaceController extends Controller
             ->first();
             // return $Secciones; 
 
-        return view('panel/suscriptores/suscrip_publicar_V', [
+        return view('panel/suscriptores/suscrip_producto_agregar_V', [
             'dolarHoy' => $this->Dolar,
             'ID_Suscriptor' => $ID_Suscriptor,
             'secciones' => $Secciones
@@ -486,8 +486,7 @@ class PanelMarketplaceController extends Controller
         //ACTUALIZA la dependencia transitiva entre el producto y la seccions a la que pertenece
         // $this->ConsultaClasificados_M->actualizarDT_SecPro($RecibeProducto);
 
-        // $this->index($RecibeProducto['ID_Suscriptor']);
-        return redirect()->route("SuscriptorMarketplace",['ID_Suscriptor' => $RecibeProducto['ID_Suscriptor']]);
+        return redirect()->route("SuscriptorMarketplace", ['ID_Suscriptor' => $RecibeProducto['ID_Suscriptor']]);
         die();
     }
     
@@ -502,49 +501,64 @@ class PanelMarketplaceController extends Controller
         $this->ConsultaClasificados_M->insertaSeccion($ID_Suscriptor, $Seccion);
     }
 
-    public function eliminarProducto($DatosAgrupados){
-        //$DatosAgrupados contiene una cadena con el ID_Opcion, ID_Producto y la sección separados por coma, se convierte en array para separar los elementos
-        // echo $DatosAgrupados;
-        // exit();
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
 
-        $DatosAgrupados = explode('-', $DatosAgrupados);
-
-        $ID_Producto = $DatosAgrupados[0];
-        $ID_Opcion = $DatosAgrupados[1];
+    public function eliminarProducto($ID_Producto, $ID_Opcion){
 
         // *************************************************************************************
         //La siguientes cinco consultas entran en el procedimeinto para ELIMINAR un producto de una tienda, esto debe hacerse mediante transacciones
         // *************************************************************************************
-        // *************************************************************************************
 
         //Se consulta el nombre de las imagenes del producto
-        $ImagenesEliminar = $this->ConsultaClasificados_M->consultarImagenesEliminar($ID_Producto);
-        // echo $_SESSION['ID_Suscriptor'] . '<br>';
-        // echo '<pre>';
-        // print_r($ImagenesEliminar);
-        // echo '</pre>';
-        // exit;
+        $ImagenesEliminar = DB::connection('mysql_2')->table('imagenes')
+            ->select('nombre_img')
+            ->where('ID_Producto','=', $ID_Producto)
+            ->get();
+            // return $ImagenesEliminar; 
         
-        //Se eliminan los archivo del servidor, ubicados en la carpeta public/images/clasificados/productos
-        foreach($ImagenesEliminar as $KeyImagenes)  :
-            $NombreImagenEliminar = $KeyImagenes['nombre_img'];
+        //Se eliminan las imagenes del directorio del servidor
+        foreach($ImagenesEliminar as $Key)	:
+            $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_suscriptor') . '/productos/' . $Key->nombre_img);
 
-            //Usar en remoto
-            unlink($_SERVER['DOCUMENT_ROOT'] . '/public/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/' . $NombreImagenEliminar);
-                
-            //usar en local
-            // unlink($_SERVER['DOCUMENT_ROOT'] . '/proyectos/noticieroyaracuy/public/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/' . $NombreImagenEliminar);
+            if($Ruta){
+                unlink($_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_suscriptor') . '/productos/' . $Key->nombre_img); 
+            }
         endforeach;
-        
-        // $this->ConsultaClasificados_M->eliminarProductoOpcion($ID_Producto);
-        // $this->ConsultaClasificados_M->eliminarImagenesProducto($ID_Producto);
-        // $this->ConsultaClasificados_M->eliminarProducto($ID_Producto);
-        // $this->ConsultaClasificados_M->eliminarOpcion($ID_Opcion);
+
+        // ELIMINA relacion de dependencia transitiva productos_opciones en BD
+        $EliminaOpciones = DB::connection('mysql_2')->table('productos_opciones')       
+            ->where('ID_Producto','=', $ID_Producto)
+            ->delete();
+            // return $EliminaOpciones; 
+
+        // ELIMINA imagenes de producto en BD
+        $EliminaImagenes = DB::connection('mysql_2')->table('imagenes')       
+            ->where('ID_Producto','=', $ID_Producto)
+            ->delete();
+            // return $EliminaImagenes; 
+
+        // ELIMINA descripcion de producto en BD
+        $EliminaProducto = DB::connection('mysql_2')->table('productos')       
+            ->where('ID_Producto','=', $ID_Producto)
+            ->delete();
+            // return $EliminaProducto; 
+
+        // ELIMINA opciones de producto en BD
+        $EliminaOpciones = DB::connection('mysql_2')->table('opciones')       
+        ->where('ID_Opcion','=', $ID_Opcion)
+        ->delete();
+        // return $EliminaOpciones; 
+
           
         // *************************************************************************************
         // *************************************************************************************
-
-        $this->Productos($_SESSION['ID_Suscriptor']);
+        
+        return redirect()->route("SuscriptorMarketplace", ['ID_Suscriptor' => session('id_suscriptor')]);
+        die();
     }
     
     //Eliminar imagen secundaria especifica de un producto

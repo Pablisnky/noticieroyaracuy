@@ -31,7 +31,7 @@
                         <div class="contenedor_129">
                             <label class="Default_pointer" for="imgInp"> 
                                 <figure>  
-                                    <img class="contenedor_119__img" id="blah" alt="Fotografia del producto" src="<?php //echo RUTA_URL?>/public/images/imagen.png"/>
+                                    <img class="contenedor_119__img" id="blah" alt="Fotografia del producto" src="{{ asset('/images/imagen.png') }}"/>
                                 </figure>
                             </label>
                             <input class="Default_ocultar" type="file" name="imagenProducto" id="imgInp"/>

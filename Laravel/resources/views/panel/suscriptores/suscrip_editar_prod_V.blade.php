@@ -10,25 +10,6 @@
     <?php 
     //se invoca sesion con el ID_Afiliado creada en validarSesion.php para autentificar la entrada a la vista
     // if(!empty($_SESSION["ID_Suscriptor"])){
-        
-        $ID_Suscriptor = session('id_suscriptor');
-
-        //$Datos viene del metodo
-        // foreach($Datos['especificaciones'] as $arr) :
-        //     $ID_Producto = $arr['ID_Producto'];
-        //     $ID_Opcion = $arr['ID_Opcion'];
-        //     $Producto = $arr['producto'];
-        //     $Opcion = $arr['opcion'];
-        //     $PrecioBolivar = $arr['precioBolivar'];
-        //     $PrecioDolar = $arr['precioDolar'];
-        //     $Cantidad = $arr['cantidad'];
-        //     $Nuevo = $arr['nuevo'];
-        // endforeach;  
-
-        // @foreach($imagenPrin as $arr)
-        //     $ID_ImagenPrincipal = $arr['ID_Imagen'];
-        //     $ImagenPrincipal = $arr['nombre_img'];
-        // endforeach;   
         ?>
         
         <!-- CDN libreria JQuery, necesario para la previsualización de la imagen   --> 
@@ -48,7 +29,7 @@
                         <div class="contenedor_129">                   
                             <label class="Default_pointer" for="imgInp"> 
                                 <figure>  
-                                    <img class="contenedor_119__img" id="blah_2" alt="Fotografia de productoee" src="{{ asset('/images/clasificados/' . session('id_suscriptor') . '/productos/' .  $imagenPrin->nombre_img) }}"/>
+                                    <img class="contenedor_119__img" id="blah_2" alt="Fotografia de producto" src="{{ asset('/images/clasificados/' . session('id_suscriptor') . '/productos/' .  $imagenPrin->nombre_img) }}"/>
                                 </figure>
                             </label>
                             <input class="Default_ocultar" type="file" accept="image/*" name="imagenPrinci_Editar" id="imgInp"/>

@@ -122,8 +122,9 @@ Route::get("denuncias/{ID_Suscriptor}", [Panel_Denuncias_C::class, 'index'])->na
 // PanelMarketplaceController *****************************************
 Route::get("marketplace/{ID_Suscriptor}", [PanelMarketplaceController::class, 'index'])->name('SuscriptorMarketplace');
 Route::get("marketplace/actualizar/{id_producto}/{opcion}", [PanelMarketplaceController::class, 'actualizarProducto'])->name('ActualizarProducto');
-Route::get("marketplace/publicarProducto/{id_suscriptor}", [PanelMarketplaceController::class, 'publicar'])->name('PublicarProducto');
+Route::get("marketplace/agregarProducto/{id_suscriptor}", [PanelMarketplaceController::class, 'agregar'])->name('AgregarProducto');
 Route::post("suscriptor/datosActualizar", [PanelMarketplaceController::class, 'recibeAtualizarProducto'])->name('RecibeAtualizarProducto');
+Route::get('suscriptor/eliminaProducto/{id_producto}/{id_opcion}', [PanelMarketplaceController::class, 'eliminarProducto'])->name('EliminarProducto'); 
 
 // Panel_Artista_C ****************************************************   
 Route::get("artista/{ID_Suscriptor}", [Panel_Artista_C::class, 'index'])->name('SuscriptorArtista');

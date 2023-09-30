@@ -200,8 +200,8 @@
             <div class="notfound-404">
                 <h1>E<span>r</span>r<span>o</span>r</h1>
             </div>
-            <p style="font-size: 2vw">La página no fue encntrada.</p>
-            <a style="display: block; width: max-content; margin: auto; margin-top: 30px; margin-bottom: 30px" href="javascript:history.back()">
+            <p style="font-size: 2vw">La página no fue encontrada.</p>
+            <a style="display: block; width: max-content; margin: auto; margin-top: 30px; margin-bottom: 30px" href="javascript:history.back()">Volver Atrás</a>
             <a href="{{ route('NoticiasPortada') }}">Noticias</a>
             <a href="{{ route('Marketplace') }}">Marketplace</a>
             <a href="{{ route('GaleriaArte') }}">Galeria de arte</a>
