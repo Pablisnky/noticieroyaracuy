@@ -430,7 +430,7 @@
 	left: 52%;
 }
 .imagen--portada{
-	height: 44vh;  
+	height: 43.5vh;  
 	width: 100%;
 	margin: auto;
 	object-fit: cover; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
@@ -750,6 +750,7 @@
 .cont_suscrip_publicar{
 	width: 100%;
 	padding-top: 17%; 
+	margin-left: 0%;
 }
 .contenedor_47{
 	grid-template-columns: 100%;
@@ -1781,13 +1782,13 @@
 .cont_portada--municipio{
 	font-size: 6vw;
 	width: 30px;
-	height: 44vh;/*la misma altura de la imagen de portada*/
+	height: 43.5vh; /*la misma altura de la imagen de portada*/
 }
 .cont_portada--municipio--p{
 	font-size: 6vw;
 	text-align: center;
 	padding: 2%!important;
-	height: 50vh;/*la misma altura de la imagen de portada*/
+	/* height: 50vh;  */
 }
 .cont_portada--abreviatura{
 	writing-mode: vertical-rl; 

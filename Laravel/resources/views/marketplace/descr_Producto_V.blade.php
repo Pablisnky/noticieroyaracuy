@@ -230,7 +230,7 @@
 
                     <!-- FACEBOOK -->
                     <div class="detalle_cont--red">
-                        {{-- <a href="https://www.facebook.com/sharer/sharer.php?u=<?php //echo RUTA_URL;?>/ClasificadoController/productoAmpliado/<?php //echo $ID_Producto;?>&text=<?php //echo $Producto;?>" target="_blank"><img class="detalle_cont--redesSociales-facebook; icono--face" alt="facebook" src="<?php //echo RUTA_URL?>/public/images/facebook.png"/></a> --}}
+                        {{-- <a href="https://www.facebook.com/sharer/sharer.php?u=<?php //echo RUTA_URL;?>/MarketplaceController/productoAmpliado/<?php //echo $ID_Producto;?>&text=<?php //echo $Producto;?>" target="_blank"><img class="detalle_cont--redesSociales-facebook; icono--face" alt="facebook" src="<?php //echo RUTA_URL?>/public/images/facebook.png"/></a> --}}
                     </div>        
 
                     <!-- WHATSAPP -->
@@ -238,7 +238,7 @@
                         <?php 
                             // $Titulo = $Producto;         
                         ?>
-                        {{-- <a href="whatsapp://send?text=<?php //echo $Titulo?>&nbsp;<?php //echo RUTA_URL?>/ClasificadoController/productoAmpliado/<?php //echo $ID_Producto;?>" data-action="share/whatsapp/share"><img class="detalle_cont--redesSociales-Whatsapp icono--what" alt="Whatsapp" src="<?php //echo RUTA_URL?>/public/images/Whatsapp.png"/></a> --}}
+                        {{-- <a href="whatsapp://send?text=<?php //echo $Titulo?>&nbsp;<?php //echo RUTA_URL?>/MarketplaceController/productoAmpliado/<?php //echo $ID_Producto;?>" data-action="share/whatsapp/share"><img class="detalle_cont--redesSociales-Whatsapp icono--what" alt="Whatsapp" src="<?php //echo RUTA_URL?>/public/images/Whatsapp.png"/></a> --}}
                     </div>            
                 </div> 
             </div>

@@ -13,7 +13,7 @@
 		<meta property="og:site_name" content="NoticieroYaracuy"/>
 		<meta property="fb:app_id" content="928977633900253"/>
 		<meta property="og:image:alt" content="Imagen descriptiva del clasificado"/>
-		<meta property="og:url" content="<?php //echo RUTA_URL?>/ClasificadoController/productoAmpliado/<?php //echo $Datos['Producto']['ID_Producto']?>"/>
+		<meta property="og:url" content="<?php //echo RUTA_URL?>/MarketplaceController/productoAmpliado/<?php //echo $Datos['Producto']['ID_Producto']?>"/>
 		<meta property="og:image:secure_url" itemprop="image" content="<?php //echo RUTA_URL?>/public/images/clasificados/<?php //echo $Datos['Producto']['ID_Suscriptor']?>/productos/<?php //echo $Datos['Imagenes']['nombre_img'];?>"/>
 		<meta property="og:image:width" content="1200"/>
 		<meta property="og:image:height" content="630"/>

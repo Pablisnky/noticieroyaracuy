@@ -50,7 +50,7 @@ class PanelMarketplaceController extends Controller
             ->get();
             // return $ProductosSuscriptor;
 
-        return view('panel/suscriptores/suscrip_productos_V', [
+        return view('panel/comerciantes/comerciante_Inicio_V', [
             'productos' => $ProductosSuscriptor
         ]);
     }
@@ -122,25 +122,31 @@ class PanelMarketplaceController extends Controller
     }
     
     // muestra la vista donde se carga un producto
-    public function agregar($ID_Suscriptor){
+    public function agregar($ID_Comerciante){
 
         //se consultan las secciones del catalogo del suscriptor
         $Secciones = DB::connection('mysql_2')->table('secciones')
             ->select('ID_Seccion', 'seccion')
-            ->where('ID_Suscriptor','=', $ID_Suscriptor)
-            ->first();
+            ->where('ID_Comerciante','=', $ID_Comerciante)
+            ->get();
             // return $Secciones; 
 
-        return view('panel/suscriptores/suscrip_producto_agregar_V', [
+        return view('panel/comerciantes/comerciante_agregar_producto_V', [
             'dolarHoy' => $this->Dolar,
-            'ID_Suscriptor' => $ID_Suscriptor,
+            'ID_Comerciante' => $ID_Comerciante,
             'secciones' => $Secciones
         ]);            
 
         // $_SESSION['Publicar'] = 1906; 
         //Se crea esta sesion para impedir que se recargue la información enviada por el formulario mandandolo varias veces a la base de datos
     }
-    
+        
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+
     // muestra formulario para actualizar un producto especifico
     public function actualizarProducto($ID_Producto){
         
@@ -180,15 +186,15 @@ class PanelMarketplaceController extends Controller
         // CONSULTA todas las secciones de un suscriptor
         $Secciones = DB::connection('mysql_2')->table('secciones')
             ->select('ID_Seccion','seccion')
-            ->where('ID_Suscriptor','=', session('id_suscriptor'))
+            ->where('ID_Comerciante','=', session('id_suscriptor'))
             ->get();
             // return $Secciones;        
                     
         // se consultan la informacion del suscriptor
-        $Suscriptor = $this->Instancia_Suscriptor_C->index(session('id_suscriptor'));
+        // $Suscriptor = $this->Instancia_Suscriptor_C->index(session('id_suscriptor'));
         // return $Suscriptor;
         
-        return view('panel.suscriptores.suscrip_editar_prod_V', [
+        return view('panel/comerciantes/comerciante_editar_prod_V', [
             'ID_Suscriptor' => session('id_suscriptor'),
             'especificaciones' => $Especificaciones,
             'imagenPrin' => $ImagenPrin, 
@@ -196,7 +202,7 @@ class PanelMarketplaceController extends Controller
             'dolarHoy' => $this->Dolar,
             'seccion' => $Seccion,
             'secciones' => $Secciones,      
-            'suscriptor' => $Suscriptor
+            // 'suscriptor' => $Suscriptor
         ]);
     }     
     
@@ -218,41 +224,77 @@ class PanelMarketplaceController extends Controller
         $this->ConsultaClasificados_M->actualizarSeccion($ID_Seccion, $Seccion);
     }
     
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    
+    // actualiza el nombre de una seccion
+    public function insertarSecciones($ID_Suscriptor, $Seccion){
+        // echo $ID_Suscriptor . '<br>';
+        // echo '<pre>';
+        // print_r($Seccion);
+        // echo '</pre>';
+        // exit();
+
+        $this->ConsultaClasificados_M->insertaSeccion($ID_Suscriptor, $Seccion);
+    }
+    
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+
     //recibe el formulario para cargar un nuevo producto
-    public function recibeProductoPublicar(){
-        if($_SESSION['Publicar'] == 1906){// Anteriormente en el metodo "Publicar" se generó la esta sesion; con esto se evita que no se pueda recarga esta página.
-            unset($_SESSION['Publicar']);//se borra la sesión. 
+    public function recibeProductoPublicar(Request $Request){
+        // if($_SESSION['Publicar'] == 1906){// Anteriormente en el metodo "Publicar" se generó la esta sesion; con esto se evita que no se pueda recarga esta página.
+            // unset($_SESSION['Publicar']);//se borra la sesión. 
 
             //Se reciben todos los campos del formulario, desde cuenta_publicar_V.php se verifica que son enviados por POST y que no estan vacios
             //SECCION DATOS DEL PRODUCTO
-            if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['producto']) && !empty($_POST['descripcion']) && !empty($_POST['id_seccion'])  && !empty($_POST['precioBs']) && (!empty($_POST['precioDolar']) || $_POST['precioDolar'] == 0)){ 
-                $RecibeProducto = [
-                    //Recibe datos del producto que se va a cargar al sistema
-                    'condicion' => !empty($_POST['grupo']) ? $_POST['grupo'] : 'NoAsignado',
-                    'Producto' => $_POST['producto'],
-                    'Descripcion' => $_POST['descripcion'],
-                    'id_seccion' => $_POST['id_seccion'],
+            // if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['producto']) && !empty($_POST['descripcion']) && !empty($_POST['id_seccion'])  && !empty($_POST['precioBs']) && (!empty($_POST['precioDolar']) || $_POST['precioDolar'] == 0)){ 
+                   
                     // 'Descripcion' => preg_replace('[\n|\r|\n\r|\]','',$_POST, "descripcion", ), //evita los saltos de lineas realizados por el usuario al separar parrafos
-                    'PrecioBs' => $_POST["precioBs"],
-                    'PrecioDolar' => $_POST["precioDolar"],
-                    'Cantidad' => empty($_POST['cantidad']) ? 0 : $_POST['cantidad'],
-                    'ID_Suscriptor' => $_POST["id_suscriptor"] 
-                ];
-                // echo '<pre>';
-                // print_r($RecibeProducto);   
-                // echo '</pre>';
-                // exit;
-            }
-            else{
-                echo 'Llene todos los campos del formulario ';
-                echo "<a href='javascript: history.go(-1)'>Regresar</a>";
-                // exit();
-            }
+
+            //Recibe datos del producto que se va a cargar al sistema
+            $RecibeProducto = [
+                'condicion' => !empty($Request->get('grupo')) ? $Request->get('grupo') : 'NoAsignado',
+                // 'ID_Producto' => $Request->get('id_producto'),
+                // 'ID_Opcion' => $Request->get('id_opcion'),
+                'Producto' => $Request->get('producto'),
+                'Descripcion' => $Request->get('descripcion'),
+                // 'Descripcion' => preg_replace('[\n|\r|\n\r|\)','',$_POST, "descripcion", ), //evita los saltos de lineas realizados por el usuario al separar parrafos
+                'PrecioBs' => $Request->get("precioBs"),
+                'PrecioDolar' => $Request->get("precioDolar"),
+                'Cantidad' => empty($Request->get('uni_existencia')) ? 0 : $Request->get('uni_existencia'),
+                'ID_Comerciante' => $Request->get("id_comerciante"),
+                'ID_Seccion' => $Request->get("id_seccion") 
+            ];
+            return $RecibeProducto;
+        // }
+        // else{
+        //     echo 'Llene todos los campos obligatorios' . '<br>';
+        //     echo '<a href="javascript: history.go(-1)">Regresar</a>';
+        //     exit();
+        // }
 
             //********************************************************
             //Las siguientes consultas se deben realizar por medio de Transacciones BD
 
             //Se INSERTA en BD el producto  y se retorna el ID recien insertado
+
+
+
+
+
+
+
+
+
+
+            
             $ID_Producto = $this->ConsultaClasificados_M->insertarProducto($RecibeProducto);
 
             //Se INSERTA en BD la opcion y precio del productoy se retorna el ID recien insertado
@@ -366,12 +408,273 @@ class PanelMarketplaceController extends Controller
                     $this->ConsultaClasificados_M->insertaImagenSecundariaProducto($ID_Producto, $Nombre_imagenSecundaria, $tipo_imagenSecundaria, $tamanio_imagenSecundaria);
                 }
             }
-        }
-        else{ 
-            $this->Productos($_POST["id_suscriptor"]);
-        } 
+        // }
+        // else{ 
+        //     $this->Productos($_POST["id_suscriptor"]);
+        // } 
     }
     
+    //Invocado en carrito_V.php
+    public function recibePedido(Request $Request){    
+        //  if($_SESSION['Carrito'] == 1806){Anteriormente en Carrito_C se generó la variable $_SESSION["verfica_2"] con un valor de 1906; con esto se evita que no se pueda recarga esta página.
+                // unset($_SESSION['Carrito']);//se borra la sesión verifica.        
+            
+            // if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['nombreUsuario']) && !empty($_POST['apellidoUsuario']) && !empty($_POST['cedulaUsuario']) && !empty($_POST['telefonoUsuario']) && !empty($_POST['direccionUsuario']) && !empty($_POST['pedido'])){
+                    
+            // DATOS DEL USUARIO   
+            $RecibeProducto = [
+                'ID_Usuario' => !empty($Request->get('ID_Usuario')) ? 0 : $Request->get('ID_Usuario'),
+                'Nombre' => $Request->get('nombreUsuario'),
+                'Apellido' => $Request->get('apellidoUsuario'),
+                'Cedula' => $Request->get("cedulaUsuario"),
+                'Telefono' => $Request->get("telefonoUsuario"),
+                'Correo' => $Request->get('correoUsuario'),
+                'Estado' => $Request->get("estado"),
+                'Ciudad' => $Request->get("ciudad"), 
+                'Direccion' => $Request->get("direccionUsuario"), 
+                'Suscribir' => $Request->get("suscrito"), 
+                'MontoTotal' => $Request->get("montoTotal"), 
+                'MontoTienda' => $Request->get("montoTienda") 
+            ];
+            return $RecibeProducto;
+ 
+            //Se solicita la hora de la compra
+            date_default_timezone_set('America/Caracas');
+            $Hora = date('H:i');
+            
+            // DATOS DEL PEDIDO
+            $RecibeDatosPedido = [
+                'ID_Tienda' => $Request->get("id_tienda"),
+                'FormaPago' => $Request->get("formaPago"), 
+                'Despacho' => $Request->get("entrega"), 
+                'MontoEntrega' => $Request->get("despacho"), 
+                'CodigoTransferencia' => $Request->get("codigoTransferencia"), 
+                'Hora' => $Hora 
+            ];     
+            return $RecibeDatosPedido;         
+        
+            // $RecibeDatos = [
+            //         'Nombre' => ucwords($_POST['nombre']),  
+            //         'Apellido' => mb_strtolower($_POST['apellido']),                       
+            //         'Cedula' => is_numeric($_POST['cedula']) ? $_POST['cedula']: false,
+            //         'Telefono' => is_numeric($_POST['telefono']) ? $_POST['telefono']: false,
+            //         'Direccion' => $_POST['direccion'],
+            //         'Pedido' => $_POST['pedido'],
+            // ];
+                     
+            // //Despues de evaluar con is_numeric se da un aviso en caso de fallo
+            // if($RecibeDatos['Telefono'] == false){      
+            //     echo 'El telefono debe ser solo números' . '<br>';
+            //     echo "<a href='javascript: history.go(-1)'>Regresar</a>";
+            // }
+            // //Despues de evaluar con is_numeric se da un aviso en caso de fallo
+            // if($RecibeDatos['Cedula'] == false){      
+            //     echo 'La cedula debe ser solo números' . '<br>';
+            //     echo "<a href='javascript: history.go(-1)'>Regresar</a>";
+            // }
+            
+            //Se genera un número Ale_NroOrden que sera el numero de orden del pedido
+            $Ale_NroOrden = mt_rand(1000000,999999999);
+            
+            // El pedido como es un string en formato json se recibe sin filtrar o sanear desde vitrina.js PedidoEnCarrito() para que el metodo jsodecode lo pueda reconocer y convertir en un array.
+            $RecibeDirecto = $_POST['pedido'];
+
+            $Resultado = json_decode($RecibeDirecto, true); 
+
+            // echo '<pre>';
+            // print_r($Resultado);
+            // echo '</pre>';
+            // exit();
+ 
+            //Se reciben los detalles del pedido
+            if(is_array($Resultado) || is_object($Resultado)){
+                foreach($Resultado as $Key => $Value)   :
+                    $Seccion = 'N_P';
+                    $Producto = $Value['Producto'];
+                    $Cantidad = $Value['Cantidad'];
+                    $Opcion = $Value['Opcion'];
+                    $Precio = $Value['Precio'];
+                    $Total = $Value['Total'];
+                    $ID_Opcion = $Value['ID_Opcion'];
+                    
+                    //Se INSERTAN los detalles del pedido en la BD
+                    $this->ConsultaRecibePedido_M->insertarDetallePedido($RecibeDatosUsuario['ID_Usuario'], $Ale_NroOrden, $Seccion, $Producto, $Cantidad, $Opcion, $Precio, $Total);
+                    
+                    // Se ACTUALIZA el inventario de los productos pedidos
+                    //Se consulta la cantidad de existencia del producto
+                    $Existencia = $this->ConsultaRecibePedido_M->consultarExistencia($ID_Opcion);
+                
+                    foreach($Existencia as $Key) :
+                        $Key['cantidad'];
+                    endforeach;
+
+                    //Se resta lo que el usuario pidio y el resultado se introduce en BD
+                    $Inventario = $Key['cantidad'] - $Cantidad;
+                    
+                    $this->ConsultaRecibePedido_M->UpdateInventario($ID_Opcion, $Inventario);
+                endforeach;
+            }
+            else{
+                echo 'Error en la entrega de los detalles del pedido';
+                echo '<br>';
+            }
+        // }
+        // else{
+        //     echo 'Llene todos los campos del formulario de registro' . '<br>';
+        //     echo "<a href='javascript: history.go(-1)'>Regresar</a>";
+        //     exit();
+        // }
+        
+        //MONTO POR DELIVERY
+        // *****************************************
+        //Si hay despacho se calcula el monto del envio (Por ahora es fijo en 3000 Bs)
+        if($RecibeDatosPedido['Despacho'] == 'Domicilio_Si'){
+            $Delivery = $RecibeDatosPedido['MontoEntrega'];
+        }
+        else{
+            $Delivery = '0';
+        }
+
+        // Sino se recibe el codigo de transferencia se da un valor por defecto
+        // *****************************************
+        if(empty($RecibeDatosPedido['CodigoTransferencia'])){
+            // $CodigoTransferencia = $RecibeDatosPedido['formaPago'];
+            $CodigoTransferencia = 'No aplica';
+        } 
+        else{
+            $CodigoTransferencia = $RecibeDatosPedido['CodigoTransferencia'];
+        }
+                     
+        //Se INSERTAN los datos del comprador en la BD si el usuario acepta
+        if($RecibeDatosUsuario['Suscribir'] == 'Suscribir'){
+            //Se consulta si el usuario ya existe en la BD
+            $UsuarioPedido = $this->ConsultaRecibePedido_M->consultarUsuario($RecibeDatosUsuario['Cedula']);
+            if($UsuarioPedido == Array()){
+                $Suscrito = 1;
+                $this->ConsultaRecibePedido_M->insertarUsuario($RecibeDatosUsuario, $Suscrito);
+            }
+        }
+        else{
+            //Se insertan pero no se recuerdan porque e usuario no aceptó guardar datos
+            $Suscrito = 0;
+            $this->ConsultaRecibePedido_M->insertarUsuario($RecibeDatosUsuario, $Suscrito);
+        }
+ 
+        //Se INSERTAN los datos generales del pedido en la BD
+        $this->ConsultaRecibePedido_M->insertarPedido($RecibeDatosUsuario, $CodigoTransferencia, $RecibeDatosPedido, $Ale_NroOrden, $Delivery, $Hora);
+        
+        //Se recibe y se inserta el capture de transferencia 
+        if($_FILES['imagenTransferencia']['name'] == ''){
+            // $CodigoTransferencia = $RecibeDatosPedido['formaPago'];
+            $archivonombre = 'imagen_2.png';
+            $this->ConsultaRecibePedido_M->UpdateCapturePago($Ale_NroOrden, $archivonombre);
+        }
+        else{
+            $archivonombre = $_FILES['imagenTransferencia']['name'];
+            $Ruta_Temporal = $_FILES['imagenTransferencia']['tmp_name'];
+
+            //Usar en remoto
+            $directorio = $_SERVER['DOCUMENT_ROOT'] . '/public/images/capture/';
+
+            //Subimos el fichero al servidor
+            move_uploaded_file($Ruta_Temporal, $directorio.$archivonombre);
+
+            //Se INSERTA el capture del pago por medio de un UPDATE debido a que ya existe un registro con el pedido en curso
+            $this->ConsultaRecibePedido_M->UpdateCapturePago($Ale_NroOrden, $archivonombre);
+        }
+                 
+        //RECIBE CAPTURE PAGOMOVIL
+        if($_FILES['imagenPagoMovil']['name'] != '' && $RecibeDatosPedido['FormaPago'] == 'PagoMovil'){
+            $archivonombre = $_FILES['imagenPagoMovil']['name'];
+            $Ruta_Temporal = $_FILES['imagenPagoMovil']['tmp_name'];
+
+            //Usar en remoto
+            $directorio = $_SERVER['DOCUMENT_ROOT'] . '/public/images/capture/';
+
+            //Subimos el fichero al servidor
+            move_uploaded_file($Ruta_Temporal, $directorio.$archivonombre);
+
+            //Se INSERTA el capture del pago por medio de un UPDATE debido a que ya existe un registro con el pedido en curso
+            $this->ConsultaRecibePedido_M->UpdateCapturePago($Ale_NroOrden, $archivonombre);
+        }
+        // else{
+        //     echo 'No se recibio capture de PagoMovil';
+        //     exit;
+        // }
+  
+        //RECIBE CAPTURE PAYPAL
+        if($_FILES['imagenPagoPaypal']['name'] != '' && $RecibeDatosPedido['FormaPago'] == 'Paypal'){
+            $archivonombre = $_FILES['imagenPagoPaypal']['name'];
+            $Ruta_Temporal = $_FILES['imagenPagoPaypal']['tmp_name'];
+
+            //Usar en remoto
+            $directorio = $_SERVER['DOCUMENT_ROOT'] . '/public/images/capture/';
+
+            //Subimos el fichero al servidor
+            move_uploaded_file($Ruta_Temporal, $directorio.$archivonombre);
+
+            //Se INSERTA el capture del pago por medio de un UPDATE debido a que ya existe un registro con el pedido en curso
+            $this->ConsultaRecibePedido_M->UpdateCapturePago($Ale_NroOrden, $archivonombre);
+        }
+        // else{
+        //     echo 'No se recibio capture de pago en Paypal';
+        //     exit;
+        // }
+ 
+        // ****************************************
+        //DATOS ENVIADOS POR CORREOS
+        //Se CONSULTA el pedido recien ingresado a la BD
+        $Pedido = $this->ConsultaRecibePedido_M->consultarPedido($Ale_NroOrden);
+        
+        //Se CONSULTA el usuario que realizó el pedido
+        $Usuario = $this->ConsultaRecibePedido_M->consultarUsuario($RecibeDatosUsuario['Cedula']);
+        
+        //Se CONSULTA el correo y el nombre de la tienda
+        $Tienda = $this->ConsultaRecibePedido_M->consultarCorreo($RecibeDatosPedido['ID_Tienda']);
+
+        // Se genera el código de despacho que será solicitado por el despachador
+        $Ale_CodigoDespacho = mt_rand(0001,9999);
+
+        $DatosCorreo = [
+            'informacion_pedido' => $Pedido,
+            'informacion_usuario' => $Usuario,
+            'informacion_tienda' => $Tienda,
+            'Codigo_despacho' => $Ale_CodigoDespacho
+        ];
+ 
+        // echo '<pre>';
+        // print_r($DatosCorreo);
+        // echo '</pre>';
+        // exit;
+ 
+        $Datos = [
+            'Codigo_despacho' => $Ale_CodigoDespacho
+        ];
+
+        // CORREOS
+        // **************************************** 
+
+        //Carga la vista "recibo de compra" dirigida al usuario ubicada en app/clases/controlador.php
+        $this->correo('reciboCompra_mail', $DatosCorreo); 
+
+        //Carga la vista de correo "orden de compra" dirigida al cliente y al marketplace
+        $this->correo('ordenCompra_mail', $DatosCorreo); 
+
+        $this->vista('header/header');
+        $this->vista('view/RecibePedido_V', $Datos);
+    // }
+    // else{
+    //     header('location:' . RUTA_URL . '/Inicio_C/NoVerificaLink');
+    // } 
+}
+    
+    
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+
     //recibe formulario que actualiza la información de un producto
     public function recibeAtualizarProducto(Request $Request){
         //Se reciben todos los campos del formulario, se verifica que son enviados por POST y que no estan vacios
@@ -486,19 +789,8 @@ class PanelMarketplaceController extends Controller
         //ACTUALIZA la dependencia transitiva entre el producto y la seccions a la que pertenece
         // $this->ConsultaClasificados_M->actualizarDT_SecPro($RecibeProducto);
 
-        return redirect()->route("SuscriptorMarketplace", ['ID_Suscriptor' => $RecibeProducto['ID_Suscriptor']]);
+        return redirect()->route("PanelProducto", ['id_comerciante' => $RecibeProducto['ID_Suscriptor']]);
         die();
-    }
-    
-    // actualiza el nombre de una seccion
-    public function insertarSecciones($ID_Suscriptor, $Seccion){
-        // echo $ID_Suscriptor . '<br>';
-        // echo '<pre>';
-        // print_r($Seccion);
-        // echo '</pre>';
-        // exit();
-
-        $this->ConsultaClasificados_M->insertaSeccion($ID_Suscriptor, $Seccion);
     }
 
     // **************************************************************************************************************
@@ -557,7 +849,7 @@ class PanelMarketplaceController extends Controller
         // *************************************************************************************
         // *************************************************************************************
         
-        return redirect()->route("SuscriptorMarketplace", ['ID_Suscriptor' => session('id_suscriptor')]);
+        return redirect()->route("PanelProducto", ['id_comerciante' => session('id_suscriptor')]);
         die();
     }
     

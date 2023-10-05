@@ -1,24 +1,20 @@
-@extends('layouts.partiers.header_suscriptor')
+@extends('layouts.partiers.header_PanelPortada')
 
-@section('titulo', 'Panel marketplace')
+@section('titulo', 'Panel inventario')
 
 @section('contenido')
 
     <!-- MENU LATERAL -->
-    @include('panel/suscriptores/suscrip_menu_V')
+    @include('panel/comerciantes/comerciante_menu_V')
 
     <?php     
     //se invoca sesion con el ID_Suscriptor creada en validarSesion.php para autentificar la entrada a la vista
-    // if(!empty($_SESSION["ID_Suscriptor"])){
-        // $ID_Suscriptor = $_SESSION["ID_Suscriptor"];  
+    // if(!empty($_SESSION["ID_Suscriptor"])){  
         ?>
         
         <section class="cont_suscrip_productos">
             <div class="cont_suscrip_productos--membrete">
-                <h2 class="h2_9">Anuncios clasificados</h2>
-                
-                <!-- ICONO AGREGAR -->
-                <a href="{{ route('AgregarProducto', ['id_suscriptor' => session('id_suscriptor')]) }}" rel="noopener noreferrer"><img class="cont_suscrip_productos--membrete--icono  Default_pointer" src="{{ asset('/iconos/agregar/outline_add_circle_outline_black_24dp.png') }}"/></a> 
+                <h2 class="h2_9">Productos en inventaro</h2>
             </div>
 
             <div class="contenedor_13 cont_suscrip_productos-13" id="ContenedorPrincipal"> 
@@ -28,7 +24,7 @@
                     
                         <!-- IMAGEN PRINCIPAL -->
                         <div class="contenedor_9 contenedor_9--pointer">
-                            <div class="contenedor_142" style="background-image: url('{{ asset('/images/clasificados/' . session('id_suscriptor') . '/productos/' . $arr->nombre_img) }}')">
+                            <div class="contenedor_142" style="background-image: url('{{ asset('/images/clasificados/' . session('id_comerciante') . '/productos/' . $arr->nombre_img) }}')">
                             <input class="input_14 borde_1" type="text" value="{{ $Contador }}"/>
                             </div>
                         </div>

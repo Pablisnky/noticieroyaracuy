@@ -1,13 +1,49 @@
 document.getElementById("Secciones").addEventListener('click',MostrarSecciones, false)
 
+//************************************************************************************************
+// Verificar si existen productos previamente cargados en el carrito
 LS_Carrito = JSON.parse(localStorage.getItem('CarritoDeCompras'))
 
 //Si no hay nada cargado en el carrito se declaro el array AlContenedor vacio
 AlContenedor = LS_Carrito == undefined ? Array () : LS_Carrito 
 
 if(AlContenedor != Array ()){
-    DisplayDestello()
+    let ID_TiendaActual = document.getElementById("ID_Suscriptor").value
+    let ID_TiendaEnCarrito = AlContenedor[0]['ID_Suscriptor']
+    let PseudonimoSuscripto = document.getElementById("PseudonimoSuscripto").value
+    
+    // console.log('ID_Suscriptor = ', ID_TiendaEnCarrito)
+    // console.log('pseudonimoSuscripto = ', PseudonimoSuscripto)    
+    // console.log('ID_TiendaActual = ', ID_TiendaActual)
+    // console.log('ID_TiendaPendiente = ', ID_TiendaEnCarrito)
 
+    // Verifica si el carrito de compras tiene cargado productos de otra tienda
+    if(ID_TiendaEnCarrito != ID_TiendaActual){
+        let ConfirmaCarrito =  confirm("Tienes una compra pendiente en otra tienda, ¿Deseas continuarla o cancelarla?")
+        
+        //Se confirma si se desea vaciar el carrito de compras
+        if(ConfirmaCarrito == true){  
+
+            // redirecciona a la tienda donde estan los productos que quedaron cargados anteriormente             
+            // remoto 
+            // location.replace("https://www.noticieroyaracuy.com/marketplace/catalogo/" + ID_TiendaEnCarrito + "/" + PseudonimoSuscripto ); 
+
+            // local
+            location.replace("http://nuevonoticiero.com/marketplace/catalogo/" + ID_TiendaEnCarrito + "/" + PseudonimoSuscripto );  
+            
+        } 
+        else{                   
+            localStorage.removeItem('CarritoDeCompras');
+    
+            //Se refresca la pagina
+            location.reload()
+            
+            //Coloca el cursor en el top de la pagina
+            window.scroll(0, 0)
+        } 
+    }
+
+    DisplayDestello()
     
     //Guarda la suma del monto total del pedido que se muestra en el display del carrito de compras
     TotalDisplayCarrito = TotalDisplayCarrito == undefined ? Array () : TotalDisplayCarrito
@@ -70,7 +106,7 @@ function PedidoCar(Producto, Cantidad, Total){
 }
 
 //Mediante el constructor de objetos se crea un objeto con todos los productos del pedido, información solicitada al entrar al carrito, este objeto alimenta al array AlContenedor[]
-function ContenedorCar(Cont_Leyenda, ID_Input_Leyenda, ID_Boton_Agregar, ID_InputCantidad, ID_InputProducto, ID_InputOpcion, ID_InputPrecio, ID_InputTotal, ID_InputDisplayCant, Cantidad, ID_Opcion, Producto, Opcion, Precio,Total, ID_Seccion, Existencia, ID_BotonMas, ID_BotonBloqueo){
+function ContenedorCar(Cont_Leyenda, ID_Input_Leyenda, ID_Boton_Agregar, ID_InputCantidad, ID_InputProducto, ID_InputOpcion, ID_InputPrecio, ID_InputTotal, ID_InputDisplayCant, Cantidad, ID_Opcion, Producto, Opcion, Precio,Total, ID_Seccion, Existencia, ID_BotonMas, ID_BotonBloqueo, ID_Suscriptor){
     this.Cont_Leyenda = Cont_Leyenda  
     this.ID_Input_Leyenda = ID_Input_Leyenda
     this.ID_Boton_Agregar = ID_Boton_Agregar
@@ -90,6 +126,8 @@ function ContenedorCar(Cont_Leyenda, ID_Input_Leyenda, ID_Boton_Agregar, ID_Inpu
     this.Existencia = Existencia
     this.ID_BotonMas = ID_BotonMas
     this.ID_BotonBloqueo = ID_BotonBloqueo
+    this.ID_Suscriptor = ID_Suscriptor
+
 }
 
 // ************************************************************************************************** 
@@ -112,7 +150,7 @@ if(document.getElementById("Label_1")){
 // *****************************************************************************************************
     // Indica si se realiza el delivery o el cliente recoge en tienda
     function Despacho(){
-        console.log("______ Desde Despacho ______")
+        // console.log("______ Desde Despacho ______")
 
         let porNombre = document.getElementsByName("entrega")
         //Se recorren todos los valores del radio button para encontrar el seleccionado
@@ -167,12 +205,11 @@ if(document.getElementById("Label_1")){
   
     
 //************************************************************************************************S
-    //invocada desde carrito_V.php 
+    //
     function MuestraEnvioFactura(){
         // console.log("______Desde MuestraEnvioFactura()______") 
-        //Coloca el cursor en el top de la pagina
 
-        //Se consulta el alto del DIV id=Contenedor_24
+        //Se consulta el alto del DIV id=Contenedor_24, para coloca el cursor en el top de la pagina
         AltoContenedor_24 = document.getElementById("Contenedor_24").scrollHeight
         // console.log("Alto contenedor_24", AltoContenedor_24)
         
@@ -191,8 +228,8 @@ if(document.getElementById("Label_1")){
     }
     
 //************************************************************************************************
-    //invocada desde clasificados_V.php añade un producto al carrito   
-    function agregarProducto(form, ID_Etiqueta, ID_Cont_Leyenda, ID_InputCantidad, ID_InputProducto, ID_InputOpcion, ID_InputPrecio, ID_InputTotal, ID_InputLeyenda, ID_Cont_Producto, ID_InputDisplayCan, existencia, ID_BotonMas, ID_BloqueoMas){
+    // añade un producto al carrito   
+    function agregarProducto(form, ID_Etiqueta, ID_Cont_Leyenda, ID_InputCantidad, ID_InputProducto, ID_InputOpcion, ID_InputPrecio, ID_InputTotal, ID_InputLeyenda, ID_Cont_Producto, ID_InputDisplayCan, existencia, ID_BotonMas, ID_BloqueoMas, ID_Suscriptor){
         // console.log("______Desde agregarProducto()______") 
         
         //Se recibe el control del formulario con el nombre "opcion"
@@ -325,7 +362,7 @@ if(document.getElementById("Label_1")){
                 var ID_BotonBloqueo = document.getElementById(ID_BloqueoMas).id
 
                 //Guarda en el objeto "AlContenedor", la leyenda del producto, cada detalle en si es un array, por lo que AlContenedor es un array de objetos
-                Contenedores = new ContenedorCar(LS_ID_Cont_Leyenda, LS_ID_InputLeyenda, LS_ID_BotonAgregar, LS_ID_InputCantidad, LS_ID_InputProducto, LS_ID_InputOpcion, LS_ID_InputPrecio, LS_ID_InputTotal, LS_ID_InputDisplayCant, Cantidad_uno, Separado[0], Separado[1], Separado[2], Separado[3], Separado[3], Separado[4], existencia, ID_BotonMas, ID_BotonBloqueo)
+                Contenedores = new ContenedorCar(LS_ID_Cont_Leyenda, LS_ID_InputLeyenda, LS_ID_BotonAgregar, LS_ID_InputCantidad, LS_ID_InputProducto, LS_ID_InputOpcion, LS_ID_InputPrecio, LS_ID_InputTotal, LS_ID_InputDisplayCant, Cantidad_uno, Separado[0], Separado[1], Separado[2], Separado[3], Separado[3], Separado[4], existencia, ID_BotonMas, ID_BotonBloqueo, ID_Suscriptor)
                 
                   //Si la existencia en BD es igual a 1 se oculta el boton de mas y menos para que no se añadan más productos al carrito
                 if(existencia == Cantidad_uno){
@@ -360,7 +397,7 @@ if(document.getElementById("Label_1")){
     }
 
 //************************************************************************************************
-    //Parapadeo display carrito
+    // Parapadeo display carrito cada vez que se añade un producto
     function DisplayDestello(){    
         // console.log("______ Desde DisplayDestello() ______")
                 
@@ -414,7 +451,7 @@ if(document.getElementById("Label_1")){
     }
 
 //************************************************************************************************
-    //Agrega las leyendas en cada producto que esta cargado en carrito
+    // Agrega las leyendas en cada producto que esta cargado en carrito
     function TransferirPedido(){
         // console.log("______Desde TransferirPedido()______")
         
@@ -455,12 +492,12 @@ if(document.getElementById("Label_1")){
 
             // El método filter() crea una nueva matriz con todos los elementos que pasan la prueba dada por la función proporcionada
             var filtered = AlContenedor.filter(function(item){
-                console.log('ID_Seccion', item.ID_Seccion)
+                // console.log('ID_Seccion', item.ID_Seccion)
                 return item.ID_Seccion; 
             });
 
             let id_dinamico = 1
-            console.log('cantidad de leyendas a colocar', filtered.length)
+            // console.log('cantidad de leyendas a colocar', filtered.length)
             for(let i = 0; i < filtered.length; i++){
                 existe = true;
                 //Se crean los input que cargaran las leyendas contenidas en el array filtered
@@ -507,7 +544,7 @@ if(document.getElementById("Label_1")){
     }
 
 //************************************************************************************************
-    // function Eliminar_Leyenda(e){
+    function Eliminar_Leyenda(e){
     //     console.log("______Desde Eliminar_Leyenda()______")
 
     //     var ID_ProductoEliminar = e.target.previousSibling.id 
@@ -538,22 +575,22 @@ if(document.getElementById("Label_1")){
     //         //Se muestra el div que contiene el icono del carrito
     //         DisplayDestello();
     //     }
-    // }
+    }
 
 //************************************************************************************************
-    //Especifica los productos que ya estan cargados al carrito de compra y muestra su leyenda
+    // Coloca la leyenda a los productos cargado en carrito cuando quedo cargado en sesiones anteriores
     function ProductosEnCarrito(){   
         console.log("______Desde ProductosEnCarrito()______")
 
         //Se filtran las leyendas que correspondan a la seccion seleccionada
         var filteredSeccion = AlContenedor.filter(function(item){
-            // console.log('ID_Seccion en carrito', item.ID_Seccion)
+            console.log('ID_Seccion en carrito', item.ID_Seccion)
             return item.ID_Seccion
         })
         
         //Se especifica el producto donde se va a insertar la leyenda
         var filtered = AlContenedor.filter(function(item){
-            // console.log('ID_Opcion en carrito', item.ID_Opcion)
+            console.log('ID_Opcion en carrito', item.ID_Opcion)
             return item.ID_Opcion; 
         });
         // console.log(filtered)        
@@ -567,7 +604,7 @@ if(document.getElementById("Label_1")){
 
         for(let i = 0; i < filtered.length; i++){              
             // console.log('ID_Opcion a etiquetar', filtered[i].ID_Opcion)  
-            if((filteredSeccion[i].ID_Seccion == localStorage.getItem('SeccionCLick')) || (localStorage.getItem('SeccionCLick') == 'Todos')){            
+            // if((filteredSeccion[i].ID_Seccion == localStorage.getItem('SeccionCLick')) || (localStorage.getItem('SeccionCLick') == 'Todos')){            
                 //Del objeto filtrado filtered se toman las propiedades Cont_Leyenda para rellenar la leyenda
                 //Si el objeto "AlContenedor" tiene el array de un producto no se muestra el boton "Agregar" en este contenedor
                 document.getElementById(filtered[i].ID_Boton_Agregar).style.display = "none"
@@ -596,10 +633,10 @@ if(document.getElementById("Label_1")){
                     document.getElementById(filtered[i].ID_BotonBloqueo).style.display = "none"
 
                 }
-                // console.log(Number(filtered[i].Existencia))
-                // console.log(filtered[i].Cantidad)
+                console.log(Number(filtered[i].Existencia))
+                console.log(filtered[i].Cantidad)
             }
-        }
+        // }
 
         Pre_decremento()
         Pre_incremento()
@@ -653,12 +690,13 @@ if(document.getElementById("Label_1")){
 //************************************************************************************************
     //Identifica los elementos de la sección donde se hizo click.
     function verSecion(ID_Seccion){ 
-        console.log("______Desde verSecion()______", ID_Seccion) 
+        // console.log("______Desde verSecion()______", ID_Seccion)
+
         //Captura el valor del id dinanmico de la seccion donde se hizo click
         localStorage.setItem('ID_Seccion', ID_Seccion)         
         LS_ID_Seccion = localStorage.getItem('ID_Seccion')
 
-        //Captura la seccion donde se hizo click
+        // Se almacena la seccion donde se hizo click
         localStorage.setItem('SeccionCLick', ID_Seccion)  
     }
 
@@ -668,25 +706,24 @@ if(document.getElementById("Label_1")){
         let ConfirmaEliminar = confirm("Desea vaciar el carrito de compras");
         
         //Se confirma si se desea vaciar el carrito de compras
-            if(ConfirmaEliminar == true){                        
-                localStorage.removeItem('CarritoDeCompras');
+        if(ConfirmaEliminar == true){                        
+            localStorage.removeItem('CarritoDeCompras');
 
-                //Se refresca la pagina
-                location.reload()
-                
-                //Coloca el cursor en el top de la pagina
-                window.scroll(0, 0)
-            } 
-            else{
-                return
-            }
-
+            //Se refresca la pagina
+            location.reload()
+            
+            //Coloca el cursor en el top de la pagina
+            window.scroll(0, 0)
+        } 
+        else{
+            return
+        }
     }
 //************************************************************************************************
     //Cambia el formato de una cantidad, los puntos los convierte en comas y las comas en punto, recibe un INT y devuelve un string
     function SeparadorMiles(Numero){
         if(Numero != 0){
-            console.log("______Desde SeparadorMiles()______", Numero) 
+            // console.log("______Desde SeparadorMiles()______", Numero) 
              
             Numero = String(Numero)
             Numero = Numero.replace(/\./g, ',');
@@ -720,7 +757,7 @@ if(document.getElementById("Label_1")){
             boton.onclick = incrementar //Asignar la función incrementar(), al evento click.
         }
         function incrementar(e){
-            console.log("______Desde Incrementar()______")
+            // console.log("______Desde Incrementar()______")
 
             //Se obtiene el elemento padre donde se encuentra el boton mas al que se hizo click
             let current = e.target.parentElement
@@ -1093,6 +1130,7 @@ if(document.getElementById("Label_1")){
     //Verifca que el archivo opciones ya se haya cargado
     function verificarDiv(){
         // console.log("______Desde verificarDiv()______")  
+
         if(document.getElementById('Mostrar_Opciones').childElementCount < 1){
             // console.log("No hay elementos en el div id=\"Mostrar_Opciones\"")
             
@@ -1115,6 +1153,368 @@ if(document.getElementById("Label_1")){
         window.close();
     }
 
+//************************************************************************************************
+    //Impide que se siga introduciendo caracteres al alcanzar el limite maximo en el telefono
+    var contenidoTelefono = ""; 
+    var num_caracteres_permitidos = 11; 
+
+    function valida_LongitudTelefono(){ 
+        // console.log("______Desde valida_LongitudTelefono()______")
+
+        let num_caracteres_input = document.getElementById("TelefonoUsuario").value.length
+
+        if(num_caracteres_input > 13){ 
+            document.getElementById("TelefonoUsuario").value = contenidoTelefono; 
+        }
+        else{ 
+            contenidoTelefono = document.getElementById("TelefonoUsuario").value;   
+        } 
+    } 
+
+//************************************************************************************************    
+    //agrega los puntos en tiempo real al llenar el campo telefono
+    function mascaraTelefono(TelefonoRecibido, id){
+        // console.log("______Desde mascaraTelefono()______")
+
+        if(TelefonoRecibido.length == 4){
+            document.getElementById(id).value += "-"; 
+        }
+        else if(TelefonoRecibido.length == 8){
+            document.getElementById(id).value += ".";  
+        }
+        else if(TelefonoRecibido.length == 11){
+            document.getElementById(id).value += ".";  
+        }
+        else if(TelefonoRecibido.length >= 15){
+            alert("Telefono con Formato Incorrecto");
+            document.getElementById(id).value = "";
+            document.getElementById(id).focus();
+            document.getElementById(id).style.backgroundColor = 'var(--Fallos)'; 
+            return false;
+        }
+    }
+//************************************************************************************************
+    function CerrarModal_X(id, Inputfocus = ""){
+        document.getElementById(id).style.display = "none"
+
+        //Coloca el cursor en el top de la pagina
+        window.scroll(0, 0)
+
+        if(Inputfocus != ""){
+            document.getElementById(Inputfocus).focus()
+        }
+    }
+    
+//************************************************************************************************
+    //Desactiva el boton de volver atras del navegador
+    function nobackbutton(){
+        window.location.hash="no-back-button";
+        window.location.hash="Again-No-back-button" //chrome
+        window.onhashchange = function(){window.location.hash="no-back-button";}
+    }
+
+//************************************************************************************************
+   //Muestra el menu principal en formato movil y tablet  
+//    function mostrarMenu(){  
+//        console.log("______Desde mostrarMenu()______")
+//        let A = document.getElementById("MenuResponsive")
+//        let B = document.getElementById("Tapa_Logo")
+
+//        if(A.style.marginLeft < "0%"){//Se muestra el menu
+//            A.style.marginLeft = "0%"
+//            B.style.display = "block"
+//        }
+//        else if(A.style.marginLeft = "0%"){//Se oculta el menu
+//            A.style.marginLeft = "-70%"
+//            B.style.backgroundColor = "none"
+//        }
+//    }
+   
+
+//************************************************************************************************
+    // Muestra el formulario de despacho para usuarios no registrados
+    function mostrar_formulario(){  
+        //Coloca el cursor en el top de la pagina
+        // document.getElementById("Seccion_datos").scroll(40, 0)
+        
+        //Coloca el curso en el ancla
+        window.location.hash = "#Seccion_datos"; 
+            
+        // document.getElementById("MuestraEnvioFactura").style.backgroundColor = "red"
+        // document.getElementById("Seccion_datos").scroll({
+        //     Top: 0,
+        //     behavior: 'smooth'
+        // });
+
+        document.getElementById("No_Registrado").style.display = "none";
+        document.getElementById("Registrado").style.display = "none";
+        document.getElementById("Label--confirmar").style.display = "none";
+        document.getElementById("MuestraEnvioFactura").style.display = "block" 
+        document.getElementById("Cont_Suscribir").style.display = "flex"
+    }
+
+//************************************************************************************************
+    // Muestra las formas de pago disponibles
+    function formasDePago(){  
+        document.getElementById("FormasDePago").style.display = "block"
+        
+            //Coloca el curso en el ancla
+            window.location.hash = "#FormasDePago"; 
+    }
+
+//************************************************************************************************
+    //Coloca los puntos de miles en tiempo real al llenar el campo a cedula
+    function formatoMiles(numero, id){
+        // console.log("______Desde formatoMiles()______", numero + ' - ' +  id)
+
+        var num = numero.replace(/\./g,'')
+        if(!isNaN(num) && numero.length < 11){
+            num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.')
+            num = num.split('').reverse().join('').replace(/^[\.]/,'')
+            numero.value = num
+            document.getElementById(id).value = num
+        }
+        else{ 
+            alert('Número de cedula identidad invalido')
+            document.getElementById(id).value = ""
+            // document.getElementById(id).style.backgroundColor = "var(--Fallos)"
+        }
+    }
+   
+//************************************************************************************************
+//Muestra el contenedor del input transferencia
+    function verInputTransferencia(){
+        document.getElementById("InputTransferencia").style.display = "block"
+        document.getElementById("CaptureTransferencia").style.display = "none"
+    }
+
+//************************************************************************************************
+    //Muestra el contenedor del capture transferencia
+    function verCaptureTransferencia(){
+        document.getElementById("InputTransferencia").style.display = "none"
+        document.getElementById("CaptureTransferencia").style.display = "block"
+    }
+
+//************************************************************************************************
+    //Da una vista previa del capture de transferencia bancaria
+    function CaptureTransferencia(){
+        var contenedor = document.getElementById("DivCaptureTransferencia");
+        var archivos = document.getElementById("ImagenTransferencia").files;
+
+        if(contenedor.childElementCount < 1){
+            for(i = 0; i < archivos.length; i++){
+                imgTag = document.createElement("img");
+                imgTag.height = 300;
+                imgTag.width = 220;   
+                imgTag.objectFit = "cover" 
+                imgTag.src = URL.createObjectURL(archivos[i]);
+                contenedor.appendChild(imgTag);
+            }
+        }
+        else{
+            //Se elimina la imagen existente
+            contenedor.removeChild(imgTag);
+
+            CaptureTransferencia()
+        }
+        
+        // document.getElementById("InformarPago").style.display = "block"
+    }
+     
+//************************************************************************************************
+    //Da una vista previa del capture del pagoMovil
+    function CapturePagoMovil(){
+        var contenedor = document.getElementById("DivCapturePagoMovil");
+        var archivos = document.getElementById("ImagenPagoMovil").files;
+
+        if(contenedor.childElementCount < 1){
+            for(i = 0; i < archivos.length; i++){
+                imgTag = document.createElement("img");
+                imgTag.height = 400;
+                imgTag.width = 280;   
+                imgTag.objectFit = "cover" 
+                imgTag.src = URL.createObjectURL(archivos[i]);
+                contenedor.appendChild(imgTag);
+            }
+        }
+        else{
+            //Se elimina la imagen existente
+            contenedor.removeChild(imgTag);
+
+            CapturePagoMovil()
+        }
+
+        document.getElementById("InformarPago").style.display = "block"
+    }
+
+//************************************************************************************************
+    //Da una vista previa del capture de Paypal
+    function CapturePagoPaypal(){
+        var contenedor = document.getElementById("DivCapturePagoPaypal");
+        var archivos = document.getElementById("ImagenPagoPaypal").files;
+
+        if(contenedor.childElementCount < 1){
+            for(i = 0; i < archivos.length; i++){
+                imgTag = document.createElement("img");
+                imgTag.height = 400;
+                imgTag.width = 280;   
+                imgTag.objectFit = "cover" 
+                imgTag.src = URL.createObjectURL(archivos[i]);
+                contenedor.appendChild(imgTag);
+            }
+        }
+        else{
+            //Se elimina la imagen existente
+            contenedor.removeChild(imgTag);
+
+            CapturePagoPaypal()
+        }
+        
+        document.getElementById("InformarPago").style.display = "block"
+    }
+
+//************************************************************************************************
+    //Da una vista previa del capture del Zelle
+    function CapturePagoZelle(){
+        var contenedor = document.getElementById("DivCapturePagoZelle");
+        var archivos = document.getElementById("ImagenPagoZelle").files;
+
+        if(contenedor.childElementCount < 1){
+            for(i = 0; i < archivos.length; i++){
+                imgTag = document.createElement("img");
+                imgTag.height = 400;
+                imgTag.width = 280;   
+                imgTag.objectFit = "cover" 
+                imgTag.src = URL.createObjectURL(archivos[i]);
+                contenedor.appendChild(imgTag);
+            }
+        }
+        else{
+            //Se elimina la imagen existente
+            contenedor.removeChild(imgTag);
+
+            CapturePagoZelle()
+        }
+        
+        document.getElementById("InformarPago").style.display = "block"
+    }
+
+//************************************************************************************************
+    //Coloca el cursor en el input automaticamente 
+    function autofocus(id){
+        // console.log("______Desde autofocus()______", id)
+
+        //Si el elemento existe
+        if(document.getElementById(id)){
+            document.getElementById(id).focus()
+            document.getElementById(id).value = ""
+        }
+    }
+
+// ************************************************************************************************
+    function mostrar_cedula(){
+        // console.log("______Desde mostrar_cedula()______")
+
+        document.getElementById("No_Registrado").style.display = "none";
+        document.getElementById("Registrado").style.display = "none";
+        document.getElementById("Mostrar_Cedula").style.display = "block"; 
+        document.getElementById("Label--confirmar").style.display = "none";
+        document.getElementById("Cedula_Usuario").focus();
+        
+        //Se consulta el alto de la página opciones_V, este tamaño varia segun la cantidad de productos que tenga una sección
+        AltoOpciones = document.getElementById("Section_3").scrollHeight
+        // console.log("Alto de Opciones",AltoOpciones)
+
+        //Este alto se estable al div padre en carrito_V para garantizar que cubra todo el contenido de catalaogos_V ya que carrito_V es un contenedor coloca via Ajax en catalaogos_V y debe sobreponerse sobre todo lo que hay en vitrina_V.php
+        document.getElementById("SectionModal--carrito").style.minHeight = AltoOpciones + "px"
+    }
+
+// ************************************************************************************************
+    //Informa que se alcanzo máximo de producto en inventario
+    function BotonBloqueado(){
+        // console.log("______Desde BotonBloqueado()______")
+
+        alert("Limite alcanzado, el producto a quedado sin inventario")
+    }
+    
+// ************************************************************************************************
+    function soloNumeros(form, Input){
+        // console.log("______Desde soloNumeros()______", Input)
+
+        //Se recibe el control del formulario con el nombre "opcion"
+        CedulaUsuario = form.cedulaUsuario.value 
+        // console.log(CedulaUsuario)
+
+        let elemento = document.getElementById(Input).value;
+        let P_Numeros = /^([0-9])*$/;
+        
+        if(P_Numeros.test(elemento) == false || elemento == ''|| elemento.indexOf(" ") == 0 || elemento.length > 8 || elemento.length < 7){            
+            alert ("Ingrese un número de cedula valido");
+            document.getElementById("Cedula_Usuario").value = "";
+            document.getElementById("Cedula_Usuario").focus();
+        }        
+        else{
+            Llamar_UsuarioRegistrado(CedulaUsuario);
+        }
+        return false;
+    }
+
+// ************************************************************************************************
+    function EliminarLeyendaVitrina(){
+        alert("HOA")
+    }
+
+//************************************************************************************************
+    // invocada desde carrito_V.php
+    function verPagoTransferencia(){
+        // console.log("______Desde verTransferenciaBancaria()______") 
+        
+        document.getElementById("Contenedor_60a").style.display = "block"
+        document.getElementById("Contenedor_60b").style.display = "none"
+        document.getElementById("Contenedor_60e").style.display = "none"
+        document.getElementById("Contenedor_60g").style.display = "none"
+        
+        //Se muestra el monto total de la compra en Bolivares
+        document.getElementById("PagarTransferencia").value = SeparadorMiles(MontoTotal) + " Bs."
+    }
+
+//************************************************************************************************
+    // invocada desde carrito_V.php
+    function verPagoMovil(){
+        // console.log("______Desde verPagoMovil()______") 
+        
+        document.getElementById("Contenedor_60a").style.display = "none"
+        document.getElementById("Contenedor_60b").style.display = "block"
+        document.getElementById("Contenedor_60e").style.display = "none"
+        document.getElementById("Contenedor_60g").style.display = "none"
+
+        //Se muestra el monto total de la compra en Bolivares
+        document.getElementById("PagarPagoMovil").value = SeparadorMiles(MontoTotal) + " Bs."
+    }
+
+//************************************************************************************************
+    // invocada desde carrito_V.php
+    function verPagoPaypal(){
+        document.getElementById("Contenedor_60a").style.display = "none"
+        document.getElementById("Contenedor_60b").style.display = "none"
+        document.getElementById("Contenedor_60e").style.display = "none"
+        document.getElementById("Contenedor_60g").style.display = "block"
+        
+        //Se muestra el monto total de la compra en Dolares
+        document.getElementById("PagarDolaresPaypal").value = SeparadorMiles(MontoTotalDolares) + " USD"
+    }
+
+//************************************************************************************************
+    // invocada desde carrito_V.php
+    function verPagoAcordado(){
+        // console.log("______Desde verPagoAcordado()______") 
+
+        document.getElementById("Contenedor_60a").style.display = "none"
+        document.getElementById("Contenedor_60b").style.display = "none"
+        document.getElementById("Contenedor_60e").style.display = "block"
+        document.getElementById("Contenedor_60g").style.display = "none"
+    }
+    
 //************************************************************************************************
     //Valida el formulario de despacho de producto
     function validarDespacho(){
@@ -1196,7 +1596,7 @@ if(document.getElementById("Label_1")){
             document.getElementsByClassName("botonJS")[0].style.cursor = "pointer"
             return false;
         }
-        else if(Cedula =="" || Cedula.indexOf(" ") == 0 || Cedula.length < 7  ||  Cedula.length > 8){
+        else if(Cedula =="" || Cedula.indexOf(" ") == 0 || Cedula.length < 7  ||  Cedula.length > 11){
             alert ("número de cedula invalido");
             document.getElementById("CedulaUsuario").value = "";
             document.getElementById("CedulaUsuario").focus();
@@ -1349,368 +1749,5 @@ if(document.getElementById("Label_1")){
         }
         //Si se superan todas las validaciones la función devuelve verdadero
         return true
-    }
-
-//************************************************************************************************
-    //Impide que se siga introduciendo caracteres al alcanzar el limite maximo en el telefono
-    var contenidoTelefono = ""; 
-    var num_caracteres_permitidos = 11; 
-
-    function valida_LongitudTelefono(){ 
-        // console.log("______Desde valida_LongitudTelefono()______")
-
-        let num_caracteres_input = document.getElementById("TelefonoUsuario").value.length
-
-        if(num_caracteres_input > 13){ 
-            document.getElementById("TelefonoUsuario").value = contenidoTelefono; 
-        }
-        else{ 
-            contenidoTelefono = document.getElementById("TelefonoUsuario").value;   
-        } 
-    } 
-
-//************************************************************************************************    
-    //agrega los puntos en tiempo real al llenar el campo    
-    function mascaraTelefono(TelefonoRecibido, id){
-        // console.log("______Desde mascaraTelefono()______")
-
-        if(TelefonoRecibido.length == 4){
-            document.getElementById(id).value += "-"; 
-        }
-        else if(TelefonoRecibido.length == 8){
-            document.getElementById(id).value += ".";  
-        }
-        else if(TelefonoRecibido.length == 11){
-            document.getElementById(id).value += ".";  
-        }
-        else if(TelefonoRecibido.length >= 15){
-            alert("Telefono con Formato Incorrecto");
-            document.getElementById(id).value = "";
-            document.getElementById(id).focus();
-            document.getElementById(id).style.backgroundColor = 'var(--Fallos)'; 
-            return false;
-        }
-    }
-//************************************************************************************************
-    function CerrarModal_X(id, Inputfocus = ""){
-        document.getElementById(id).style.display = "none"
-
-        //Coloca el cursor en el top de la pagina
-        window.scroll(0, 0)
-
-        if(Inputfocus != ""){
-            document.getElementById(Inputfocus).focus()
-        }
-    }
-    
-//************************************************************************************************
-    //Desactiva el boton de volver atras del navegador
-    function nobackbutton(){
-        window.location.hash="no-back-button";
-        window.location.hash="Again-No-back-button" //chrome
-        window.onhashchange = function(){window.location.hash="no-back-button";}
-    }
-
-//************************************************************************************************
-   //Muestra el menu principal en formato movil y tablet  
-//    function mostrarMenu(){  
-//        console.log("______Desde mostrarMenu()______")
-//        let A = document.getElementById("MenuResponsive")
-//        let B = document.getElementById("Tapa_Logo")
-
-//        if(A.style.marginLeft < "0%"){//Se muestra el menu
-//            A.style.marginLeft = "0%"
-//            B.style.display = "block"
-//        }
-//        else if(A.style.marginLeft = "0%"){//Se oculta el menu
-//            A.style.marginLeft = "-70%"
-//            B.style.backgroundColor = "none"
-//        }
-//    }
-   
-
-//************************************************************************************************
-    // Muestra el formulario de despacho para usuarios no registrados
-    function mostrar_formulario(){  
-        //Coloca el cursor en el top de la pagina
-        // document.getElementById("Seccion_datos").scroll(40, 0)
-        
-        //Coloca el curso en el ancla
-        window.location.hash = "#Seccion_datos"; 
-            
-        // document.getElementById("MuestraEnvioFactura").style.backgroundColor = "red"
-        // document.getElementById("Seccion_datos").scroll({
-        //     Top: 0,
-        //     behavior: 'smooth'
-        // });
-
-        document.getElementById("No_Registrado").style.display = "none";
-        document.getElementById("Registrado").style.display = "none";
-        document.getElementById("Label--confirmar").style.display = "none";
-        document.getElementById("MuestraEnvioFactura").style.display = "block" 
-        document.getElementById("Cont_Suscribir").style.display = "flex"
-    }
-
-//************************************************************************************************
-    // Muestra las formas de pago disponibles
-    function formasDePago(){  
-        document.getElementById("FormasDePago").style.display = "block"
-        
-            //Coloca el curso en el ancla
-            window.location.hash = "#FormasDePago"; 
-    }
-
-//************************************************************************************************
-    //Coloca los puntos de miles en tiempo real al llenar el campo a cedula
-    function formatoMiles(numero, id){
-        console.log("______Desde formatoMiles()______", numero + ' - ' +  id)
-
-        var num = numero.replace(/\./g,'')
-        if(!isNaN(num) && numero.length < 8){
-            num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.')
-            num = num.split('').reverse().join('').replace(/^[\.]/,'')
-            numero.value = num
-            document.getElementById(id).value = num
-        }
-        else{ 
-            alert('Número de cedula identidad invalido')
-            document.getElementById(id).value = ""
-            // document.getElementById(id).style.backgroundColor = "var(--Fallos)"
-        }
-    }
-   
-//************************************************************************************************
-//Muestra el contenedor del input transferencia
-    function verInputTransferencia(){
-        document.getElementById("InputTransferencia").style.display = "block"
-        document.getElementById("CaptureTransferencia").style.display = "none"
-    }
-
-//************************************************************************************************
-    //Muestra el contenedor del capture transferencia
-    function verCaptureTransferencia(){
-        document.getElementById("InputTransferencia").style.display = "none"
-        document.getElementById("CaptureTransferencia").style.display = "block"
-    }
-
-//************************************************************************************************
-    //Da una vista previa del capture de transferencia bancaria
-    function CaptureTransferencia(){
-        var contenedor = document.getElementById("DivCaptureTransferencia");
-        var archivos = document.getElementById("ImagenTransferencia").files;
-
-        if(contenedor.childElementCount < 1){
-            for(i = 0; i < archivos.length; i++){
-                imgTag = document.createElement("img");
-                imgTag.height = 300;
-                imgTag.width = 220;   
-                imgTag.objectFit = "cover" 
-                imgTag.src = URL.createObjectURL(archivos[i]);
-                contenedor.appendChild(imgTag);
-            }
-        }
-        else{
-            //Se elimina la imagen existente
-            contenedor.removeChild(imgTag);
-
-            CaptureTransferencia()
-        }
-        
-        // document.getElementById("InformarPago").style.display = "block"
-    }
-     
-//************************************************************************************************
-    //Da una vista previa del capture del pagoMovil
-    function CapturePagoMovil(){
-        var contenedor = document.getElementById("DivCapturePagoMovil");
-        var archivos = document.getElementById("ImagenPagoMovil").files;
-
-        if(contenedor.childElementCount < 1){
-            for(i = 0; i < archivos.length; i++){
-                imgTag = document.createElement("img");
-                imgTag.height = 400;
-                imgTag.width = 280;   
-                imgTag.objectFit = "cover" 
-                imgTag.src = URL.createObjectURL(archivos[i]);
-                contenedor.appendChild(imgTag);
-            }
-        }
-        else{
-            //Se elimina la imagen existente
-            contenedor.removeChild(imgTag);
-
-            CapturePagoMovil()
-        }
-
-        document.getElementById("InformarPago").style.display = "block"
-    }
-
-
-
-//************************************************************************************************
-    //Da una vista previa del capture de Paypal
-    function CapturePagoPaypal(){
-        var contenedor = document.getElementById("DivCapturePagoPaypal");
-        var archivos = document.getElementById("ImagenPagoPaypal").files;
-
-        if(contenedor.childElementCount < 1){
-            for(i = 0; i < archivos.length; i++){
-                imgTag = document.createElement("img");
-                imgTag.height = 400;
-                imgTag.width = 280;   
-                imgTag.objectFit = "cover" 
-                imgTag.src = URL.createObjectURL(archivos[i]);
-                contenedor.appendChild(imgTag);
-            }
-        }
-        else{
-            //Se elimina la imagen existente
-            contenedor.removeChild(imgTag);
-
-            CapturePagoPaypal()
-        }
-        
-        document.getElementById("InformarPago").style.display = "block"
-    }
-
-//************************************************************************************************
-    //Da una vista previa del capture del Zelle
-    function CapturePagoZelle(){
-        var contenedor = document.getElementById("DivCapturePagoZelle");
-        var archivos = document.getElementById("ImagenPagoZelle").files;
-
-        if(contenedor.childElementCount < 1){
-            for(i = 0; i < archivos.length; i++){
-                imgTag = document.createElement("img");
-                imgTag.height = 400;
-                imgTag.width = 280;   
-                imgTag.objectFit = "cover" 
-                imgTag.src = URL.createObjectURL(archivos[i]);
-                contenedor.appendChild(imgTag);
-            }
-        }
-        else{
-            //Se elimina la imagen existente
-            contenedor.removeChild(imgTag);
-
-            CapturePagoZelle()
-        }
-        
-        document.getElementById("InformarPago").style.display = "block"
-    }
-
-//************************************************************************************************
-    //Coloca el cursor en el input automaticamente 
-    function autofocus(id){
-        // console.log("______Desde autofocus()______", id)
-
-        //Si el elemento existe
-        if(document.getElementById(id)){
-            document.getElementById(id).focus()
-            document.getElementById(id).value = ""
-        }
-    }
-
-
-// ************************************************************************************************
-    function mostrar_cedula(){
-        console.log("______Desde mostrar_cedula()______")
-
-        document.getElementById("No_Registrado").style.display = "none";
-        document.getElementById("Registrado").style.display = "none";
-        document.getElementById("Mostrar_Cedula").style.display = "block"; 
-        document.getElementById("Label--confirmar").style.display = "none";
-        document.getElementById("Cedula_Usuario").focus();
-        
-        //Se consulta el alto de la página opciones_V, este tamaño varia segun la cantidad de productos que tenga una sección
-        AltoOpciones = document.getElementById("Section_3").scrollHeight
-        // console.log("Alto de Opciones",AltoOpciones)
-
-        //Este alto se estable al div padre en carrito_V para garantizar que cubra todo el contenido de catalaogos_V ya que carrito_V es un contenedor coloca via Ajax en catalaogos_V y debe sobreponerse sobre todo lo que hay en vitrina_V.php
-        document.getElementById("SectionModal--carrito").style.minHeight = AltoOpciones + "px"
-    }
-
-// ************************************************************************************************
-    //Informa que se alcanzo máximo de producto en inventario
-    function BotonBloqueado(){
-        // console.log("______Desde BotonBloqueado()______")
-
-        alert("Limite alcanzado, el producto a quedado sin inventario")
-    }
-    
-// ************************************************************************************************
-    function soloNumeros(form, Input){
-        // console.log("______Desde soloNumeros()______", Input)
-
-        //Se recibe el control del formulario con el nombre "opcion"
-        CedulaUsuario = form.cedulaUsuario.value 
-        // console.log(CedulaUsuario)
-
-        let elemento = document.getElementById(Input).value;
-        let P_Numeros = /^([0-9])*$/;
-        
-        if(P_Numeros.test(elemento) == false || elemento == ''|| elemento.indexOf(" ") == 0 || elemento.length > 8 || elemento.length < 7){            
-            alert ("Ingrese un número de cedula valido");
-            document.getElementById("Cedula_Usuario").value = "";
-            document.getElementById("Cedula_Usuario").focus();
-        }        
-        else{
-            Llamar_UsuarioRegistrado(CedulaUsuario);
-        }
-        return false;
-    }
-
-// ************************************************************************************************
-    function EliminarLeyendaVitrina(){
-        alert("HOA")
-    }
-
-//************************************************************************************************
-    // invocada desde carrito_V.php
-    function verPagoTransferencia(){
-        // console.log("______Desde verTransferenciaBancaria()______") 
-        
-        document.getElementById("Contenedor_60a").style.display = "block"
-        document.getElementById("Contenedor_60b").style.display = "none"
-        document.getElementById("Contenedor_60e").style.display = "none"
-        document.getElementById("Contenedor_60g").style.display = "none"
-        
-        //Se muestra el monto total de la compra en Bolivares
-        document.getElementById("PagarTransferencia").value = SeparadorMiles(MontoTotal) + " Bs."
-    }
-
-//************************************************************************************************
-    // invocada desde carrito_V.php
-    function verPagoMovil(){
-        // console.log("______Desde verPagoMovil()______") 
-        document.getElementById("Contenedor_60a").style.display = "none"
-        document.getElementById("Contenedor_60b").style.display = "block"
-        document.getElementById("Contenedor_60e").style.display = "none"
-        document.getElementById("Contenedor_60g").style.display = "none"
-
-        //Se muestra el monto total de la compra en Bolivares
-        document.getElementById("PagarPagoMovil").value = SeparadorMiles(MontoTotal) + " Bs."
-    }
-
-//************************************************************************************************
-    // invocada desde carrito_V.php
-    function verPagoPaypal(){
-        document.getElementById("Contenedor_60a").style.display = "none"
-        document.getElementById("Contenedor_60b").style.display = "none"
-        document.getElementById("Contenedor_60e").style.display = "none"
-        document.getElementById("Contenedor_60g").style.display = "block"
-        
-        //Se muestra el monto total de la compra en Dolares
-        document.getElementById("PagarDolaresPaypal").value = SeparadorMiles(MontoTotalDolares) + " USD"
-    }
-
-//************************************************************************************************
-    // invocada desde carrito_V.php
-    function verPagoAcordado(){
-        // console.log("______Desde verPagoAcordado()______") 
-        document.getElementById("Contenedor_60a").style.display = "none"
-        document.getElementById("Contenedor_60b").style.display = "none"
-        document.getElementById("Contenedor_60e").style.display = "block"
-        document.getElementById("Contenedor_60g").style.display = "none"
     }
     

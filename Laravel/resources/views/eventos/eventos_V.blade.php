@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Noticia')
+@extends('layouts.partiers.header_SoloEstilos')
 
 @section('titulo', 'Eventos')
 
@@ -22,7 +22,7 @@
                 <div class="detalle_cont--redesSociales--Panel" style="width: 70%; margin:-8% auto 15% 20% ">
                     <!-- COMPARTIR FACEBOOK -->       
                     <div class="detalle_cont--red">      
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=<?php //echo RUTA_URL;?>/agenda_C/redes_sociales/<?php //echo $Key['ID_Agenda'];?>" target="_blank" rel="noopener noreferrer"><img style="height: 1.8em;" alt="facebook" src=""/></a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=<?php //echo RUTA_URL;?>/agenda_C/redes_sociales/<?php //echo $Key['ID_Agenda'];?>" target="_blank" rel="noopener noreferrer"><img style="height: 1.8em;" alt="facebook" src="{{ asset('/images/facebook.png') }}"/></a>
                     </div> 
                     
                     <!-- COMPARTIR TWITTER -->
@@ -32,7 +32,7 @@
                     
                     <!-- WHATSAPP -->
                     <div class="detalle_cont--red">
-                        <a href="whatsapp://send?text=<?php //echo RUTA_URL?>/agenda_C/redes_sociales/<?php //echo $Key['ID_Agenda'];?>" data-action="share/whatsapp/share"><img style="height: 2em;" alt="Whatsapp" src=""/></a>
+                        <a href="whatsapp://send?text={{ route('EventoAgendado', $Key->ID_Agenda) }}" data-action="share/whatsapp/share"><img style="height: 2em;" alt="Whatsapp" src="{{ asset('/images/Whatsapp.png') }}"/></a>
                     </div>  
                 </div>
             @endforeach
@@ -40,7 +40,6 @@
     </div>  
 
     <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
-    <script src="<?php //echo RUTA_URL;?>/public/js/FullScreem.js?v=<?php //echo rand();?>"></script> 
 
     <!-- Script para evaluar si el navegador soporta lazy-load -->
     <script>
@@ -60,28 +59,5 @@
             document.body.appendChild(script);
         }
 
-    // *******************************************************************************	
-    // script fullscreem
-        function getFullscreen(element){
-            if(element.requestFullscreen) {
-                element.requestFullscreen();
-            } 
-            else if(element.mozRequestFullScreen) {
-                element.mozRequestFullScreen();
-            } 
-            else if(element.webkitRequestFullscreen) {
-                element.webkitRequestFullscreen();
-            } 
-            else if(element.msRequestFullscreen) {
-                element.msRequestFullscreen();
-            }
-        }
-
-        if(document.getElementById("PantallaCompleta")){
-            document.getElementById("PantallaCompleta").addEventListener("click", function(e){
-            // console.log("FullScreem a la imagen: ", e.target)
-                getFullscreen(e.target);
-            },false);
-        }
     </script>
 @endsection()

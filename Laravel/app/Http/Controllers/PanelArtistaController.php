@@ -6,15 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Obras_M;
 use App\Models\Suscriptor_M;
 
-class Panel_Artista_C extends Controller
+class PanelArtistaController extends Controller
 {
     private $Panel_Artista_M;
     private $PrecioDolar;
     private $Comprimir;
-
-    public function __construct(){
-        // session_start();
-    }
     
     // Muestra el portafolio de obras de un artista
     public function index($ID_Suscriptor){      
@@ -52,11 +48,11 @@ class Panel_Artista_C extends Controller
         }
         else if($CantidadObras['cantidadObras'] == 0){//Si no hay obras cargadas pero ya existe una foto de perfil
 
-            header('location:' . RUTA_URL . '/Panel_Artista_C/CargarObras/' . $ID_Suscriptor); 
+            // header('location:' . RUTA_URL . '/PanelArtistaController/CargarObras/' . $ID_Suscriptor); 
             die();
         }
         else{            
-            return view('panel/suscriptores/suscrip_obras_V', [
+            return view('panel/artistas/artista_obras_V', [
                 'ID_Suscriptor' => $ID_Suscriptor,
                 'datosArtista' => $ImagenPortafolio,
                 'obras' => $Obras 
@@ -65,7 +61,7 @@ class Panel_Artista_C extends Controller
         }
     }
 
-    //entrega la cantidad de obras de un suscriptor
+    // entrega la cantidad de obras de un suscriptor
     public function cantidadObras($ID_Suscriptor){
 
         //consulta la cantidad de obras publicadas por un artista
@@ -75,16 +71,16 @@ class Panel_Artista_C extends Controller
     }
 
     // muestra la vista donde se carga una obra
-    public function CargarObras($ID_Suscriptor){
-        // echo 'ID_Suscriptor= ' . $ID_Suscriptor . '<br>';
-        // exit;
+    public function CargarObras($ID_Artista){
+        echo 'ID_Artista= ' . $ID_Artista . '<br>';
+        exit;
 
         //Solicita el precio del dolar al controlador 
         require(RUTA_APP . '/controladores/Divisas_C.php');
         $this->PrecioDolar = new Divisas_C();
         
         //se consultan la informacion del suscriptor
-        $Suscriptor = $this->Panel_Artista_M->suscrptor($ID_Suscriptor);
+        $Suscriptor = $this->Panel_Artista_M->suscrptor($ID_Artista);
 
         $Datos = [
             'dolarHoy' => $this->PrecioDolar->Dolar,
@@ -103,7 +99,7 @@ class Panel_Artista_C extends Controller
         $this->vista('suscriptores/suscrip_agregarObra_V', $Datos);
     }
 
-    //muestra la ventana modal donde se completa el registro como artista
+    // muestra la ventana modal donde se completa el registro como artista
     public function recibe_ImagenPortafolio(){
 
          //IMAGEN PORTAFOLIO
@@ -175,7 +171,36 @@ class Panel_Artista_C extends Controller
         }
     }
     
-    //recibe el formulario para cargar una obra
+    // Carga la vista de perfil del suscriptor
+    public function perfil_artista($ID_Artista){       
+        echo $ID_Artista;
+        exit;
+        // CONSULTA toda la información de perfil del suscriptor
+        $this->Suscriptor = $this->ConsultaSuscriptor_M->consultarSuscriptor($ID_Suscriptor);
+        
+        // CONSULTA las secciones que tiene el catalogo de un suscriptor 
+        $Secciones = $this->Instancia_Panel_C->SeccionesSuscriptor($ID_Suscriptor);
+
+        $Datos = [       
+            'suscriptor' => $this->Suscriptor,         
+            'secciones' => $Secciones,                        
+            'ID_Suscriptor' => $this->Suscriptor[0]['ID_Suscriptor'],
+            'nombre' => $this->Suscriptor[0]['nombreSuscriptor'],
+            'apellido' => $this->Suscriptor[0]['apellidoSuscriptor'],
+            'Pseudonimmo' => $this->Suscriptor[0]['pseudonimoSuscripto'],
+            'telefono' => $this->Suscriptor[0]['telefonoSuscriptor'],
+        ];
+        
+        // echo '<pre>';
+        // print_r($Datos);
+        // echo '</pre>';
+        // exit;   
+        
+        $this->vista("header/header_suscriptor");
+        $this->vista("panel/suscriptores/suscrip_perfil_V", $Datos);
+    } 
+
+    // recibe el formulario para cargar una obra
     public function recibeObraPublicar(){
         if($_SESSION['CargarObras'] == 1922){// Anteriormente en el metodo "CargarObras" se generó la variable $_SESSION["CargarObras"] con un valor de 1922; con esto se evita que no se pueda recarga esta página.
             unset($_SESSION['CargarObras']);//se borra la sesión. 
@@ -277,6 +302,7 @@ class Panel_Artista_C extends Controller
 
     // muestra formulario para actualizar una obra especifico
     public function actualizarObra($ID_Obra){
+
         //CONSULTA los datos de una obra especifica
         $Especificaciones = $this->Panel_Artista_M->consultarDescripcionObra($ID_Obra);
         

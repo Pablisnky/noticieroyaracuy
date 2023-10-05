@@ -159,9 +159,15 @@ textarea{
 	border-width: 1px;
 	border-style: solid;
 }
+.boton--corto_2{
+	width: 150px;
+}
 .boton--alto{
 	height: 45px;
 	line-height: 45px;
+}
+.boton--largo{	
+	width: 200px;
 }
 .bordeAlerta{
 	border-color: orange;
@@ -4258,7 +4264,21 @@ ul .menuContenedor_3{
 .cont_artista-flecha{
 	display: block;
 }
-
+.cont_roles{
+	margin: 3% ;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+.modal_cambioRol{
+	width: 60%;
+	margin: auto;
+	padding-top: 8%; /*antes mrgin-top: 10%*/
+	min-height: 90%;
+}
+.cont_roles--div{
+	margin-bottom: 3%;
+}
 
 
 

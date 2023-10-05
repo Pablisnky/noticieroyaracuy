@@ -2,24 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
+use App\Models\Artistas_M;  
+use App\Models\ArtistaPasword_M; 
+use App\Models\Comerciantes_M; 
 use App\Models\Suscriptor_M; 
 use App\Models\Periodistas_M; 
+use App\Models\ComerciantePasword_M;
 use App\Models\PeriodistaPasword_M;
 use App\Models\SuscriptorPasword_M; 
 use App\Models\CodigoRecuperacion_M;
+// use App\Models\PanelMaketplaceController;
 
 use Illuminate\Support\Facades\Cookie;
 
-class Login_C extends Controller
+class LoginController extends Controller
 {
     //Muestra el formulario de login, si no existe una sesión abierta
     public function index($ID_Noticia, $Bandera, $ID_Comentario){
-        if(!empty($_SESSION['ID_Periodista'])){ 
-            // header('Location:'. RUTA_URL . '/Panel_C/portadas');
-            die(); 
-        }
-        else{
+        // if(!empty($_SESSION['ID_Periodista'])){ 
+        //     // header('Location:'. RUTA_URL . '/Panel_C/portadas');
+        //     die(); 
+        // }
+        // else{
             // $ID_Comentario = !empty($ID_Comentario) ? $ID_Comentario: 'SinID_Comentario';
 
             // echo "ID_Noticia =" .  $ID_Noticia ."<br>";
@@ -100,8 +105,7 @@ class Login_C extends Controller
                     'bandera' => $Bandera
                 ]);
             }
-        }
-       
+        // }       
     }
     
     // recibe y verifica información de ingreso enviada por el usuario e inicia sesion
@@ -118,12 +122,26 @@ class Login_C extends Controller
         
         if(!empty($CorreoEnviado) AND empty(!$ClaveEnviada)){
             
+            //Se CONSULTA si el correo existe como artista
+            $Artista = Artistas_M::
+                where('correoArtista','=', $Request->get('correo_Arr'))
+                ->first();
+                // echo gettype($Artista);
+                // return $Artista;
+
+            //Se CONSULTA si el correo existe como comerciante
+            $Comerciante = Comerciantes_M::
+                where('correoComerciante','=', $Request->get('correo_Arr'))
+                ->first();
+                // echo gettype($Comerciante);
+                // return $Comerciante;
+
             //Se CONSULTA si el correo existe como suscritor
             $Suscriptor = Suscriptor_M::
-                    where('correoSuscriptor','=', $Request->get('correo_Arr'))
-                    ->first();
-                    // echo gettype($Suscriptor);
-                    // return $Suscriptor;
+                where('correoSuscriptor','=', $Request->get('correo_Arr'))
+                ->first();
+                // echo gettype($Suscriptor);
+                // return $Suscriptor;
                     
             //Se CONSULTA si el correo existe como periodista
             $Periodista = Periodistas_M::
@@ -133,7 +151,114 @@ class Login_C extends Controller
                         
             // $Datos = ['suscriptor' => $Suscriptor, 'periodista' => $Periodista];
             // return $ID_Periodista;
-            
+                                
+            // EXISTE COMO ARTISTA
+            if($Artista != null){
+                
+                $ID_Artista =  $Artista->ID_Artista; 
+                $Correo_BD =  $Artista->correoArtista;
+                
+                //Se CONSULTA la contraseña guardada en BD, para verificar que sea igual a la contraseña de la BD
+                $Contrasenia_BD = ArtistaPasword_M::
+                    select('claveCifrada')
+                    ->where('ID_Artista','=', $ID_Artista)
+                    ->first();                    
+                    // return $Contrasenia_BD;
+                    
+                // echo $CorreoEnviado . '<br>';
+                // echo $Correo_BD . '<br>';
+                // echo password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada);
+                // exit;
+                // LOGEADO Y REDIRECIONAMIENTO
+                //se descifra la contraseña con un algoritmo de desencriptado.
+                if($CorreoEnviado == $Correo_BD AND $ClaveEnviada == password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada)){
+
+                    //Se crea la sesion exigida en las páginas de cuentas de usuarios           
+                    session(['id_artista' =>  $Artista->ID_Artista]);
+                    session(['nombreArtista' => $Artista->nombreArtista]);
+                    session(['apellidoArtista' => $Artista->apellidoArtista]);                
+                    session(['correoArtista' =>  $Artista->correoArtista]);
+
+                    // echo session('id_artista') . '<br>';
+                    // echo session('nombreArtista') . '<br>';
+                    // echo session('apellidoArtista') . '<br>';
+                    // echo session('correoArtista') . '<br>';
+                    // exit;
+                    
+                    //Se crean las cookies para recordar al usuario en caso de que $Recordar exista
+                    if($Recordar == 1){
+                        // Se introduce una cookie en el ordenador del usuario con el ID_Usuario  y la cookie aleatoria porque el usuario marca la casilla de recordar
+                        setcookie('id_artista', $Artista->ID_Artista, time()+365*24*60*60);
+                        setcookie('clave', $ClaveEnviada, time()+365*24*60*60);
+                    }
+                        // Se destruyen las cookie para dejar de recordar a usuario
+                    // if($No_Recordar == 1){
+                    //     setcookie('id_artista','',time() - 3600,'/');
+                    //     setcookie('clave','',time() - 3600,'/');
+                    // }
+                                                                
+                    return redirect()->route("PanelArtista", ['id_artista' => session('id_artista')]);
+                    die();
+                }
+                else{ //en caso de clave o usuario incorrecto
+                    return view('modal/modal_falloLogin_V');
+                }
+            }
+
+            // EXISTE COMO COMERCIANTE
+            if($Comerciante != null){
+                
+                $ID_Comerciante =  $Comerciante->ID_Comerciante; 
+                $Correo_BD =  $Comerciante->correoComerciante;
+                
+                //Se CONSULTA la contraseña guardada en BD, para verificar que sea igual a la contraseña de la BD
+                $Contrasenia_BD = ComerciantePasword_M::
+                    select('claveCifrada')
+                    ->where('ID_Comerciante','=', $ID_Comerciante)
+                    ->first();                    
+                    // return $Contrasenia_BD;
+                    
+                // echo $CorreoEnviado . '<br>';
+                // echo $Correo_BD . '<br>';
+                // echo password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada);
+                // exit;
+                // LOGEADO Y REDIRECIONAMIENTO
+                //se descifra la contraseña con un algoritmo de desencriptado.
+                if($CorreoEnviado == $Correo_BD AND $ClaveEnviada == password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada)){
+
+                    //Se crea la sesion exigida en las páginas de cuentas de usuarios           
+                    session(['id_comerciante' =>  $Comerciante->ID_Comerciante]);
+                    session(['nombreComerciante' => $Comerciante->nombreComerciante]);
+                    session(['apellidoComerciante' => $Comerciante->apellidoComerciante]);                
+                    session(['PseudonimoComerciante' =>  $Comerciante->pseudonimoComerciante]);           
+                    session(['correoComerciante' =>  $Comerciante->correoComerciante]);
+
+                    // echo session('nombreComerciante') . '<br>';
+                    // echo session('apellidoComerciante') . '<br>';
+                    // echo session('PseudonimoComerciante') . '<br>';
+                    // echo session('correoComerciante') . '<br>';
+                    // exit;
+                    
+                    //Se crean las cookies para recordar al usuario en caso de que $Recordar exista
+                    if($Recordar == 1){
+                        // Se introduce una cookie en el ordenador del usuario con el ID_Usuario  y la cookie aleatoria porque el usuario marca la casilla de recordar
+                        setcookie('id_comerciante', $Comerciante->ID_Comerciante, time()+365*24*60*60);
+                        setcookie('clave', $ClaveEnviada, time()+365*24*60*60);
+                    }
+                        // Se destruyen las cookie para dejar de recordar a usuario
+                    // if($No_Recordar == 1){
+                    //     setcookie('id_usuario','',time() - 3600,'/');
+                    //     setcookie('clave','',time() - 3600,'/');
+                    // }
+                                                                
+                    return redirect()->route("PanelProducto", ['id_comerciante' => session('id_comerciante')]);
+                    die();
+                }
+                else{ //en caso de clave o usuario incorrecto
+                    return view('modal/modal_falloLogin_V');
+                }
+            }
+
             // EXISTE COMO SUSCRIPTOR
             if($Suscriptor != null){
                 
@@ -197,9 +322,9 @@ class Login_C extends Controller
                         // $DatosComerciante = new Panel_Clasificados_C();
                         // $Comerciante = $DatosComerciante->clasificadoSuscriptor($ID_Suscriptor);
 
-                        // //Se CONSULTA al controlador Panel_Artista_C la cantidad de obras que tiene el suscriptor.
-                        // require_once(RUTA_APP . "/controladores/Panel_Artista_C.php");
-                        // $Obras = new Panel_Artista_C();
+                        // //Se CONSULTA al controlador PanelArtistaController la cantidad de obras que tiene el suscriptor.
+                        // require_once(RUTA_APP . "/controladores/PanelArtistaController.php");
+                        // $Obras = new PanelArtistaController();
                         // $Cant_Obras = $Obras->cantidadObras($ID_Suscriptor);
                         
                         // //Se CONSULTA al controlador Panel_Denuncias_C la cantidad de denunucias que ha realizado el suscriptor.
@@ -221,7 +346,8 @@ class Login_C extends Controller
                     return view('modal/modal_falloLogin_V');
                 }
             }
-                // EXISTE COMO PERIODISTA
+            
+            // EXISTE COMO PERIODISTA
             if(!empty($Periodista)){
                 
                 $ID_Periodista =  $Periodista->ID_Periodista; 

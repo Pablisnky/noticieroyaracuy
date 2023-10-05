@@ -9,7 +9,7 @@ use App\Traits\Divisas;
 use App\Http\Controllers\Suscriptor_C;
 
 
-class ClasificadoController extends Controller
+class MarketplaceController extends Controller
 {
     use Divisas; //Traits
     
@@ -17,13 +17,11 @@ class ClasificadoController extends Controller
     private $Instancia_Suscriptor_C;
     
     public function __construct(){
-        // session_start();
 
         $this->Instancia_Suscriptor_C = new Suscriptor_C();
         
         //Solicita el precio del dolar al Trait Divisas
         $this->Dolar = $this->ValorDolar();
-        // echo $this->Dolar . '<br>';
     }
         
     // Muestra la vista con todos los productos, los muestra de manera aleatoria
@@ -51,7 +49,7 @@ class ClasificadoController extends Controller
             ); 
     } 
     
-    //Invocado desde E_Clasificados.js por medio de mostrarDetalles()
+    // muestra la vista de un producto y sus detalles
     public function productoAmpliado($ID_Producto){
                    
         //CONSULTA la informacion del producto seleccionado
@@ -105,10 +103,9 @@ class ClasificadoController extends Controller
         );
     } 
 
-    public function catalogo($ID_Suscriptor, $Tienda){
-        // echo $ID_Suscriptor . '<br>';
-        // echo $Tienda . '<br>';
-
+    // muestra la vista de todos los productos de una tienda
+    public function catalogo($ID_Suscriptor){
+        
         // Consulta todos los productos publicados en clasificados de un suscriptor especifico 
         $Productos = DB::connection('mysql_2')->table('productos') 
             ->select('productos.ID_Producto','ID_Suscriptor','ID_Seccion','opciones.ID_Opcion','producto','nombre_img','opcion','precioBolivar','precioDolar','cantidad','nuevo')
@@ -124,31 +121,18 @@ class ClasificadoController extends Controller
         // Consulta las secciones de un catalogo especifico   
         $Secciones = DB::connection('mysql_2')->table('secciones') 
             ->select('ID_Seccion','seccion') 
-            ->where('ID_Suscriptor', '=', $ID_Suscriptor)
+            ->where('ID_Comerciante', '=', $ID_Suscriptor)
             ->get(); 
             // return $Secciones; 
             
         //Solicita datos del suscriptor al controlador Suscriptor_C   
         $Suscriptores = $this->Instancia_Suscriptor_C->index($ID_Suscriptor);
-        
-        // $Datos=[
-            // 'dolar' => $this->Dolar,
-            // 'ID_Suscriptor' => $ID_Suscriptor,
-            // 'productos' => $Productos,
-            // 'pseudonimoSuscripto' => $Tienda,
-            // 'suscriptor' => $Suscriptores,
-            // 'secciones' => $Secciones
-        // ];
-        // echo "<pre>";
-        // print_r($Datos);
-        // echo "</pre>";
-        // exit();
+        // return $Suscriptores; 
         
         return view('marketplace.catalogos_V', [
             'dolar' => $this->Dolar,
             'id_suscriptor' => $ID_Suscriptor,
             'productos' => $Productos,
-            'pseudonimoSuscripto' => $Tienda,
             'suscriptor' => $Suscriptores,
             'secciones' => $Secciones
             ]
@@ -159,14 +143,14 @@ class ClasificadoController extends Controller
     public function verCarrito($ID_Suscriptor, $Dolar){ 
         
         // CONSULTA información del vendedor
-        $ContactoTienda = DB::connection('mysql_2')->table('afiliado_com') 
-            ->select('telefono_AfiCom','ID_Tienda') 
-            ->join('tiendas', 'afiliado_com.ID_AfiliadoCom','=','tiendas.ID_AfiliadoCom')  
-            ->where('afiliado_com.ID_AfiliadoCom', '=', $ID_Suscriptor)
-            ->first(); 
+        // $ContactoTienda = DB::connection('mysql_2')->table('afiliado_com') 
+        //     ->select('telefono_AfiCom','ID_Tienda') 
+        //     ->join('tiendas', 'afiliado_com.ID_AfiliadoCom','=','tiendas.ID_AfiliadoCom')  
+        //     ->where('afiliado_com.ID_AfiliadoCom', '=', $ID_Suscriptor)
+        //     ->first(); 
             // return $ContactoTienda; 
             
-        //El delivery cuesta 1,3 dolares, se entrega un numero entero
+        // El delivery cuesta 1,3 dolares
         $CostoDelivery = 1.30 * $Dolar;
         
         //Se crea esta sesion para impedir que se acceda a la pagina que procesa el formulario o se recargue mandandolo varias veces a la base de datos
@@ -174,7 +158,7 @@ class ClasificadoController extends Controller
 
         return view('marketplace.carrito_V', [
             'id_suscriptor' => $ID_Suscriptor,
-            'contactoTienda' => $ContactoTienda, 
+            // 'contactoTienda' => $ContactoTienda, 
             'dolar' => $Dolar, 
             'costoDelivery' => $CostoDelivery
             ]
@@ -212,7 +196,7 @@ class ClasificadoController extends Controller
                 echo '<pre>';
                 print_r($RecibeDatosUsuario);
                 echo '</pre>';
-                // exit();
+                exit();
                 
                  //Se solicita la hora de la compra
                  date_default_timezone_set('America/Caracas');
@@ -226,9 +210,9 @@ class ClasificadoController extends Controller
                     'codigoTransferencia' => $Request->get('codigoTransferencia'),
                     'Hora' => $Hora
                  ];           
-                 echo '<pre>';
-                 print_r($RecibeDatosPedido);
-                 echo '</pre>';
+                //  echo '<pre>';
+                //  print_r($RecibeDatosPedido);
+                //  echo '</pre>';
                 //  exit()
                  
                  //Despues de evaluar con is_numeric se da un aviso en caso de fallo
@@ -249,7 +233,7 @@ class ClasificadoController extends Controller
                  $RecibeDirecto = $Request->get('pedido');
 
                  $Resultado = json_decode($RecibeDirecto, true); 
-                 print_r($Resultado);
+                //  print_r($Resultado);
                 // exit();
 
                  //Se reciben los detalles del pedido
@@ -524,7 +508,7 @@ class ClasificadoController extends Controller
         //      return redirect()->action([Inicio_C::class]);   
         //      die();
         // }   
-     }
+    }
      
     // Muestra formulario con los datos de usuario registrado
      public function mostrarUsuario($Cedula){
@@ -545,4 +529,41 @@ class ClasificadoController extends Controller
             echo $Usuario->nombre_usu . ',' . $Usuario->apellido_usu . ',' .  $Usuario->cedula_usu . ',' .$Usuario->telefono_usu . ',' . $Usuario->correo_usu . ',' . $Usuario->estado_usu . ',' . $Usuario->ciudad_usu . ',' . $Usuario->direccion_usu . ',' . $Usuario->ID_Usuario;
         }
     }
+
+    // Actualiza el precio en Bs de los productos en BD segun el precio del dolar a tasa de BCV
+    public function dolarHoy(){
+
+        // Se consultan los precios en dolares.
+        $Precios = DB::connection('mysql_2')->table('opciones') 
+            ->select('ID_Opcion','precioDolar')  
+            ->get(); 
+            // echo gettype($Precios) . '<br>';
+            // return $Precios;
+
+        //Se declara un array donde se almacenaran los precios actualizados de cada producto
+        $NuevoPrecioBolivar = [];
+        $Intermedio = [];
+
+        foreach($Precios as $Key):
+            $ID_Opcion = $Key->ID_Opcion;
+            $PrecioActualBs = ($Key->precioDolar * $this->Dolar);
+
+            $Intermedio = ['ID_Opcion' => $ID_Opcion, 'precioActualizadoBs' => $PrecioActualBs];
+            array_push($NuevoPrecioBolivar, $Intermedio);
+        endforeach;
+
+        //Se actualizan los precios de los productos existente en BD        
+            // SE realiza un foreach porque $NuevoPrecioDolar es un array con el precio de cada producto
+            foreach($NuevoPrecioBolivar as $Key):
+                DB::connection('mysql_2')->table('opciones')
+                ->where('ID_Opcion','=', $Key['ID_Opcion']) 
+                ->update(['precioBolivar' => $Key['precioActualizadoBs']]);
+            endforeach;
+
+        return redirect()->action([MarketplaceController::class, 'index']);
+        die();
+    }
 }
+
+
+

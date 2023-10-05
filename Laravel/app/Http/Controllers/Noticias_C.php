@@ -142,7 +142,7 @@ class Noticias_C extends Controller{
             ->first();
             // return $Publicidad; 
         
-        // SESIONES creadas en Login_C.php
+        // SESIONES creadas en LoginController.php
         $ID_Suscriptor = !empty($_SESSION['ID_Suscriptor']) ? $_SESSION['ID_Suscriptor'] : 'No existe';
         $Nombre = !empty($_SESSION["nombreSuscriptor"]) ? $_SESSION["nombreSuscriptor"] : 'No existe';
         $Apellido = !empty($_SESSION["apellidoSuscriptor"]) ? $_SESSION["apellidoSuscriptor"] : 'No existe';
@@ -190,9 +190,9 @@ class Noticias_C extends Controller{
         // echo $ID_Comentario . '<br>';
         // exit;
         
-        // Sesion creada en Login_C, sino existe se muestra el formulario para logearse
+        // Sesion creada en LoginController, sino existe se muestra el formulario para logearse
         if(!isset($_SESSION['ID_Suscriptor']) AND $Bandera == 'comentar'){ 
-            return redirect()->action([Login_C::class, 'index'], ['id_noticia' => $ID_Noticia, 'bandera' => 'comentar', 'id_comentario' => $ID_Comentario]);             
+            return redirect()->action([LoginController::class, 'index'], ['id_noticia' => $ID_Noticia, 'bandera' => 'comentar', 'id_comentario' => $ID_Comentario]);             
             // terminamos inmediatamente la ejecución del script, evitando que se envíe más salida al cliente.
             die(); 
         }        

@@ -17,7 +17,7 @@
                 <!-- PSEUDONIMO -->
                 <div class="cont_catalogos--membrete--2">
                     <img class="cont_catalogos--tienda Default_pointer" src="{{ asset('/iconos/tienda/outline_storefront_black_24dp.png') }}"/>
-                    <h1 class="h1_1 h1_1--catalogo">{{ $pseudonimoSuscripto }}</h1> 
+                    <h1 class="h1_1 h1_1--catalogo">{{ $suscriptor->pseudonimoSuscripto }}</h1> 
                 </div>
                     
                 <!-- COMPARTIR REDES SOCIALES -->
@@ -68,7 +68,7 @@
                 <br>
             @endforeach
             
-            <?php $Pseudonimo = str_replace(" ", "_", $pseudonimoSuscripto); ?>
+            <?php $Pseudonimo = str_replace(" ", "_", $suscriptor->pseudonimoSuscripto); ?>
             <a class="cont_catalogos--p" href="<?php //echo RUTA_URL . '/Catalogos_C/Secciones/' . $Datos['ID_Suscriptor'] . ',' . $Pseudonimo;?>" onclick="verSecion('Todos')">Todos</a>
             <hr class="hr_3 hr_3a">
             
@@ -80,7 +80,7 @@
                 </div>
                 <div class="cont_detalle_Producto--suscriptor">
                     <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>
-                    <label class="cont_detalle_Producto--p">{{ $suscriptor->municipioSuscriptor . '-' .   $suscriptor->parroquiaSuscriptor }}</label> 
+                    <label class="cont_detalle_Producto--p">{{ $suscriptor->municipioSuscriptor . '-' . $suscriptor->parroquiaSuscriptor }}</label> 
                 </div>
                 <div class="cont_detalle_Producto--suscriptor">
                     <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_perm_identity_black_24dp.png') }}"/>
@@ -145,9 +145,9 @@
                                 @else   <!--SI HAY PRODUCTOS EN INVENTARIO SE HABILITA-->
                                     <label for="{{ 'ContadorLabel_' . $row->ID_Opcion }}" class="label_4 Label_3js" id="{{ 'Etiqueta_' . $row->ID_Opcion }}">Agregar</label> 
                                 @endif
-                                        
+                                 
                                 <!-- Este input es el que se envia al archivo JS por medio de la función agregarProducto(), en el valor se colocan el caracter _ para usarlo como separardor en JS-->
-                                <input class="Default_ocultar" type="radio" name="opcion" id="{{ 'ContadorLabel_' . $row->ID_Opcion }}" value="{{ $row->ID_Opcion . ',' . '_' . $row->producto . ',' . '_' . $row->opcion . ',' . '_' . $row->precioBolivar . ',' . '_' . $row->ID_Seccion }}" onclick="agregarProducto(this.form , '{{ 'Etiqueta_' . $row->ID_Opcion }}','{{ 'Cont_Leyenda_' . $row->ID_Opcion }}','{{ 'Cantidad_' . $row->ID_Opcion }}','{{ 'Producto_' . $row->ID_Opcion }}','{{ 'Opcion_' . $row->ID_Opcion }}','{{ 'Precio_' . $row->ID_Opcion }}','{{ 'Total_' . $row->ID_Opcion }}','{{ 'Leyenda_' . $row->ID_Opcion }}','{{ 'Cont_Producto_' . $row->ID_Opcion }}','{{ 'Item_'. $row->ID_Opcion }}','{{ $row->cantidad }}','{{ 'ID_BotonMas_'. $row->ID_Opcion }}','{{ 'ID_BloquearMas_'. $row->ID_Opcion }}')"/>
+                                <input class="Default_ocultar" type="radio" name="opcion" id="{{ 'ContadorLabel_' . $row->ID_Opcion }}" value="{{ $row->ID_Opcion . ',' . '_' . $row->producto . ',' . '_' . $row->opcion . ',' . '_' . $row->precioBolivar . ',' . '_' . $row->ID_Seccion }}" onclick="agregarProducto(this.form , '{{ 'Etiqueta_' . $row->ID_Opcion }}','{{ 'Cont_Leyenda_' . $row->ID_Opcion }}','{{ 'Cantidad_' . $row->ID_Opcion }}','{{ 'Producto_' . $row->ID_Opcion }}','{{ 'Opcion_' . $row->ID_Opcion }}','{{ 'Precio_' . $row->ID_Opcion }}','{{ 'Total_' . $row->ID_Opcion }}','{{ 'Leyenda_' . $row->ID_Opcion }}','{{ 'Cont_Producto_' . $row->ID_Opcion }}','{{ 'Item_'. $row->ID_Opcion }}','{{ $row->cantidad }}','{{ 'ID_BotonMas_'. $row->ID_Opcion }}','{{ 'ID_BloquearMas_'. $row->ID_Opcion }}','{{ $id_suscriptor }}')"/>
                                         
                                 <!-- BOTON MAS Y MENOS -->                            
                                 <div class="contenedor_14" id="{{ 'Cont_Leyenda_' . $row->ID_Opcion }}">
@@ -199,6 +199,10 @@
 
         <!-- En este div se carga el archivo carrito_V.php -->
         <div id="Mostrar_Orden"></div>
+
+        {{-- se entregan a JS el ID_Suscriptor y el pseudonimoSuscripto de la tienda para verificar que no existan productos cargado de dos tendas diferentes --}}
+        <input class="Default_ocultar" type="text" id="ID_Suscriptor" value='{{ $id_suscriptor }}'/>   
+        <input class="Default_ocultar" type="text" id="PseudonimoSuscripto" value='{{ $suscriptor->pseudonimoSuscripto }}'/>
     </section>
 
     <!-- BOTON CARRITO DE COMPRAS -->

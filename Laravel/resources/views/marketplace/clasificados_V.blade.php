@@ -22,7 +22,7 @@
                 </div>
                 <div class="cont_clasificados--item-2">
                     <a class="boton boton--publicar" href="<?php //echo RUTA_URL . '/Categoria_C/';?>" rel="noopener noreferrer">Categorias</a>
-                    <a class="boton boton--publicar" href="<?php //echo RUTA_URL . '/Login_C/index/SinID_Noticia,SinBandera';?>" rel="noopener noreferrer">Publicar</a>
+                    <a class="boton boton--publicar" href="<?php //echo RUTA_URL . '/LoginController/index/SinID_Noticia,SinBandera';?>" rel="noopener noreferrer">Publicar</a>
                 </div>
             </div>
         </header>   
@@ -41,7 +41,7 @@
 
                     <!-- IMAGEN -->
                     <div class="contOpciones">
-                  
+                        
                         {{-- PRODUCTO NUEVO O USADO --}}
                         @if($row->nuevo == 'Nuevo'){                          
                             <label class="contOpciones--textoVertical">Articulo {{ $row->nuevo }}</label>
@@ -105,7 +105,7 @@
                 <label class="boton boton--corto"><a class="Default_font--white boton_a" href="<?php //echo RUTA_URL . '/Categoria_C/';?>" rel="noopener noreferrer">Categorias</a></label> 
             </div>        
             <div>
-                <label class="boton boton--corto"><a class="Default_font--white boton_a" href="<?php //echo RUTA_URL . '/Login_C/index/SinID_Noticia,SinBandera';?>" rel="noopener noreferrer">Publicar</a></label> 
+                <label class="boton boton--corto"><a class="Default_font--white boton_a" href="<?php //echo RUTA_URL . '/LoginController/index/SinID_Noticia,SinBandera';?>" rel="noopener noreferrer">Publicar</a></label> 
             </div>        
         </div>
 

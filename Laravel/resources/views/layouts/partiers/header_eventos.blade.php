@@ -13,147 +13,98 @@
 		<meta property="og:site_name" content="NoticieroYaracuy"/>
 		<meta property="fb:app_id" content="928977633900253"/>
 		<meta property="og:image:alt" content="Imagen descriptiva del evento"/>
-		<meta property="og:url" content="<?php //echo RUTA_URL?>/Agenda_C/redes_sociales/<?php //echo $Datos['agenda']['ID_Agenda'];?>"/>
-		<meta property="og:image:secure_url" itemprop="image" content="<?php //echo RUTA_URL?>/public/images/agenda/<?php //echo $Datos['agenda']['nombre_imagenAgenda'];?>"/>
+		<meta property="og:url" content="{{ route('EventoAgendado', ['id_agenda' => $eventos->ID_Agenda]) }}"/> 
+		<meta property="og:image:secure_url" itemprop="image" content="{{ '/images/agenda/' . $eventos->nombre_imagenAgenda }}"/>
 		<meta property="og:image:width" content="1200"/>
 		<meta property="og:image:height" content="630"/>
 		<meta property="og:locale:alternate" content="es_ES"/>
 
 		<!--ETIQUETAS META TWITTER --> 
 		<meta name="twitter:card" content="summary_large_image">
-		<meta name='twitter:image' content='<?php //echo RUTA_URL?>/public/images/agenda/<?php //echo $Datos['agenda']['nombre_imagenAgenda'];?>'>
+		<meta name='twitter:image' content='{{ '/images/agenda/' . $eventos->nombre_imagenAgenda }}'>
 		        
 		<!-- WHATSAPP -->
 		<!-- Fotos mayores a 300 kb no seran mostradas en la miniatura al compartir la noticia -->
 		
-		<link rel="stylesheet" type="text/css" href="<?php //echo RUTA_URL;?>/public/css/estilosNoticieroYaracuy.css?v=<?php //echo rand();?>"/>
-		<link rel="stylesheet" type="text/css" href="<?php //echo RUTA_URL;?>/public/css/MediaQuery_EstilosNoticieroYaracuy_350.css?v=<?php //echo rand();?>"/>
-		<link rel="stylesheet" type="text/css" href="<?php //echo RUTA_URL?>/public/css/MediaQuery_EstilosNoticieroYaracuy_370.css?v=<?php //echo rand();?>"/>
-		<link rel="stylesheet" type="text/css" href="<?php //echo RUTA_URL;?>/public/css/MediaQuery_EstilosNoticieroYaracuy_800.css?v=<?php //echo rand();?>"/>
+		<link rel="stylesheet" href="{{ asset('/css/estilosNoticieroYaracuy.css?v=' . rand()) }}"/>
+		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_350.css?v=' . rand()) }}"/>
+		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_370.css?v=' . rand()) }}"/>
+		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_800.css?v=' . rand()) }}"/>
 		
 		<!-- CDN FUENTES DE GOOGLE-->
         <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=RLato|Raleway:400|Montserrat|Gruppo'>        
     </head>
     <body>				
-		<header class="header" id="Header">
-
-			<!-- ICONO HAMBURGUESA -->
-			<div>			
-				<img class="header--menu" id="ComandoMenu" onclick="mostrarMenu()" src="<?php //echo RUTA_URL . '/public/iconos/menu/outline_menu_black_24dp.png'?>"/>
+		<header class="header" id="Header">			
+			
+			<!-- ICONO HAMBURGUESA"-->		
+			<div>									
+				<img class="header--menu" id="ComandoMenu" onclick="mostrarMenu()" src="{{ asset('/iconos/menu/outline_menu_black_24dp.png') }}"/>
 			</div>
 
 			<!-- BARRA DE NAVEGACION -->
 			<div>
-				<nav class="header__menuResponsive" id="MenuResponsive" >
+				<nav class="header__menuResponsive" id="MenuResponsive">
+
 					<div class="header--scroll-snap">
 						<div class="header--nav">
 							<ul id="MenuContenedor">
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Inicio_C';?>" rel="noopener noreferrer">Inicio</a></li>								
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Noticias_C/NoticiasGenerales';?>" rel="noopener noreferrer">Noticias</a></li>
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/YaracuyEnVideo_C';?>" rel="noopener noreferrer">Yaracuy en videos</a></li>
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Efemeride_C';?>" rel="noopener noreferrer">Efemérides</a></li>
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Agenda_C';?>" rel="noopener noreferrer">Agenda de eventos</a></li>
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/ClasificadoController';?>" rel="noopener noreferrer">Clasificados</a></li> 
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Publicidad_C';?>" rel="noopener noreferrer">Directorio comercial</a></li>
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Obituario_C';?>" rel="noopener noreferrer">Obituario</a></li>
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Menu_C/afiliacion';?>" rel="noopener noreferrer">Tarifas</a></li>
+								<li><a class="header__li--Enlaces" href="{{ route('Noticias') }}" rel="noopener noreferrer">Noticias</a></li>
+								<li><a class="header__li--Enlaces" href="{{ route('Eventos') }}" rel="noopener noreferrer">Agenda de eventos</a></li>
+								<li><a class="header__li--Enlaces" href="{{ route('Marketplace') }}" rel="noopener noreferrer">Marketplace</a></li> 
+								<li><a class="header__li--Enlaces" href="{{ route('GaleriaArte') }}">Galeria de arte</a></li>
+								<li><a class="header__li--Enlaces" href="{{ route('Efemeride') }}" rel="noopener noreferrer">Efemérides</a></li>
+								{{-- <li><a class="header__li--Enlaces" href="" rel="noopener noreferrer">Directorio comercial</a></li> --}}
+								{{-- <li><a class="header__li--Enlaces" href="" rel="noopener noreferrer">Obituario</a></li> --}}
+								{{-- <li><a class="header__li--Enlaces" href="" rel="noopener noreferrer">Tarifas</a></li> --}}
 								<li><a class="header__li--Enlaces" href="https://yaracultura.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog Yaracultura</a></li>
-								<hr class="hr_1">
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Contraloria_C';?>" rel="noopener noreferrer">Contraloría social</a></li>
-								<li class="Default_quitarMovil"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/GaleriaArte_C';?>">Galeria de arte regional</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Login_C/index/NA,NA';?>" rel="noopener noreferrer">Abrir sesión</a></li>
-								<li><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/PodCast_C';?>" rel="noopener noreferrer">PodCast</a></li>
-								
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Contraloria_C';?>" rel="noopener noreferrer">Contraloria social</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Menu_C/afiliacion';?>" rel="noopener noreferrer">Suscribirse</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/VitrinaMayorista_C';?>">Editorial</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Login_C/index/CE';?>" rel="noopener noreferrer">Pod Cast</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Login_C/index/CE';?>" rel="noopener noreferrer">Directorio</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Ciudades_C';?>" rel="noopener noreferrer">Agenda</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Login_C/index/CE';?>" rel="noopener noreferrer">Archivo</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Login_C/index/CE';?>" rel="noopener noreferrer">Galeria de arte</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Login_C/index/CE';?>" rel="noopener noreferrer">Contraloria social</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Login_C/index/CE';?>" rel="noopener noreferrer">Efemerides</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Login_C/index/CE';?>">Turismo</a></li>
-								<!-- <hr> -->
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Login_C/index/CE';?>" rel="noopener noreferrer">Nuestro ADN</a></li>
-								<li class="Default_ocultar"><a class="header__li--Enlaces" href="<?php //echo RUTA_URL . '/Login_C/index/CE';?>" rel="noopener noreferrer">LOGOS REDES SOCIALES</a></li>
+								{{-- <li><a class="header__li--Enlaces" href="" rel="noopener noreferrer">Quejas y reclamos</a></li> --}}
+								{{-- <li><a class="header__li--Enlaces" href="" rel="noopener noreferrer">PodCast</a></li> --}}
 							</ul>
 						</div>
 					</div>
 				</nav>
 			</div>
 
-			<!-- BOTONES DE CLASIFICADOS Y EVENTOS -->
+			<!-- BOTONES DE MARKETPLACE Y EVENTOS -->
 			<div class="cont_botones_destacados">
 				<div>
-					<label class="boton boton--corto"><a class="Default_font--white boton_a" href="<?php //echo RUTA_URL . '/Agenda_C';?>">Eventos</a></label> 
+					<label class="boton boton--corto"><a class="Default_font--white boton_a" href="{{ route('Eventos') }}">Eventos</a></label> 
 				</div>        
 				<div>
-					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="<?php //echo RUTA_URL . '/Noticias_C/NoticiasGenerales';?>">Mas noticias</a></label> 
-				</div>         
-				<div>
-					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="<?php //echo RUTA_URL . '/ClasificadoController';?>">Clasificados</a></label> 
+					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="{{ route('Noticias') }}">Mas noticias</a></label> 
 				</div>          
 				<div>
-					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="<?php //echo RUTA_URL . '/GaleriaArte_C';?>">Galeria de arte</a></label> 
+					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="{{ route('Marketplace') }}">Marketplace</a></label> 
+				</div>          
+				<div> 
+				<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="{{ route('GaleriaArte') }}">Galeria de arte</a></label> 
 				</div>      
 			</div> 
 
 			<!-- MEMBRETE FIJO -->
-			<label class="header__titulo">Noticiero Yaracuy</label>
+			<div class="cont_header_membrete">
+				<label class="header__titulo">Noticiero Yaracuy</label>
+			</div>
 
-			<!-- FECHA -->
-			<!-- <label class="header__fecha">San Felipe, <?php ////echo date('d');?> de <?php ////echo date('M');?></label> -->
-			
-			<!-- SIGUENOS REDES SOCIALES -->
-            <!-- <div class="" style="display:flex; background-color:red; width: 10%"> -->
-                <!-- FACEBOOK -->
-                <!-- <div class="">
-                    <img class="" alt="facebook" src="<?php //echo RUTA_URL?>/public/images/facebook.png"/>
-                </div>         -->
-                
-                <!-- TWITTER -->
-                <!-- <div class="">
-					<img class="" alt="twitter" src="<?php //echo RUTA_URL?>/public/images/twitter.png"/>
-                </div>      -->
-                
-                <!-- E-MAIL -->
-                <!-- <div class="">
-					<img style="" alt="correo" src="<?php //echo RUTA_URL . '/public/iconos/correo/outline_email_black_24dp.png'?>"/>
-                </div>     -->
-                
-                <!-- INSTAGRAM -->
-                <!-- <div class=" ">
-					<img class="" alt="Whatsapp" src="<?php //echo RUTA_URL?>/public/images/Whatsapp.png"/>
-                </div>     -->
-                <!-- <div>
-                    <p style="text-align: center; font-size: 0.7em">visita nuestras redes sociales</p>
-                </div> -->
-            <!-- </div> -->
-			
 			<!-- FECHA Y CARITA -->
 			<div class="cont_header--loginFecha">
+				
+				<!-- FECHA -->
 				<div style="margin-right: 15px;">
-					<label class="header__fecha">San Felipe, <?php //echo date('d');?> de <?php //echo date('M');?></label>
+					<label class="header__fecha">San Felipe, <?php echo date('d');?> de <?php echo date('M');?></label>
 				</div>
 				
 				<!--CARITA -->
 				<div>
-					<?php
-					if(!empty($_SESSION['ID_Suscriptor'])){	?>
-						<a class="Default_quitarMovil" href="<?php //echo RUTA_URL . '/Suscriptor_C/accesoSuscriptor/' . $_SESSION['ID_Suscriptor'];?>"><img class="Default_login" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_face_6_black_24dp.png'?>"/></a>				
-						<?php
-					}	
-					else if(empty($_SESSION['ID_Suscriptor']) AND empty($_SESSION['ID_Periodista'])){	?>
-						<a class="Default_quitarMovil" href="<?php //echo RUTA_URL . '/Login_C/index/SinID_Noticia,SinBandera';?>" rel="noopener noreferrer"><img class="Default_logout" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_face_6_black_24dp.png'?>"/></a>
-						<?php
-					}				
-					else if(!empty($_SESSION['ID_Periodista'])){	?>
-					<a class="Default_quitarMovil" href="<?php //echo RUTA_URL . '/Panel_C/portadas'?>"><img class="Default_login" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_face_6_black_24dp.png'?>"/></a>				
-						<?php
-					}	
-						?>
+					@if(!empty(session('id_suscriptor'))) 
+						<a class="Default_quitarMovil" href="{{ route('DashboardPanelSuscriptor', ['id_suscriptor' => session('id_suscriptor')]) }}"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}"/></a>	
+					@elseif(empty(session('id_suscriptor')) AND empty(session('id_periodista')))
+						<p>{{ session('id_periodista') }}</p>
+						<a class="Default_quitarMovil" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}"><img class="Default_logout" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}"/></a>
+					@elseif(!empty(session('id_periodista')))
+						<a class="Default_quitarMovil" href="{{ route('Index') }}"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}"/></a>	
+					@endif
 				</div>
 			</div>
 		</header>
@@ -180,45 +131,43 @@
 
 			<!--CARITA FUERA DE HEADER-->
 			<div class="carita">
+
 				<!-- CARITA -->
 				<?php
 				if(!empty($_SESSION['ID_Suscriptor'])){	?>     
-					<a class="tapa-logo--ADN--font Default_quitarMovil" href="<?php //echo RUTA_URL . '/Suscriptor_C/accesoSuscriptor/' . $_SESSION['ID_Suscriptor'];?>;?>">
+					<a class="tapa-logo--ADN--font Default_quitarMovil" href="">
 						<div class="tapa-logo--ADN">
-							<img style="width: 1.5em; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_account_circle_white_24dp.png'?>" rel="noopener noreferrer"/>Sesión 
+							<img style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png')}}" rel="noopener noreferrer"/>Iniciar sesión 
 						</div>
 					</a>
-					
-					<a class="carita--texto Default_quitarEscritorio" href="<?php //echo RUTA_URL . '/Suscriptor_C/accesoSuscriptor/' . $_SESSION['ID_Suscriptor'];?>">Sesión <img class="Default_login--movil"  style=" margin-right: 10px" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_account_circle_white_24dp.png'?>"/>Sesión</a>				
+					<a class="carita--texto Default_quitarEscritorio" href="">Sesión <img class="Default_login--movil" style=" margin-right: 10px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png')}}"/>Iniciar sesión</a>				
 					<?php
 				}	
 				else if(empty($_SESSION['ID_Suscriptor']) AND empty($_SESSION['ID_Periodista'])){	?>     
-					<a class="tapa-logo--ADN--font Default_quitarMovil" href="<?php //echo RUTA_URL . '/Login_C/index/SinID_Noticia,SinBandera';?>">
+					<a class="tapa-logo--ADN--font Default_quitarMovil" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}">
 						<div class="tapa-logo--ADN">
-							<img style="width: 1.5em; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_no_accounts_white_24dp.png'?>" rel="noopener noreferrer"/>Sesión 
+							<img style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_no_accounts_white_24dp.png')}}" rel="noopener noreferrer"/>Iniciar sesión 
 						</div>
 					</a>
-					
-					<a class="carita--texto Default_quitarEscritorio" href="<?php //echo RUTA_URL . '/Login_C/index/SinID_Noticia,SinBandera';?>" rel="noopener noreferrer"><img class="Default_logout--movil" style=" margin-right: 10px" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_no_accounts_white_24dp.png'?>"/> Sesión</a>
+					<a class="carita--texto Default_quitarEscritorio" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}" rel="noopener noreferrer"><img class="Default_logout--movil" style=" margin-right: 10px" src="{{ asset('/iconos/perfil/outline_no_accounts_white_24dp.png')}}"/>Iniciar sesión</a>
 					<?php
 				}				
 				else if(!empty($_SESSION['ID_Periodista'])){	?>
-									
-					<a class="tapa-logo--ADN--font Default_quitarMovil" href="<?php //echo RUTA_URL . '/Panel_C/portadas';?>">
+						            
+					<a class="tapa-logo--ADN--font Default_quitarMovil" href="">
 						<div class="tapa-logo--ADN">
-							<img style="width: 1.5em; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_account_circle_white_24dp.png'?>" rel="noopener noreferrer"/>Sesión 
+							<img style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png')}}" rel="noopener noreferrer"/>Iniciar sesión 
 						</div>
 					</a>
-
-					<a class="carita--texto Default_quitarEscritorio" href="<?php //echo RUTA_URL . '/Panel_C/portadas'?>"><img class="Default_login--movil" style=" margin-right: 10px" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_account_circle_white_24dp.png'?>"/> Sesión</a>				
+					<a class="carita--texto Default_quitarEscritorio" href=""><img class="Default_login--movil" style="margin-right: 10px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png')}}"/>Iniciar sesión</a>				
 					<?php
 				}	
 					?>
 
 				<!-- NUESTRO ADN-->			            
-				<a class="Default_quitarEscritorio" style=" color: white; " href="<?php //echo RUTA_URL . '/Menu_C/nuestroADN';?>">
+				<a class="Default_quitarEscritorio" style="color: white;" href="">
 					<div class="tapa-logo--ADN" style="margin-left: -10px; margin-top: 12px">
-						<img style="width: 2em; margin-lef:0px; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_groups_white_24dp.png'?>" rel="noopener noreferrer"/>Nuestro ADN
+						<img style="width: 2em; margin-lef:0px; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_groups_white_24dp.png')}}" rel="noopener noreferrer"/>Nuestro ADN
 					</div>
 				</a>
 			</div>
@@ -261,3 +210,8 @@
 				</figure>
 			</div>
 		</div>
+
+		<!-- CONTENIDO -->
+        @yield('contenido')
+    </body>
+</html>

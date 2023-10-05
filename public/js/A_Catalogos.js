@@ -130,7 +130,7 @@ function respuesta_PedidoEnCarrito(){
 //****************************************************************************************************
 //Muestra el formulario de usuario registrado
 function Llamar_UsuarioRegistrado(CedulaUsuario){
-    console.log("______Desde Llamar_UsuarioRegistrado()______", CedulaUsuario)
+    // console.log("______Desde Llamar_UsuarioRegistrado()______", CedulaUsuario)
    
     var url= "http://nuevonoticiero.com/marketplace/mostrarUsuario/" + CedulaUsuario 
     http_request.open('GET', url, true);    
@@ -149,7 +149,7 @@ function respuesta_UsuarioRegistrado(){
             //Coloca el cursor en el top de la pagina
             window.scroll(0, 0)
 
-            // Se recibe desde php (ClasificadoController/mostrarUsuario()) una cadena de texto con los datos del usuario que se guarda en A,
+            // Se recibe desde php (MarketplaceController/mostrarUsuario()) una cadena de texto con los datos del usuario que se guarda en A,
             var A = peticion.responseText 
             // console.log("Respuesta contolador= ", A)
 

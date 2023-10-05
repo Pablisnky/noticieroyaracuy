@@ -12,7 +12,7 @@
                     <!-- IMAGEN -->
                     <a href="{{ route('DetalleNoticia', $Row->ID_Noticia) }}" rel="noopener noreferrer" target="_blank">  
                         <div style="display: flex;"> 
-                            <div style="flex-grow: 1;flex-shrink: 1;">         
+                            <div style="flex-grow: 1; flex-shrink: 1;">         
                                 <figure> 
                                     <img class="imagen--portada efectoBrillo section__img" alt="Fotografia Principal" src="images/noticias/{{ $Row->nombre_imagenNoticia }}"/>
                                 </figure>

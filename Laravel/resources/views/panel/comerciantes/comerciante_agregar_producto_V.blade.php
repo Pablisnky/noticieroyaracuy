@@ -1,30 +1,28 @@
-@extends('layouts.partiers.header_suscriptor')
+@extends('layouts.partiers.header_PanelPortada')
 
 @section('titulo', 'Panel agregar producto')
 
 @section('contenido')
 
     <!-- MENU LATERAL -->
-    @include('panel/suscriptores/suscrip_menu_V')
+    @include('panel/comerciantes/comerciante_menu_V')
     
     <?php    
     //se invoca sesion con el ID_Afiliado creada en validarSesion.php para autentificar la entrada a la vista
     // if(!empty($_SESSION["Publicar"])){
         
         // $ID_Suscriptor = $_SESSION["ID_Suscriptor"];
-
-        //Se da formato al precio, sin decimales y con separación de miles
-        // $PrecioDolar = number_format($Datos['dolarHoy'], 2, ",", "."); 
         ?>       
             
         <!-- SDN libreria JQuery, necesaria para la previsualización de la imagen del producto--> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
         <div class="cont_suscrip_publicar">  
-            <form action="<?php //echo RUTA_URL; ?>/Panel_Clasificados_C/recibeProductoPublicar" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarPublicacion()">
+            <form action="{{ route('RecibeProductoAgregado') }}" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarPublicacion()">
+                {!! csrf_field() !!}
 
                 <fieldset class="fieldset_1 fieldset_3"> 
-                    <legend class="legend_1">Cargar producto</legend>
+                    <legend class="legend_1">Agregar producto</legend>
                     <div class="contenedor_47">    
                     
                         <!-- IMAGEN PRINCIPAL PRODUCTO-->
@@ -63,11 +61,9 @@
                             <label class="default_bold">Sección</label>
                             <select class="login_cont--select borde--input" name="id_seccion" id="Seccion">
                                 <option></option>
-                                <?php
-                                // foreach($Datos['secciones'] as $Row_3)   :   ?>
-                                    <option value="<?php //echo $Row_3['ID_Seccion'];?>"><?php //echo $Row_3['seccion'];?></option>
-                                    <?php
-                                // endforeach; ?>
+                                @foreach($secciones as $Row_3)  
+                                    <option value="{{ $Row_3->ID_Seccion }}">{{ $Row_3->seccion }}</option>
+                                @endforeach
                             </select>
 
                             <!-- PRECIO -->                    
@@ -81,9 +77,9 @@
                                     <input class="placeholder placeholder_2 placeholder_5 borde_1 borde_2" type="text" name="precioDolar" id="PrecioDolar" placeholder="0.00" tabindex="3"/>
                                 </div>
                             </div>
-                            <small class="small_1">El sistema realiza automaticamente la conversión Bolivar / Dolar según BCV. <strong class="strong_1">( $ 1 = Bs. <?php //echo $PrecioDolar;?>)</strong></small>
-                            <input class="Default_ocultar" id="CambioOficial" type="text" value="<?php //echo $Datos['dolarHoy'];?>"/> 
-                            
+                            <small class="small_1">El sistema realiza automaticamente la conversión Bolivar / Dolar según BCV. <strong class="strong_1">( $ 1 = Bs. {{ number_format($dolarHoy, 2, ",", ".") }})</strong></small>
+                            <input class="Default_ocultar" id="CambioOficial" type="text" value="{{ $dolarHoy }}"/> 
+                           
                             <!-- CANTIDAD EN EXISTENCIA -->
                             <div class="Default_ocultar" id="Contenedor_152">
                                 <label class="login_cont--label">Existencia</label>
@@ -105,7 +101,7 @@
 
                     <!-- BOTON DE ENVIO Y DATOS OCULTOS -->
                     <div class="contBoton contBoton--marginTop">
-                        <input class="Default_ocultar" type="text" name="id_suscriptor" value="<?php //echo $ID_Suscriptor;?>"/>
+                        <input class="Default_ocultar" type="text" name="id_comerciante" value="{{ session('id_comerciante') }}"/>
                         <input class="boton boton--largo" type="submit" value="Agregar producto"/>
                     </div>  
                 </fieldset>          
@@ -114,7 +110,10 @@
 
         <!--div alimentado desde Secciones_Ajax_V.php con las secciones que el usuario cargó previamente -->    
         <div id="Contenedor_80"></div>
-
+        
+        <script src="{{ asset('/js/funcionesVarias.js?v=' . rand()) }}"></script>
+        <script src="{{ asset('/js/E_comerciante_agregar_producto.js?v=' . rand()) }}"></script> 
+        <script src="{{ asset('/js/A_Comerciante_producto_agregar.js?v=' . rand()) }}"></script> 
         <script src="<?php //echo RUTA_URL . '/public/javascript/funcionesVarias.js?v=' . rand();?>"></script>
         <script src="<?php //echo RUTA_URL . '/public/javascript/E_Suscrip_publicar.js?v=' . rand();?>"></script> 
 
@@ -268,7 +267,7 @@
         <?php //include(RUTA_APP . "/vistas/footer/footer.php");
     // }
     // else{
-    //     header("location:" . RUTA_URL. "/Login_C/index/SinID_Noticia,SinBandera");
+    //     header("location:" . RUTA_URL. "/LoginController/index/SinID_Noticia,SinBandera");
     // }   ?>
 
 @endsection()     

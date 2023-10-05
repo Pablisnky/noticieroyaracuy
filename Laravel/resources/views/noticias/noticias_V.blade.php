@@ -19,20 +19,64 @@
                         <h1 class="cont_noticia--tituloSeccion--h1">{{ $Row['seccion'] }}</h1> 
 
                         <!-- ICONO EXPNDIR -->
-                        <img class="Default_pointer" style="width: 2em;" alt="icono_expandir" src="{{ asset('/iconos/chevron/outline_expand_more_black_24dp.png') }}"  onclick="MostrarSecciones('<?php //echo $Row['seccion'];?>')"/>
+                        <img class="Default_pointer" style="width: 2em;" alt="icono_expandir" src="{{ asset('/iconos/chevron/outline_expand_more_black_24dp.png') }}"  onclick="MostrarSecciones('{{ $Row->seccion }}')"/>
                     </div>
                     
-                    <!-- ICONO CEVRON MUNICIPIOS -->
+                    <!-- ICONO CHEVRON MUNICIPIOS -->
                     <div class="cont_noticia--filtros">
 
                         <!-- PONER FILTRO -->
-                        <img class="Default_pointer" style="width: 1.5em;" src="{{ asset('/iconos/filtro/outline_filter_alt_black_24dp.png') }}" onclick="MostrarMunicipios('<?php //echo $Row['seccion'];?>')"/>
+                        <img class="Default_pointer" style="width: 1.5em;" src="{{ asset('/iconos/filtro/outline_filter_alt_black_24dp.png') }}" onclick="MostrarMunicipios('{{ $Row->seccion }}')"/>
 
                         <!-- QUITAR FILTRO -->                     
                         <img class="Default_ocultar Default_pointer" id="<?php //echo 'Filtro_'. $Row['seccion'];?>" style="width: 1.5em" src="{{ asset('/iconos/filtro/outline_filter_alt_off_black_24dp.png') }}" id="<?php //echo 'Filtro_'. $Row['seccion'];?>" onclick="Llamar_Quitarfiltro('<?php //echo $Row['seccion'];?>')"/>
                     </div>
                 </div>
             </div>
+
+            <!-- MUESTRA MENU DE BUSQUEDA POR MUNICIPIOS --> 
+            <div class="cont_noticias--municipios borde_1" id="Con_Municipios">
+                <img class="Default_pointer" style="width: 2em; margin-left: 90%;" onclick="MostrarMunicipios('{{ $Row->seccion }}')" src="{{ asset('/iconos/cerrar/outline_close_black_24dp.png') }}"/>
+                <h1 class="cont_noticias--menuSeccion" id="NombreSeccion"></h1><!--contenido asignado desde Js-->
+    
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Aristides&nbsp;Bastidas')">Aristides Bastidas</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Simon&nbsp;Bolivar')">Bolivar</label>                     
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Manuel&nbsp;Bruzual')">Bruzual</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Cocorote')">Cocorote</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Independencia')">Independencia</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Jose&nbsp;Antonio&nbsp;Paez')">Jose Antonio Paez</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('La&nbsp;Trinidad')">La Trinidad</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Manuel&nbsp;Monge')">Manuel Monge</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Nirgua')">Nirgua</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('José&nbsp;Vicente&nbsp;Peña')">Peña</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('San&nbsp;Felipe')">San Felipe</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Antonio&nbsp;J.&nbsp;de&nbsp;Sucre')">Sucre</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Urachiche')">Urachiche</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Jose&nbsp;Joaquin&nbsp;Veroes')">Veroes</label>                
+            </div>
+                
+            <!-- MUESTRA MENU DE BUSQUEDA POR SECCIONES --> 
+            <div class="cont_noticias--municipios borde_1" id="Con_Secciones">
+                <img class="Default_pointer" style="width: 2em; margin-left: 90%;" onclick="MostrarSecciones()" src="{{ asset('/iconos/cerrar/outline_close_black_24dp.png') }}"/>
+                <h1 class="cont_noticias--menuSeccion">Secciones</h1>
+    
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Cultura')">Cultura</label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Politica')">Politica</label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Sucesos')">Sucesos</label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Infraestructura')">Infraestructura</label>
+                <!-- <a onclick="jumpto('Deporte');">One</a> -->
+    
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Salud')">Salud</label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Deporte')">Deporte</label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion()">Comunidad y sociales </label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Educación')">Educación</label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Economia')">Economía</label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Religion')">Religión</label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion()">Ciencia y tecnología</label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion()">Servicios públicos </label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Turismo')">Turismo</label>
+                <label class="cont_noticias--label Default_font--black" onclick="Mostrar_Seccion('Comuna')">Comuna</label>
+            </div> 
 
             <!-- DIV NOTICIA -->
             <section class="cont_noticia--seccion seccion_JS" id="<?php echo 'Busqueda_' . $Row['seccion'];?>"> 
@@ -138,4 +182,5 @@
     @include('layouts/partiers/footer')
 
     <script src="{{ asset('/js/funcionesVarias.js') }}"></script>
+    <script src="{{ asset('/js/E_Noticia.js') }}"></script>
 @endsection()

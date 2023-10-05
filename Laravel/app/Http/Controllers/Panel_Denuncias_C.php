@@ -204,7 +204,7 @@ class Panel_Denuncias_C extends Controller{
             // exit;
 
             //Se INSERTA la denuncia en BD y se retorna el ID de la inserción 
-            //$_SESSION["ID_Suscriptor"] sesion creada en Login_C/ValidarSesion
+            //$_SESSION["ID_Suscriptor"] sesion creada en LoginController/ValidarSesion
             $ID_Denuncia = $this->Consulta_PanelDenuncia_M->InsertarDenuncia($_SESSION["ID_Suscriptor"], $Descripcion, $Ubicacion, $Municipio);
 
             // echo '<pre>';

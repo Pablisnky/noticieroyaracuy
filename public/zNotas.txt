@@ -41,6 +41,7 @@ extension = gd esta extencion en php.ini se activo para que pudiera funcionar la
     A_Catalogos.js
     A_YaracuyEnViedo.js
     E_Artista.js
+    E_Catalogos.js
 tiene la opcion de subir a servidor remoto y servidor local, esta debe ser cambiada segun la condicion
 
 *******************************************************************************

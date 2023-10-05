@@ -1,11 +1,11 @@
-@extends('layouts.partiers.header_suscriptor')
+@extends('layouts.partiers.header_PanelPortada')
 
 @section('titulo', 'Panel actualizar producto')
 
 @section('contenido')
 
     <!-- MENU LATERAL -->
-    @include('panel/suscriptores/suscrip_menu_V')
+    @include('panel/comerciantes/comerciante_menu_V')
 
     <?php 
     //se invoca sesion con el ID_Afiliado creada en validarSesion.php para autentificar la entrada a la vista
@@ -26,10 +26,10 @@
                     <div class="contenedor_47" id="Contenedor_47">     
 
                         <!-- IMAGEN PRINCIPAL -->
-                        <div class="contenedor_129">                   
+                        <div class="contenedor_129">              
                             <label class="Default_pointer" for="imgInp"> 
                                 <figure>  
-                                    <img class="contenedor_119__img" id="blah_2" alt="Fotografia de producto" src="{{ asset('/images/clasificados/' . session('id_suscriptor') . '/productos/' .  $imagenPrin->nombre_img) }}"/>
+                                    <img class="contenedor_119__img" id="blah_2" alt="Fotografia de producto" src="{{ asset('/images/clasificados/' . session('id_comerciante') . '/productos/' .  $imagenPrin->nombre_img) }}"/>
                                 </figure>
                             </label>
                             <input class="Default_ocultar" type="file" accept="image/*" name="imagenPrinci_Editar" id="imgInp"/>

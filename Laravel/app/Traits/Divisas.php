@@ -6,7 +6,7 @@ trait Divisas
    
     public function ValorDolar(){
         //se actualiza manualmente el precio del dolar segun tasa del BCV
-        $Dolar = 34.42; 
+        $Dolar = 34.66; 
 
         return $Dolar;
     }

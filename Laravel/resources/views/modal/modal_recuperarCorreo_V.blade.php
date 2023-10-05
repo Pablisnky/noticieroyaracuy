@@ -9,7 +9,7 @@
         <section class="sectionModal">   
             
             {{-- BOTON CERRAR --}}       
-            {{-- <a href="<?php //echo RUTA_URL . '/Login_C';?>"><i class="fas fa-times spanCerrar"></i></a> --}}
+            {{-- <a href="<?php //echo RUTA_URL . '/LoginController';?>"><i class="fas fa-times spanCerrar"></i></a> --}}
             
             <!-- ICONO CERRAR -->
             <a class="" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}"><img class=" cont_modal--cerrar detalle_cont--cerrar Default_pointer" style="width: 1em;" id="CerrarVentana" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}"/></a>
@@ -34,7 +34,7 @@
         <section class="sectionModal"> 
             
             {{-- BOTON CERRAR        --}}       
-            <a href="<?php //echo RUTA_URL . '/Login_C';?>"><i class="fas fa-times spanCerrar"></i></a>
+            <a href="<?php //echo RUTA_URL . '/LoginController';?>"><i class="fas fa-times spanCerrar"></i></a>
             <br> 
 
             <div class="sectionModal__div">
@@ -57,13 +57,13 @@
         <section class="sectionModal">      
             
             {{-- BOTON CERRAR        --}}  
-            <a href="<?php //echo RUTA_URL . '/Login_C';?>"><i class="fas fa-times spanCerrar"></i></a>
+            <a href="<?php //echo RUTA_URL . '/LoginController';?>"><i class="fas fa-times spanCerrar"></i></a>
             <br> 
 
             <div class="sectionModal__div">
                 <p class='sectionModal__div__p'>El código insertado no es valido.</p> 
                 <br>
-                <form action="<?php //echo RUTA_URL . '/Login_C/recibeCodigoRecuperacion';?>" method="POST">
+                <form action="<?php //echo RUTA_URL . '/LoginController/recibeCodigoRecuperacion';?>" method="POST">
                     <input  class="login_cont--input borde--input" type= "text" readonly value="<?php //echo $Datos['correo'];?>" name="correo">
                     <input  class="login_cont--input borde--input" type="text" name="ingresarCodigo" placeholder="Ingresar Código Nuevamente"> 
                     <div class="contBoton">
@@ -77,7 +77,7 @@
         <section class="sectionModal">  
 
             {{-- BOTON CERRAR        --}}
-            <a href="<?php //echo RUTA_URL . '/Login_C';?>"><i class="fas fa-times spanCerrar"></i></a>
+            <a href="<?php //echo RUTA_URL . '/LoginController';?>"><i class="fas fa-times spanCerrar"></i></a>
             <br> 
 
             <div class="sectionModal__div">

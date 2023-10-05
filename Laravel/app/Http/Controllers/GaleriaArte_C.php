@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\GaleriaArte_M;
+use App\Models\Artistas_M;
 
 class GaleriaArte_C extends Controller
 {
@@ -17,11 +18,17 @@ class GaleriaArte_C extends Controller
     public function index(){   
         
         //Se CONSULTA los artistas en BD
-        $Suscriptores = $this->Instancia_Suscriptor_C->suscriptoresArtistas();
-            // return $Suscriptores;
+        $Artistas = Artistas_M::
+            select('ID_Artista', 'nombreArtista', 'apellidoArtista','imagenArtista','paisArtista','estadoArtista')
+            ->get();
+            // return $Artistas; 
+
+        //Se CONSULTA los artistas en BD
+        // $Artistas = $this->Instancia_Suscriptor_C->suscriptoresArtistas();
+        //     return $Artistas;
 
         return view('galeriaArte.galeriaArte_V', [
-            'suscriptoresArtistas' => $Suscriptores
+            'artistas' => $Artistas
             ]
         ); 
     }

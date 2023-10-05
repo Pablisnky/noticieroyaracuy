@@ -5,16 +5,13 @@
 @section('contenido')
 
     <!-- MENU LATERAL -->
-    @include('panel/suscriptores/suscrip_menu_V')
+    @include('panel/artistas/artista_menu_V')
     
     <section class="cont_suscrip_productos">
         <div class="cont_suscrip_productos--membrete">
 
             <!-- TITULO PAGINA -->
             <h2 class="h2_9">Portafolio de obras</h2>
-            
-            <!-- ICONO AGREGAR -->
-            <a href="<?php //echo RUTA_URL?>/Panel_Artista_C/CargarObras/<?php //echo $Datos['ID_Suscriptor'];?>" rel="noopener noreferrer"><img class="cont_suscrip_productos--membrete--icono  Default_pointer" src="{{ asset('/iconos/agregar/outline_add_circle_outline_black_24dp.png') }}"/></a> 
         </div>
 
         <div class="contenedor_13 cont_suscrip_productos-13"> 
@@ -44,10 +41,13 @@
                         <!-- COLECCION-->
                         <label class="input_8" id="{{ 'EtiquetaPrecio_' . $Contador }}" >{{ $Arr->coleccionObra }}</label>
 
-                        <!-- ACTUALIZAR - ELIMINAR -->
-                        <div class="contenedor_96" id="<?php //echo $Arr['ID_Obra']?>">                
-                            <a class="a_9" href="<?php //echo RUTA_URL?>/Panel_Artista_C/actualizarObra/<?php //echo $Arr['ID_Obra'];?>">Actualizar</a>
+                        
+                        <div class="contenedor_96" id="<?php //echo $Arr['ID_Obra']?>">     
+
+                            <!-- ACTUALIZAR -->           
+                            <a class="a_9" href="{{ route('ActualizarObra', ['id_obra' => $Arr->ID_Obra]) }}/">Actualizar</a>
                             
+                             <!-- ELIMINAR -->
                             <label style="color: blue;" class="Default_pointer" onclick = "EliminarObra('<?php //echo $Arr['ID_Obra'];?>')">Eliminar</label>
                         </div>
                     </div>

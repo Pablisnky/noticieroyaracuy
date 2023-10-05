@@ -221,19 +221,19 @@
                                     <tbody>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Banco</td>
-                                            <td>Mercantil</td>
+                                            {{-- <td>Mercantil</td> --}}
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Titular</td>
-                                            <td>Pablo Cabeza</td>
+                                            {{-- <td>Pablo Cabeza</td> --}}
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Nº cuenta</td>
-                                            <td>0105 0062 10 1062261763</td>
+                                            {{-- <td>0105 0062 10 1062261763</td> --}}
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Cedula/RIF</td>
-                                            <td>12.728.036</td>
+                                            {{-- <td>12.728.036</td> --}}
                                         </tr class="tabla2__tr1">
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Monto</td>
@@ -280,15 +280,15 @@
                                     <tbody>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Banco</td>
-                                            <td>Mercantil</td>
+                                            {{-- <td>Mercantil</td> --}}
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Cedula</td>
-                                            <td>12.728.036</td>
+                                            {{-- <td>12.728.036</td> --}}
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Telefono</td>
-                                            <td>0424-537.40.44</td>
+                                            {{-- <td>0424-537.40.44</td> --}}
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Monto</td>
@@ -319,7 +319,7 @@
                                     <tbody>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Usuario</td>
-                                            <td>pcabeza7@gmail.com</td>
+                                            {{-- <td>pcabeza7@gmail.com</td> --}}
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Monto</td>
@@ -347,11 +347,10 @@
                             <!-- BOTON DE ENVIO Y DATOS OCULTOS -->
                             <article>
                                 <div class="contBoton">
-                                    <input class="Default_ocultar" type="text" name="id_tienda" value="{{ $contactoTienda->ID_Tienda }}"/> 
-    
+                                    <input class="Default_ocultar" type="text" name="id_tienda" value="{{ $id_suscriptor }}"/>     
                                     <!-- Cargado via Ajax cuando el usuario es recordado -->
-                                    <input class="Default_ocultar" type="text" id="ID_Usuario" name="id_usuario"/>
-                                    <input class="Default_ocultar" type="text" id="Pedido" name="pedido"/>
+                                    <input class="Default_ocultar" type="text" name="id_usuario" id="ID_Usuario" />
+                                    <input class="Default_ocultar" type="text" name="pedido" id="Pedido"/>
     
                                     <input class="boton boton--alto botonJS" id="InformarPago" type="submit" value="Enviar Pago"/>
                                 </div>

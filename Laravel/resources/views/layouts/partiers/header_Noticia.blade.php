@@ -88,7 +88,9 @@
 				
 				<!--CARITA -->
 				<div>
-					@if(!empty(session('id_suscriptor')))
+					@if(!empty(session('id_comerciante')))
+						<a class="Default_quitarMovil" href="{{ route('PanelProducto', ['id_comerciante' => session('id_comerciante')]) }}"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}"/></a>	
+					@elseif(!empty(session('id_suscriptor')))
 						<a class="Default_quitarMovil" href="{{ route('DashboardPanelSuscriptor', ['id_suscriptor' => session('id_suscriptor')]) }}"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}"/></a>				
 					@elseif(empty(session('id_suscriptor')) AND empty(session('id_periodista')))
 						<a class="Default_quitarMovil" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}" rel="noopener noreferrer"><img class="Default_logout" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}"/></a>
