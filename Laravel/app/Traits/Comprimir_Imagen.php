@@ -38,26 +38,15 @@ trait Comprimir_Imagen{
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/galeria/' . $ID_Suscriptor . '_' . $NombreArtista . '_' . $ApellidoArtista . '/perfil/';
                 }
             }
-            else if($Bandera == 'imagenProducto'){ 
-                
+            else if($Bandera == 'ImagenProducto'){ 
+               
                 if($Servidor == 'Remoto'){
                     //Usar en remoto         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/'. session('id_suscriptor') . '/productos/';
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/'. session('id_comerciante') . '/productos/'; 
                 }
                 else{
                     //usar en local        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. session('id_suscriptor') . '/productos/';             
-                }
-            }
-            else if($Bandera == 'imagenSecundariiaProducto'){
-                
-                if($Servidor == 'Remoto'){
-                    //Usar en remoto         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';
-                }
-                else{
-                    // usar en local        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';             
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. session('id_comerciante') . '/productos/';            
                 }
             }
             else if($Bandera == 'imagenAgenda'){
@@ -82,17 +71,6 @@ trait Comprimir_Imagen{
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . $_SESSION['ID_Suscriptor'] . '/';             
                 }
             }
-            else if($Bandera == 'imagenSecundariiaProdActualizar'){  
-                
-                if($Servidor == 'Remoto'){              
-                    //Usar en remoto        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/';
-                }
-                else{
-                    //usar en local         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/'; 
-                }
-            }  
             else if($Bandera == 'imagenPortafolio'){
                 
                 if($Servidor == 'Remoto'){

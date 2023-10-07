@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\DB;
+use App\Models\Productos_M;
 
 use App\Traits\Divisas; 
-use App\Http\Controllers\Suscriptor_C;
 
 use App\Traits\ServidorUse;
 use App\Traits\Comprimir_Imagen;
@@ -18,24 +18,20 @@ class PanelMarketplaceController extends Controller
     use Comprimir_Imagen; //Traits
 
     private $ConsultaClasificados_M;
-    private $Instancia_Suscriptor_C;
     private $Dolar;
     private $Comprimir;
     private $Servidor;
         
     public function __construct(){
-
-        $this->Instancia_Suscriptor_C = new Suscriptor_C();
         
         $this->Servidor = $this->conexionServidor(); // metodo en Traits ServidorUse
 
         // Solicita el precio del dolar al Trait Divisas
         $this->Dolar = $this->ValorDolar();
-        // echo $this->Dolar . '<br>';
     }
 
-    //Muestra todos los productos que tiene un suscriptor especifico
-    public function index($ID_Suscriptor){
+    //Muestra todos los productos que tiene un comerciante especifico
+    public function index($ID_Comerciante){
         
         //se consultan los anuncios clasificados de un suscriptor
         $ProductosSuscriptor = DB::connection('mysql_2')->table('productos') 
@@ -43,10 +39,9 @@ class PanelMarketplaceController extends Controller
             ->join('productos_opciones', 'productos.ID_Producto','=','productos_opciones.ID_Producto')
             ->join('opciones', 'productos_opciones.ID_Opcion','=','opciones.ID_Opcion') 
             ->join('imagenes', 'productos.ID_Producto','=','imagenes.ID_Producto') 
-            ->where("ID_Suscriptor",'=', $ID_Suscriptor)  
+            ->where("ID_Comerciante",'=', $ID_Comerciante)  
             ->where("fotoPrincipal",'=', 1) 
-            ->orderBy('productos.producto', 'asc')
-            ->orderBy('opciones.opcion', 'asc')
+            ->orderBy('productos.ID_Producto', 'desc')
             ->get();
             // return $ProductosSuscriptor;
 
@@ -248,7 +243,7 @@ class PanelMarketplaceController extends Controller
     // **************************************************************************************************************
 
     //recibe el formulario para cargar un nuevo producto
-    public function recibeProductoPublicar(Request $Request){
+    public function recibeProductoAgregar(Request $Request){
         // if($_SESSION['Publicar'] == 1906){// Anteriormente en el metodo "Publicar" se generó la esta sesion; con esto se evita que no se pueda recarga esta página.
             // unset($_SESSION['Publicar']);//se borra la sesión. 
 
@@ -260,19 +255,16 @@ class PanelMarketplaceController extends Controller
 
             //Recibe datos del producto que se va a cargar al sistema
             $RecibeProducto = [
-                'condicion' => !empty($Request->get('grupo')) ? $Request->get('grupo') : 'NoAsignado',
-                // 'ID_Producto' => $Request->get('id_producto'),
-                // 'ID_Opcion' => $Request->get('id_opcion'),
+                'Condicion' => !empty($Request->get('grupo')) ? $Request->get('grupo') : 'NoAsignado',
                 'Producto' => $Request->get('producto'),
                 'Descripcion' => $Request->get('descripcion'),
-                // 'Descripcion' => preg_replace('[\n|\r|\n\r|\)','',$_POST, "descripcion", ), //evita los saltos de lineas realizados por el usuario al separar parrafos
                 'PrecioBs' => $Request->get("precioBs"),
                 'PrecioDolar' => $Request->get("precioDolar"),
-                'Cantidad' => empty($Request->get('uni_existencia')) ? 0 : $Request->get('uni_existencia'),
+                'Existencia' => empty($Request->get('existencia')) ? 0 : $Request->get('existencia'),
                 'ID_Comerciante' => $Request->get("id_comerciante"),
                 'ID_Seccion' => $Request->get("id_seccion") 
             ];
-            return $RecibeProducto;
+            // return $RecibeProducto;
         // }
         // else{
         //     echo 'Llene todos los campos obligatorios' . '<br>';
@@ -283,28 +275,29 @@ class PanelMarketplaceController extends Controller
             //********************************************************
             //Las siguientes consultas se deben realizar por medio de Transacciones BD
 
-            //Se INSERTA en BD el producto  y se retorna el ID recien insertado
+            //Se INSERTA en BD el producto y se retorna el ID recien insertado
+            DB::connection('mysql_2')
+                ->insert('insert into productos (ID_Comerciante, producto, nuevo) values (?,?,?)', [$RecibeProducto['ID_Comerciante'], $RecibeProducto['Producto'], $RecibeProducto['Condicion']]);
 
+            $ID_Producto  = DB::connection('mysql_2')->table('productos')->latest('ID_Producto')->first()->ID_Producto;
+            // return $UltimoId;
 
+            //Se INSERTA en BD la opcion y precio del producto y se retorna el ID recien insertado
+            DB::connection('mysql_2')
+                ->insert('insert into opciones (opcion, precioBolivar, precioDolar, cantidad) values (?,?,?,?)', [$RecibeProducto['Descripcion'], $RecibeProducto['PrecioBs'], $RecibeProducto['PrecioDolar'], $RecibeProducto['Existencia']]);
 
-
-
-
-
-
-
-
-            
-            $ID_Producto = $this->ConsultaClasificados_M->insertarProducto($RecibeProducto);
-
-            //Se INSERTA en BD la opcion y precio del productoy se retorna el ID recien insertado
-            $ID_Opcion = $this->ConsultaClasificados_M->insertarOpcionesProducto($RecibeProducto);
+                $ID_Opcion = DB::connection('mysql_2')->table('opciones')->latest('ID_Opcion')->first()->ID_Opcion;
             
             //Se INSERTA en BD la dependencia transitiva entre producto y opciones
-            $this->ConsultaClasificados_M->insertarDT_ProOpc($ID_Producto, $ID_Opcion);
+            DB::connection('mysql_2')
+            ->insert('insert into productos_opciones (ID_Producto, ID_Opcion) values (?,?)', [$ID_Producto, $ID_Opcion]);
+            
+            //Se INSERTA en BD la dependencia transitiva entre producto y secciones
+            DB::connection('mysql_2')
+            ->insert('insert into secciones_productos (ID_Producto, ID_Seccion) values (?,?)', [$ID_Producto, $RecibeProducto['ID_Seccion']]);
             
             //Se INSERTA en BD la dependencia transitiva entre producto yseccion
-            $this->ConsultaClasificados_M->insertarDT_ProSec($ID_Producto, $RecibeProducto);
+            // $this->ConsultaClasificados_M->insertarDT_ProSec($ID_Producto, $RecibeProducto);
 
             //IMAGEN PRINCIPAL PRODUCTO
             //********************************************************
@@ -318,8 +311,8 @@ class PanelMarketplaceController extends Controller
                 // echo 'Nombre de la imagen = ' . $nombre_imgProducto . '<br>';
                 // echo 'Tipo de archivo = ' .$tipo_imgProducto .  '<br>';
                 // echo 'Tamaño = ' . $tamanio_imgProducto . '<br>';
-                //se muestra el directorio temporal donde se guarda el archivo
-                // echo $_FILES['imagen']['tmp_name'];
+                // // se muestra el directorio temporal donde se guarda el archivo
+                // echo $_FILES['imagenProducto']['tmp_name'];
                 // exit();
                 
                 //Quitar de la cadena del nombre de la imagen todo lo que no sean números, letras o puntos
@@ -336,27 +329,24 @@ class PanelMarketplaceController extends Controller
                         
                         //Se crea el directorio donde iran las imagenes de la tienda
                         // Usar en remoto
-                        $CarpetaProductos = $_SERVER['DOCUMENT_ROOT'] . '/public/images/clasificados/' . $_SESSION['ID_Suscriptor'] . '/productos';
+                        $CarpetaProductos = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/' . session('id_comerciante') . '/productos';
 
                         // Usar en local
-                        // $CarpetaProductos = $_SERVER['DOCUMENT_ROOT'] . '/proyectos/NoticieroYaracuy/public/images/clasificados/' . $_SESSION['ID_Suscriptor'] . '/productos';
+                        // $CarpetaProductos = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_comerciante') . '/productos';
                         
                         if(!file_exists($CarpetaProductos)){
                             mkdir($CarpetaProductos, 0777, true);
                         }       
 
                         //Se INSERTA la imagen principal en BD
-                        $this->ConsultaClasificados_M->insertaImagenPrincipalProducto($ID_Producto, $nombre_imgProducto, $tipo_imgProducto, $tamanio_imgProducto);
+                        DB::connection('mysql_2')
+                            ->insert('insert into imagenes (ID_Producto, nombre_img, tipoArchivo, tamanoArchivo, fotoPrincipal, fecha, hora) values (?,?,?,?,?, CURDATE(), CURTIME())', [$ID_Producto, $nombre_imgProducto, $tipo_imgProducto, $tamanio_imgProducto, 1]);
                         
-                        // INSSERTA IMAGEN PRINCIPAL DE NOTICIA EN SERVIDOR
+                        // INSSERTA IMAGEN PRINCIPAL DEL PRODUCTO EN SERVIDOR
                         // se comprime y se inserta el archivo en el directorio de servidor 
-                        $Bandera = 'imagenProducto';
-                        require(RUTA_APP . '/helpers/Comprimir_Imagen.php');
-                        $this->Comprimir = new Comprimir_Imagen();
-
-                        $this->Comprimir->index($Bandera, $nombre_imgProducto, $tipo_imgProducto, $tamanio_imgProducto, $Temporal_imgProducto);
-                        
-                        $this->Productos($RecibeProducto["ID_Suscriptor"]);
+                        $BanderaImg = 'ImagenProducto';
+                        // metodo en Traits Comprimir_imagen
+                        $this->imagen_comprimir($BanderaImg, $this->Servidor, $nombre_imgProducto, $tipo_imgProducto, $tamanio_imgProducto, $Temporal_imgProducto);	
                     }
                     else{
                         //si no cumple con el formato
@@ -401,20 +391,29 @@ class PanelMarketplaceController extends Controller
 
                     // INSSERTA IMAGEN SECUNDARIA DE PRODUCTO EN SERVIDOR
                     // se comprime y se inserta el archivo en el directorio de servidor 
-                    $Bandera = 'imagenSecundariiaProducto';
-                    $this->Comprimir->index($Bandera, $Nombre_imagenSecundaria, $tipo_imagenSecundaria,$tamanio_imagenSecundaria, $Ruta_Temporal_imagenSecundaria);	
+                    $Bandera = 'ImagenProducto';                    
+                    $this->imagen_comprimir($Bandera, $this->Servidor, $Nombre_imagenSecundaria, $tipo_imagenSecundaria, $tamanio_imagenSecundaria, $Ruta_Temporal_imagenSecundaria);	
                     
                     //Se INSERTAN las fotografias secundarias del producto en BD
-                    $this->ConsultaClasificados_M->insertaImagenSecundariaProducto($ID_Producto, $Nombre_imagenSecundaria, $tipo_imagenSecundaria, $tamanio_imagenSecundaria);
+                    DB::connection('mysql_2')
+                        ->insert('insert into imagenes (ID_Producto, nombre_img, tipoArchivo, tamanoArchivo, fotoPrincipal, fecha, hora) values (?,?,?,?,?, CURDATE(), CURTIME())', [$ID_Producto, $Nombre_imagenSecundaria, $tipo_imagenSecundaria, $tamanio_imagenSecundaria, 0]);
                 }
             }
+            // else{
+            //     echo "ELSE";
+            //     exit;
+            // }
+            
+            return redirect()->route("PanelProducto", ['id_comerciante' => $RecibeProducto['ID_Comerciante']]);
+            die();
         // }
         // else{ 
-        //     $this->Productos($_POST["id_suscriptor"]);
+        // return redirect()->route("PanelProducto", ['id_comerciante' => $RecibeProducto['ID_Comerciante']]);
+        // die();
         // } 
     }
     
-    //Invocado en carrito_V.php
+    //Invocado en carrito_V.php debe ir en marketplacecontroller
     public function recibePedido(Request $Request){    
         //  if($_SESSION['Carrito'] == 1806){Anteriormente en Carrito_C se generó la variable $_SESSION["verfica_2"] con un valor de 1906; con esto se evita que no se pueda recarga esta página.
                 // unset($_SESSION['Carrito']);//se borra la sesión verifica.        
@@ -667,8 +666,7 @@ class PanelMarketplaceController extends Controller
     //     header('location:' . RUTA_URL . '/Inicio_C/NoVerificaLink');
     // } 
 }
-    
-    
+        
     // **************************************************************************************************************
     // **************************************************************************************************************
     // **************************************************************************************************************
@@ -687,11 +685,10 @@ class PanelMarketplaceController extends Controller
                 'ID_Opcion' => $Request->get('id_opcion'),
                 'Producto' => $Request->get('producto'),
                 'Descripcion' => $Request->get('descripcion'),
-                // 'Descripcion' => preg_replace('[\n|\r|\n\r|\)','',$_POST, "descripcion", ), //evita los saltos de lineas realizados por el usuario al separar parrafos
                 'PrecioBs' => $Request->get("precioBolivar"),
                 'PrecioDolar' => $Request->get("precioDolar"),
-                'Cantidad' => empty($Request->get('uni_existencia')) ? 0 : $Request->get('uni_existencia'),
-                'ID_Suscriptor' => $Request->get("id_suscriptor"),
+                'Existencia' => $Request->get('existencia'),
+                'ID_Comerciante' => $Request->get("id_comerciante"),
                 'ID_Seccion' => $Request->get("id_seccion") 
             ];
             // return $RecibeProducto;
@@ -701,9 +698,6 @@ class PanelMarketplaceController extends Controller
         //     echo '<a href="javascript: history.go(-1)">Regresar</a>';
         //     exit();
         // }
-
-        // require(RUTA_APP . '/helpers/Comprimir_Imagen.php');
-        // $this->Comprimir = new Comprimir_Imagen();
 
         //IMAGEN PRINCIPAL
         // ********************************************************
@@ -727,16 +721,15 @@ class PanelMarketplaceController extends Controller
             // Se coloca nuumero randon al principio del nombrde de la imagen para evitar que existan imagenes duplicadas
             $nombre_imgProductoActualizar = mt_rand() . '_' . $nombre_imgProductoActualizar;
 
-
             //Se ACTUALIZA la fotografia principal del producto en BD            
             DB::connection('mysql_2')->table('imagenes')
-            ->where('ID_Producto', $RecibeProducto['ID_Producto']) 
-            ->where('fotoPrincipal','=', 1)
-            ->update(['nombre_img' => $nombre_imgProductoActualizar,'tipoArchivo' => $tipo_imgProductoActualizar,'tamanoArchivo' => $tamanio_imgProductoActualizar]);
+                ->where('ID_Producto', $RecibeProducto['ID_Producto']) 
+                ->where('fotoPrincipal','=', 1)
+                ->update(['nombre_img' => $nombre_imgProductoActualizar,'tipoArchivo' => $tipo_imgProductoActualizar,'tamanoArchivo' => $tamanio_imgProductoActualizar]);
 
             // ACTUALIZA IMAGEN PRINCIPAL DE NOTICIA EN SERVIDOR
             // se comprime y se inserta el archivo en el directorio de servidor 
-            $Bandera = 'imagenProducto';
+            $Bandera = 'ImagenProducto';
             // metodo en Traits Comprimir_imagen
             $this->imagen_comprimir($Bandera, $this->Servidor, $nombre_imgProductoActualizar, $tipo_imgProductoActualizar, $tamanio_imgProductoActualizar, $Temporal_imgProductoActualizar);
         }
@@ -765,11 +758,13 @@ class PanelMarketplaceController extends Controller
 
                 // ACTUALIZA IMAGEN SECUNDARIA DE PRODUCTO EN SERVIDOR
                 // se comprime y se inserta el archivo en el directorio de servidor 
-                $Bandera = 'imagenSecundariiaProdActualizar';
-                $this->Comprimir->index($Bandera, $Nombre_imagenSecundaria, $tipo_imagenSecundaria,$tamanio_imagenSecundaria, $Ruta_Temporal_imagenSecundaria);	
+                $Bandera = 'ImagenProducto';
+                // metodo en Traits Comprimir_imagen
+                $this->imagen_comprimir($Bandera, $this->Servidor, $Nombre_imagenSecundaria, $tipo_imagenSecundaria, $tipo_imagenSecundaria, $Ruta_Temporal_imagenSecundaria);	
                 
                 //Se INSERTAN las fotografias secundarias del producto en BD
-                $this->ConsultaClasificados_M->insertaImagenSecundariaProducto($RecibeProducto['ID_Producto'], $Nombre_imagenSecundaria, $tipo_imagenSecundaria, $tamanio_imagenSecundaria);
+                DB::connection('mysql_2')
+                    ->insert('insert into imagenes (ID_Producto, nombre_img, tipoArchivo, tamanoArchivo, fotoPrincipal, fecha, hora) values (?,?,?,?,?, CURDATE(), CURTIME())', [$RecibeProducto['ID_Producto'], $Nombre_imagenSecundaria, $tipo_imagenSecundaria, $tamanio_imagenSecundaria, 0]);
             }
         }
     
@@ -779,7 +774,7 @@ class PanelMarketplaceController extends Controller
         //Se ACTUALIZA la tabla opciones en BD            
         DB::connection('mysql_2')->table('opciones')
             ->where('ID_Opcion', $RecibeProducto['ID_Opcion']) 
-            ->update(['opcion' => $RecibeProducto['Descripcion'], 'precioBolivar' => $RecibeProducto['PrecioBs'], 'precioDolar' => $RecibeProducto['PrecioDolar'], 'cantidad' => $RecibeProducto['Cantidad']]);
+            ->update(['opcion' => $RecibeProducto['Descripcion'], 'precioBolivar' => $RecibeProducto['PrecioBs'], 'precioDolar' => $RecibeProducto['PrecioDolar'], 'cantidad' => $RecibeProducto['Existencia']]);
 
         //Se ACTUALIZA la tabla productos en BD   
         DB::connection('mysql_2')->table('productos')
@@ -789,7 +784,7 @@ class PanelMarketplaceController extends Controller
         //ACTUALIZA la dependencia transitiva entre el producto y la seccions a la que pertenece
         // $this->ConsultaClasificados_M->actualizarDT_SecPro($RecibeProducto);
 
-        return redirect()->route("PanelProducto", ['id_comerciante' => $RecibeProducto['ID_Suscriptor']]);
+        return redirect()->route("PanelProducto", ['id_comerciante' => $RecibeProducto['ID_Comerciante']]);
         die();
     }
 
@@ -814,10 +809,10 @@ class PanelMarketplaceController extends Controller
         
         //Se eliminan las imagenes del directorio del servidor
         foreach($ImagenesEliminar as $Key)	:
-            $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_suscriptor') . '/productos/' . $Key->nombre_img);
+            $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_comerciante') . '/productos/' . $Key->nombre_img);
 
             if($Ruta){
-                unlink($_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_suscriptor') . '/productos/' . $Key->nombre_img); 
+                unlink($_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_comerciante') . '/productos/' . $Key->nombre_img); 
             }
         endforeach;
 
@@ -849,30 +844,31 @@ class PanelMarketplaceController extends Controller
         // *************************************************************************************
         // *************************************************************************************
         
-        return redirect()->route("PanelProducto", ['id_comerciante' => session('id_suscriptor')]);
+        return redirect()->route("PanelProducto", ['id_comerciante' => session('id_comerciante')]);
         die();
     }
     
     //Eliminar imagen secundaria especifica de un producto
     public function eliminar_imagenSecundariaProducto($ID_Imagen){
-        
-        //Se consulta el nombre de la imagen del producto
-        $NombreImagenEliminar = $this->ConsultaClasificados_M->consultarImageneEspecificaEliminar($ID_Imagen);
-        // echo '<pre>';
-        // print_r($NombreImagenEliminar);
-        // echo '</pre>';
-        // exit;		
 
-        //Usar en remoto
-        unlink($_SERVER['DOCUMENT_ROOT'] . '/public/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/' . $NombreImagenEliminar['nombre_img']);
-            
-        //usar en local
-        // unlink($_SERVER['DOCUMENT_ROOT'] . '/proyectos/noticieroyaracuy/public/images/clasificados/'. $_SESSION['ID_Suscriptor'] . '/productos/' . $NombreImagenEliminar['nombre_img']);
-        
-        $this->ConsultaClasificados_M->eliminarImagenSecundariaNoticia($ID_Imagen);	
+        //Se consulta el nombre de la imagen del producto para eliminarl del directorio
+        $nombre_imagenProducto = DB::connection('mysql_2')->table('imagenes')
+            ->select('nombre_img')
+            ->where('ID_Imagen','=', $ID_Imagen) 
+            ->first();
+            // return $nombre_imagenProducto;
 
-        // header("Location:" . RUTA_URL . "/Panel_C/");
-        // die();
+        $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. session('id_comerciante') . '/productos/' . $nombre_imagenProducto->nombre_img);
+
+        if($Ruta){
+            unlink($_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/'. session('id_comerciante') . '/productos/' . $nombre_imagenProducto->nombre_img);
+        }
+
+        // Se elimina la imagen de la BD
+        $EliminaImagen = DB::connection('mysql_2')->table('imagenes')       
+            ->where('ID_Imagen','=', $ID_Imagen)
+            ->delete(); 
+            //return $EliminaImagen; 
     }
     
     //Elimina todas las secciones de un catalogo especifico

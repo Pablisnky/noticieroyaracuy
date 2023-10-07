@@ -79,9 +79,9 @@
                             <input class="Default_ocultar" id="CambioOficial" type="text" value="{{ $dolarHoy }}"/>
 
                             <!-- CANTIDAD EN EXISTENCIA -->
-                            <div class="Default_ocultar" id="Contenedor_152">
-                                <label class="default_bold">Unidades cargadas</label>                       
-                                    <input class="placeholder placeholder_2 placeholder_4 borde_1 borde_2" type="text" name="uni_existencia" id="Cantidad" value="{{ $especificaciones->cantidad }}">   
+                            <div>
+                                <label class="login_cont--label">Existencia</label>                       
+                                <input class="placeholder placeholder_2 placeholder_4 borde_1 borde_2" type="text" name="existencia" id="Cantidad" value="{{ $especificaciones->cantidad }}">   
                             </div>  
                             
                             <!-- IMAGENES SECUNDARIAS -->
@@ -92,20 +92,22 @@
                                 <input class="Default_ocultar" type="file" name="imagenSecundariiaProdActualizar[]" multiple="multiple" id="ImgInp_3" onchange="VariasImg()"/>  
                             </div>  
 
+                            {{-- DIV QUE MUESTRA LAS IMGENES SECUNDARIAS --}}
                             <div class="cont_suscrip_ImgSec">
                                 @foreach($imagenSec as $Row_2)                   
                                     <div style="margin: 1%;" id=PadreImagenes">
+
                                         <!-- ICONO ELIMINAR IMAGEN -->
                                         <input class="Default_ocultar" type="file" name="img_sSecundaria"  id="imgInp_3"/>
                                         <div class="cont_edit--dosBotones" id="Cont_Botones--{{ $Row_2->ID_Imagen }}">
                                             <!-- <div> -->
-                                                <img class="Default_pointer" style="width: 2em" src="<?php //echo RUTA_URL . '/public/iconos/cerrar/outline_cancel_black_24dp.png'?>" onclick="EliminarImagenSecundaria('<?php //echo $Row['ID_Imagen'];?>','Cont_Botones--<?php //echo $Row_2['ID_Imagen'];?>')"/>
+                                            <img class="Default_pointer" style="width: 2em" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="EliminarImagenSecundaria('{{ $Row_2->ID_Imagen }}','Cont_Botones--{{ $Row_2->ID_Imagen }}','{{ route('EliminarImgSecundariaPRoducto', ['id_imagenSec' => $Row_2->ID_Imagen] ) }}')"/>
                                             <!-- </div> -->
                                         </div>
 
                                         <!-- IMAGEN SECUNDARIAS -->
-                                        <figure id="<?php //echo $Row_2['ID_Imagen'];?>"> 
-                                            <img class="actualizar_cont--imagen" alt="Fotografia Producto" id="ImagenSecundaria" src="<?php //echo RUTA_URL?>/public/images/clasificados/<?php //echo $_SESSION['ID_Suscriptor'];?>/productos/<?php //echo $Row_2['nombre_img'];?>"/> 
+                                        <figure id="{{ $Row_2->ID_Imagen }}"> 
+                                            <img class="actualizar_cont--imagen" alt="Fotografia Producto" id="ImagenSecundaria" src="{{ asset('/images/clasificados/' . session('id_comerciante') . '/productos/'  .  $Row_2->nombre_img) }}"/> 
                                         </figure>
                                     </div>
                                 @endforeach
@@ -118,7 +120,7 @@
 
                     <!-- BOTON DE ENVIO Y DATOS OCULTOS -->
                     <div class="contBoton contBoton--marginTop">
-                        <input class="Default_ocultar" type="text" name="id_suscriptor" value="{{ session('id_suscriptor') }}"/>
+                        <input class="Default_ocultar" type="text" name="id_comerciante" value="{{ session('id_comerciante') }}"/>
                         <input class="Default_ocultar" type="text" name="id_producto" value="{{ $especificaciones->ID_Producto }}">
                         <input class="Default_ocultar" type="text" name="id_opcion" value="{{ $especificaciones->ID_Opcion }}">
                         <!-- <input class="Default_ocultar" type="text" name="id_imagen" value="<?php ////echo $ID_ImagenPrincipal;?>"/> -->
@@ -130,8 +132,8 @@
         </div>
         
         <script src="{{ asset('/js/funcionesVarias.js?v=' . rand()) }}"></script>
-        <script src="{{ asset('/js/E_Suscrip_editar_prod.js?v=' . rand()) }}"></script> 
-        <script src="{{ asset('/js/A_Suscrip_editar_prod.js?v=' . rand()) }}"></script> 
+        <script src="{{ asset('/js/E_Comerciante_editar_producto.js?v=' . rand()) }}"></script> 
+        <script src="{{ asset('/js/A_Comerciante_editar_producto.js?v=' . rand()) }}"></script> 
 
         <script> 
             //Da una vista previa de la imagen principal antes de guardarla en la BD

@@ -115,7 +115,7 @@
                         @endif
 
                         <!-- IMAGEN -->
-                        <a href="<?php //echo RUTA_URL . '/Catalogos_C/productoAmpliado/' . $ID_Producto;?>" rel="noopener noreferrer" target="_blank"><img class="contOpciones__img" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $id_suscriptor . '/productos/' . $row->nombre_img) }}"/></a> 
+                        <a href="<?php //echo RUTA_URL . '/Catalogos_C/productoAmpliado/' . $ID_Producto;?>" rel="noopener noreferrer" target="_blank"><img class="contOpciones__img" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $id_comerciante . '/productos/' . $row->nombre_img) }}"/></a> 
                     </div>
                                 
                     <div class="cont_producto"> 
@@ -147,7 +147,7 @@
                                 @endif
                                  
                                 <!-- Este input es el que se envia al archivo JS por medio de la función agregarProducto(), en el valor se colocan el caracter _ para usarlo como separardor en JS-->
-                                <input class="Default_ocultar" type="radio" name="opcion" id="{{ 'ContadorLabel_' . $row->ID_Opcion }}" value="{{ $row->ID_Opcion . ',' . '_' . $row->producto . ',' . '_' . $row->opcion . ',' . '_' . $row->precioBolivar . ',' . '_' . $row->ID_Seccion }}" onclick="agregarProducto(this.form , '{{ 'Etiqueta_' . $row->ID_Opcion }}','{{ 'Cont_Leyenda_' . $row->ID_Opcion }}','{{ 'Cantidad_' . $row->ID_Opcion }}','{{ 'Producto_' . $row->ID_Opcion }}','{{ 'Opcion_' . $row->ID_Opcion }}','{{ 'Precio_' . $row->ID_Opcion }}','{{ 'Total_' . $row->ID_Opcion }}','{{ 'Leyenda_' . $row->ID_Opcion }}','{{ 'Cont_Producto_' . $row->ID_Opcion }}','{{ 'Item_'. $row->ID_Opcion }}','{{ $row->cantidad }}','{{ 'ID_BotonMas_'. $row->ID_Opcion }}','{{ 'ID_BloquearMas_'. $row->ID_Opcion }}','{{ $id_suscriptor }}')"/>
+                                <input class="Default_ocultar" type="radio" name="opcion" id="{{ 'ContadorLabel_' . $row->ID_Opcion }}" value="{{ $row->ID_Opcion . ',' . '_' . $row->producto . ',' . '_' . $row->opcion . ',' . '_' . $row->precioBolivar . ',' . '_' . $row->ID_Seccion }}" onclick="agregarProducto(this.form , '{{ 'Etiqueta_' . $row->ID_Opcion }}','{{ 'Cont_Leyenda_' . $row->ID_Opcion }}','{{ 'Cantidad_' . $row->ID_Opcion }}','{{ 'Producto_' . $row->ID_Opcion }}','{{ 'Opcion_' . $row->ID_Opcion }}','{{ 'Precio_' . $row->ID_Opcion }}','{{ 'Total_' . $row->ID_Opcion }}','{{ 'Leyenda_' . $row->ID_Opcion }}','{{ 'Cont_Producto_' . $row->ID_Opcion }}','{{ 'Item_'. $row->ID_Opcion }}','{{ $row->cantidad }}','{{ 'ID_BotonMas_'. $row->ID_Opcion }}','{{ 'ID_BloquearMas_'. $row->ID_Opcion }}','{{ $id_comerciante }}')"/>
                                         
                                 <!-- BOTON MAS Y MENOS -->                            
                                 <div class="contenedor_14" id="{{ 'Cont_Leyenda_' . $row->ID_Opcion }}">
@@ -201,14 +201,14 @@
         <div id="Mostrar_Orden"></div>
 
         {{-- se entregan a JS el ID_Suscriptor y el pseudonimoSuscripto de la tienda para verificar que no existan productos cargado de dos tendas diferentes --}}
-        <input class="Default_ocultar" type="text" id="ID_Suscriptor" value='{{ $id_suscriptor }}'/>   
+        <input class="Default_ocultar" type="text" id="ID_Suscriptor" value='{{ $id_comerciante }}'/>   
         <input class="Default_ocultar" type="text" id="PseudonimoSuscripto" value='{{ $suscriptor->pseudonimoSuscripto }}'/>
     </section>
 
     <!-- BOTON CARRITO DE COMPRAS -->
     <div class="contenedor_61" id="Contenedor_61"> 
         <input type="text" class="Default_ocultar" id="PrecioDolar" value="{{ $dolar }}" />
-        <div class="contenedor_21" id="Mostrar_Carrito" onclick="llamar_PedidoEnCarrito('{{ route('VerCarrito', ['ID_Suscriptor' => $row->ID_Suscriptor, 'dolar' => $dolar]) }}')">
+        <div class="contenedor_21" id="Mostrar_Carrito" onclick="llamar_PedidoEnCarrito('{{ route('VerCarrito', ['id_comerciante' => $row->ID_Comerciante, 'dolar' => $dolar]) }}')">
             <div class="contenedor_31">
                 <small class="small_1 small_4" id="Small_4--JS">Ver <br class="br_3"> carrito</small>
                 <img class="Default_pointer" style="width: 1.8em;" id="Cerrar" src="{{ asset('/iconos/carritoCompras/outline_shopping_cart_white_24dp.png') }}"/>

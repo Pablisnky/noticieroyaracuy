@@ -32,7 +32,7 @@ function conexionAJAX(){
 // *************************************************************************************************
     //Muestra las miniaturas de las imagenes de una noticia
     function Llamar_VerMiniatura(Ruta){
-        // console.log("______Desde Llamar_VerMiniatura()______", Ruta)
+        console.log("______Desde Llamar_VerMiniatura()______", Ruta)
         
         var url = Ruta
         http_request.open('GET', url, true)  

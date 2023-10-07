@@ -1,4 +1,4 @@
-@media screen and (max-width: 350px){/*aplicará en cualquier medio con dimensiones menores a lo indicado*/
+@media screen and (max-width: 360px) and (max-height: 640px){/*aplicará en cualquier medio con dimensiones menores a lo indicado*/
 	
 :root{
 	--FondoDivModal--claro: rgba(0, 0, 0, 0.8);
@@ -262,11 +262,11 @@
 .cont_detalle{
     width: 100%;
 }
-.cont_detalle--imagen{
+.cont_detalle--imagen{ /*configuracion ideal para imagenes que cambian*/
 	height: fit-content;
-	max-height: 85vw;
+	max-height: 80vw;
+	min-height: 80vw;
 	margin-bottom: 1%;
-	/* height: 85vw; */
 	/* margin-top: 15%; */
 }
 .cont_detalle--imagenMiniatura{

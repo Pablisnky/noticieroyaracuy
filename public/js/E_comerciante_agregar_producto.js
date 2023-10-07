@@ -101,37 +101,6 @@ document.getElementById("ContenidoDes").addEventListener('keydown', function(){v
         document.getElementById(id_2).value = ''
     }
 
-// -------------------------------------------------------------------------------------------
-//Impide que se sigan introduciendo caracteres al alcanzar el limite maximo, llamada desde index.php 
-    // var contenido_producto = "";    
-    // function valida_Longitud(){  
-    //     var num_caracteres_permitidos = 20;
-
-    //     //se averigua la cantidad de caracteres escritos
-    //     num_caracteres = document.forms[0].producto.value.length; 
-
-    //     if(num_caracteres > num_caracteres_permitidos){ 
-    //         document.forms[0].producto.value = contenido_producto; 
-    //     }
-    //     else{ 
-    //         contenido_producto = document.forms[0].producto.value; 
-    //     } 
-    // } 
-
-//************************************************************************************************
-// indica la cantidad de caracteres que quedan mientra se escribe, llamada desde cuenta_publicar.php
-    // function contarDes(){
-    //     var max = 20; 
-    //     var cadena = document.getElementById("ContenidoDes").value; 
-    //     var longitud = cadena.length; 
-
-    //         if(longitud <= max) { 
-    //             document.getElementById("ContadorDes").value = max-longitud; 
-    //         } else { 
-    //             document.getElementById("ContenidoDes").value = cadena.subtring(0, max);
-    //         } 
-    // } 
-  
 //************************************************************************************************ 
     //Elimina imagenes previsualizadas
     function EliminarImagenSecundaria(Etiqueta, SeleccionImagenes){

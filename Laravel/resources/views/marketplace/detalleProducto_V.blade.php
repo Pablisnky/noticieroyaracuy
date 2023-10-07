@@ -35,14 +35,14 @@
                         <?php
                     }  ?>
 
-                    <!-- IMAGEN PRINCIPAL--> 
-                    <img class="imagen_9" alt="Imagen no disponible" src="{{ asset('/images/clasificados/' . $producto->ID_Suscriptor . '/productos/' . $imagen->nombre_img) }}"/> 
+                    <!-- IMAGEN PRINCIPAL imagen_9--> 
+                    <img class="cont_detalle--imagen" alt="Imagen no disponible" src="{{ asset('/images/clasificados/' . $producto->ID_Comerciante . '/productos/' . $imagen->nombre_img) }}"/> 
                 </div>
 
                 <!-- IMAGENES MINIATURAS -->                           
                 <div class="contenedor_125">
-                    @foreach($imagenesSec as $Row)  
-                        <img class="imagen--miniaturas borde_1 borde_2" id="Imagen" alt="Fotografia no disponible" src="{{ asset('/images/clasificados/' . $producto->ID_Suscriptor . '/productos/' . $Row->nombre_img) }}" onclick="Llamar_VerMiniatura('{{ $Row->ID_Imagen }}')"/>
+                    @foreach($imagenesSec as $Row) 
+                        <img class="cont_detalle--imagenMiniatura borde_1" id="Imagen" alt="Fotografia no disponible" src="{{ asset('/images/clasificados/' . $producto->ID_Comerciante . '/productos/' . $Row->nombre_img) }}" onclick="Llamar_VerMiniatura('{{ route('VerMiniaturaProducto', ['id_imagen' => $Row->ID_Imagen]) }}')"/>
                     @endforeach
                 </div>
 
@@ -75,7 +75,7 @@
                         <label><?php echo $vendedor->telefonoSuscriptor?></label>
                     </div>
                     @if($bandera == 'Desde_Clasificados') 
-                        <a class="cont_detalle_Producto--p" href="{{ route('Catalogo', ['ID_Suscriptor' => $producto->ID_Suscriptor, 'pseudonimoSuscripto' => $vendedor->pseudonimoSuscripto ]) }}">Ver catalogo de vendedor</a>
+                        <a class="cont_detalle_Producto--p" href="{{ route('Catalogo', ['ID_Suscriptor' => $producto->ID_Comerciante, 'pseudonimoSuscripto' => $vendedor->pseudonimoSuscripto ]) }}">Ver catalogo de vendedor</a>
                     @endif
                 </div>
 
@@ -250,7 +250,7 @@
     
     {{-- @include('layouts/partiers/footer') --}}
     
-    <script src="{{ asset('/js/A_descr_Producto.js?v=' . rand()) }}"></script>
+    <script src="{{ asset('/js/A_DetalleProducto.js?v=' . rand()) }}"></script>
         
     <script>
         function cerrarVentana(){     

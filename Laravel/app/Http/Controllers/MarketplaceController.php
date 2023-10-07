@@ -28,7 +28,7 @@ class MarketplaceController extends Controller
     public function index(){  
         //Consulta todos los productos publicados  
         $Productos = DB::connection('mysql_2')->table('productos') 
-            ->select('productos.ID_Producto','ID_Suscriptor','opciones.ID_Opcion','producto','nombre_img','opcion', 'precioBolivar','precioDolar','cantidad','nuevo')
+            ->select('productos.ID_Producto','ID_Comerciante','opciones.ID_Opcion','producto','nombre_img','opcion', 'precioBolivar','precioDolar','cantidad','nuevo')
             ->join('imagenes', 'productos.ID_Producto','=','imagenes.ID_Producto') 
             ->join('productos_opciones', 'productos.ID_Producto','=','productos_opciones.ID_Producto')
             ->join('opciones', 'productos_opciones.ID_Opcion','=','opciones.ID_Opcion')  
@@ -54,7 +54,7 @@ class MarketplaceController extends Controller
                    
         //CONSULTA la informacion del producto seleccionado
         $Producto = DB::connection('mysql_2')->table('productos') 
-                ->select('productos.ID_Producto','ID_Suscriptor','producto','nuevo','opcion','precioBolivar','precioDolar','cantidad')
+                ->select('productos.ID_Producto','ID_Comerciante','producto','nuevo','opcion','precioBolivar','precioDolar','cantidad')
                 ->join('productos_opciones', 'productos.ID_Producto','=','productos_opciones.ID_Producto')
                 ->join('opciones', 'productos_opciones.ID_Opcion','=','opciones.ID_Opcion')  
                 ->where('productos.ID_Producto', '=', $ID_Producto)
@@ -77,7 +77,7 @@ class MarketplaceController extends Controller
                 // return $ImagenesSec; 
         
         //CONSULTA informacion del vendedor
-        $Vendedor = $this->Instancia_Suscriptor_C->index($Producto->ID_Suscriptor);
+        $Vendedor = $this->Instancia_Suscriptor_C->index($Producto->ID_Comerciante);
         // return $Vendedor;         
         
         // $Datos = [
@@ -92,7 +92,7 @@ class MarketplaceController extends Controller
         // echo "</pre>";
         // exit();
 
-        return view('marketplace.descr_Producto_V', [
+        return view('marketplace.detalleProducto_V', [
             'producto' => $Producto, 
             'imagen' => $Imagen, 
             'imagenesSec' => $ImagenesSec, 
@@ -104,16 +104,16 @@ class MarketplaceController extends Controller
     } 
 
     // muestra la vista de todos los productos de una tienda
-    public function catalogo($ID_Suscriptor){
+    public function catalogo($ID_Comerciante){
         
         // Consulta todos los productos publicados en clasificados de un suscriptor especifico 
         $Productos = DB::connection('mysql_2')->table('productos') 
-            ->select('productos.ID_Producto','ID_Suscriptor','ID_Seccion','opciones.ID_Opcion','producto','nombre_img','opcion','precioBolivar','precioDolar','cantidad','nuevo')
+            ->select('productos.ID_Producto','ID_Comerciante','ID_Seccion','opciones.ID_Opcion','producto','nombre_img','opcion','precioBolivar','precioDolar','cantidad','nuevo')
             ->join('imagenes', 'productos.ID_Producto','=','imagenes.ID_Producto')  
             ->join('productos_opciones', 'productos.ID_Producto','=','productos_opciones.ID_Producto')
             ->join('opciones', 'productos_opciones.ID_Opcion','=','opciones.ID_Opcion')  
             ->join('secciones_productos', 'productos.ID_Producto','=','secciones_productos.ID_Producto')  
-            ->where('ID_Suscriptor', '=', $ID_Suscriptor)
+            ->where('ID_Comerciante', '=', $ID_Comerciante)
             ->where('fotoPrincipal', '=', '1')
             ->get(); 
             // return $Productos; 
@@ -121,17 +121,17 @@ class MarketplaceController extends Controller
         // Consulta las secciones de un catalogo especifico   
         $Secciones = DB::connection('mysql_2')->table('secciones') 
             ->select('ID_Seccion','seccion') 
-            ->where('ID_Comerciante', '=', $ID_Suscriptor)
+            ->where('ID_Comerciante', '=', $ID_Comerciante)
             ->get(); 
             // return $Secciones; 
             
         //Solicita datos del suscriptor al controlador Suscriptor_C   
-        $Suscriptores = $this->Instancia_Suscriptor_C->index($ID_Suscriptor);
+        $Suscriptores = $this->Instancia_Suscriptor_C->index($ID_Comerciante);
         // return $Suscriptores; 
         
         return view('marketplace.catalogos_V', [
             'dolar' => $this->Dolar,
-            'id_suscriptor' => $ID_Suscriptor,
+            'id_comerciante' => $ID_Comerciante,
             'productos' => $Productos,
             'suscriptor' => $Suscriptores,
             'secciones' => $Secciones
@@ -165,6 +165,7 @@ class MarketplaceController extends Controller
         );
     }
 
+    // recibe contenido de carrito de compras
     public function recibePedido(Request $Request){
         
         // if(session('Carrito') == 1806){   
@@ -562,6 +563,21 @@ class MarketplaceController extends Controller
 
         return redirect()->action([MarketplaceController::class, 'index']);
         die();
+    }
+    
+    // muestra la imagen seleccionada en la miniatura de un producto
+    public function muestraImagenSeleccionada($ID_Imagen){
+        //Se CONSULTA la imagen que se solicito en detalle
+        $ImageneMiniatura = DB::connection('mysql_2')->table('imagenes') 
+            ->select('nombre_img','ID_Comerciante') 
+            ->join('productos', 'imagenes.ID_Producto','=','productos.ID_Producto')
+            ->where('ID_Imagen', '=', $ID_Imagen)
+            ->first(); 
+            // return $ImageneMiniatura; 
+
+        return view('ajax.A_imagenSeleccionada_V', [
+            'imagenSeleccionada' => $ImageneMiniatura,
+        ]);
     }
 }
 

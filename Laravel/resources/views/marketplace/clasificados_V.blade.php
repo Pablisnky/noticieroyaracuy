@@ -50,7 +50,7 @@
                         @endif
                         
                         <!-- IMAGEN -->
-                        <a href="{{ route('ProductoAmpliado', $row->ID_Producto) }}" rel="noopener noreferrer" target="_blank"><img class="contOpciones__img" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $row->ID_Suscriptor . '/productos/' . $row->nombre_img) }}"/></a>
+                        <a href="{{ route('ProductoAmpliado', $row->ID_Producto) }}" rel="noopener noreferrer" target="_blank"><img class="contOpciones__img" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $row->ID_Comerciante . '/productos/' . $row->nombre_img) }}"/></a>
                     </div>
                                                         
                     <div class="cont_producto"> 
@@ -79,7 +79,7 @@
                     <!-- VENDEDOR -->
                     <div class="contOpciones--vendedor">   
                         @foreach($suscriptor as $Key)
-                            @if($row->ID_Suscriptor == $Key->ID_Suscriptor)         
+                            @if($row->ID_Comerciante == $Key->ID_Suscriptor)         
                                 <div class="cont_vendedor--span">                        
                                     <div class="cont_vendedor--span-2">              
                                         <span class="span--vendedor--ubicacion"></span>

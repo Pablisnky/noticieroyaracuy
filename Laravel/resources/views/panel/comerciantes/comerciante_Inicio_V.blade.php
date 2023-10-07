@@ -69,8 +69,8 @@
         </section>
         
         <script src="{{ asset('/js/funcionesVarias.js?v=' . rand()) }}"></script>
-        <script src="{{ asset('/js/E_Suscrip_productos.js?v=' . rand()) }}"></script>
-        <script src="{{ asset('/js/A_Suscrip_productos.js?v=' . rand()) }}"></script>
+        <script src="{{ asset('/js/E_Comerciante_Inicio.js?v=' . rand()) }}"></script>
+        <script src="{{ asset('/js/A_Comerciante_Inicio.js?v=' . rand()) }}"></script>
 
         <?php
     // }

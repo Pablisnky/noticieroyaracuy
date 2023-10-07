@@ -40,7 +40,7 @@ Route::view("/homepage", "homepage");
 
 // ******************************************************  
 Route::get('/', Inicio_C::class)->name('NoticiasPortada');
-// Route::get("roles/{correo}", RolController::class)->name('Roles');
+Route::get("roles/{correo}", RolController::class)->name('Roles');
 
 // Efemeride_C ******************************************************
 Route::get('efemeride', Efemeride_C::class)->name('Efemeride');
@@ -53,27 +53,6 @@ Route::get('login/solicitarClave', [LoginController::class, 'solicitudNuevaCLave
 Route::post('login/recuperarClave', [LoginController::class, 'recuperar_Clave'])->name('RecuperarClave'); 
 Route::post('login/recibeClave', [LoginController::class, 'recibeCodigoRecuperacion'])->name('RecibeCodigoRecuperacion');
 Route::post('login/recibeNuevaClave', [LoginController::class, 'recibeCambioClave'])->name('RecibeCambioClave');
-
-// PanelPeriodistaController ******************************************************
-Route::get('panelPeriodista', [PanelPeriodistaController::class, 'index'])->name('Index');     
-Route::get('panelPeriodista/noticiasGenerales', [PanelPeriodistaController::class, 'not_Generales'])->name('NoticiasGenerales');
-Route::get('panelPeriodista/agenda', [PanelPeriodistaController::class, 'agenda'])->name('Agenda');  
-Route::get('panelPeriodista/efemeride', [PanelPeriodistaController::class, 'efemerides'])->name('Efemerides');  
-Route::get('panelPeriodista/publicidad', [PanelPeriodistaController::class, 'publicidad'])->name('Publicidad');
-Route::get('panelPeriodista/agregar', [PanelPeriodistaController::class, 'agregar_noticia'])->name('AgregarNoticia');
-Route::get('panelPeriodista/agregarAgenda', [PanelPeriodistaController::class, 'agregar_agenda'])->name('AgregarAgenda');
-Route::get('panelPeriodista/agregarEfemeride', [PanelPeriodistaController::class, 'agregar_efemeride'])->name('AgregarEfemeride');
-Route::get('panelPeriodista/actualizar/{id_noticia}/{bandera}', [PanelPeriodistaController::class, 'actualizar_noticia'])->name('ActualizarNoticia');
-Route::post('panelPeriodista/recibeActualizar/', [PanelPeriodistaController::class, 'recibeNoti_actualizada'])->name('RecibeActualizarNoticia');
-Route::post("panelPeriodista/recibeAgregar", [PanelPeriodistaController::class, 'recibeAgregarNoticia'])->name('RecibeAgregarNoticia'); 
-Route::post("panelPeriodista/recibeEfemeride", [PanelPeriodistaController::class, 'recibeEfemerideAgregada'])->name('RecibeEfemerideAgregada');
-Route::post("panelPeriodista/recibeAgenda", [PanelPeriodistaController::class, 'recibeAgendaAgregada'])->name('RecibeAgendaAgregada');
-// via Ajax
-Route::get('panelPeriodista/secciones', [PanelPeriodistaController::class, 'secciones'])->name('SeccionesNoticia'); 
-Route::get('panelPeriodista/eliminaNoticia/{id_noticia}', [PanelPeriodistaController::class, 'eliminar_noticia'])->name('EliminarNoticia');  
-Route::get('panelPeriodista/eliminaEfemeride/{id_efemeride}', [PanelPeriodistaController::class, 'eliminar_efemeride'])->name('EliminarEfemeride');   
-Route::get('panelPeriodista/eliminaAgenda/{id_agenda}', [PanelPeriodistaController::class, 'eliminar_agenda'])->name('EliminarAgenda'); 
-Route::get('panelPeriodista/actualizarNoticia/{id_imagenSec}', [PanelPeriodistaController::class, 'eliminar_imagenSecundariaNoticia'])->name('EliminarImgSecundaria');  
 
 // Registro_C ******************************************************
 Route::get("regis", [Registro_C::class, 'suscripcion'])->name('registro');
@@ -95,10 +74,11 @@ Route::get("marketplace/productoAmpliado/{ID_Producto}", [MarketplaceController:
 Route::get("marketplace/catalogo/{ID_Suscriptor}", [MarketplaceController::class, 'catalogo'])->name('Catalogo'); 
 Route::post('marketplace/pedido', [MarketplaceController::class, 'recibePedido'])->name('RecibePedido'); 
 // via Ajax desde A_Catalogo.js
-Route::get("marketplace/carrito/{ID_Suscriptor}/{dolar}", [MarketplaceController::class, 'verCarrito'])->name('VerCarrito');
+Route::get("marketplace/carrito/{id_comerciante}/{dolar}", [MarketplaceController::class, 'verCarrito'])->name('VerCarrito');
 Route::get("marketplace/dolar", [MarketplaceController::class, 'dolarHoy']);
 // via Ajax desde A_Catalogo.js con ruta absoluta escrita explicitamente porque se necesita un parametro para psar a la respuesta de la funcion
 Route::get('/marketplace/mostrarUsuario/{Cedula}', [MarketplaceController::class, 'mostrarUsuario']);
+Route::get('marketplace/miniatura/{id_imagen}', [MarketplaceController::class, 'muestraImagenSeleccionada'])->name('VerMiniaturaProducto');
 
 // GaleriaArte_C ******************************************************
 Route::get("galeriaArte", [GaleriaArte_C::class, 'index'])->name('GaleriaArte');
@@ -117,6 +97,9 @@ Route::get("suscriptor/{ID_Suscriptor}", [Suscriptor_C::class, 'accesoSuscriptor
 Route::get("suscriptor/perfil/{ID_Suscriptor}", [Suscriptor_C::class, 'perfil_suscriptor'])->name('PerfilSuscriptor');
 Route::post("suscriptor/actualizarPerfil", [Suscriptor_C::class, 'actualizarPerfilSuscriptor'])->name('ActualizaPerfilSuscriptor');
 
+
+
+// RUTAS PRIVADAS
 // PanelSuscriptor_C ******************************************************
 Route::get('panelSuscriptor/{id_suscriptor}', [PanelSuscriptor_C::class, 'accesoSuscriptor'])->name('DashboardPanelSuscriptor');
 
@@ -127,15 +110,37 @@ Route::get("denuncias/{ID_Suscriptor}", [Panel_Denuncias_C::class, 'index'])->na
 Route::get("marketplace/{id_comerciante}", [PanelMarketplaceController::class, 'index'])->name('PanelProducto');
 Route::get("marketplace/actualizar/{id_producto}/{opcion}", [PanelMarketplaceController::class, 'actualizarProducto'])->name('ActualizarProducto');
 Route::get("marketplace/agregarProducto/{id_comerciante}", [PanelMarketplaceController::class, 'agregar'])->name('AgregarProducto');
-Route::post("marketplace/productoAgregar", [PanelMarketplaceController::class, 'recibeProductoPublicar'])->name('RecibeProductoAgregado');
-Route::post("suscriptor/datosActualizar", [PanelMarketplaceController::class, 'recibeAtualizarProducto'])->name('RecibeAtualizarProducto');
-Route::get('suscriptor/eliminaProducto/{id_producto}/{id_opcion}', [PanelMarketplaceController::class, 'eliminarProducto'])->name('EliminarProducto'); 
+Route::post("marketplace/productoAgregar", [PanelMarketplaceController::class, 'recibeProductoAgregar'])->name('RecibeProductoAgregado');
+Route::post("marketplace/datosActualizar", [PanelMarketplaceController::class, 'recibeAtualizarProducto'])->name('RecibeAtualizarProducto');
+Route::get('marketplace/eliminaProducto/{id_producto}/{id_opcion}', [PanelMarketplaceController::class, 'eliminarProducto'])->name('EliminarProducto'); 
+Route::get('marketplace/eliminarImgProducto/{id_imagenSec}', [PanelMarketplaceController::class, 'eliminar_imagenSecundariaProducto'])->name('EliminarImgSecundariaPRoducto');  
 
 // PanelArtistaController ****************************************************    
 Route::get("artista/{id_artista}", [PanelArtistaController::class, 'index'])->name('PanelArtista');
 Route::get("artista/actualizar/{id_obra}", [PanelArtistaController::class, 'actualizarObra'])->name('ActualizarObra');
 Route::get("artista/agregarObra/{id_artista}", [PanelArtistaController::class, 'CargarObras'])->name('AgregarObra'); 
 Route::get("artista/perfil/{id_artista}", [PanelArtistaController::class, 'perfil_artista'])->name('PerfilArtista');
+
+// PanelPeriodistaController ******************************************************
+Route::get('panelPeriodista', [PanelPeriodistaController::class, 'index'])->name('Index');     
+Route::get('panelPeriodista/noticiasGenerales', [PanelPeriodistaController::class, 'not_Generales'])->name('NoticiasGenerales');
+Route::get('panelPeriodista/agenda', [PanelPeriodistaController::class, 'agenda'])->name('Agenda');  
+Route::get('panelPeriodista/efemeride', [PanelPeriodistaController::class, 'efemerides'])->name('Efemerides');  
+Route::get('panelPeriodista/publicidad', [PanelPeriodistaController::class, 'publicidad'])->name('Publicidad');
+Route::get('panelPeriodista/agregar', [PanelPeriodistaController::class, 'agregar_noticia'])->name('AgregarNoticia');
+Route::get('panelPeriodista/agregarAgenda', [PanelPeriodistaController::class, 'agregar_agenda'])->name('AgregarAgenda');
+Route::get('panelPeriodista/agregarEfemeride', [PanelPeriodistaController::class, 'agregar_efemeride'])->name('AgregarEfemeride');
+Route::get('panelPeriodista/actualizar/{id_noticia}/{bandera}', [PanelPeriodistaController::class, 'actualizar_noticia'])->name('ActualizarNoticia');
+Route::post('panelPeriodista/recibeActualizar/', [PanelPeriodistaController::class, 'recibeNoti_actualizada'])->name('RecibeActualizarNoticia');
+Route::post("panelPeriodista/recibeAgregar", [PanelPeriodistaController::class, 'recibeAgregarNoticia'])->name('RecibeAgregarNoticia'); 
+Route::post("panelPeriodista/recibeEfemeride", [PanelPeriodistaController::class, 'recibeEfemerideAgregada'])->name('RecibeEfemerideAgregada');
+Route::post("panelPeriodista/recibeAgenda", [PanelPeriodistaController::class, 'recibeAgendaAgregada'])->name('RecibeAgendaAgregada');
+// via Ajax
+Route::get('panelPeriodista/secciones', [PanelPeriodistaController::class, 'secciones'])->name('SeccionesNoticia'); 
+Route::get('panelPeriodista/eliminaNoticia/{id_noticia}', [PanelPeriodistaController::class, 'eliminar_noticia'])->name('EliminarNoticia');  
+Route::get('panelPeriodista/eliminaEfemeride/{id_efemeride}', [PanelPeriodistaController::class, 'eliminar_efemeride'])->name('EliminarEfemeride');   
+Route::get('panelPeriodista/eliminaAgenda/{id_agenda}', [PanelPeriodistaController::class, 'eliminar_agenda'])->name('EliminarAgenda'); 
+Route::get('panelPeriodista/actualizarNoticia/{id_imagenSec}', [PanelPeriodistaController::class, 'eliminar_imagenSecundariaNoticia'])->name('EliminarImgSecundaria');  
 
 // TRAITS ************************************************************* 
 Route::get('trait', [PagesController::class, 'index'])->name('Trait');

@@ -216,8 +216,11 @@
 		margin-top: 5%;
 	}
 	.cont_detalle--imagen{
-		height: 80vw;
-		margin-top: 15%;
+		height: fit-content;
+		max-height: 75vw;
+		min-height: 75vw;
+		margin-top: 1%;
+		object-fit: contain;
 	}
 	.cont_detalle--imagenMiniatura{
 		width: 50px;

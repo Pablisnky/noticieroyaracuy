@@ -161,7 +161,7 @@ class Noticias_C extends Controller{
         //  return view('noticias.detalleNoticia_V', compact(ID_Noticia))
     }
     
-    // // muestra la imagen seleccionada en la miniatura de una noticia
+    // muestra la imagen seleccionada en la miniatura de una noticia
     public function muestraImagenSeleccionada($ID_Imagen){
         //Se CONSULTA la imagen que se solicito en detalle
         $DetalleImagen = Imagenes_M::

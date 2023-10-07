@@ -81,9 +81,9 @@
                             <input class="Default_ocultar" id="CambioOficial" type="text" value="{{ $dolarHoy }}"/> 
                            
                             <!-- CANTIDAD EN EXISTENCIA -->
-                            <div class="Default_ocultar" id="Contenedor_152">
+                            <div class="">
                                 <label class="login_cont--label">Existencia</label>
-                                <input class="placeholder placeholder_2 placeholder_4 borde_1 borde_2" type="text" name="cantidad" id="Cantidad">
+                                <input class="placeholder placeholder_2 placeholder_4 borde_1 borde_2" type="text" name="existencia" id="Existencia">
                             </div>  
                             
                             <!-- IMAGENES SECUNDARIAS -->
@@ -109,7 +109,7 @@
         </div>        
 
         <!--div alimentado desde Secciones_Ajax_V.php con las secciones que el usuario cargó previamente -->    
-        <div id="Contenedor_80"></div>
+        {{-- <div id="Contenedor_80"></div> --}}
         
         <script src="{{ asset('/js/funcionesVarias.js?v=' . rand()) }}"></script>
         <script src="{{ asset('/js/E_comerciante_agregar_producto.js?v=' . rand()) }}"></script> 

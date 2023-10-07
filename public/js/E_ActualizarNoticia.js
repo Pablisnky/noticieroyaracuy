@@ -167,9 +167,10 @@ function transferirAnuncio(form){
 // elimina una imagen secundaria
 function EliminarImagenSecundaria(ID_Imagen, Botones, Ruta){
     console.log("______Desde EliminarImagenSecundaria()______", ID_Imagen + ' -'  +  Botones + ' - ' + Ruta)
-    let ConfirmaEliminar = confirm("Desea eliminar la noticia");
+
+    let ConfirmaEliminar = confirm("Desea eliminar la imagen");
     
-    //Se confirma si se desea eliminar la noticia
+    //Se confirma si se desea eliminar la imagen
     if(ConfirmaEliminar == true){                        
         // Quita la imagen de la pantalla
         //Se detecta  el contenedor que contiene la imagen a eliminar
