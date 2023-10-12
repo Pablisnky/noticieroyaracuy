@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\PanelMarketplaceController;
+use App\Models\Secciones_M;
+use App\Models\Suscriptor_M;
+
+// use Suscriptor_M;
 
     class PanelSuscriptor_C extends Controller{
         private $ConsultaSuscriptor_M;
@@ -43,10 +47,20 @@ use App\Http\Controllers\PanelMarketplaceController;
         public function perfil_suscriptor($ID_Suscriptor){       
             
             // CONSULTA toda la información de perfil del suscriptor
-            $this->Suscriptor = $this->ConsultaSuscriptor_M->consultarSuscriptor($ID_Suscriptor);
+            $Suscriptor = Suscriptor_M::
+                all()
+                ->where('ID_Comerciante','=', $ID_Suscriptor)  
+                ->first();
+                // return gettype($Suscriptor);
+                // return $Suscriptor;
            
             // CONSULTA las secciones que tiene el catalogo de un suscriptor 
-            $Secciones = $this->Instancia_Panel_C->SeccionesSuscriptor($ID_Suscriptor);
+            $Secciones = Secciones_M::
+                select('ID_Seccion','seccion')
+                ->where('ID_Comerciante','=', $ID_Suscriptor)
+                ->first();
+                // return gettype($Secciones);
+                return $Secciones;
 
             $Datos = [       
                 'suscriptor' => $this->Suscriptor,         
@@ -71,7 +85,8 @@ use App\Http\Controllers\PanelMarketplaceController;
         public function accesoSuscriptor($ID_Suscriptor){
             // if(!empty($_SESSION['ID_Suscriptor'])){
                 //Se consultan datos del suscriptor
-                // $Suscriptor = $this->ConsultaSuscriptor_M->consultarSuscriptor($ID_Suscriptor);s
+                // $Suscriptor = $this->ConsultaSuscriptor_M->consultarSuscriptor($ID_Suscriptor);
+                
                 //Se CONSULTA al controlador Panel_Clasificado_C la cantidad de productos publicados que tiene el suscriptor.
                 $CantidadProductos = $this->Instancia_PanelMarketplaceController->clasificadoSuscriptor($ID_Suscriptor);
                 // return $CantidadProductos;

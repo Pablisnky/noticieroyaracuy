@@ -20,7 +20,7 @@
 		<meta property="og:site_name" content="NoticieroYaracuy"/>
 		<meta property="fb:app_id" content="928977633900253"/>
 		<meta property="og:image:alt" content="Imagen descriptiva del catalogo"/>
-		<meta property="og:url" content="<?php //echo RUTA_URL?>/GaleriaArte_C/artistas/<?php //echo $Datos['datosArtistas']['ID_Suscriptor'];?>"/>
+		<meta property="og:url" content="<?php //echo RUTA_URL?>/GaleriaArteController/artistas/<?php //echo $Datos['datosArtistas']['ID_Suscriptor'];?>"/>
 		<meta property="og:image:secure_url" itemprop="image" content="<?php //echo RUTA_URL?>/public/images/galeria/<?php //echo $Datos['datosArtistas']['ID_Suscriptor'];?>_<?php //echo $Datos['datosArtistas']['nombreSuscriptor'];?>_<?php //echo $Datos['datosArtistas']['apellidoSuscriptor'];?>/perfil/<?php //echo $Datos['datosArtistas']['nombre_imagenPortafolio']?>"/>
 		<meta property="og:image:width" content="1200"/>
 		<meta property="og:image:height" content="630"/>

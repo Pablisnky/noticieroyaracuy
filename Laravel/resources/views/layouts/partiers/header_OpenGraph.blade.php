@@ -3,7 +3,7 @@
     <head>
         <title>@yield('titulo')</title>
 
-		<meta http-equiv="content-type"  content="text/html; charset=utf-8"/>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- ETIQUETAS OPEN-GRAPH para ayudar a la red social de turno a identificar mejor qué hay en un recurso de nuestra web que alguien está compartiendo -->

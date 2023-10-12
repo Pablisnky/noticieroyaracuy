@@ -46,36 +46,37 @@
                     @endforeach
                 </div>
 
+                {{-- PRODUCTO - OPCION --}}
                 <div class="cont_detalle_Producto--precio">
                     <h1 class="h1_1 h1_1--margin font--bold">{{ $producto->producto }}</h1>
                     <h3 class="h1_11 font--center">{{ $producto->opcion }}</h3>
                 </div>
 
                 <div class="cont_precio">
-                    <label class="label_22 borde_1">$ <?php echo $producto->precioDolar?>
-                        <small class="small_2">Bs. <?php echo $producto->precioBolivar?></small>
+                    <label class="label_22 borde_1">$ {{ $producto->precioDolar }}
+                        <small class="small_2">Bs. {{ $producto->precioBolivar }}</small>
                     </label>
                 </div>    
             </div>
 
-            <!-- INFORMACION DE CONTACTO DEL VENDEDOR -->
+            <!-- INFORMACION DE CONTACTO DEL COMERCIANTE -->
             <div class="contGridUna">
                 <div class="cont_detalle_Producto--informacion">
-                    <p class="cont_detalle_Producto--p"><b>Ofertado por:</b> <?php echo $vendedor->pseudonimoSuscripto?></p>
+                    <p class="cont_detalle_Producto--p"><b>Ofertado por:</b> {{ $comerciante->pseudonimoComerciante }}</p>
                     <div class="cont_detalle_Producto--suscriptor">
                         <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>
-                        <label><?php echo $vendedor->parroquiaSuscriptor?> - <?php echo $vendedor->municipioSuscriptor?></label>
+                        <label>{{ $comerciante->parroquiaComerciante }} - {{ $comerciante->municipioComerciante }}</label>
                     </div>
                     <div class="cont_detalle_Producto--suscriptor">
                         <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_perm_identity_black_24dp.png') }}"/>
-                        <label>{{ $vendedor->nombreSuscriptor . ' ' . $vendedor->apellidoSuscriptor }}</label>
+                        <label>{{ $comerciante->nombreComerciante . ' ' . $comerciante->apellidoComerciante }}</label>
                     </div>
                     <div class="cont_detalle_Producto--suscriptor">
                         <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/telefono/outline_phone_iphone_black_24dp.png') }}"/>
-                        <label><?php echo $vendedor->telefonoSuscriptor?></label>
+                        <label><?php echo $comerciante->telefonoComerciante?></label>
                     </div>
                     @if($bandera == 'Desde_Clasificados') 
-                        <a class="cont_detalle_Producto--p" href="{{ route('Catalogo', ['ID_Suscriptor' => $producto->ID_Comerciante, 'pseudonimoSuscripto' => $vendedor->pseudonimoSuscripto ]) }}">Ver catalogo de vendedor</a>
+                        <a class="cont_detalle_Producto--p" href="{{ route('Catalogo', ['ID_Suscriptor' => $producto->ID_Comerciante, 'pseudonimoSuscripto' => $comerciante->pseudonimoComerciante ]) }}">Ver catalogo de vendedor</a>
                     @endif
                 </div>
 
@@ -96,7 +97,7 @@
                         <?php
 
                         // TRANSFERENCIA BANCARIAS
-                        if($vendedor->transferencia == 1){     ?>     
+                        if($comerciante->transferenciaComerciante == 1){     ?>     
                             <div class="contenedor_161 contenedor_161--fijo">
                                 <p class="p_19">Tranferencia bancaria</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
@@ -112,7 +113,7 @@
                         }
 
                         // PAGO MOVIL
-                        if($vendedor->pago_movil == 1){  ?>
+                        if($comerciante->pago_movilComerciante == 1){  ?>
                             <div class="contenedor_161">
                                 <p class="p_19">Pago movil</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
@@ -128,7 +129,7 @@
                         } 
                                                 
                         // PAYPAL 
-                        if($vendedor->paypal == 1){   ?>
+                        if($comerciante->paypalComerciante == 1){   ?>
                             <div class="contenedor_161">
                                 <p class="p_19">Paypal</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
@@ -138,29 +139,13 @@
                         else{  ?>
                             <div class="contenedor_161">
                                 <p class="p_19">Paypal</p>
-                                <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/cerrar/outline_close_black_24dp.png') }}"/>
-                            </div>  
-                            <?php
-                        }
-                        
-                        // ZELLE 
-                        if($vendedor->zelle == 1){   ?>
-                            <div class="contenedor_161">
-                                <p class="p_19">Zelle</p>
-                                <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
-                            </div>  
-                                <?php
-                        }
-                        else{  ?>
-                            <div class="contenedor_161">
-                                <p class="p_19">Zelle</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/cerrar/outline_close_black_24dp.png') }}"/>
                             </div>  
                             <?php
                         }
 
                         // CRIPTOMONEDA
-                        if($vendedor->criptomoneda == 1){  ?>
+                        if($comerciante->criptomonedaComerciante == 1){  ?>
                             <div class="contenedor_161">
                                 <p class="p_19">Criptomoneda</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
@@ -175,40 +160,9 @@
                             <?php 
                         }    
                                 
-                        // EFECTIVO BOLIVAR
-                        if($vendedor->efectivo_Bs == 1){  ?>
-                            <div class="contenedor_161">
-                                <p class="p_19">En destino (efectivo Bs.)</p>
-                                <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
-                            </div>
-                                <?php
-                        }
-                        else{  ?>
-                            <div class="contenedor_161">
-                                <p class="p_19">En destino (efectivo Bs.)</p>
-                                <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/cerrar/outline_close_black_24dp.png') }}"/>
-                            </div> 
-                            <?php 
-                        }    
-
-                        // EFECTIVO DOLAR
-                        if($vendedor->efectivo_Dol == 1){  ?>
-                            <div class="contenedor_161">
-                                <p class="p_19">En destino (efectivo $)</p>
-                                <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
-                            </div>
-                            <?php
-                        }
-                        else{  ?>
-                            <div class="contenedor_161">
-                                <p class="p_19">En destino (efectivo $)</p>
-                                <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/cerrar/outline_close_black_24dp.png') }}"/>
-                            </div>  
-                                <?php
-                        }
-                                
+       
                         // ACORDADO EN TIENDA
-                        if($vendedor->acordado == 1){   ?>
+                        if($comerciante->acordadoComerciante == 1){   ?>
                             <div class="contenedor_161">
                                 <p class="p_19">Acordado con vendedor</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>

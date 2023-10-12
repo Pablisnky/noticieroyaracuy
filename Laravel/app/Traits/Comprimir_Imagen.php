@@ -60,15 +60,15 @@ trait Comprimir_Imagen{
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/agenda/';             
                 }
             } 
-            else if($Bandera == 'imagenCatalogo'){
+            else if($Bandera == 'ImagenCatalogo'){
                 
                 if($Servidor == 'Remoto'){
                     //Usar en remoto        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/' . $_SESSION['ID_Suscriptor'] . '/';
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/' . session('id_comerciante') . '/';
                 }
                 else{
                     //usar en local         
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . $_SESSION['ID_Suscriptor'] . '/';             
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_comerciante') . '/';             
                 }
             }
             else if($Bandera == 'imagenPortafolio'){

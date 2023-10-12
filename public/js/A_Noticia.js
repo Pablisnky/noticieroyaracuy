@@ -32,12 +32,17 @@ function conexionAJAX(){
 // *************************************************************************************************
     //Esta funcion no retorna nada al documento donde se llama, solo ejecuta la accion de eliminar la noticia del servidor
     function Llamar_filtrarMunicipio(Municipio){
-        // console.log("______Desde Llamar_filtrarMunicipio()______", Municipio)
+        console.log("______Desde Llamar_filtrarMunicipio()______", Municipio)
         
         // localStorage crada en MostrarMunicipios() del archivo E_Noticias.js
         Seccion = localStorage.getItem('LS_Seccion')
 
-        var url = "../Noticias_C/filtrarMunicipio/" + Seccion + ',' + Municipio
+        // remoto
+        // var url = 'https://www.noticieroyaracuy.com/noticia/filtrarMunicipio/' + Seccion + '/' + Municipio
+        
+        // local
+        var url = 'http://nuevonoticiero.com/noticia/filtrarMunicipio/' + Seccion + '/' + Municipio
+
         http_request.open('GET', url, true)  
         peticion.onreadystatechange = respuesta_filtrarMunicipio
         peticion.setRequestHeader("content-type","application/x-www-form-urlencoded")
@@ -52,6 +57,7 @@ function conexionAJAX(){
                            
 
                 let Filtro = 'Filtro_' + Seccion
+                console.log(Filtro)
 
                 // se muestra el icono de quitar filtro               
                 document.getElementById(Filtro).classList.remove("Default_Ocultar")
@@ -87,14 +93,14 @@ function conexionAJAX(){
 
 // *************************************************************************************************
     //Esta funcion no retorna nada al documento donde se llama, solo ejecuta la accion de eliminar la noticia del servidor
-    function Llamar_Quitarfiltro(QuitarSeccion){
-        // console.log("______Desde Llamar_Quitarfiltro()______", QuitarSeccion)
+    function Llamar_Quitarfiltro(seccion, Ruta){
+        console.log("______Desde Llamar_Quitarfiltro()______", seccion + ' / ' +  Ruta)
 
-        localStorage.setItem('LS_QuitarSeccion', QuitarSeccion)
+        localStorage.setItem('LS_QuitarSeccion', seccion)
         QuitarFiltro = localStorage.getItem('LS_QuitarSeccion')
         // console.log(QuitarFiltro)
 
-        var url = "../Noticias_C/quitarFIltroMunicipio/" +  QuitarSeccion
+        var url = Ruta
         http_request.open('GET', url, true)  
         peticion.onreadystatechange = respuesta_Quitarfiltro
         peticion.setRequestHeader("content-type","application/x-www-form-urlencoded")
@@ -107,7 +113,7 @@ function conexionAJAX(){
                 
                   
                 let Filtro = 'Filtro_' + QuitarFiltro 
-                console.log(Filtro)
+                // console.log(Filtro)
                 document.getElementById(Filtro).classList.remove("Default_Mostrar")
                 document.getElementById(Filtro).classList.add("Default_Ocultar")
 

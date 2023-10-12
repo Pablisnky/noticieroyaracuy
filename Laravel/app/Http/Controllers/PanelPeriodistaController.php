@@ -721,30 +721,30 @@ class PanelPeriodistaController extends Controller
 
         //CONSULTA la noticia a actualizar
         $NoticiaActualizar = Noticias_M::
-                select('noticias.ID_Noticia','secciones.ID_Seccion','titulo','subtitulo','contenido','seccion','municipio','nombre_imagenNoticia','ID_Imagen','fuente','fecha')
-                ->join('imagenes', 'noticias.ID_Noticia','=','imagenes.ID_Noticia')
-                ->join('noticias_secciones', 'noticias.ID_Noticia','=','noticias_secciones.ID_Noticia')
-                ->join('secciones', 'noticias_secciones.ID_Seccion','=','secciones.ID_Seccion')
-                ->where('noticias.ID_Noticia','=', $ID_Noticia)
-                ->where('ImagenPrincipal','=', 1)
-                ->first();            
-                // return $NoticiaActualizar;
+            select('noticias.ID_Noticia','secciones.ID_Seccion','titulo','subtitulo','contenido','seccion','municipio','nombre_imagenNoticia','ID_Imagen','fuente','fecha')
+            ->join('imagenes', 'noticias.ID_Noticia','=','imagenes.ID_Noticia')
+            ->join('noticias_secciones', 'noticias.ID_Noticia','=','noticias_secciones.ID_Noticia')
+            ->join('secciones', 'noticias_secciones.ID_Seccion','=','secciones.ID_Seccion')
+            ->where('noticias.ID_Noticia','=', $ID_Noticia)
+            ->where('ImagenPrincipal','=', 1)
+            ->first();            
+            // return $NoticiaActualizar;
 
         //CONSULTA las imagenes de la noticia a actualizar
         $ImagenesNoticiaActualizar = Imagenes_M::
-                select('ID_Noticia','nombre_imagenNoticia','ID_Imagen')
-                ->where('ID_Noticia','=', $ID_Noticia)
-                ->where('ImagenPrincipal','=', 0)
-                ->get();            
-                // return $ImagenesNoticiaActualizar;
+            select('ID_Noticia','nombre_imagenNoticia','ID_Imagen')
+            ->where('ID_Noticia','=', $ID_Noticia)
+            ->where('ImagenPrincipal','=', 0)
+            ->get();            
+            // return $ImagenesNoticiaActualizar;
 
         // CONSULTA la fuente de la noticia
         $Fuentes = Fuentes_M::
-                select('ID_Fuente','fuente')
-                ->where('ID_Periodista','=', session('id_periodista'))
-                ->orderBy('fuente', 'desc')
-                ->get();            
-                // return $Fuentes;
+            select('ID_Fuente','fuente')
+            ->where('ID_Periodista','=', session('id_periodista'))
+            ->orderBy('fuente', 'desc')
+            ->get();            
+            // return $Fuentes;
         
         // CONSULTA el anuncio publicitario de la noticia
         $Anuncio = Noticias_Anuncios_M::
@@ -1085,10 +1085,10 @@ class PanelPeriodistaController extends Controller
        
        // Se eliminan las imagenes del directorio del servidor
         foreach($NombreImagenes as $Key)	:
-            $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/noticias/' .$Key->nombre_imagenNoticia);
+            $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . '/images/noticias/' . $Key->nombre_imagenNoticia);
 
             if($Ruta){
-                unlink($_SERVER['DOCUMENT_ROOT'] . 'images/noticias/' .$Key->nombre_imagenNoticia); 
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/images/noticias/' . $Key->nombre_imagenNoticia); 
             }
         endforeach;
          
@@ -1122,10 +1122,10 @@ class PanelPeriodistaController extends Controller
             // return $NombreImagenEfemeride;
        
        // Se elimina la imagen del directorio del servidor                
-        $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/efemerides/' .$NombreImagenEfemeride->nombre_imagenNoticia);
+        $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . '/images/efemerides/' .$NombreImagenEfemeride->nombre_imagenNoticia);
 
         if($Ruta){
-            unlink($_SERVER['DOCUMENT_ROOT'] . 'images/efemerides/' . $NombreImagenEfemeride->nombre_ImagenEfemeride); 
+            unlink($_SERVER['DOCUMENT_ROOT'] . '/images/efemerides/' . $NombreImagenEfemeride->nombre_ImagenEfemeride); 
         }
             
         // Se elimina la imagen de la BD
@@ -1155,10 +1155,10 @@ class PanelPeriodistaController extends Controller
             // return $NombreImagenAgenda;
        
        // Se elimina la imagen del directorio del servidor                
-        $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/agenda/' . $NombreImagenAgenda->nombre_imagenAgenda);
+        $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . '/images/agenda/' . $NombreImagenAgenda->nombre_imagenAgenda);
 
         if($Ruta){
-            unlink($_SERVER['DOCUMENT_ROOT'] . 'images/agenda/' . $NombreImagenAgenda->nombre_imagenAgenda); 
+            unlink($_SERVER['DOCUMENT_ROOT'] . '/images/agenda/' . $NombreImagenAgenda->nombre_imagenAgenda); 
         }
             
         // Se elimina el evento agendado de la BD
@@ -1181,10 +1181,10 @@ class PanelPeriodistaController extends Controller
             ->first();
             // return $nombre_imagenNoticia;
             
-        $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . 'images/noticias/' . $nombre_imagenNoticia->nombre_imagenNoticia);
+        $Ruta = file_exists($_SERVER['DOCUMENT_ROOT'] . '/images/noticias/' . $nombre_imagenNoticia->nombre_imagenNoticia);
 
         if($Ruta){
-            unlink($_SERVER['DOCUMENT_ROOT'] . 'images/noticias/' . $nombre_imagenNoticia->nombre_imagenNoticia); 
+            unlink($_SERVER['DOCUMENT_ROOT'] . '/images/noticias/' . $nombre_imagenNoticia->nombre_imagenNoticia); 
         }
 
         // Se elimina la imagen de la BD

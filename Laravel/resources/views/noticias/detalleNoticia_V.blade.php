@@ -173,4 +173,5 @@
     <script src="{{ asset('/js/E_DetalleNoticia.js?v=' . rand()) }}"></script>
     <script src="{{ asset('/js/A_DetalleNoticia.js?v=' . rand()) }}"></script>
     <script src="{{ asset('/js/funcionesVarias.js') }}"></script>
+    
 @endsection()

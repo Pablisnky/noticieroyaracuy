@@ -21,25 +21,25 @@
 
 				<!-- NOMBRE ARTISTA -->
 				<div style="flex-grow: 1; " >
-					<p class="cont_artista--textoVertical Default--textoVertical texto-artista" id="DescripcionArtista">{{ $datosArtistas->nombreSuscriptor . ' ' . $datosArtistas->apellidoSuscriptor }}</p>
+					<p class="cont_artista--textoVertical Default--textoVertical texto-artista" id="DescripcionArtista">{{ $artista->nombreArtista . ' ' . $artista->apellidoArtista }}</p>
 				</div>
 			</div>
 
 			<!-- UBICACION ARTISTA -->
 			<div>
-				<p class="cont_artista--textoVertical--2 Default--textoVertical">{{ $datosArtistas->estadoSuscriptor . ' - ' . $datosArtistas->paisSuscriptor }}</p>
+				<p class="cont_artista--textoVertical--2 Default--textoVertical">{{ $artista->estadoArtista . ' - ' . $artista->paisArtista }}</p>
 			</div>
 
 			<!-- COMPARTIR REDES SOCIALES -->
 			<div class="cont_artista--redesSociales cont_artista--margin">
 				<!-- FACEBOOK -->
 				<div class="cont_catalogos--iconos">
-					<a href="https://www.facebook.com/sharer/sharer.php?u=<?php //echo RUTA_URL;?>/GaleriaArte_C/artistas/<?php //echo $Datos['datosArtistas']['ID_Suscriptor']?>" target="_blank"><i class="fa-brands fa-facebook-f fa-sm catalogo-RS" style="color: rgba(255, 255, 255, 0.5)"></i></a>
+					<a href="https://www.facebook.com/sharer/sharer.php?u=<?php //echo RUTA_URL;?>/GaleriaArteController/artistas/<?php //echo $Datos['artista']['ID_Artista']?>" target="_blank"><i class="fa-brands fa-facebook-f fa-sm catalogo-RS" style="color: rgba(255, 255, 255, 0.5)"></i></a>
 				</div>        
 				
 				<!-- TWITTER -->
 				<div class="cont_catalogos--iconos">
-					<a href="https://twitter.com/intent/tweet?url=<?php //echo RUTA_URL;?>/GaleriaArte_C/artistas/<?php //echo $Datos['datosArtistas']['ID_Suscriptor']?>" target="_blank"><i class="fa-brands fa-twitter catalogo-RS" style="color: rgba(255, 255, 255, 0.5)"></i></a>
+					<a href="https://twitter.com/intent/tweet?url=<?php //echo RUTA_URL;?>/GaleriaArteController/artistas/<?php //echo $Datos['artista']['ID_Artista']?>" target="_blank"><i class="fa-brands fa-twitter catalogo-RS" style="color: rgba(255, 255, 255, 0.5)"></i></a>
 				</div>     
 				
 				<!-- E-MAIL -->
@@ -49,7 +49,7 @@
 				
 				<!-- WHATSAPP -->
 				<div class="whatsapp cont_catalogos--iconos">
-					<a href="whatsapp://send?text=Portafolio de obras <?php //echo $Datos['datosArtistas']['nombreSuscriptor'] . ' ' . $Datos['datosArtistas']['apellidoSuscriptor']?>&nbsp;<?php //echo RUTA_URL?>/GaleriaArte_C/artistas/<?php //echo $Datos['datosArtistas']['ID_Suscriptor']?>" data-action="share/whatsapp/share"><i class="fa-brands fa-whatsapp catalogo-RS WHhatsApp-catalogo" style="color: rgba(255, 255, 255, 0.5)"></i></a>
+					<a href="whatsapp://send?text=Portafolio de obras <?php //echo $Datos['artista']['nombreSuscriptor'] . ' ' . $Datos['artista']['apellidoSuscriptor']?>&nbsp;<?php //echo RUTA_URL?>/GaleriaArteController/artistas/<?php //echo $Datos['artista']['ID_Artista']?>" data-action="share/whatsapp/share"><i class="fa-brands fa-whatsapp catalogo-RS WHhatsApp-catalogo" style="color: rgba(255, 255, 255, 0.5)"></i></a>
 				</div>    
 				<div>
 					<p style="text-align: center; font-size: 0.7em; color: rgba(255, 255, 255, 0.5)">Compartir</p>
@@ -61,10 +61,10 @@
 		<div class="cont_obras" id="ContObras">
 			<div class="cont_galeria cont_galeria--obras" id="Cont_obras--mosaico">
 				@foreach($obraArtista as $Row)
-					@if($Row->ID_Suscriptor == $datosArtistas->ID_Suscriptor)
+					@if($Row->ID_Artista == $artista->ID_Artista)
 						<div class="cont_Galeria--item efectoZoom">
 							<figure>
-							<img class="cont_Galeria--img lazyload borde_1 imagen_2--JS efectoBrillo efectoZoom--imagen" name="imagenNoticia" alt="Fotografia Obra" data-src="{{ asset('/images/galeria/' . $Row->ID_Suscriptor . '_' . $datosArtistas->nombreSuscriptor. '_' . $datosArtistas->apellidoSuscriptor . '/' . $Row->imagenObra) }}" id="{{ $Row->ID_Obra }}" loading="lazy" width="320" height="10"/>
+							<img class="cont_Galeria--img lazyload borde_1 imagen_2--JS efectoBrillo efectoZoom--imagen" name="imagenNoticia" alt="Fotografia Obra" data-src="{{ asset('/images/galeria/' . $Row->ID_Artista . '_' . $artista->nombreArtista. '_' . $artista->apellidoArtista . '/' . $Row->imagenObra) }}" id="{{ $Row->ID_Obra }}" loading="lazy" width="320" height="10"/>
 							</figure>
 						</div> 
 					@endif
@@ -78,11 +78,11 @@
 	<div class="cont_descripcionArtista--titulo">
 		<img class="cont_artista--icono Default_pointer" id="Cerrar" src="{{ asset('/iconos/flecha/outline_arrow_back_white_24dp.png') }}"/>
 
-		<p class="cont_artista--textoVertical Default--textoVertical"id="DescripcionArtista"><?php //echo $Datos['datosArtistas']['nombreSuscriptor'] . ' ' . $Datos['datosArtistas']['apellidoSuscriptor'];?></p>
+		<p class="cont_artista--textoVertical Default--textoVertical"id="DescripcionArtista"><?php //echo $Datos['artista']['nombreSuscriptor'] . ' ' . $Datos['artista']['apellidoSuscriptor'];?></p>
 	</div>
 	<div style="text-align: center">
 		<figure>
-			<img class="cont_descripcionArtista--img" alt="Fotografia Artista" src="<?php //echo RUTA_URL?>/public/images/galeria/<?php //echo $Row['ID_Suscriptor'];?>_<?php //echo $Datos['datosArtistas']['nombreSuscriptor'];?>_<?php //echo $Datos['datosArtistas']['apellidoSuscriptor'];?>/perfil/<?php //echo $Datos['datosArtistas']['nombre_imagenPortafolio'];?>" />
+			<img class="cont_descripcionArtista--img" alt="Fotografia Artista" src="<?php //echo RUTA_URL?>/public/images/galeria/<?php //echo $Row['ID_Artista'];?>_<?php //echo $Datos['artista']['nombreSuscriptor'];?>_<?php //echo $Datos['artista']['apellidoSuscriptor'];?>/perfil/<?php //echo $Datos['artista']['nombre_imagenPortafolio'];?>" />
 		</figure>
 	</div>
 	<div class="cont_descripcionArtista--descripcion">

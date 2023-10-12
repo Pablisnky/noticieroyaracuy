@@ -9,7 +9,7 @@
             <div class="cont_catalogos">  
 
                 <div class="cont_catalogos--membrete--1">     
-                    <a class="header__titulo--catalogo" href="<?php //echo RUTA_URL . '/Inicio_C';?>">www.NoticieroYaracuy.com</a> 
+                    <a class="header__titulo--catalogo" href="{{ route('NoticiasPortada')}}">www.NoticieroYaracuy.com</a> 
                     <br class="Default_quitarMovil">
                     <label class="header__subtitulo--catalogo">Clasificados</label>
                 </div> 
@@ -17,7 +17,7 @@
                 <!-- PSEUDONIMO -->
                 <div class="cont_catalogos--membrete--2">
                     <img class="cont_catalogos--tienda Default_pointer" src="{{ asset('/iconos/tienda/outline_storefront_black_24dp.png') }}"/>
-                    <h1 class="h1_1 h1_1--catalogo">{{ $suscriptor->pseudonimoSuscripto }}</h1> 
+                    <h1 class="h1_1 h1_1--catalogo">{{ $suscriptor->pseudonimoComerciante }}</h1> 
                 </div>
                     
                 <!-- COMPARTIR REDES SOCIALES -->
@@ -39,7 +39,7 @@
                     
                     <!-- WHATSAPP -->
                     <div class="whatsapp cont_catalogos--iconos">
-                        {{-- <a href="whatsapp://send?text=<?php //echo 'Catalogo ' . $Datos['pseudonimoSuscripto']?>&nbsp;<?php //echo RUTA_URL?>/Catalogos_C/index/<?php //echo $Datos['ID_Suscriptor'];?>" data-action="share/whatsapp/share"><i class="fa-brands fa-whatsapp catalogo-RS WHhatsApp-catalogo"></i></a> --}}
+                        <a href="whatsapp://send?text={{ 'Catalogo ' . $suscriptor->pseudonimoComerciante }}. {{ route('Catalogo', ['ID_Suscriptor' => $suscriptor->ID_Comerciante ]) }}" data-action="share/whatsapp/share"><i class="fa-brands fa-whatsapp catalogo-RS WHhatsApp-catalogo"></i></a>
                     </div>    
                     <div>
                         <p style="text-align: center; font-size: 0.7em">Compartir</p>
@@ -68,7 +68,7 @@
                 <br>
             @endforeach
             
-            <?php $Pseudonimo = str_replace(" ", "_", $suscriptor->pseudonimoSuscripto); ?>
+            <?php $Pseudonimo = str_replace(" ", "_", $suscriptor->pseudonimoComerciante); ?>
             <a class="cont_catalogos--p" href="<?php //echo RUTA_URL . '/Catalogos_C/Secciones/' . $Datos['ID_Suscriptor'] . ',' . $Pseudonimo;?>" onclick="verSecion('Todos')">Todos</a>
             <hr class="hr_3 hr_3a">
             
@@ -76,19 +76,19 @@
             <div class="cont_detalle_Producto--informacion cont_detalle_Producto---catalogo">
                 <div class="cont_detalle_Producto--suscriptor">
                     <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/tienda/outline_storefront_black_24dp.png') }}"/>
-                    <label class="cont_detalle_Producto--p">{{ $suscriptor->pseudonimoSuscripto }}</label>
+                    <label class="cont_detalle_Producto--p">{{ $suscriptor->pseudonimoComerciante }}</label>
                 </div>
                 <div class="cont_detalle_Producto--suscriptor">
                     <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>
-                    <label class="cont_detalle_Producto--p">{{ $suscriptor->municipioSuscriptor . '-' . $suscriptor->parroquiaSuscriptor }}</label> 
+                    <label class="cont_detalle_Producto--p">{{ $suscriptor->municipioComerciante . '-' . $suscriptor->parroquiaComerciante }}</label> 
                 </div>
                 <div class="cont_detalle_Producto--suscriptor">
                     <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_perm_identity_black_24dp.png') }}"/>
-                    <label class="cont_detalle_Producto--p">{{ $suscriptor->nombreSuscriptor . ' ' .$suscriptor->apellidoSuscriptor }}</label>
+                    <label class="cont_detalle_Producto--p">{{ $suscriptor->nombreComerciante . ' ' .$suscriptor->apellidoComerciante }}</label>
                 </div>
                 <div class="cont_detalle_Producto--suscriptor">
                     <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/telefono/outline_phone_iphone_black_24dp.png') }}"/>
-                    <label class="cont_detalle_Producto--p">{{ $suscriptor->telefonoSuscriptor }}</label>
+                    <label class="cont_detalle_Producto--p">{{ $suscriptor->telefonoComerciante }}</label>
                 </div>
             </div>
         </div>
@@ -96,6 +96,7 @@
         <!-- PRODUCTOS -->
         <form>
         <div class="cont_catalogos--productos" id="Contenedor_13Js"> 
+            
             @foreach($productos as $row)
                 {{-- Se da formato al precio, sin decimales y con separación de miles --}}
                 @php(settype($row->precioBolivar, "float"))
@@ -181,9 +182,9 @@
                         <div class="cont_vendedor--span">                        
                             <div class="cont_vendedor--span-2">              
                                 <span class="span--vendedor--ubicacion"></span>
-                                <img class="icono--ubicacion" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>{{ $suscriptor->parroquiaSuscriptor }} 
+                                <img class="icono--ubicacion" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>{{ $suscriptor->parroquiaComerciante}} 
                             </div>
-                            <span class="span--vendedor">Vendedor: {{ $suscriptor->pseudonimoSuscripto }}</span> 
+                            <span class="span--vendedor">Vendedor: {{ $suscriptor->pseudonimoComerciante }}</span> 
                         </div> 
                     </div>
 

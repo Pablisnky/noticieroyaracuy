@@ -23,8 +23,7 @@
                     <div class="contenedor_95 contenedor_95--producto borde_1" id="{{ 'Cont_Producto_' . $Contador }}">
                     
                         <!-- IMAGEN PRINCIPAL -->
-                        <div class="contenedor_9 contenedor_9--pointer">
-                            <div class="contenedor_142" style="background-image: url('{{ asset('/images/clasificados/' . session('id_comerciante') . '/productos/' . $arr->nombre_img) }}')">
+                        <div class="contenedor_9 contenedor_9--pointer">                            <div class="contenedor_142" style="background-image: url('{{ asset('/images/clasificados/' . session('id_comerciante') . '/productos/' . $arr->nombre_img) }}')">
                             <input class="input_14 borde_1" type="text" value="{{ $Contador }}"/>
                             </div>
                         </div>
@@ -65,7 +64,7 @@
             </div>
 
             <!-- Muestra respuesta de servidor al eliminar un producto, (es solo para debuggear) -->
-            <!-- <div id="Borrar"></div> -->
+            {{-- <div id="ReadOnly"></div> --}}
         </section>
         
         <script src="{{ asset('/js/funcionesVarias.js?v=' . rand()) }}"></script>

@@ -1141,16 +1141,16 @@ textarea{
 	width: 30%
  }
  .cont_noticia--seccion{
-	 display: flex;
+	display: flex;
 	flex: auto;
 	flex-wrap: nowrap; 
 	/*justify-content: space-between;
 	align-content: flex-start;/*Alinea segun el eje vertical, con el valor flex-start rompe la distribución proporcional vertical y coloca los div hijos desde el top, la distribucion vertical proporcional ocurre cuando el contenedor general tiene altura de 100%*/
-	/* margin-bottom: 2%;
-	overflow-x: scroll; */
+	margin-bottom: 2%;
+	overflow-x: scroll; 
 	/* las siguientes lineas edita la barra scroll */
-    /* scrollbar-color: rgba(14, 13, 13, 0.5);
-	scrollbar-width: thin;  */
+    scrollbar-color: rgba(14, 13, 13, 0.5);
+	scrollbar-width: thin; 
  }
  .cont_noticia--sencilla{
 	min-width: 24%;
@@ -3276,11 +3276,11 @@ ul .menuContenedor_3{
 	width: 90% !important;
 }
 .span_10{
-	width: 10%;
+	width: 50%;
 	font-size: 1.2em;
 	color: rgba(0, 0, 0, 0.6);
 	display: inline-block;
-	/* margin-left: auto; */
+	margin-left: 15%;
 	text-align: center;
 }
 .contenedor__80div{
@@ -4278,6 +4278,9 @@ ul .menuContenedor_3{
 }
 .cont_roles--div{
 	margin-bottom: 3%;
+}
+.cont_archivo--numeros{
+	margin-top: 1%;
 }
 
 

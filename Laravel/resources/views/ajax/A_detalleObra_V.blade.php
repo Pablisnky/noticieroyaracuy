@@ -52,18 +52,18 @@
 
 			<!-- IMAGEN OBRA -->
 			<div class="cont_ObraDetalle--img" id="Imagen_Detalle">
-				<img class="imagen_3" src="{{ asset('/images/galeria/' . $artista->ID_Suscriptor . '_' . $artista->nombreSuscriptor . '_' . $artista->apellidoSuscriptor . '/' . $diapositivaObra->imagenObra) }}"/>
+				<img class="imagen_3" src="{{ asset('/images/galeria/' . $artista->ID_Artista . '_' . $artista->nombreArtista . '_' . $artista->apellidoArtista . '/' . $diapositivaObra->imagenObra) }}"/>
 			</div>
 			<div class="cont_ObraDetalle--iconos">
 			
 				<!-- FLECHA DE RETROCESO -->
-				<img class="Default_pointer cont_ObraDetalle--iconoLeft" onclick="Llamar_detalleObra('{{ route('DiapositivaObra', ['ID_Obra' => $ID_MostrarObra, 'ID_Suscriptor' => $artista->ID_Suscriptor, 'posicion' => 'Retroceder']) }}')" src="{{ asset('/iconos/chevron/outline_arrow_back_ios_white_24dp.png') }}"/>
+				<img class="Default_pointer cont_ObraDetalle--iconoLeft" onclick="Llamar_detalleObra('{{ route('DiapositivaObra', ['id_obra' => $ID_MostrarObra, 'id_artista' => $artista->ID_Artista, 'posicion' => 'Retroceder']) }}')" src="{{ asset('/iconos/chevron/outline_arrow_back_ios_white_24dp.png') }}"/>
 
 				<!-- BOTON DE GIRO-->
 				<img class="cont_ObraDetalle--giro Default_pointer Default_quitarEscritorio" onclick="AtrasTarjeta('Cont_PinturaDetalle')" src="{{ asset('/iconos/giro/outline_switch_right_black_24dp.png') }}"/>
 
 				<!-- FLECHA DE AVANCE -->
-				<img class="Default_pointer cont_ObraDetalle--iconoRight" onclick="Llamar_detalleObra('{{ route('DiapositivaObra', ['ID_Obra' => $ID_MostrarObra, 'ID_Suscriptor' => $artista->ID_Suscriptor, 'posicion' => 'Avanzar']) }}')" src="{{ asset('/iconos/chevron/outline_arrow_forward_ios_white_24dp.png') }}"/>
+				<img class="Default_pointer cont_ObraDetalle--iconoRight" onclick="Llamar_detalleObra('{{ route('DiapositivaObra', ['id_obra' => $ID_MostrarObra, 'id_artista' => $artista->ID_Artista, 'posicion' => 'Avanzar']) }}')" src="{{ asset('/iconos/chevron/outline_arrow_forward_ios_white_24dp.png') }}"/>
 			</div>
 		</div>
 
@@ -71,7 +71,7 @@
 		<div class="cont_ObraDetalle--atras cara detras">
 			<div class="cont_ObraDetalle--atras-1">		
 				<h1 class="cont_ObraDetalle--h1">{{ $diapositivaObra->nombreObra }}</h1>
-				<p class="cont_ObraDetalle--p1"><b>Autor: &nbsp;</b> {{ $artista->nombreSuscriptor }} {{ $artista->apellidoSuscriptor }}</p>
+				<p class="cont_ObraDetalle--p1"><b>Autor: &nbsp;</b> {{ $artista->nombreArtista }} {{ $artista->apellidoArtista }}</p>
 				<p class="cont_ObraDetalle--p1"><b>Año: &nbsp;</b> {{ $diapositivaObra->anioObra }}</p>
 				<p class="cont_ObraDetalle--p1"><b>Dimensiones: &nbsp;</b> {{ $diapositivaObra->medidaObra }}/p> 
 				<p class="cont_ObraDetalle--p1"><b>Tecnica: &nbsp;</b> {{ $diapositivaObra->tecnicaObra }}</p> 

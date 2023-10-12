@@ -589,7 +589,7 @@
 	.contenedor_15{
 		width: 95%;
 		margin: 8% auto;
-		margin-bottom: -10%;
+		margin-bottom: 5%;
 	}
 	.icono--what{
 		width: 40px;
@@ -1967,6 +1967,15 @@
 
  .cont_panel--textarea{
 	 min-height: 500px;
+ }
+ .cont_archivo--numeros{
+	 margin-top: 20%;
+ }
+ .cont_detalle_Producto--precio{
+	 width: 95%;
+ }
+ .h1_1--margin{
+	 width: 100%;
  }
  
 

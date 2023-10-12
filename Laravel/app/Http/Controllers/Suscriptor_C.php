@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Suscriptor_M;
+use App\Models\Suscriptor_M; 
+use App\Models\Comerciante_M; 
 
 use App\Traits\ServidorUse;
 use App\Traits\Comprimir_Imagen;
@@ -16,7 +17,7 @@ class Suscriptor_C extends Controller
     private $Comprimir;
     private $Servidor;
     
-    //CONSULTA los datos de un suscriptor especifico
+    //CONSULTA los datos de un suscriptor especifico (se debe consultar solo el ID)
     public function index($ID_Suscriptor){          
         
         $Suscriptor = Suscriptor_M::
@@ -40,6 +41,15 @@ class Suscriptor_C extends Controller
             ->where('nombre_imagenPortafolio', '!=', '')
             ->get();
             return $Suscriptores; 
+    } 
+    
+    public function suscriptorComerciante($ID_Comerciante){   
+        //CONSULTA los datos de todos los suscriptores que tienen portafolio de artista
+        $Comerciante = Comerciante_M::
+            select('ID_Comerciante','nombreComerciante','apellidoComerciante','telefonoComerciante','municipioComerciante','parroquiaComerciante','pseudonimoComerciante','nombreImgCatalogo','transferenciaComerciante','pago_movilComerciante','paypalComerciante','criptomonedaComerciante','acordadoComerciante') 
+            ->where('ID_Comerciante', '=', $ID_Comerciante)
+            ->first();
+            return $Comerciante; 
     } 
 
     public function accesoSuscriptor($ID_Suscriptor){

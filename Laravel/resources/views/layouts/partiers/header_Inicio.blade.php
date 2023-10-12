@@ -104,8 +104,8 @@
 				</div>
 			</div>
 			    
-			<!-- BOTON VIDEO PROMOCIONAL -->
-			<a class="con_portada--titulo Default_pointer" href="" rel="noopener noreferrer"><img style="width: 2em;" src="{{ asset('/iconos/video/outline_videocam_white_24dp.png') }}"/>Yaracuy<br> en video</a>
+			<!-- YARACUY EN VIDEO -->
+			<a class="con_portada--titulo Default_pointer" href="{{ route('YaracuyVideo') }}"" rel="noopener noreferrer"><img style="width: 2em;" src="{{ asset('/iconos/video/outline_videocam_white_24dp.png') }}"/>Yaracuy<br> en video</a>
 		</header>
 
 		<!-- MEMBRETE DESPLAZANTE -->

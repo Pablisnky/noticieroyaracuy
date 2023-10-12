@@ -29,7 +29,7 @@
                         <img class="Default_pointer" style="width: 1.5em;" src="{{ asset('/iconos/filtro/outline_filter_alt_black_24dp.png') }}" onclick="MostrarMunicipios('{{ $Row->seccion }}')"/>
 
                         <!-- QUITAR FILTRO -->                     
-                        <img class="Default_ocultar Default_pointer" id="<?php //echo 'Filtro_'. $Row['seccion'];?>" style="width: 1.5em" src="{{ asset('/iconos/filtro/outline_filter_alt_off_black_24dp.png') }}" id="<?php //echo 'Filtro_'. $Row['seccion'];?>" onclick="Llamar_Quitarfiltro('<?php //echo $Row['seccion'];?>')"/>
+                        <img class="Default_ocultar Default_pointer" id="{{ 'Filtro_'. $Row->seccion }}" style="width: 1.5em" src="{{ asset('/iconos/filtro/outline_filter_alt_off_black_24dp.png') }}" onclick="Llamar_Quitarfiltro('{{ $Row->seccion }}','{{ route('QuitarFiltroMunicicpio', ['seccion' => $Row->seccion]) }}')"/>
                     </div>
                 </div>
             </div>
@@ -39,20 +39,20 @@
                 <img class="Default_pointer" style="width: 2em; margin-left: 90%;" onclick="MostrarMunicipios('{{ $Row->seccion }}')" src="{{ asset('/iconos/cerrar/outline_close_black_24dp.png') }}"/>
                 <h1 class="cont_noticias--menuSeccion" id="NombreSeccion"></h1><!--contenido asignado desde Js-->
     
-                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Aristides&nbsp;Bastidas')">Aristides Bastidas</label>
-                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Simon&nbsp;Bolivar')">Bolivar</label>                     
-                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Manuel&nbsp;Bruzual')">Bruzual</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Aristides Bastidas')">Aristides Bastidas</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Simon Bolivar')">Simon Bolivar</label>                    
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Manuel Bruzual')">Manuel Bruzual</label>
                 <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Cocorote')">Cocorote</label>
                 <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Independencia')">Independencia</label>
-                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Jose&nbsp;Antonio&nbsp;Paez')">Jose Antonio Paez</label>
-                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('La&nbsp;Trinidad')">La Trinidad</label>
-                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Manuel&nbsp;Monge')">Manuel Monge</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Jose Antonio Paez')">Jose Antonio Paez</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('La Trinidad')">La Trinidad</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Manuel Monge')">Manuel Monge</label>
                 <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Nirgua')">Nirgua</label>
-                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('José&nbsp;Vicente&nbsp;Peña')">Peña</label>
-                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('San&nbsp;Felipe')">San Felipe</label>
-                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Antonio&nbsp;J.&nbsp;de&nbsp;Sucre')">Sucre</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('José Vicente Peña')">José Vicente Peña</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('San Felipe')">San Felipe</label>
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Antonio J. de Sucre')">Antonio J. de Sucre</label>
                 <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Urachiche')">Urachiche</label>
-                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Jose&nbsp;Joaquin&nbsp;Veroes')">Veroes</label>                
+                <label class="cont_noticias--label" onclick="Llamar_filtrarMunicipio('Jose Joaquin Veroes')">Jose Joaquin Veroes</label>               
             </div>
                 
             <!-- MUESTRA MENU DE BUSQUEDA POR SECCIONES --> 
@@ -174,7 +174,22 @@
                             </div>
                         @endif
                     @endforeach              
-                @endforeach  
+                @endforeach                    
+
+                <!-- LINK A HEMEROTECA -->
+                <div class="cont_noticias--libreria">       
+                    <?php        
+                    foreach($cantidadSeccion as $Key) : 
+                        foreach($Key as $Key_2) :
+                            if(($Row->ID_Seccion == $Key_2->ID_Seccion) AND $Key_2->cantidad > 15){ ?> 
+                                <label class="cont_noticias--hemeroteca">Hemeroteca <br>{{ $Row->seccion }}</label>      
+                                <a style="display: block; text-align: center;" href="{{ route('Archivo', ['id_seccion' => $Row->ID_Seccion]) }}" rel="noopener noreferrer" target="_blank"><img class="Default_pointer" style="width: 2.5em; margin-left:41%;" src="{{ asset('/iconos/library/outline_library_books_black_24dp.png') }}"/>+ {{ $Key_2->cantidad  - 15 }} Noticias</a>
+                                <?php
+                            }
+                        endforeach;
+                    endforeach;
+                    ?>
+                </div>   
             </section>
         @endforeach
     </div>
@@ -183,4 +198,5 @@
 
     <script src="{{ asset('/js/funcionesVarias.js') }}"></script>
     <script src="{{ asset('/js/E_Noticia.js') }}"></script>
+    <script src="{{ asset('/js/A_Noticia.js') }}"></script>
 @endsection()

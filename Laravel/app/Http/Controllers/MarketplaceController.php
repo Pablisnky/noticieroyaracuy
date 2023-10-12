@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Comerciante_M; 
 
 use App\Traits\Divisas; 
 use App\Http\Controllers\Suscriptor_C;
@@ -54,49 +55,42 @@ class MarketplaceController extends Controller
                    
         //CONSULTA la informacion del producto seleccionado
         $Producto = DB::connection('mysql_2')->table('productos') 
-                ->select('productos.ID_Producto','ID_Comerciante','producto','nuevo','opcion','precioBolivar','precioDolar','cantidad')
-                ->join('productos_opciones', 'productos.ID_Producto','=','productos_opciones.ID_Producto')
-                ->join('opciones', 'productos_opciones.ID_Opcion','=','opciones.ID_Opcion')  
-                ->where('productos.ID_Producto', '=', $ID_Producto)
-                ->first(); 
-                // return $Producto; 
+            ->select('productos.ID_Producto','ID_Comerciante','producto','nuevo','opcion','precioBolivar','precioDolar','cantidad')
+            ->join('productos_opciones', 'productos.ID_Producto','=','productos_opciones.ID_Producto')
+            ->join('opciones', 'productos_opciones.ID_Opcion','=','opciones.ID_Opcion')  
+            ->where('productos.ID_Producto', '=', $ID_Producto)
+            ->first(); 
+            // return $Producto; 
                     
         // CONSULTA la imagenen principal del producto seleccionado
         $Imagen = DB::connection('mysql_2')->table('imagenes') 
-                ->select('nombre_img') 
-                ->where('ID_Producto', '=', $ID_Producto)
-                ->where('fotoPrincipal', '=', 1)
-                ->first(); 
-                // return $Imagen; 
+            ->select('nombre_img') 
+            ->where('ID_Producto', '=', $ID_Producto)
+            ->where('fotoPrincipal', '=', 1)
+            ->first(); 
+            // return $Imagen; 
         
         // CONSULTA todas las imagenenes del producto seleccionado
         $ImagenesSec = DB::connection('mysql_2')->table('imagenes') 
-                ->select('ID_Imagen','nombre_img') 
-                ->where('ID_Producto', '=', $ID_Producto)
-                ->get(); 
-                // return $ImagenesSec; 
+            ->select('ID_Imagen','nombre_img') 
+            ->where('ID_Producto', '=', $ID_Producto)
+            ->get(); 
+            // return $ImagenesSec; 
         
-        //CONSULTA informacion del vendedor
-        $Vendedor = $this->Instancia_Suscriptor_C->index($Producto->ID_Comerciante);
+        //CONSULTA solo el ID_Suscriptor para usarlo como filtro en table comerciante
+        // $Vendedor = $this->Instancia_Suscriptor_C->index($Producto->ID_Comerciante);
+        // return gettype($Vendedor);
         // return $Vendedor;         
+      
+        //Se consulta en la tabla del rol comerciante, esta debe estar en la BD clasificados
+        $Comerciante = $this->Instancia_Suscriptor_C->suscriptorComerciante($Producto->ID_Comerciante);        
+        // return $Comerciante;
         
-        // $Datos = [
-        //     'producto' => $Producto, 
-        //     'imagen' => $Imagen, 
-        //     'imagenesSec' => $ImagenesSec, 
-        //     'vendedor' => $Vendedor,
-        //     'bandera' => 'Desde_Clasificados'
-        // ];
-        // echo "<pre>";
-        // print_r($Datos);
-        // echo "</pre>";
-        // exit();
-
         return view('marketplace.detalleProducto_V', [
             'producto' => $Producto, 
             'imagen' => $Imagen, 
             'imagenesSec' => $ImagenesSec, 
-            'vendedor' => $Vendedor,
+            'comerciante' => $Comerciante,
             'dolar' => $this->Dolar, 
             'bandera' => 'Desde_Clasificados'
             ]
@@ -126,14 +120,14 @@ class MarketplaceController extends Controller
             // return $Secciones; 
             
         //Solicita datos del suscriptor al controlador Suscriptor_C   
-        $Suscriptores = $this->Instancia_Suscriptor_C->index($ID_Comerciante);
-        // return $Suscriptores; 
+        $Comerciante = $this->Instancia_Suscriptor_C->suscriptorComerciante($ID_Comerciante);
+        // return $Comerciante; 
         
         return view('marketplace.catalogos_V', [
             'dolar' => $this->Dolar,
             'id_comerciante' => $ID_Comerciante,
             'productos' => $Productos,
-            'suscriptor' => $Suscriptores,
+            'suscriptor' => $Comerciante,
             'secciones' => $Secciones
             ]
         );
@@ -578,6 +572,45 @@ class MarketplaceController extends Controller
         return view('ajax.A_imagenSeleccionada_V', [
             'imagenSeleccionada' => $ImageneMiniatura,
         ]);
+    }
+    
+    public function categoria(){
+       
+        //Se CONSULTAN todos los estados en los cuales existen tiendas disponibles para mostrar a usuarios
+        // $EstadosTiendas = $this->ConsultaCategoria_M->consultarEstadosTiendas();
+
+        //Se CONSULTAN todas las  tiendas
+        // $CiudadesTiendas = $this->ConsultaCategoria_M->consultarCiudadesTiendas();
+        
+        // //Se CONSULTA la cantidad de tiendas que estan afiliadas por categorias
+        $CantidadTiendas = Comerciante_M::
+            select('categoriaComerciante')           
+            ->selectRaw('COUNT("ID_Comerciante") AS cantidad')
+            ->groupBy("categoriaComerciante")
+            ->orderBy('cantidad', 'desc')
+            ->get();
+            // return gettype($CantidadTiendas);
+            // return $CantidadTiendas;
+        
+        return view('marketplace.categoria_V',[
+                'cantidadTiendasCategoria' => $CantidadTiendas
+            ]); 
+    }
+
+    // muestra las tiendas de una categoria especifica
+    public function tiendasCategoria($NombreCategoria){
+        
+        //Se CONSULTA tiendas en una misma categria
+        $TiendasCategorias = Comerciante_M::
+            select('ID_Comerciante','pseudonimoComerciante','categoriaComerciante','nombreImgCatalogo')   
+            ->where("categoriaComerciante",'=', $NombreCategoria)
+            ->get();
+            // return gettype($TiendasCategorias);
+            // return $TiendasCategorias;
+        
+        return view('marketplace.CatalogosCategoria_V',[
+            'tiendasCategorias' => $TiendasCategorias
+        ]);  
     }
 }
 

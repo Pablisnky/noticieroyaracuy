@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\Efemeride_C;
 use App\Http\Controllers\EventosController;
-use App\Http\Controllers\GaleriaArte_C;
+use App\Http\Controllers\GaleriaArteController;
 use App\Http\Controllers\Inicio_C;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\Noticias_C;
+use App\Http\Controllers\NoticiasController;
 use App\Http\Controllers\PagesController; 
 use App\Http\Controllers\PanelArtistaController;
 use App\Http\Controllers\Panel_Denuncias_C;
@@ -16,7 +16,8 @@ use App\Http\Controllers\PanelMarketplaceController;
 use App\Http\Controllers\PanelSuscriptor_C; 
 use App\Http\Controllers\Registro_C;
 use App\Http\Controllers\RolController;
-use App\Http\Controllers\Suscriptor_C;
+use App\Http\Controllers\Suscriptor_C; 
+use App\Http\Controllers\YaracuyVideoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,10 +43,16 @@ Route::view("/homepage", "homepage");
 Route::get('/', Inicio_C::class)->name('NoticiasPortada');
 Route::get("roles/{correo}", RolController::class)->name('Roles');
 
-// Efemeride_C ******************************************************
+// Efemeride_C *****************************************************
 Route::get('efemeride', Efemeride_C::class)->name('Efemeride');
 
-// LoginController ******************************************************   
+// YaracuyVideoController ******************************************
+Route::get('yaracuyVideo', [YaracuyVideoController::class, 'index'])->name('YaracuyVideo');
+Route::get('yaracuyVideo/compartirWhatsApp/{id_yaracuyEnVideo}', [YaracuyVideoController::class, 'redesSociales'])->name('CompartirWhatsApp');
+// via AJAX
+Route::get('yaracuyVideo/{id_yaracuyEnVideo}/{recorrido}', [YaracuyVideoController::class, 'recorridoVideos'])->name('RecorridoVideos');
+
+// LoginController *************************************************
 Route::get("login/{id_noticia}/{bandera}/{id_comentario}", [LoginController::class, 'index'])->name('Login');
 Route::post('login/inicioSesion', [LoginController::class, 'ValidarSesion'])->name('IniciarSesion'); 
 Route::get('login/cerrarSesion', [LoginController::class, 'cerrar_Sesion'])->name('CerrarSesion');
@@ -58,18 +65,26 @@ Route::post('login/recibeNuevaClave', [LoginController::class, 'recibeCambioClav
 Route::get("regis", [Registro_C::class, 'suscripcion'])->name('registro');
 Route::post("regis", [Registro_C::class, 'recibeRegistroSuscriptor'])->name('RecibeRegistro');
 
-// Noticias_C ******************************************************
-Route::controller(Noticias_C::class)->group(function(){
+// NoticiasController ******************************************************
+Route::controller(NoticiasController::class)->group(function(){
     Route::get('noticias', 'index')->name('Noticias');   
     Route::get('noticias/detalleNoticia/{id_noticia}', 'detalleNoticia')->name('DetalleNoticia');
+    Route::get('noticias/archivo/{id_seccion}', 'archivo')->name('Archivo');
+    Route::get('noticias/archivo/{id_seccion}/{pagina}', 'archivo')->name('ArchivoPaginacion'); 
+    // Route::get('noticias/archivo/{id_seccion}/{pagina}', 'archivo')->name('PaginacionNumerada');
     // via Ajax
     Route::get('noticia/verificaLogin/{ID_Noticia}/{bandera}/{ID_Comentario}','Verificar_Login')->name('NoticiaLogin');
-    Route::get('noticia/{id_noticia}/{comentario}', 'recibeComentario');
+    // Route::get('noticia/{id_noticia}/{comentario}', 'recibeComentario');
     Route::get('noticia/detalleNoticia/miniatura/{id_imagen}','muestraImagenSeleccionada')->name('VerMiniatura');
+    Route::get('noticia/filtrarMunicipio/{seccion}/{municipio}','filtrarMunicipio')->name('FiltrarMunicipio');
+    Route::get('noticia/quitarFiltro/{seccion}','quitarFIltroMunicipio')->name('QuitarFiltroMunicicpio');
+    
 });
 
 // MarketplaceController ******************************************************
 Route::get("marketplace", [MarketplaceController::class, 'index'])->name('Marketplace');
+Route::get("marketplace/categoria", [MarketplaceController::class, 'categoria'])->name('Categoria');
+Route::get("marketplace/categoria/{nombreCategoria}", [MarketplaceController::class, 'tiendasCategoria'])->name('TiendasCategoria');
 Route::get("marketplace/productoAmpliado/{ID_Producto}", [MarketplaceController::class, 'productoAmpliado'])->name('ProductoAmpliado');
 Route::get("marketplace/catalogo/{ID_Suscriptor}", [MarketplaceController::class, 'catalogo'])->name('Catalogo'); 
 Route::post('marketplace/pedido', [MarketplaceController::class, 'recibePedido'])->name('RecibePedido'); 
@@ -80,14 +95,14 @@ Route::get("marketplace/dolar", [MarketplaceController::class, 'dolarHoy']);
 Route::get('/marketplace/mostrarUsuario/{Cedula}', [MarketplaceController::class, 'mostrarUsuario']);
 Route::get('marketplace/miniatura/{id_imagen}', [MarketplaceController::class, 'muestraImagenSeleccionada'])->name('VerMiniaturaProducto');
 
-// GaleriaArte_C ******************************************************
-Route::get("galeriaArte", [GaleriaArte_C::class, 'index'])->name('GaleriaArte');
-Route::get("galeriaArte/artista/{id_artista}", [GaleriaArte_C::class, 'artistas'])->name('Artista');
+// GaleriaArteController ******************************************************
+Route::get("galeriaArte", [GaleriaArteController::class, 'index'])->name('GaleriaArte');
+Route::get("galeriaArte/artista/{id_artista}", [GaleriaArteController::class, 'artistas'])->name('Artista');
 // desde E_Artista.js con ruta absoluta escrita explicitamente porque se necesita un parametro para psar a la respuesta de la funcion
-Route::get("galeriaArte/obras/{ID_Obra}", [GaleriaArte_C::class, 'detalleObra']);
+Route::get("galeriaArte/obras/{ID_Obra}", [GaleriaArteController::class, 'detalleObra']);
 // via Ajax desde A_DetalleObra.js
-Route::get("galeriaArte/obras/{ID_Obra}/{ID_Suscriptor}/{posicion}", [GaleriaArte_C::class, 'diapositivaObra'])->name('DiapositivaObra');
-
+Route::get("galeriaArte/obras/{id_obra}/{id_artista}/{posicion}", [GaleriaArteController::class, 'diapositivaObra'])->name('DiapositivaObra');
+ 
 // EventosController ********************************************************** 
 Route::get("eventos", [EventosController::class, 'index'])->name('Eventos');
 Route::get("eventos/{id_agenda}", [EventosController::class, 'redes_sociales'])->name('EventoAgendado');
@@ -99,21 +114,31 @@ Route::post("suscriptor/actualizarPerfil", [Suscriptor_C::class, 'actualizarPerf
 
 
 
+
+
+
+
+
+
 // RUTAS PRIVADAS
 // PanelSuscriptor_C ******************************************************
-Route::get('panelSuscriptor/{id_suscriptor}', [PanelSuscriptor_C::class, 'accesoSuscriptor'])->name('DashboardPanelSuscriptor');
+Route::get('panelSuscriptor/{id}', [PanelSuscriptor_C::class, 'perfil_suscriptor'])->name('PerfillSuscriptor');
 
 // Panel_Denuncias_C **************************************************
 Route::get("denuncias/{ID_Suscriptor}", [Panel_Denuncias_C::class, 'index'])->name('SuscriptorDenuncias'); 
 
-// PanelMarketplaceController *****************************************
+// PanelMarketplaceController ***************************************** 
+Route::post("panelComerciante/actualizarPerfil", [PanelMarketplaceController::class, 'recibePerfilComerciante'])->name('ActualizaPerfilComerciante');
+Route::get('panelComerciante/{id_comerciante}', [PanelMarketplaceController::class, 'perfil_comerciante'])->name('perfil_comerciante');
 Route::get("marketplace/{id_comerciante}", [PanelMarketplaceController::class, 'index'])->name('PanelProducto');
 Route::get("marketplace/actualizar/{id_producto}/{opcion}", [PanelMarketplaceController::class, 'actualizarProducto'])->name('ActualizarProducto');
 Route::get("marketplace/agregarProducto/{id_comerciante}", [PanelMarketplaceController::class, 'agregar'])->name('AgregarProducto');
 Route::post("marketplace/productoAgregar", [PanelMarketplaceController::class, 'recibeProductoAgregar'])->name('RecibeProductoAgregado');
 Route::post("marketplace/datosActualizar", [PanelMarketplaceController::class, 'recibeAtualizarProducto'])->name('RecibeAtualizarProducto');
 Route::get('marketplace/eliminaProducto/{id_producto}/{id_opcion}', [PanelMarketplaceController::class, 'eliminarProducto'])->name('EliminarProducto'); 
-Route::get('marketplace/eliminarImgProducto/{id_imagenSec}', [PanelMarketplaceController::class, 'eliminar_imagenSecundariaProducto'])->name('EliminarImgSecundariaPRoducto');  
+Route::get('marketplace/eliminarImgProducto/{id_imagenSec}', [PanelMarketplaceController::class, 'eliminar_imagenSecundariaProducto'])->name('EliminarImgSecundariaPRoducto');
+// ajax 
+Route::get('marketplace/eliminaSeccion/{id_seccion}', [PanelMarketplaceController::class, 'eliminarSeccion'])->name('EliminarSeccion');  
 
 // PanelArtistaController ****************************************************    
 Route::get("artista/{id_artista}", [PanelArtistaController::class, 'index'])->name('PanelArtista');

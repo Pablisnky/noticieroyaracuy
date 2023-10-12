@@ -1,6 +1,6 @@
 @extends('layouts.partiers.header_Noticia')
 
-@section('titulo', 'MarketPlace')
+@section('titulo', 'MarketPlace clasificados')
 
 @section('contenido')
     <section class="section_9" id="Section_3"> 
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="cont_clasificados--item-2">
-                    <a class="boton boton--publicar" href="<?php //echo RUTA_URL . '/Categoria_C/';?>" rel="noopener noreferrer">Categorias</a>
+                    <a class="boton boton--publicar" href="{{ route('Categoria') }}" rel="noopener noreferrer">Categorias</a>
                     <a class="boton boton--publicar" href="<?php //echo RUTA_URL . '/LoginController/index/SinID_Noticia,SinBandera';?>" rel="noopener noreferrer">Publicar</a>
                 </div>
             </div>
@@ -120,4 +120,5 @@
     <script src="{{ asset('/js/E_Clasificados.js?v='. rand()) }}"></script>
     <script src="{{ asset('/js/A_Clasificados.js?v='. rand()) }}"></script>
     <script src="{{ asset('/js/FullScreem.js?v=' . rand()) }}"></script> 
+    
 @endsection()

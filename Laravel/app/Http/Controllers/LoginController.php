@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request; 
 use App\Models\Artistas_M;  
 use App\Models\ArtistaPasword_M; 
-use App\Models\Comerciantes_M; 
+use App\Models\Comerciante_M; 
 use App\Models\Suscriptor_M; 
 use App\Models\Periodistas_M; 
 use App\Models\ComerciantePasword_M;
@@ -65,9 +65,12 @@ class LoginController extends Controller
                 //     // 'bandera' => $Bandera
                 // ];
 
-                return view('login.login_Vrecord', [
+                return view('login_V', [
                     'correoRecord' => $CorreoPeriodista,
                     'claveRecord' => $Cookie_clave,
+                    'id_noticia' => 'sin_id_noticia',
+                    'id_comentario' => 'sin_id_comentario',
+                    'bandera' => 'sin_bandera'
                 ]);
             }
             else if($Bandera == 'comentar' || $Bandera == 'panelSuscriptor'){//Entra cuando viene de una noticia y desea hacer comentario o cambio de contraseña
@@ -130,7 +133,7 @@ class LoginController extends Controller
                 // return $Artista;
 
             //Se CONSULTA si el correo existe como comerciante
-            $Comerciante = Comerciantes_M::
+            $Comerciante = Comerciante_M::
                 where('correoComerciante','=', $Request->get('correo_Arr'))
                 ->first();
                 // echo gettype($Comerciante);
@@ -300,15 +303,15 @@ class LoginController extends Controller
                     // }
                     
                     if($Bandera == 'comentar'){// si va a hacer un comentario en una noticia y esta logeado
-                        // header('Location:'. RUTA_URL . '/Noticias_C/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#ContedorComentario');
+                        // header('Location:'. RUTA_URL . '/NoticiasController/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#ContedorComentario');
                         die();
                     }
                 //     else if($Bandera == 'SinLogin'){// si va a hacer un comentario y esta logeado
-                //         header('Location:'. RUTA_URL . '/Noticias_C/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#ContedorComentario');
+                //         header('Location:'. RUTA_URL . '/NoticiasController/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#ContedorComentario');
                 //         die();
                 //     }
                 //     else if($Bandera == 'responder'){// si va a responder un comentario y esta logeado
-                //         header('Location:'. RUTA_URL . '/Noticias_C/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#'.$ID_Comentario);
+                //         header('Location:'. RUTA_URL . '/NoticiasController/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#'.$ID_Comentario);
                 //         die();
                 //     }
                 //     else if($Bandera == 'denuncia'){// si va a realizar una denuncia
@@ -530,11 +533,12 @@ class LoginController extends Controller
                     ->update(['claveCifrada' => $ClaveCifrada]);
 
                 //Se destruyen las cookies que recuerdan la contraseña antigua, creadas en validarSesion.php
-                // echo "Cookie_usuario= " . $_COOKIE["id_usuario"] . "<br>";
-                // echo "Cookie_clave= " . $_COOKIE["clave"] . "<br>";
+                // Cookie::forget('id_usuario');
+                // Cookie::forget('clave');
 
-                // setcookie("id_usuario",'',time()-100);
-                // setcookie("clave",'',time()-100);
+                // Para verificar si existen cookies
+                // Cookie::has('id_usuario');
+                // Cookie::has('clave');
 
                 return view('modal/modal_recuperarCorreo_V', [
                     'bandera' => 'acuseRecibo'

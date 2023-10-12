@@ -4,7 +4,7 @@
 //Cuando se carga el archivo le da valor false a "statu", solo la primera vez luego el valor cambia al llamar la funcion
 var statu = false 
 function MostrarMunicipios(seccion){       
-    // console.log("______Desde MostrarMunicipios()______", statu + ',' + seccion)
+    console.log("______Desde MostrarMunicipios()______", statu + ',' + seccion)
     
     if(statu == true){
         document.getElementById("Con_Municipios").classList.remove("mostrar_1");        
@@ -15,7 +15,7 @@ function MostrarMunicipios(seccion){
         statu = true
     }
 
-    localStorage.setItem('LS_Seccion',seccion)
+    localStorage.setItem('LS_Seccion', seccion)
     document.getElementById('NombreSeccion').innerText = "Sección " + localStorage.getItem('LS_Seccion')
 }
 
@@ -23,7 +23,7 @@ function MostrarMunicipios(seccion){
 //Cuando se carga el archivo le da valor false a "statu", solo la primera vez luego el valor cambia al llamar la funcion
 var statu_2 = false 
 function MostrarSecciones(seccion_2){       
-    // console.log("______Desde MostrarSecciones()______", statu_2 + ',' + seccion_2)
+    console.log("______Desde MostrarSecciones()______", statu_2 + ',' + seccion_2)
     
     if(statu_2 == true){
         document.getElementById("Con_Secciones").classList.remove("mostrar_1");        

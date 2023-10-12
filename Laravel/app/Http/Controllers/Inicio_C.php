@@ -8,7 +8,7 @@ use App\Models\Imagenes_M;
 use App\Models\Videos_M; 
 use App\Models\Comentarios_M; 
 use App\Models\Noticias_Anuncios_M; 
-use App\Models\YaracuyEnViedo_M; 
+use App\Models\YaracuyEnVideos_M; 
 use Carbon\Carbon;
 // use Illuminate\Support\Facades\DB;
 
@@ -95,7 +95,7 @@ class Inicio_C extends Controller{
             // return $Anuncios;
                             
         // CONSULTA los videos de la serie YaracuyEnVideo       
-        $YaracuyEnVideo = YaracuyEnViedo_M::
+        $YaracuyEnVideo = YaracuyEnVideos_M::
             select('ID_YaracuyEnVideo', 'nombreVideo')
             ->get();
             // return $YaracuyEnVideo;

@@ -2,7 +2,7 @@
 
 <div class="cont_panel--menu" id="MenuResponsive">
     <div class="cont_panel--div-1">
-        <a class="h_2 bordeAlerta" href="">{{ session('nombreComerciante') }}  {{ session('apellidoComerciante') }}</a>
+        <a class="h_2 bordeAlerta" href="{{ route('perfil_comerciante', ['id_comerciante' => session('id_comerciante')]) }}">{{ session('nombreComerciante') }}  {{ session('apellidoComerciante') }}</a>
     </div>          
     
     <ul class="cont_panel--ul">

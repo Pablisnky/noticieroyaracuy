@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_SoloEstilos')
+@extends('layouts.partiers.header_eventos')
 
 @section('titulo', 'Eventos')
 
@@ -32,7 +32,7 @@
                     
                     <!-- WHATSAPP -->
                     <div class="detalle_cont--red">
-                        <a href="whatsapp://send?text={{ route('EventoAgendado', $Key->ID_Agenda) }}" data-action="share/whatsapp/share"><img style="height: 2em;" alt="Whatsapp" src="{{ asset('/images/Whatsapp.png') }}"/></a>
+                        <a href="whatsapp://send?text=Evento. {{ route('EventoAgendado', $Key->ID_Agenda) }}" data-action="share/whatsapp/share"><img style="height: 2em;" alt="Whatsapp" src="{{ asset('/images/Whatsapp.png') }}"/></a>
                     </div>  
                 </div>
             @endforeach
