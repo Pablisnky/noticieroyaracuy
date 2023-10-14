@@ -155,5 +155,6 @@
     @include('layouts/partiers/footer')
     
     <script src="{{ asset('/js/funcionesVarias.js') }}"></script>
+    <script src="{{ asset('/js/FullScreem.js?v=' . rand()) }}"></script> 
 @endsection()
 

@@ -24,7 +24,8 @@ if(AlContenedor != Array ()){
         //Se confirma si se desea vaciar el carrito de compras
         if(ConfirmaCarrito == true){  
 
-            // redirecciona a la tienda donde estan los productos que quedaron cargados anteriormente             
+            // redirecciona a la tienda donde estan los productos que quedaron cargados anteriormente 
+
             // remoto 
             // location.replace("https://www.noticieroyaracuy.com/marketplace/catalogo/" + ID_TiendaEnCarrito + "/" + PseudonimoSuscripto ); 
 
@@ -57,6 +58,7 @@ if(AlContenedor != Array ()){
 //Por medio de delegación de eventos se detecta cada input donde se debe aplicar la funcion blanquearInput()
 document.getElementsByTagName("body")[0].addEventListener('keydown', function(e){
     // console.log("______Desde función anonima que detecta INPUTS______")   
+
     if(e.target.tagName == "INPUT"){
         var ID_Input = e.target.id
         
@@ -72,6 +74,7 @@ document.getElementsByTagName("body")[0].addEventListener('keydown', function(e)
 //************************************************************************************************
     var statu = false //CUando carga el archivo le da valor false, solo la primera vez luego el valor cambia al llamar la funcion
     function MostrarSecciones(){        
+    console.log("______Desde MostrarSecciones______")   
        
         if(statu == true){
             document.getElementById("Con_Secciones").classList.remove("ocultar");        
@@ -690,7 +693,7 @@ if(document.getElementById("Label_1")){
 //************************************************************************************************
     //Identifica los elementos de la sección donde se hizo click.
     function verSecion(ID_Seccion){ 
-        // console.log("______Desde verSecion()______", ID_Seccion)
+        console.log("______Desde verSecion()______", ID_Seccion)
 
         //Captura el valor del id dinanmico de la seccion donde se hizo click
         localStorage.setItem('ID_Seccion', ID_Seccion)         

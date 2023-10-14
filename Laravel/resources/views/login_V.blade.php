@@ -42,17 +42,27 @@
             <form action="{{ route('IniciarSesion') }}" method="POST">	
                 {!! csrf_field() !!}
                 <fieldset class="fieldset_1" >
-                    <legend class="legend_1">Acceso a suscriptores</legend>
+                    <legend class="legend_1">Acceso a suscriptor</legend>
                     <div class="login_cont--form">
                         
                         <!-- CORREO -->
                         <label class="login_cont--label">e-mail</label>
-                        <input class="login_cont--input borde--input" type="text" name="correo_Arr" id="Correo" autocomplete="off"/>  
+                        @if(isset($correo->correoPeriodista))
+                            <input class="login_cont--input borde--input" type="text" name="correo_Arr" id="Correo" value="{{ $correo->correoPeriodista }}" autocomplete="off"/>  
+                        @elseif(isset($correo->correoComerciante))
+                            <input class="login_cont--input borde--input" type="text" name="correo_Arr" id="Correo" value="{{ $correo->correoComerciante }}" autocomplete="off"/> 
+                        @else
+                            <input class="login_cont--input borde--input" type="text" name="correo_Arr" id="Correo" autocomplete="off"/> 
+                        @endif
 
                         <!-- CONTRASEÑA -->
                         <label class="login_cont--label">Contraseña</label>
-                        <input class="login_cont--input borde--input" type="password" name="clave_Arr" id="Clave" autocomplete="off"/>             
-
+                        @if(isset($correo))
+                            <input class="login_cont--input borde--input" type="password" name="clave_Arr" id="Clave" value="{{ $clave }}" autocomplete="off"/>    
+                        @else
+                            <input class="login_cont--input borde--input" type="password" name="clave_Arr" id="Clave" autocomplete="off"/>
+                        @endif
+                            
                         <!-- RECORDAR DATOS -->
                         <div class="contenedor_45">
                             <input class="" type="checkbox" id="Recordar" name="recordar" value="1"/>

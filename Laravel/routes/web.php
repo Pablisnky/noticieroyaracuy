@@ -84,8 +84,9 @@ Route::controller(NoticiasController::class)->group(function(){
 // MarketplaceController ******************************************************
 Route::get("marketplace", [MarketplaceController::class, 'index'])->name('Marketplace');
 Route::get("marketplace/categoria", [MarketplaceController::class, 'categoria'])->name('Categoria');
+Route::get("marketplace/catalogo/secciones/{id_comerciante}/{id_seccion}", [MarketplaceController::class, 'Secciones'])->name('SeccionesTienda');
 Route::get("marketplace/categoria/{nombreCategoria}", [MarketplaceController::class, 'tiendasCategoria'])->name('TiendasCategoria');
-Route::get("marketplace/productoAmpliado/{ID_Producto}", [MarketplaceController::class, 'productoAmpliado'])->name('ProductoAmpliado');
+Route::get("marketplace/productoAmpliado/{id_producto}/{bandera}", [MarketplaceController::class, 'productoAmpliado'])->name('ProductoAmpliado');
 Route::get("marketplace/catalogo/{ID_Suscriptor}", [MarketplaceController::class, 'catalogo'])->name('Catalogo'); 
 Route::post('marketplace/pedido', [MarketplaceController::class, 'recibePedido'])->name('RecibePedido'); 
 // via Ajax desde A_Catalogo.js
@@ -138,7 +139,8 @@ Route::post("marketplace/datosActualizar", [PanelMarketplaceController::class, '
 Route::get('marketplace/eliminaProducto/{id_producto}/{id_opcion}', [PanelMarketplaceController::class, 'eliminarProducto'])->name('EliminarProducto'); 
 Route::get('marketplace/eliminarImgProducto/{id_imagenSec}', [PanelMarketplaceController::class, 'eliminar_imagenSecundariaProducto'])->name('EliminarImgSecundariaPRoducto');
 // ajax 
-Route::get('marketplace/eliminaSeccion/{id_seccion}', [PanelMarketplaceController::class, 'eliminarSeccion'])->name('EliminarSeccion');  
+Route::get('marketplace/eliminaSeccion/{id_seccion}', [PanelMarketplaceController::class, 'eliminarSeccion'])->name('EliminarSeccion'); 
+Route::get("marketplace/actualizarSeccion/{seccion}/{is_seccion}", [PanelMarketplaceController::class, 'actualizarSeccion'])->name('ActualizaSecions');
 
 // PanelArtistaController ****************************************************    
 Route::get("artista/{id_artista}", [PanelArtistaController::class, 'index'])->name('PanelArtista');

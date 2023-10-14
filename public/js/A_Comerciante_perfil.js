@@ -69,28 +69,33 @@ function conexionAJAX(){
 
 // *************************************************************************************************
     //Cambia el nombre de una sección cuando se avandona el foco
-    // function Llamar_ActualizarSeccion(Seccion, ID_Seccion){
-    //     // console.log("______Desde Llamar_ActualizarSeccion()______",Seccion + " / "  + ID_Seccion)
+    function Llamar_ActualizarSeccion(Seccion, ID_Seccion){
+        // console.log("______Desde Llamar_ActualizarSeccion()______",Seccion + " / "  + ID_Seccion)
 
-    //     var url = "../../Panel_Clasificados_C/actualizarSeccion/" + Seccion + "," + ID_Seccion
-    //     http_request.open('GET', url, true)  
-    //     peticion.onreadystatechange = respuesta_ActualizarSeccion
-    //     peticion.setRequestHeader("content-type","application/x-www-form-urlencoded")
-    //     peticion.send("null")
-    // }                                                                        
-    // function respuesta_ActualizarSeccion(){
-    //     if(peticion.readyState == 4){
-    //         if(peticion.status == 200){  
-    //             // solo para mostrar respuesta del servidor, esta llamada ajax solo ejecuta una accion en el servidor
-    //             // document.getElementById('ReadOnly').innerHTML = peticion.responseText 
-    //         } 
-    //         else{
-    //             alert('Problemas con la petición.')
-    //         }
-    //     }
-    //     else{ //en caso contrario, mostramos un gif simulando una precarga
-    //         // document.getElementById('Mostrar_Maquinas').innerHTML='Cargando registros';
-    //     }
-    // }
+        // Remoto
+        var url = "https://www.noticieroyaracuy.com/marketplace/actualizarSeccion/" + Seccion + "/"  + ID_Seccion
+        
+        // local
+        // var url = "http://nuevonoticiero.com/marketplace/actualizarSeccion/" + Seccion + "/"  + ID_Seccion
+
+        http_request.open('GET', url, true)  
+        peticion.onreadystatechange = respuesta_ActualizarSeccion
+        peticion.setRequestHeader("content-type","application/x-www-form-urlencoded")
+        peticion.send("null")
+    }                                                                        
+    function respuesta_ActualizarSeccion(){
+        if(peticion.readyState == 4){
+            if(peticion.status == 200){  
+                // solo para mostrar respuesta del servidor, esta llamada ajax solo ejecuta una accion en el servidor
+                // document.getElementById('ReadOnly').innerHTML = peticion.responseText 
+            } 
+            else{
+                alert('Problemas con la petición.')
+            }
+        }
+        else{ //en caso contrario, mostramos un gif simulando una precarga
+            // document.getElementById('Mostrar_Maquinas').innerHTML='Cargando registros';
+        }
+    }
 
 // *************************************************************************************************

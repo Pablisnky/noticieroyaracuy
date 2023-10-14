@@ -8,6 +8,7 @@
         <header>
             <div class="cont_catalogos">  
 
+                {{-- MEMBRETE --}}
                 <div class="cont_catalogos--membrete--1">     
                     <a class="header__titulo--catalogo" href="{{ route('NoticiasPortada')}}">www.NoticieroYaracuy.com</a> 
                     <br class="Default_quitarMovil">
@@ -63,8 +64,8 @@
 
         <!-- MUESTRA MENU SECCIONES --> 
         <div class="cont_catalogos--secciones" id="Con_Secciones">
-            @foreach($secciones as $Key)
-                <a href="<?php //echo RUTA_URL . '/Catalogos_C/Secciones/' . $Datos['ID_Suscriptor'] . ',' . $Key['ID_Seccion'];?>" onclick="verSecion('<?php //echo $Key['ID_Seccion']?>')"><?php //echo $Key['seccion']?></a> 
+            @foreach($secciones as $Key) 
+                <a href="{{ route('SeccionesTienda', ['id_comerciante' => $id_comerciante, 'id_seccion' => $Key->ID_Seccion]) }}" onclick="verSecion('{{ $Key->ID_Seccion }}">{{ $Key->seccion }}</a> 
                 <br>
             @endforeach
             
@@ -116,7 +117,7 @@
                         @endif
 
                         <!-- IMAGEN -->
-                        <a href="<?php //echo RUTA_URL . '/Catalogos_C/productoAmpliado/' . $ID_Producto;?>" rel="noopener noreferrer" target="_blank"><img class="contOpciones__img" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $id_comerciante . '/productos/' . $row->nombre_img) }}"/></a> 
+                        <a href="{{ route('ProductoAmpliado', ['id_producto' => $row->ID_Producto, 'bandera' => 'DesdeCatalogo']) }}" rel="noopener noreferrer" target="_blank"><img class="contOpciones__img" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $id_comerciante . '/productos/' . $row->nombre_img) }}"/></a> 
                     </div>
                                 
                     <div class="cont_producto"> 
@@ -226,4 +227,5 @@
     <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
     <script src="{{ asset('/js/E_Catalogos.js?v='. rand()) }}"></script>
     <script src="{{ asset('/js/A_Catalogos.js?v='. rand()) }}"></script>
+
 @endsection()

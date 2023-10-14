@@ -22,7 +22,7 @@
                 </div>
                 <div class="cont_clasificados--item-2">
                     <a class="boton boton--publicar" href="{{ route('Categoria') }}" rel="noopener noreferrer">Categorias</a>
-                    <a class="boton boton--publicar" href="<?php //echo RUTA_URL . '/LoginController/index/SinID_Noticia,SinBandera';?>" rel="noopener noreferrer">Publicar</a>
+                    <a class="boton boton--publicar" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}" rel="noopener noreferrer">Publicar</a>
                 </div>
             </div>
         </header>   
@@ -50,7 +50,7 @@
                         @endif
                         
                         <!-- IMAGEN -->
-                        <a href="{{ route('ProductoAmpliado', $row->ID_Producto) }}" rel="noopener noreferrer" target="_blank"><img class="contOpciones__img" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $row->ID_Comerciante . '/productos/' . $row->nombre_img) }}"/></a>
+                        <a href="{{ route('ProductoAmpliado', ['id_producto' => $row->ID_Producto, 'bandera' => 'DesdeClasificados']) }}" rel="noopener noreferrer" target="_blank"><img class="contOpciones__img" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $row->ID_Comerciante . '/productos/' . $row->nombre_img) }}"/></a>
                     </div>
                                                         
                     <div class="cont_producto"> 
@@ -102,10 +102,10 @@
         <!-- BOTONES DEL PANEL FRONTAL (solo en dispositivos moviles)-->	
         <div class="cont_portada--botones">                
             <div>
-                <label class="boton boton--corto"><a class="Default_font--white boton_a" href="<?php //echo RUTA_URL . '/Categoria_C/';?>" rel="noopener noreferrer">Categorias</a></label> 
+                <label class="boton boton--corto"><a class="Default_font--white boton_a" href="{{ route('Categoria') }}" rel="noopener noreferrer">Categorias</a></label> 
             </div>        
             <div>
-                <label class="boton boton--corto"><a class="Default_font--white boton_a" href="<?php //echo RUTA_URL . '/LoginController/index/SinID_Noticia,SinBandera';?>" rel="noopener noreferrer">Publicar</a></label> 
+                <label class="boton boton--corto"><a class="Default_font--white boton_a" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}" rel="noopener noreferrer">Publicar</a></label> 
             </div>        
         </div>
 

@@ -40,7 +40,8 @@ extension = gd esta extencion en php.ini se activo para que pudiera funcionar la
     ---------------
     A_Catalogos.js
     A_Noticia.js
-    A_COmerciante_perfil.js
+    A_Comerciante_perfil.js
+    
     E_Artista.js
     E_Catalogos.js
 tiene la opcion de subir a servidor remoto y servidor local, esta debe ser cambiada segun la condicion

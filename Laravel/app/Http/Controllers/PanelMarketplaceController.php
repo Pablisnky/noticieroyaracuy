@@ -220,22 +220,13 @@ class PanelMarketplaceController extends Controller
         ]);
     }
 
-    // actualiza en nombre de una seccion
-    public function actualizarSeccion($DatosAgrupados){
-        //$DatosAgrupados contiene una cadena con el ID_Seccion y la sección separados por coma, se convierte en array para separar los elementos
-        // echo $DatosAgrupados;
-        // exit();
+    // actualiza el nombre de una seccion
+    public function actualizarSeccion($Seccion, $ID_Seccion ){
 
-        $DatosAgrupados = explode(',', $DatosAgrupados);
-
-        $Seccion = $DatosAgrupados[0];
-        $ID_Seccion = $DatosAgrupados[1];
-
-        // echo $ID_Seccion;
-        // echo $Seccion;
-        // exit;
-
-        $this->ConsultaClasificados_M->actualizarSeccion($ID_Seccion, $Seccion);
+        //Se ACTUALIZA la tabla opciones en BD
+        DB::connection('mysql_2')->table('secciones')
+            ->where('ID_Seccion', $ID_Seccion)
+            ->update(['seccion' => $Seccion]);
     }
 
     // **************************************************************************************************************
@@ -964,10 +955,12 @@ class PanelMarketplaceController extends Controller
         //Se ACTUALIZA la tabla productos en BD
         DB::connection('mysql_2')->table('productos')
             ->where('ID_Producto', $RecibeProducto['ID_Producto'])
-            ->update(['producto' => $RecibeProducto['Producto']]);
+            ->update(['producto' => $RecibeProducto['Producto']]);  
 
-        //ACTUALIZA la dependencia transitiva entre el producto y la seccions a la que pertenece
-        // $this->ConsultaClasificados_M->actualizarDT_SecPro($RecibeProducto);
+        // Se ACTUALIZA la dependencia transitiva entre el producto y la seccions a la que pertenece
+        DB::connection('mysql_2')->table('secciones_productos')
+            ->where('ID_Producto', $RecibeProducto['ID_Producto'])
+            ->update(['ID_Seccion' => $RecibeProducto['ID_Seccion']]);  
 
         return redirect()->route("PanelProducto", ['id_comerciante' => $RecibeProducto['ID_Comerciante']]);
         die();

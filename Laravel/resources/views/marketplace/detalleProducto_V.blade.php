@@ -75,7 +75,7 @@
                         <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/telefono/outline_phone_iphone_black_24dp.png') }}"/>
                         <label><?php echo $comerciante->telefonoComerciante?></label>
                     </div>
-                    @if($bandera == 'Desde_Clasificados') 
+                    @if($bandera == 'DesdeClasificados') 
                         <a class="cont_detalle_Producto--p" href="{{ route('Catalogo', ['ID_Suscriptor' => $producto->ID_Comerciante, 'pseudonimoSuscripto' => $comerciante->pseudonimoComerciante ]) }}">Ver catalogo de vendedor</a>
                     @endif
                 </div>

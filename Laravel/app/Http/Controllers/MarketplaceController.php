@@ -51,7 +51,7 @@ class MarketplaceController extends Controller
     } 
     
     // muestra la vista de un producto y sus detalles
-    public function productoAmpliado($ID_Producto){
+    public function productoAmpliado($ID_Producto, $Bandera){
                    
         //CONSULTA la informacion del producto seleccionado
         $Producto = DB::connection('mysql_2')->table('productos') 
@@ -92,7 +92,7 @@ class MarketplaceController extends Controller
             'imagenesSec' => $ImagenesSec, 
             'comerciante' => $Comerciante,
             'dolar' => $this->Dolar, 
-            'bandera' => 'Desde_Clasificados'
+            'bandera' => $Bandera
             ]
         );
     } 
@@ -574,6 +574,7 @@ class MarketplaceController extends Controller
         ]);
     }
     
+    // Muestra la vista donde aparecen todas las categorias
     public function categoria(){
        
         //Se CONSULTAN todos los estados en los cuales existen tiendas disponibles para mostrar a usuarios
@@ -612,6 +613,57 @@ class MarketplaceController extends Controller
             'tiendasCategorias' => $TiendasCategorias
         ]);  
     }
+
+    public function Secciones($ID_Comerciante, $ID_Seccion){
+        
+        //Consulta las secciones de un catalogo especifico 
+        $Secciones = DB::connection('mysql_2')
+        ->select("SELECT ID_Seccion, seccion FROM secciones WHERE ID_Comerciante = '$ID_Comerciante'; ");
+        // return gettype($Secciones);
+        // return $Secciones;
+       
+        if(is_numeric($ID_Seccion)){          
+            //Consulta los productos  de una seccion especifica
+            $ProductosSeccion = DB::connection('mysql_2')
+                ->select(
+                "SELECT productos.ID_Producto, productos.ID_Comerciante, opciones.ID_Opcion, ID_Seccion, producto, nombre_img, opcion, precioBolivar, precioDolar, cantidad, nuevo
+                FROM productos 
+                INNER JOIN imagenes ON productos.ID_Producto=imagenes.ID_Producto
+                INNER JOIN productos_opciones ON productos.ID_Producto=productos_opciones.ID_Producto
+                INNER JOIN opciones ON productos_opciones.ID_Opcion=opciones.ID_Opcion
+                INNER JOIN secciones_productos ON productos.ID_Producto=secciones_productos.ID_Producto
+                WHERE productos.ID_Comerciante = $ID_Comerciante AND ID_Seccion = $ID_Seccion AND fotoPrincipal = 1;");
+                // return gettype($ProductosSeccion);
+                // return $ProductosSeccion;
+        }
+        else{         
+            //Consulta los productos de todo el catalogo          
+            $ProductosSeccion = DB::connection('mysql_2')
+                ->select(
+                "SELECT productos.ID_Producto, productos.ID_Comerciante, opciones.ID_Opcion, ID_Seccion, producto, nombre_img, opcion, precioBolivar, precioDolar, cantidad, nuevo
+                FROM productos 
+                INNER JOIN imagenes ON productos.ID_Producto=imagenes.ID_Producto
+                INNER JOIN productos_opciones ON productos.ID_Producto=productos_opciones.ID_Producto
+                INNER JOIN opciones ON productos_opciones.ID_Opcion=opciones.ID_Opcion
+                INNER JOIN secciones_productos ON productos.ID_Producto=secciones_productos.ID_Producto
+                WHERE productos.ID_Comerciante = $ID_Comerciante AND fotoPrincipal = 1;");
+        }
+        
+        // Se consultan datos del comerciante
+        $Comerciante = Comerciante_M::
+            select('ID_Comerciante','nombreComerciante','apellidoComerciante','telefonoComerciante','pseudonimoComerciante','municipioComerciante','parroquiaComerciante','categoriaComerciante','nombreImgCatalogo')   
+            ->where("ID_Comerciante",'=', $ID_Comerciante)
+            ->first();
+            // return gettype($Comerciante);
+            // return $Comerciante;
+        
+        return view('marketplace.seccion_V',[
+            'dolarHoy' => $this->Dolar,
+            'suscriptor' => $Comerciante, //cambiar clave a comerciante, pero tomar en cuenta header_catalogo que es llamado en otras vista
+            'productos' => $ProductosSeccion,
+            'secciones' => $Secciones
+        ]);   
+    } 
 }
 
 

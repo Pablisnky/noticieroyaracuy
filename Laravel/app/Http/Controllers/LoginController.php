@@ -18,61 +18,58 @@ use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
-    //Muestra el formulario de login, si no existe una sesión abierta
+    //Muestra el formulario de login en caso de que no exista una sesión abierta
     public function index($ID_Noticia, $Bandera, $ID_Comentario){
-        // if(!empty($_SESSION['ID_Periodista'])){ 
-        //     // header('Location:'. RUTA_URL . '/Panel_C/portadas');
-        //     die(); 
-        // }
-        // else{
-            // $ID_Comentario = !empty($ID_Comentario) ? $ID_Comentario: 'SinID_Comentario';
-
-            // echo "ID_Noticia =" .  $ID_Noticia ."<br>";
-            // echo "Bandera =" .  $Bandera ."<br>";
-            // echo "ID_Comentario =" .  $ID_Comentario ."<br>";
-            // exit;
-
-            // unset($_COOKIE ["id_periodista"]);
-            // unset($_COOKIE ["clave"]);
             //Se verifica si el usuario esta memorizado en las cookie de su computadora y las compara con la BD, para recuperar sus datos y autorellenar el formulario de inicio de sesion, las cookies de registro de usuario se crearon en validarSesion.php
             
-            // echo "Cookie periodista =" . $_COOKIE["id_periodista"] ."<br>";
-            // echo "Cookie clave =" .  $_COOKIE["clave"] ."<br>";
-            // exit;        setcookie('id_periodista')
-
+            // echo Cookie::get('id_periodista') . '<br>';
+            // echo Cookie::get('clavePeriodista') . '<br>';
+            // exit;
+            // echo Cookie::get('id_comerciante') . '<br>';
+            // echo Cookie::get('clave') . '<br>';
+            // exit;
            
-            if(!empty(Cookie::get('id_periodista')) AND !empty(Cookie::get('clave'))){//Si la variable $_COOKIE esta establecida o creada
-
-                $Cookie_id_periodista = Cookie::get('id_periodista') . '<br>';
-                $Cookie_clave = Cookie::get('clave'); 
-                // echo $Cookie_id_periodista . '<br>';
-                // echo $Cookie_clave . '<br>';
+            // COOKIE PERIODISTA
+            if(!empty(Cookie::get('id_periodista')) AND !empty(Cookie::get('clavePeriodista'))){//Si la variable $_COOKIE esta establecida o creada
 
                 //Se CONSULTA el correo guardado como Cookie con el id_periodista como argumento, se consulta en todos los tipos de usuario que existe
                 $CorreoPeriodista = Periodistas_M::
                     select('correoPeriodista')
-                    ->where('id_Periodista','=', $Cookie_id_periodista)
+                    ->where('id_Periodista','=', Cookie::get('id_periodista'))
                     ->first(); 
                     // return $CorreoPeriodista;
 
-                // if(!empty($CorreoRecord_Com)){
-                //     $Correo = $CorreoPeriodista[0]['correo_AfiCom'];
-                // }
-
-                // $Datos=[
-                //     'correoRecord' => $CorreoPeriodista,
-                //     'claveRecord' => $Cookie_clave,
-                //     // 'bandera' => $Bandera
-                // ];
-
                 return view('login_V', [
-                    'correoRecord' => $CorreoPeriodista,
-                    'claveRecord' => $Cookie_clave,
+                    'correo' => $CorreoPeriodista,
+                    'clave' =>  Cookie::get('clavePeriodista'),
                     'id_noticia' => 'sin_id_noticia',
                     'id_comentario' => 'sin_id_comentario',
                     'bandera' => 'sin_bandera'
                 ]);
             }
+                 // COOKIE COMERCIANTEs
+            else if(!empty(Cookie::get('id_comerciante')) AND !empty(Cookie::get('claveComerciante'))){//Si la variable $_COOKIE esta establecida o creada
+
+                //Se CONSULTA el correo guardado como Cookie con el id_comerciante como argumento, se consulta en todos los tipos de usuario que existe
+                $CorreoComerciante = Comerciante_M::
+                    select('correoComerciante')
+                    ->where('id_comerciante','=', Cookie::get('id_comerciante'))
+                    ->first(); 
+                    // return $CorreoPeriodista;
+
+                return view('login_V', [
+                    'correo' => $CorreoComerciante,
+                    'clave' =>  Cookie::get('claveComerciante'),
+                    'id_noticia' => 'sin_id_noticia',
+                    'id_comentario' => 'sin_id_comentario',
+                    'bandera' => 'sin_bandera'
+                ]);
+            }
+            // else{
+            //     // echo " no existen cookies";
+            //     // exit;
+            // }
+
             else if($Bandera == 'comentar' || $Bandera == 'panelSuscriptor'){//Entra cuando viene de una noticia y desea hacer comentario o cambio de contraseña
 
                 echo $Bandera ;
@@ -116,7 +113,7 @@ class LoginController extends Controller
         $CorreoEnviado = strtolower($Request->get('correo_Arr'));
         $ClaveEnviada = $Request->get('clave_Arr'); 
         $Bandera = $Request->get('bandera'); 
-        $Recordar = $Request->get('recordar');
+        $Recordar = $Request->get('recordar'); 
         // echo $CorreoEnviado . '<br>';
         // echo $ClaveEnviada . '<br>';
         // echo $Bandera . '<br>';
@@ -125,12 +122,11 @@ class LoginController extends Controller
         
         if(!empty($CorreoEnviado) AND empty(!$ClaveEnviada)){
             
-            //Se CONSULTA si el correo existe como artista
-            $Artista = Artistas_M::
-                where('correoArtista','=', $Request->get('correo_Arr'))
+            //Se CONSULTA si el correo existe como periodista
+            $Periodista = Periodistas_M::
+                where('correoPeriodista','=', $Request->get('correo_Arr'))
                 ->first();
-                // echo gettype($Artista);
-                // return $Artista;
+                // return $Periodista = $Periodista == null ? null : $Periodista;
 
             //Se CONSULTA si el correo existe como comerciante
             $Comerciante = Comerciante_M::
@@ -139,22 +135,125 @@ class LoginController extends Controller
                 // echo gettype($Comerciante);
                 // return $Comerciante;
 
+            //Se CONSULTA si el correo existe como artista
+            $Artista = Artistas_M::
+                where('correoArtista','=', $Request->get('correo_Arr'))
+                ->first();
+                // echo gettype($Artista);
+                // return $Artista;
+
             //Se CONSULTA si el correo existe como suscritor
             $Suscriptor = Suscriptor_M::
                 where('correoSuscriptor','=', $Request->get('correo_Arr'))
                 ->first();
                 // echo gettype($Suscriptor);
                 // return $Suscriptor;
-                    
-            //Se CONSULTA si el correo existe como periodista
-            $Periodista = Periodistas_M::
-                where('correoPeriodista','=', $Request->get('correo_Arr'))
-                ->first();
-                // return $Periodista = $Periodista == null ? null : $Periodista;
                         
             // $Datos = ['suscriptor' => $Suscriptor, 'periodista' => $Periodista];
             // return $ID_Periodista;
                                 
+            // EXISTE COMO PERIODISTA
+            if(!empty($Periodista)){
+                
+                $ID_Periodista =  $Periodista->ID_Periodista; 
+                $Correo_BD =  $Periodista->correoPeriodista;
+
+                //Se CONSULTA la contraseña guardada en BD, para verificar que sea igual a la contraseña de la BD
+                $Contrasenia_BD = PeriodistaPasword_M::
+                    select('claveCifrada')
+                    ->where('ID_Periodista','=', $ID_Periodista)
+                    ->first();                    
+                    // return $Contrasenia_BD;
+
+                // LOGEADO Y REDIRECIONAMIENTO
+                //se descifra la contraseña con un algoritmo de desencriptado.
+                if($CorreoEnviado == $Correo_BD AND $ClaveEnviada == password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada)){
+
+                    //Se crea la sesion exigida en las páginas de cuentas de usuarios
+                    session(['nombreSuscriptor' => $Periodista->nombrePeriodista]);
+                    session(['apellidoSuscriptor' => $Periodista->apellidoPeriodista]);                
+                    session(['id_periodista' =>  $ID_Periodista]);
+
+                    // echo session('nombreSuscriptor') . '<br>';
+                    // echo session('apellidoSuscriptor') . '<br>';
+                    // echo session('id_periodista') . '<br>';
+                    // exit;
+
+                    //Se crean las cookies para recordar al usuario en caso de que $Recordar exista
+                    if($Recordar == 1){
+                        // Se introduce una cookie en el ordenador del usuario con el ID_Usuario  y la cookie aleatoria porque el usuario marca la casilla de recordar
+                        Cookie::queue(Cookie::make('id_periodista', $ID_Periodista, time()+365*24*60*60));
+                        Cookie::queue(Cookie::make('clavePeriodista', $ClaveEnviada, time()+365*24*60*60));
+                    }
+                        // Se destruyen las cookie para dejar de recordar a usuario
+                    // if($No_Recordar == 1){
+                    //     setcookie('id_usuario','',time() - 3600,'/');
+                    //     setcookie('clave','',time() - 3600,'/');
+                    // }
+
+                    return redirect()->action([PanelPeriodistaController::class,'index']);   
+                    die();
+                }
+                else{ //en caso de clave incorrecta
+                    return view('modal/modal_falloLogin_V');
+                }
+            }   
+           
+            // EXISTE COMO COMERCIANTE
+            if(!empty($Comerciante)){
+                
+                $ID_Comerciante =  $Comerciante->ID_Comerciante; 
+                $Correo_BD =  $Comerciante->correoComerciante;
+                
+                //Se CONSULTA la contraseña guardada en BD, para verificar que sea igual a la contraseña de la BD
+                $Contrasenia_BD = ComerciantePasword_M::
+                    select('claveCifrada')
+                    ->where('ID_Comerciante','=', $ID_Comerciante)
+                    ->first();                    
+                    // return $Contrasenia_BD;
+                    
+                // echo $CorreoEnviado . '<br>';
+                // echo $Correo_BD . '<br>';
+                // echo password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada);
+                // exit;
+
+                // LOGEADO Y REDIRECIONAMIENTO
+                //se descifra la contraseña con un algoritmo de desencriptado.
+                if($CorreoEnviado == $Correo_BD AND $ClaveEnviada == password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada)){
+
+                    //Se crea la sesion exigida en las páginas de cuentas de usuarios           
+                    session(['id_comerciante' =>  $Comerciante->ID_Comerciante]);
+                    session(['nombreComerciante' => $Comerciante->nombreComerciante]);
+                    session(['apellidoComerciante' => $Comerciante->apellidoComerciante]);                
+                    session(['PseudonimoComerciante' =>  $Comerciante->pseudonimoComerciante]);           
+                    session(['correoComerciante' =>  $Comerciante->correoComerciante]);
+
+                    // echo session('nombreComerciante') . '<br>';
+                    // echo session('apellidoComerciante') . '<br>';
+                    // echo session('PseudonimoComerciante') . '<br>';
+                    // echo session('correoComerciante') . '<br>';
+                    // exit;
+                    
+                    //Se crean las cookies para recordar al usuario en caso de que $Recordar exista
+                    if($Recordar == 1){
+                        // Se introduce una cookie en el ordenador del usuario con el ID_Usuario  y la cookie aleatoria porque el usuario marca la casilla de recordar                        
+                        Cookie::queue(Cookie::make('id_comerciante', $ID_Comerciante, time()+365*24*60*60));
+                        Cookie::queue(Cookie::make('claveComerciante', $ClaveEnviada, time()+365*24*60*60));
+                    }
+                        // Se destruyen las cookie para dejar de recordar a usuario
+                    // if($No_Recordar == 1){
+                    //     setcookie('id_usuario','',time() - 3600,'/');
+                    //     setcookie('clave','',time() - 3600,'/');
+                    // }
+                                                                
+                    return redirect()->route("PanelProducto", ['id_comerciante' => session('id_comerciante')]);
+                    die();
+                }
+                else{ //en caso de clave o usuario incorrecto
+                    return view('modal/modal_falloLogin_V');
+                }
+            }
+
             // EXISTE COMO ARTISTA
             if($Artista != null){
                 
@@ -201,60 +300,6 @@ class LoginController extends Controller
                     // }
                                                                 
                     return redirect()->route("PanelArtista", ['id_artista' => session('id_artista')]);
-                    die();
-                }
-                else{ //en caso de clave o usuario incorrecto
-                    return view('modal/modal_falloLogin_V');
-                }
-            }
-
-            // EXISTE COMO COMERCIANTE
-            if($Comerciante != null){
-                
-                $ID_Comerciante =  $Comerciante->ID_Comerciante; 
-                $Correo_BD =  $Comerciante->correoComerciante;
-                
-                //Se CONSULTA la contraseña guardada en BD, para verificar que sea igual a la contraseña de la BD
-                $Contrasenia_BD = ComerciantePasword_M::
-                    select('claveCifrada')
-                    ->where('ID_Comerciante','=', $ID_Comerciante)
-                    ->first();                    
-                    // return $Contrasenia_BD;
-                    
-                // echo $CorreoEnviado . '<br>';
-                // echo $Correo_BD . '<br>';
-                // echo password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada);
-                // exit;
-                // LOGEADO Y REDIRECIONAMIENTO
-                //se descifra la contraseña con un algoritmo de desencriptado.
-                if($CorreoEnviado == $Correo_BD AND $ClaveEnviada == password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada)){
-
-                    //Se crea la sesion exigida en las páginas de cuentas de usuarios           
-                    session(['id_comerciante' =>  $Comerciante->ID_Comerciante]);
-                    session(['nombreComerciante' => $Comerciante->nombreComerciante]);
-                    session(['apellidoComerciante' => $Comerciante->apellidoComerciante]);                
-                    session(['PseudonimoComerciante' =>  $Comerciante->pseudonimoComerciante]);           
-                    session(['correoComerciante' =>  $Comerciante->correoComerciante]);
-
-                    // echo session('nombreComerciante') . '<br>';
-                    // echo session('apellidoComerciante') . '<br>';
-                    // echo session('PseudonimoComerciante') . '<br>';
-                    // echo session('correoComerciante') . '<br>';
-                    // exit;
-                    
-                    //Se crean las cookies para recordar al usuario en caso de que $Recordar exista
-                    if($Recordar == 1){
-                        // Se introduce una cookie en el ordenador del usuario con el ID_Usuario  y la cookie aleatoria porque el usuario marca la casilla de recordar
-                        setcookie('id_comerciante', $Comerciante->ID_Comerciante, time()+365*24*60*60);
-                        setcookie('clave', $ClaveEnviada, time()+365*24*60*60);
-                    }
-                        // Se destruyen las cookie para dejar de recordar a usuario
-                    // if($No_Recordar == 1){
-                    //     setcookie('id_usuario','',time() - 3600,'/');
-                    //     setcookie('clave','',time() - 3600,'/');
-                    // }
-                                                                
-                    return redirect()->route("PanelProducto", ['id_comerciante' => session('id_comerciante')]);
                     die();
                 }
                 else{ //en caso de clave o usuario incorrecto
@@ -350,57 +395,6 @@ class LoginController extends Controller
                 }
             }
             
-            // EXISTE COMO PERIODISTA
-            if(!empty($Periodista)){
-                
-                $ID_Periodista =  $Periodista->ID_Periodista; 
-                $Correo_BD =  $Periodista->correoPeriodista;
-
-                //Se CONSULTA la contraseña guardada en BD, para verificar que sea igual a la contraseña de la BD
-                $Contrasenia_BD = PeriodistaPasword_M::
-                    select('claveCifrada')
-                    ->where('ID_Periodista','=', $ID_Periodista)
-                    ->first();                    
-                    // return $Contrasenia_BD;
-
-                // LOGEADO Y REDIRECIONAMIENTO
-                //se descifra la contraseña con un algoritmo de desencriptado.
-                if($CorreoEnviado == $Correo_BD AND $ClaveEnviada == password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada)){
-
-                    //Se crea la sesion exigida en las páginas de cuentas de usuarios
-                    session(['nombreSuscriptor' => $Periodista->nombrePeriodista]);
-                    session(['apellidoSuscriptor' => $Periodista->apellidoPeriodista]);                
-                    session(['id_periodista' =>  $ID_Periodista]);
-
-                    // echo session('nombreSuscriptor') . '<br>';
-                    // echo session('apellidoSuscriptor') . '<br>';
-                    // echo session('id_periodista') . '<br>';
-                    // exit;
-
-                    //Se crean las cookies para recordar al usuario en caso de que $Recordar exista
-                    if($Recordar == 1){
-                        // Se introduce una cookie en el ordenador del usuario con el ID_Usuario  y la cookie aleatoria porque el usuario marca la casilla de recordar
-                        Cookie::queue(Cookie::make('id_periodista', $ID_Periodista, time()+365*24*60*60));
-                        Cookie::queue(Cookie::make('clave', $ClaveEnviada, time()+365*24*60*60));
-                        // setcookie('id_periodista', $ID_Periodista, time()+365*24*60*60);
-                        // setcookie('clave', $ClaveEnviada, time()+365*24*60*60);
-                    }
-                        // Se destruyen las cookie para dejar de recordar a usuario
-                    // if($No_Recordar == 1){
-                    //     setcookie('id_usuario','',time() - 3600,'/');
-                    //     setcookie('clave','',time() - 3600,'/');
-                    // }
-
-                    return redirect()->action([PanelPeriodistaController::class,'index']);   
-                    die();
-                }
-                else{ //en caso de clave incorrecta
-                    return view('modal/modal_falloLogin_V');
-                }
-            }   
-            else{ //en caso de clave o usuario incorrecto
-                return view('modal/modal_falloLogin_V');
-            }
         }
         else{ //en caso de clave o usuario incorrecto
             return view('modal/modal_falloLogin_V');
@@ -560,6 +554,7 @@ class LoginController extends Controller
     public function cerrar_Sesion(){
         session()->forget('id_periodista');
         session()->forget('id_suscriptor');
+        session()->forget('id_comerciante');
         
         return redirect()->action([Inicio_C::class]);   
         die();

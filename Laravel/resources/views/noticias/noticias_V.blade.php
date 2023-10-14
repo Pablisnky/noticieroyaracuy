@@ -199,4 +199,5 @@
     <script src="{{ asset('/js/funcionesVarias.js') }}"></script>
     <script src="{{ asset('/js/E_Noticia.js') }}"></script>
     <script src="{{ asset('/js/A_Noticia.js') }}"></script>
+    <script src="{{ asset('/js/FullScreem.js?v=' . rand()) }}"></script> 
 @endsection()

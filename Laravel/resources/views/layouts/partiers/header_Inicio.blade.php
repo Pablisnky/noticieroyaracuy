@@ -105,7 +105,7 @@
 			</div>
 			    
 			<!-- YARACUY EN VIDEO -->
-			<a class="con_portada--titulo Default_pointer" href="{{ route('YaracuyVideo') }}"" rel="noopener noreferrer"><img style="width: 2em;" src="{{ asset('/iconos/video/outline_videocam_white_24dp.png') }}"/>Yaracuy<br> en video</a>
+			<a class="con_portada--titulo Default_pointer" href="{{ route('YaracuyVideo') }}" rel="noopener noreferrer"><img style="width: 2em;" src="{{ asset('/iconos/video/outline_videocam_white_24dp.png') }}"/>Yaracuy<br> en video</a>
 		</header>
 
 		<!-- MEMBRETE DESPLAZANTE -->
@@ -176,7 +176,7 @@
 		<!-- FULLSCREEM -->
 		<div class="Default_ocultar" id="Miimagen">	
 			<!-- ICONO CERRAR -->
-			<a href=""><img class="cont_modal--cerrar Default_pointer" style="width: 1em;" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png')}}"/></a>
+			<a href="{{ route('NoticiasPortada') }}"><img class="cont_modal--cerrar Default_pointer" style="width: 1em;" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png')}}"/></a>
 			
 			<div class="fullscreem--inicio--texto">
 				<h1 class="fullscreem--inicio--h1">Poema Yaracuy</h3>
