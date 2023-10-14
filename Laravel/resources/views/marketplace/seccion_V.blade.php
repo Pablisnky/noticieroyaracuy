@@ -19,7 +19,7 @@
 
             <!-- PSEUDONIMO -->
             <div class="cont_catalogos--membrete--2">
-                <img class="cont_catalogos--tienda Default_pointer" src="{{ asset('/iconos/tienda/outline_storefront_black_24dp.png') }}"/>
+                {{-- <img class="cont_catalogos--tienda Default_pointer" src="{{ asset('/iconos/tienda/outline_storefront_black_24dp.png') }}"/> --}}
                 <h1 class="h1_1 h1_1--catalogo">{{ $suscriptor->pseudonimoComerciante }}</h1> 
             </div>
                 
@@ -36,9 +36,9 @@
                 </div>     
                 
                 <!-- E-MAIL -->
-                <div class="cont_catalogos--iconos">
+                {{-- <div class="cont_catalogos--iconos">
                     <a href="#" target="_blank"><i class="fa-regular fa-envelope catalogo-RS"></i></a>
-                </div>      
+                </div>       --}}
                 
                 <!-- WHATSAPP -->
                 <div class="whatsapp cont_catalogos--iconos">
@@ -49,26 +49,26 @@
                 </div>
             </div>
                     
-            <!-- SECCIONES ICONO CERRAR-->
             <div class="cont_catalogos--membrete--4">
-                <div class=""> 
-                    <img class="Default_pointer" style="width: 2em" id="Secciones" src="{{ ASSET('/iconos/chevron/outline_expand_more_black_24dp.png') }}"/>
+                <div> 
+                    <!-- ICONO CEVRON SECCIONES -->
+                    <img class="Default_pointer cont_catalogos--iconChevron" id="Secciones" src="{{ ASSET('/iconos/chevron/outline_expand_more_black_24dp.png') }}"/>
                 </div>  
 
                 <div>
-                    <img class="Default_pointer" style="width: 1.8em;" id="Cerrar" src="{{ ASSET('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="cerrarVentana()"/>
+                    <!-- SECCIONES ICONO CERRAR-->
+                    <img class="Default_pointer cont_catalogos--iconCerrar" id="Cerrar" src="{{ ASSET('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="cerrarVentana()"/>
                 </div> 
             </div> 
     </header>
         <!-- MUESTRA MENU SECCIONES --> 
         <div class="cont_catalogos--secciones" id="Con_Secciones">
             @foreach($secciones as $Key)
-                <a href="{{ route('SeccionesTienda', ['id_comerciante' => $suscriptor->ID_Comerciante, 'id_seccion' => $Key->ID_Seccion]) }}" onclick="verSecion({{ $Key->ID_Seccion }}">{{ $Key->seccion }}</a> 
-                <br>
+                <a class="cont_catalogos--secciones--item" href="{{ route('SeccionesTienda', ['id_comerciante' => $suscriptor->ID_Comerciante, 'id_seccion' => $Key->ID_Seccion]) }}" onclick="verSecion({{ $Key->ID_Seccion }}">{{ $Key->seccion }}</a> 
             @endforeach
             
-            {{-- <?php $Pseudonimo = str_replace(" ", "_", $Datos['Suscriptor'][0]['pseudonimoSuscripto']); ?> --}}
-            <a href="{{ route('SeccionesTienda', ['id_comerciante' => $suscriptor->ID_Comerciante, 'id_seccion' => 'Tadas']) }}" onclick="verSecion('Todos')">Todos</a>
+            {{-- <?php //$Pseudonimo = str_replace(" ", "_", $Datos['Suscriptor'][0]['pseudonimoSuscripto']); ?> --}}
+            <a class="cont_catalogos--p" href="{{ route('SeccionesTienda', ['id_comerciante' => $suscriptor->ID_Comerciante, 'id_seccion' => 'Tadas']) }}" onclick="verSecion('Todos')">Todos</a>
 
             <hr class="hr_3 hr_3a">
             

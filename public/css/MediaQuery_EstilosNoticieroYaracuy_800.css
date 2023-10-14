@@ -898,6 +898,13 @@
 	width: 100%;
 	grid-column-start: 1;
 	grid-column-end: 6; 
+	height: 1vh;
+}
+.cont_catalogos--membrete--3{
+	width: 60%;
+	height: 25px;
+	grid-column-start: 1;
+	grid-column-end: 3; 
 }
 .cont_catalogos--membrete--4{
 	grid-column-start: 3;
@@ -905,6 +912,15 @@
 	width: 70%;
 	margin-left: 25%;
 	justify-content: space-around;
+}
+.cont_catalogos--iconos{
+	margin-bottom: -1%;
+}
+.cont_catalogos--iconChevron{
+	width: 1.8em
+}
+.cont_catalogos--iconCerrar{
+	width: 1.5em;
 }
 .cont_catalogos--redesSociales{	
 	top: 40% !important;
@@ -1294,7 +1310,7 @@
 	font-size: 2em;
 }
 .h1_1--catalogo{
-	font-size: 1.5em;
+	font-size: 2em;
 }
 .h3_4{
 	font-size: 0.9em;
@@ -1381,14 +1397,6 @@
 .cont_detalle_Producto--p{
 	font-size: 5vw;
 }
-.cont_catalogos--secciones{
-	width: 100%;	
-	margin-left: 0%;
-	padding-left: 5%;
-	padding-top: 5%;
-	height: 85vh;
-	margin-top: 9.5vh!important;
-} 
 .contenedor_13--marginTop{
 	margin-top: -80vh;
 }
@@ -1400,20 +1408,26 @@
 	left: 0%;
 	bottom: 15vh;
 }
-.cont_catalogos--productos{
-	margin-top: -85vh;
-	padding-top: 3vh;
-}
 .cont_catalogos{	
 	width: 100%;
-	height: 11.3vh!important; /*este valor he querido valjarlo a 13 vh pero luego queda un espacion al desplegar el menu secciones*/
+	height: 15vh!important; /*este valor he querido valjarlo a 13 vh pero luego queda un espacion al desplegar el menu secciones*/
 	grid-template-rows: 0fr;
 }
-.cont_catalogos--membrete--3{
-	width: 100%;
-	height: 25px;
-	grid-column-start: 1;
-	grid-column-end: 3; 
+.cont_catalogos--secciones{
+	width: 100%;	
+	margin-left: 0%;
+	padding-left: 5%;
+	padding-top: 5%;
+	height: 85vh;
+	margin-top: 15vh!important;
+} 
+.cont_catalogos--secciones--item{
+	display: block;
+	height: 5vh;
+}
+.cont_catalogos--productos{
+	margin-top: -85vh;
+	padding-top: 2vh;
 }
 .con_portada--titulo{
 	font-size: 3.7vw;

@@ -17,7 +17,7 @@
 
                 <!-- PSEUDONIMO -->
                 <div class="cont_catalogos--membrete--2">
-                    <img class="cont_catalogos--tienda Default_pointer" src="{{ asset('/iconos/tienda/outline_storefront_black_24dp.png') }}"/>
+                    {{-- <img class="cont_catalogos--tienda Default_pointer" src="{{ asset('/iconos/tienda/outline_storefront_black_24dp.png') }}"/> --}}
                     <h1 class="h1_1 h1_1--catalogo">{{ $suscriptor->pseudonimoComerciante }}</h1> 
                 </div>
                     
@@ -25,18 +25,18 @@
                 <div class="cont_catalogos--membrete--3">
                     <!-- FACEBOOK -->
                     <div class="cont_catalogos--iconos">
-                        {{-- <a href="https://www.facebook.com/sharer/sharer.php?u=<?php //echo RUTA_URL;?>/Catalogos_C/index/<?php //echo $Datos['ID_Suscriptor'];?>" target="_blank"><i class="fa-brands fa-facebook-f fa-sm catalogo-RS"></i></a> --}}
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=<?php //echo RUTA_URL;?>/Catalogos_C/index/<?php //echo $Datos['ID_Suscriptor'];?>" target="_blank"><i class="fa-brands fa-facebook-f fa-sm catalogo-RS"></i></a>
                     </div>        
                     
                     <!-- TWITTER -->
                     <div class="cont_catalogos--iconos">
-                        {{-- <a href="https://twitter.com/intent/tweet?url=<?php //echo RUTA_URL;?>/Catalogos_C/index/<?php //echo $Datos['ID_Suscriptor'];?>" target="_blank"><i class="fa-brands fa-twitter catalogo-RS"></i></a> --}}
+                        <a href="https://twitter.com/intent/tweet?url=<?php //echo RUTA_URL;?>/Catalogos_C/index/<?php //echo $Datos['ID_Suscriptor'];?>" target="_blank"><i class="fa-brands fa-twitter catalogo-RS"></i></a>
                     </div>     
                     
                     <!-- E-MAIL -->
-                    <div class="cont_catalogos--iconos">
-                        {{-- <a href="#" target="_blank"><i class="fa-regular fa-envelope catalogo-RS"></i></a> --}}
-                    </div>      
+                    {{-- <div class="cont_catalogos--iconos">
+                        <a href="#" target="_blank"><i class="fa-brands fa-envelope catalogo-RS"></i></a>
+                    </div>       --}}
                     
                     <!-- WHATSAPP -->
                     <div class="whatsapp cont_catalogos--iconos">
@@ -46,17 +46,16 @@
                         <p style="text-align: center; font-size: 0.7em">Compartir</p>
                     </div>
                 </div>
-                    
-            
+                                
                 <div class="cont_catalogos--membrete--4">
-                    <div class=""> 
+                    <div> 
                         <!-- ICONO CEVRON SECCIONES -->
-                        <img class="Default_pointer" style="width: 2em" id="Secciones" src="{{ asset('/iconos/chevron/outline_expand_more_black_24dp.png') }}"/>
+                        <img class="Default_pointer cont_catalogos--iconChevron" id="Secciones" src="{{ asset('/iconos/chevron/outline_expand_more_black_24dp.png') }}"/>
                     </div>  
 
                     <div>
                         <!-- SECCIONES ICONO CERRAR-->
-                        <img class="Default_pointer" style="width: 1.8em;" id="Cerrar" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="cerrarVentana()"/>
+                        <img class="Default_pointer cont_catalogos--iconCerrar" id="Cerrar" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="cerrarVentana()"/>
                     </div> 
                 </div>  
             </div>
@@ -65,11 +64,10 @@
         <!-- MUESTRA MENU SECCIONES --> 
         <div class="cont_catalogos--secciones" id="Con_Secciones">
             @foreach($secciones as $Key) 
-                <a href="{{ route('SeccionesTienda', ['id_comerciante' => $id_comerciante, 'id_seccion' => $Key->ID_Seccion]) }}" onclick="verSecion('{{ $Key->ID_Seccion }}">{{ $Key->seccion }}</a> 
-                <br>
+                <a class="cont_catalogos--secciones--item" href="{{ route('SeccionesTienda', ['id_comerciante' => $id_comerciante, 'id_seccion' => $Key->ID_Seccion]) }}" onclick="verSecion('{{ $Key->ID_Seccion }}">{{ $Key->seccion }}</a> 
             @endforeach
             
-            <?php $Pseudonimo = str_replace(" ", "_", $suscriptor->pseudonimoComerciante); ?>
+            <?php //$Pseudonimo = str_replace(" ", "_", $suscriptor->pseudonimoComerciante); ?>
             <a class="cont_catalogos--p" href="<?php //echo RUTA_URL . '/Catalogos_C/Secciones/' . $Datos['ID_Suscriptor'] . ',' . $Pseudonimo;?>" onclick="verSecion('Todos')">Todos</a>
             <hr class="hr_3 hr_3a">
             
@@ -146,10 +144,9 @@
                                     <label class="label_4 label_4--innabilitado">Agregar</label> 
                                 @else   <!--SI HAY PRODUCTOS EN INVENTARIO SE HABILITA-->
                                     <label for="{{ 'ContadorLabel_' . $row->ID_Opcion }}" class="label_4 Label_3js" id="{{ 'Etiqueta_' . $row->ID_Opcion }}">Agregar</label> 
+                                    <!-- Este input es el que se envia al archivo JS por medio de la función agregarProducto(), en el valor se colocan el caracter _ para usarlo como separardor en JS-->
+                                    <input class="Default_ocultar" type="radio" name="opcion" id="{{ 'ContadorLabel_' . $row->ID_Opcion }}" value="{{ $row->ID_Opcion . ',' . '_' . $row->producto . ',' . '_' . $row->opcion . ',' . '_' . $row->precioBolivar . ',' . '_' . $row->ID_Seccion }}" onclick="agregarProducto(this.form , '{{ 'Etiqueta_' . $row->ID_Opcion }}','{{ 'Cont_Leyenda_' . $row->ID_Opcion }}','{{ 'Cantidad_' . $row->ID_Opcion }}','{{ 'Producto_' . $row->ID_Opcion }}','{{ 'Opcion_' . $row->ID_Opcion }}','{{ 'Precio_' . $row->ID_Opcion }}','{{ 'Total_' . $row->ID_Opcion }}','{{ 'Leyenda_' . $row->ID_Opcion }}','{{ 'Cont_Producto_' . $row->ID_Opcion }}','{{ 'Item_'. $row->ID_Opcion }}','{{ $row->cantidad }}','{{ 'ID_BotonMas_'. $row->ID_Opcion }}','{{ 'ID_BloquearMas_'. $row->ID_Opcion }}','{{ $id_comerciante }}')"/>
                                 @endif
-                                 
-                                <!-- Este input es el que se envia al archivo JS por medio de la función agregarProducto(), en el valor se colocan el caracter _ para usarlo como separardor en JS-->
-                                <input class="Default_ocultar" type="radio" name="opcion" id="{{ 'ContadorLabel_' . $row->ID_Opcion }}" value="{{ $row->ID_Opcion . ',' . '_' . $row->producto . ',' . '_' . $row->opcion . ',' . '_' . $row->precioBolivar . ',' . '_' . $row->ID_Seccion }}" onclick="agregarProducto(this.form , '{{ 'Etiqueta_' . $row->ID_Opcion }}','{{ 'Cont_Leyenda_' . $row->ID_Opcion }}','{{ 'Cantidad_' . $row->ID_Opcion }}','{{ 'Producto_' . $row->ID_Opcion }}','{{ 'Opcion_' . $row->ID_Opcion }}','{{ 'Precio_' . $row->ID_Opcion }}','{{ 'Total_' . $row->ID_Opcion }}','{{ 'Leyenda_' . $row->ID_Opcion }}','{{ 'Cont_Producto_' . $row->ID_Opcion }}','{{ 'Item_'. $row->ID_Opcion }}','{{ $row->cantidad }}','{{ 'ID_BotonMas_'. $row->ID_Opcion }}','{{ 'ID_BloquearMas_'. $row->ID_Opcion }}','{{ $id_comerciante }}')"/>
                                         
                                 <!-- BOTON MAS Y MENOS -->                            
                                 <div class="contenedor_14" id="{{ 'Cont_Leyenda_' . $row->ID_Opcion }}">
