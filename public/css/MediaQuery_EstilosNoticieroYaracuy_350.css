@@ -267,7 +267,13 @@
 	max-height: 80vw;
 	min-height: 80vw;
 	margin-bottom: 1%;
-	/* margin-top: 15%; */
+}
+.cont_detalle--imagenNoticia{
+	height: fit-content;
+	max-height: 80vw;
+	min-height: 80vw;
+	margin-bottom: 1%;
+	object-fit: contain;
 }
 .cont_detalle--imagenMiniatura{
 	width: 50px;

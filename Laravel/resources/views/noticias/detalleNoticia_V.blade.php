@@ -27,7 +27,7 @@
                 
                 <!-- IMAGEN -->
                 <figure id="Contenedor_Imagen">
-                    <img class="cont_detalle--imagen" alt="Fotografia Principal" src="{{ asset('/images/noticias/' . $imagenesNoticia[0]["nombre_imagenNoticia"]) }}"/>  
+                    <img class="cont_detalle--imagenNoticia" alt="Fotografia Principal" src="{{ asset('/images/noticias/' . $imagenesNoticia[0]["nombre_imagenNoticia"]) }}"/>  
                 </figure>
             
                 <!-- IMAGENES SECUNDARIAS EN MINIATURAS -->

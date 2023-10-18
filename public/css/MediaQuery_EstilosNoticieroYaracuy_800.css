@@ -222,6 +222,14 @@
 		margin-top: 1%;
 		object-fit: contain;
 	}
+	.cont_detalle--imagenNoticia{
+		height: fit-content;
+		max-height: 75vw;
+		min-height: 75vw;
+		margin-top: -6%;
+		margin-bottom: 1%;
+		object-fit: contain;
+	}
 	.cont_detalle--imagenMiniatura{
 		width: 50px;
 		height: 40px;
