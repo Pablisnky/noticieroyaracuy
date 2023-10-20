@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Obra')
+@extends('layouts.header_Obra')
 
 @section('titulo', 'Obras')
 

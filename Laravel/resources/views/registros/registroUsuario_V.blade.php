@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Noticia')
+@extends('layouts.header_Noticia')
 
 @section('titulo', 'Registro')
 
@@ -80,5 +80,5 @@
         </div>
     </section>
 
-    @include('layouts/partiers/footer')
+    @include('layouts/footer')
 @endsection()

@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_suscriptor')
+@extends('layouts.header_suscriptor')
 
 @section('titulo', 'Panel obras')
 

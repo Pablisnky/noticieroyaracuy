@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Noticia')
+@extends('layouts.header_Noticia')
 
 @section('titulo', 'MarketPlace categorias')
 
@@ -714,7 +714,7 @@
         </div>         
     </div>
 
-    {{-- @include('layouts/partiers/footer') --}}
+    {{-- @include('layouts/footer') --}}
 
     <script src="<?php //echo RUTA_URL . '/public/javascript/funcionesVarias.js?v='. rand();?>"></script>
     

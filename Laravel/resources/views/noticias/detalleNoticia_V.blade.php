@@ -1,4 +1,4 @@
-@extends('layouts.partiers/header_OpenGraph')
+@extends('layouts.header_OpenGraph')
 
 @section('titulo', 'Noticia')
 
@@ -168,7 +168,7 @@
         </div>
     @endif
     
-    {{-- @include('layouts/partiers/footer') --}}
+    {{-- @include('layouts/footer') --}}
 
     <script src="{{ asset('/js/E_DetalleNoticia.js?v=' . rand()) }}"></script>
     <script src="{{ asset('/js/A_DetalleNoticia.js?v=' . rand()) }}"></script>

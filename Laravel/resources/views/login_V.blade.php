@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Noticia')
+@extends('layouts.header_Noticia')
 
 @section('titulo', 'Login')
 
@@ -96,7 +96,7 @@
         </div>
     </section>
 
-    {{-- @include('layouts/partiers/footer') --}}
+    {{-- @include('layouts/footer') --}}
 
     <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
     <script src="{{ asset('/js/E_Login.js?v='. rand()) }}"></script>

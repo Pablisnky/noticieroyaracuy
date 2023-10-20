@@ -305,14 +305,7 @@ class PanelPeriodistaController extends Controller
                 'titulo' => ' required',
             ]);
 
-            function filtrado($datos){
-                $datos = trim($datos); // Elimina espacios antes y después de los datos
-                $datos = stripslashes($datos); // Elimina backslashes \
-                $datos = htmlspecialchars($datos); // Traduce caracteres especiales en entidades HTML
-                return $datos;
-            }
-
-            $Titulo = filtrado($Request->get('titulo'));
+            $Titulo = $Request->get('titulo');
             $Sub_Titulo = $Request->get('subtitulo'); 
             $Contenido = $Request->get('contenido'); 
             $Seccion = $Request->get('seccion');

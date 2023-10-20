@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_PanelPortada')
+@extends('layouts.header_PanelPortada')
 
 @section('titulo', 'Panel periodista')
 
@@ -156,6 +156,6 @@
     <script src="{{ asset('/js/E_NoticiasGenerales.js?v=' . rand()) }}"></script>
     <script src="{{ asset('/js/A_NoticiasGenerales.js?v=' . rand()) }}"></script>
 
-    {{-- @include('layouts/partiers/footer') --}}
+    {{-- @include('layouts/footer') --}}
 
 @endsection()

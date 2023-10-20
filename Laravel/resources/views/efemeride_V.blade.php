@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Noticia')
+@extends('layouts.header_Noticia')
 
 @section('titulo', 'Efemeride')
 

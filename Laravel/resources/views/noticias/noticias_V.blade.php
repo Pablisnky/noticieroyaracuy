@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Noticia')
+@extends('layouts.header_Noticia')
 
 @section('titulo', 'Noticias generales')
 
@@ -194,7 +194,7 @@
         @endforeach
     </div>
 
-    @include('layouts/partiers/footer')
+    {{-- @include('layouts/footer') --}}
 
     <script src="{{ asset('/js/funcionesVarias.js') }}"></script>
     <script src="{{ asset('/js/E_Noticia.js') }}"></script>

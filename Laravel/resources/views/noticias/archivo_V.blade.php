@@ -1,4 +1,4 @@
-@extends('layouts.partiers/header_SinMembrete')
+@extends('layouts.header_SinMembrete')
 
 @section('titulo', 'Hemeroteca')
 

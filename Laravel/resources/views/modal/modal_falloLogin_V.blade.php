@@ -1,5 +1,5 @@
 <!-- Llamado desde  LoginController/ValidarSesion-->
-@extends('layouts.partiers.header_PanelPortada')
+@extends('layouts.header_PanelPortada')
 
 @section('titulo', 'Fallo login')
 

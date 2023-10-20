@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Noticia')
+@extends('layouts.header_Noticia')
 
 @section('titulo', 'Efemeridess')
 
@@ -6,5 +6,5 @@
     <h1>Controlador Efemeride_C</h1>
     <h2>metodo invoke</h2>
     
-    @include('layouts/partiers/footer')
+    @include('layouts/footer')
 @endsection()

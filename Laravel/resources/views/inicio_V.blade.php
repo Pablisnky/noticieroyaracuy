@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Inicio')
+@extends('layouts.header_Inicio')
 
 @section('titulo', 'NoticieroYaracuy')
 
@@ -152,7 +152,7 @@
         </div>
     </main>
 
-    @include('layouts/partiers/footer')
+    {{-- @include('layouts/footer') --}}
     
     <script src="{{ asset('/js/funcionesVarias.js') }}"></script>
     <script src="{{ asset('/js/FullScreem.js?v=' . rand()) }}"></script> 

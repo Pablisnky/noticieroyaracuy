@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_PanelAgenda')
+@extends('layouts.header_PanelAgenda')
 
 @section('titulo', 'Panel agenda')
 
@@ -51,6 +51,6 @@
     <script src="{{ asset('/js/E_PanelAgenda.js?v='. rand()) }}"></script>
     <script src="{{ asset('/js/A_PanelAgenda.js?v='. rand()) }}"></script>
 
-    @include('layouts/partiers/footer')
+    @include('layouts/footer')
 
 @endsection()

@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header')
+@extends('layouts.header')
 
 @section('titulo', 'MarketPlace - compra exitosa')
 

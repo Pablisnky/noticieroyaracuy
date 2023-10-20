@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_ProductoAmpliado')
+@extends('layouts.header_ProductoAmpliado')
 
 @section('titulo', 'MarketPlace - producto')
 
@@ -202,7 +202,7 @@
     <!-- CINTILLO  -->
     <p class="contenedor_34--p" id="Contenedor_34--p">Cambio oficial BCV: 1 $ = {{ number_format($dolar, 2, ",", ".") }} Bs.</p>
     
-    {{-- @include('layouts/partiers/footer') --}}
+    {{-- @include('layouts/footer') --}}
     
     <script src="{{ asset('/js/A_DetalleProducto.js?v=' . rand()) }}"></script>
         

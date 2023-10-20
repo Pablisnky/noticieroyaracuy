@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Artista')
+@extends('layouts.header_Artista')
 
 @section('titulo', 'Artista')
 
@@ -48,9 +48,10 @@
 				</div>      
 				
 				<!-- WHATSAPP -->
-				<div class="whatsapp cont_catalogos--iconos">
-					<a href="whatsapp://send?text=Portafolio de obras <?php //echo $Datos['artista']['nombreSuscriptor'] . ' ' . $Datos['artista']['apellidoSuscriptor']?>&nbsp;<?php //echo RUTA_URL?>/GaleriaArteController/artistas/<?php //echo $Datos['artista']['ID_Artista']?>" data-action="share/whatsapp/share"><i class="fa-brands fa-whatsapp catalogo-RS WHhatsApp-catalogo" style="color: rgba(255, 255, 255, 0.5)"></i></a>
+				<div class="whatsapp cont_catalogos--iconos">   
+					<a href="whatsapp://send?text=Portafolio de obras, {{ $artista->nombreArtista }} {{ $artista->apellidoArtista }}. {{ route('Artista', $artista->ID_Artista) }}" data-action="share/whatsapp/share"><i class="fa-brands fa-whatsapp catalogo-RS WHhatsApp-catalogo" style="color: rgba(255, 255, 255, 0.5)"></i></a>
 				</div>    
+
 				<div>
 					<p style="text-align: center; font-size: 0.7em; color: rgba(255, 255, 255, 0.5)">Compartir</p>
 				</div>

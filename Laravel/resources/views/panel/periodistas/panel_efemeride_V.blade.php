@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_SoloEstilos')
+@extends('layouts.header_SoloEstilos')
 
 @section('titulo', 'Panel efemerides')
 
@@ -58,6 +58,6 @@
     <script src="{{ asset('/js/E_Efemeride.js?v='. rand()) }}"></script>
     <script src="{{ asset('/js/A_Efemeride.js?v='. rand()) }}"></script>
 
-    {{-- @include('layouts/partiers/footer') --}}
+    {{-- @include('layouts/footer') --}}
 
 @endsection()

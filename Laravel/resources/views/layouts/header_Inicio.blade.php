@@ -1,30 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
+    <head><!-- Google tag (gtag.js) -->
+		{{-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-E43SZ6L3CQ"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-E43SZ6L3CQ');
+		</script> --}}
+
+		<!-- ********************************************************************************************* -->
+		
         <title>@yield('titulo')</title>
 
-		<meta http-equiv="content-type"  content="text/html; charset=utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-		<!-- ETIQUETAS OPEN-GRAPH para ayudar a la red social de turno a identificar mejor qué hay en un recurso de nuestra web que alguien está compartiendo -->
-		<meta property="og:title" content="www.noticieroyaracuy.com"/>
-		<meta property="og:description" content="Agenda de eventos"/>
-		<meta property="og:type" content="website"/>
-		<meta property="og:site_name" content="NoticieroYaracuy"/>
-		<meta property="fb:app_id" content="928977633900253"/>
-		<meta property="og:image:alt" content="Imagen descriptiva del evento"/>
-		<meta property="og:url" content="{{ route('EventoAgendado', ['id_agenda' => $eventos[0]['ID_Agenda']]) }}"/> 
-		<meta property="og:image:secure_url" itemprop="image" content="{{ asset('images/agenda/' . $eventos[0]['nombre_imagenAgenda']) }}"/>
-		<meta property="og:image:width" content="1200"/>
-		<meta property="og:image:height" content="630"/>
-		<meta property="og:locale:alternate" content="es_ES"/>
-
-		<!--ETIQUETAS META TWITTER --> 
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name='twitter:image' content='{{ '/images/agenda/' . $eventos[0]['nombre_imagenAgenda'] }}'>
-		        
-		<!-- WHATSAPP -->
-		<!-- Fotos mayores a 300 kb no seran mostradas en la miniatura al compartir la noticia -->
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+		<meta name="description" content="Noticias de Yaracuy"/>
+		<meta name="keywords" content="noticias, yaracuy, publicidad"/>
+		<meta name="author" content="Pablo Cabeza"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta name="MobileOptimized" content="width"/>
+		<meta name="HandheldFriendly" content="true"/>	
 		
 		<link rel="stylesheet" href="{{ asset('/css/estilosNoticieroYaracuy.css?v=' . rand()) }}"/>
 		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_350.css?v=' . rand()) }}"/>
@@ -32,39 +28,13 @@
 		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_800.css?v=' . rand()) }}"/>
 		
 		<!-- CDN FUENTES DE GOOGLE-->
-        <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=RLato|Raleway:400|Montserrat|Gruppo'>        
+        <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=RLato|Raleway:400|Montserrat|Gruppo|Moon+Dance'>
     </head>
-    <body>				
+	<body class="body_1 body--inicio">		
 		<header class="header" id="Header">			
 			
-			<!-- ICONO HAMBURGUESA"-->		
-			<div>									
-				<img class="header--menu" id="ComandoMenu" onclick="mostrarMenu()" src="{{ asset('/iconos/menu/outline_menu_black_24dp.png') }}"/>
-			</div>
-
-			<!-- BARRA DE NAVEGACION -->
-			<div>
-				<nav class="header__menuResponsive" id="MenuResponsive">
-
-					<div class="header--scroll-snap">
-						<div class="header--nav">
-							<ul id="MenuContenedor">
-								<li><a class="header__li--Enlaces" href="{{ route('Noticias') }}" rel="noopener noreferrer">Noticias</a></li>
-								<li><a class="header__li--Enlaces" href="{{ route('Eventos') }}" rel="noopener noreferrer">Agenda de eventos</a></li>
-								<li><a class="header__li--Enlaces" href="{{ route('Marketplace') }}" rel="noopener noreferrer">Marketplace</a></li> 
-								<li><a class="header__li--Enlaces" href="{{ route('GaleriaArte') }}">Galeria de arte</a></li>
-								<li><a class="header__li--Enlaces" href="{{ route('Efemeride') }}" rel="noopener noreferrer">Efemérides</a></li>
-								{{-- <li><a class="header__li--Enlaces" href="" rel="noopener noreferrer">Directorio comercial</a></li> --}}
-								{{-- <li><a class="header__li--Enlaces" href="" rel="noopener noreferrer">Obituario</a></li> --}}
-								{{-- <li><a class="header__li--Enlaces" href="" rel="noopener noreferrer">Tarifas</a></li> --}}
-								<li><a class="header__li--Enlaces" href="https://yaracultura.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog Yaracultura</a></li>
-								{{-- <li><a class="header__li--Enlaces" href="" rel="noopener noreferrer">Quejas y reclamos</a></li> --}}
-								{{-- <li><a class="header__li--Enlaces" href="" rel="noopener noreferrer">PodCast</a></li> --}}
-							</ul>
-						</div>
-					</div>
-				</nav>
-			</div>
+			{{-- MENU NAVEGACION --}}
+			@include('layouts.partials.menu')
 
 			<!-- BOTONES DE MARKETPLACE Y EVENTOS -->
 			<div class="cont_botones_destacados">
@@ -107,25 +77,29 @@
 					@endif
 				</div>
 			</div>
+			    
+			<!-- YARACUY EN VIDEO -->
+			<a class="con_portada--titulo Default_pointer" href="{{ route('YaracuyVideo') }}" rel="noopener noreferrer"><img style="width: 2em;" src="{{ asset('/iconos/video/outline_videocam_white_24dp.png') }}"/>Yaracuy<br> en video</a>
 		</header>
-		
+
 		<!-- MEMBRETE DESPLAZANTE -->
 		<div class="tapa-logo" id="Tapa_Logo">
+			
 			<!-- NUESTRO ADN-->			            
-			<a class="tapa-logo--ADN--font Default_quitarMovil" href="<?php //echo RUTA_URL . '/Menu_C/nuestroADN';?>">
+			<a class="tapa-logo--ADN--font Default_quitarMovil" href="">
 				<div class="tapa-logo--ADN">
-					<img style="width: 2em; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_groups_white_24dp.png'?>" rel="noopener noreferrer"/>Nuestro ADN
+					<img style="width: 2em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_groups_white_24dp.png')}}" rel="noopener noreferrer"/>Nuestro ADN
 				</div>
 			</a>
-			
-			<div style="position: absolute; bottom: 0pt">
-
+						
+			<div class="tapa-logo--2">
+				
 				<!-- MEMBRETE DESPLAZANTE -->
 				<label class="tapa-logo--font">Noticiero Yaracuy</label>
 				
 				<!-- MAPA -->
 				<figure class="tapa-logo--mapa Default_pointer">
-					<img id="Abrir" src="<?php //echo RUTA_URL . '/public/images/Mapa-Venezuela-yaracuy.png'?>"/>
+					<img id="Abrir" src="{{ asset('/images/Mapa-Venezuela-yaracuy.png') }}"/>
 				</figure>
 			</div>
 
@@ -172,12 +146,12 @@
 				</a>
 			</div>
 		</div>
-
+		
 		<!-- FULLSCREEM -->
 		<div class="Default_ocultar" id="Miimagen">	
 			<!-- ICONO CERRAR -->
-			<a href="<?php //echo RUTA_URL ;?>/Inicio_C"><img class="cont_modal--cerrar Default_pointer" style="width: 1em;" src="<?php //echo RUTA_URL . '/public/iconos/cerrar/outline_cancel_black_24dp.png'?>"/></a>
-
+			<a href="{{ route('NoticiasPortada') }}"><img class="cont_modal--cerrar Default_pointer" style="width: 1em;" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png')}}"/></a>
+			
 			<div class="fullscreem--inicio--texto">
 				<h1 class="fullscreem--inicio--h1">Poema Yaracuy</h3>
 				<h3 class="fullscreem--inicio--h3">Poeta yaracuyano Jose Parra</h1>
@@ -206,7 +180,7 @@
 			</div>
 			<div class="fullscreem--inicio--mapa">
 				<figure>
-					<img src="<?php //echo RUTA_URL . '/public/images/Mapa-Venezuela-yaracuy.png'?>"/>
+					<img src="{{ asset('/images/Mapa-Venezuela-yaracuy.png')}}"/>
 				</figure>
 			</div>
 		</div>

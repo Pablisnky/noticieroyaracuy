@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Catalogo')
+@extends('layouts.header_Catalogo')
 
 @section('titulo', 'MarketPlace secciones')
 

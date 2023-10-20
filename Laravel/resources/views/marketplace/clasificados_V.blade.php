@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Noticia')
+@extends('layouts.header_Noticia')
 
 @section('titulo', 'MarketPlace clasificados')
 
@@ -114,7 +114,7 @@
         
     </section>
 
-    {{-- @include('layouts/partiers/footer') --}}
+    {{-- @include('layouts/footer') --}}
 
     <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
     <script src="{{ asset('/js/E_Clasificados.js?v='. rand()) }}"></script>

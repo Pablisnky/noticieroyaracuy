@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_PanelPortada')
+@extends('layouts.header_PanelPortada')
 
 @section('titulo', 'Panel periodista')
 
@@ -277,6 +277,6 @@
             }
     </script>
 
-    {{-- @include('layouts/partiers/footer') --}}
+    {{-- @include('layouts/footer') --}}
 
 @endsection()

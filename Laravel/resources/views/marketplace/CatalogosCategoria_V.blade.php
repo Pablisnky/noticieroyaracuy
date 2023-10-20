@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_Noticia')
+@extends('layouts.header_Noticia')
 
 @section('titulo', 'MarketPlace Tiendas por categoria')
 
@@ -51,7 +51,7 @@
         </div>
     </section>
 
-    {{-- @include('layouts/partiers/footer') --}}
+    {{-- @include('layouts/footer') --}}
 
     <script src="<?php //echo RUTA_URL . '/public/javascript/funcionesVarias.js?v='. rand();?>"></script>
     <!-- <script src="<?php ////echo RUTA_URL . '/public/javascript/E_Clasificados.js?v='. rand();?>"></script> -->

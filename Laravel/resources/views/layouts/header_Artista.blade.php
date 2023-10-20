@@ -19,16 +19,16 @@
 		<meta property="og:type" content="website"/>
 		<meta property="og:site_name" content="NoticieroYaracuy"/>
 		<meta property="fb:app_id" content="928977633900253"/>
-		<meta property="og:image:alt" content="Imagen descriptiva del catalogo"/>
-		<meta property="og:url" content="<?php //echo RUTA_URL?>/GaleriaArteController/artistas/<?php //echo $Datos['datosArtistas']['ID_Suscriptor'];?>"/>
-		<meta property="og:image:secure_url" itemprop="image" content="<?php //echo RUTA_URL?>/public/images/galeria/<?php //echo $Datos['datosArtistas']['ID_Suscriptor'];?>_<?php //echo $Datos['datosArtistas']['nombreSuscriptor'];?>_<?php //echo $Datos['datosArtistas']['apellidoSuscriptor'];?>/perfil/<?php //echo $Datos['datosArtistas']['nombre_imagenPortafolio']?>"/>
+		<meta property="og:image:alt" content="Imagen descriptiva del catalogo"/>		
+		<meta property="og:url" content="{{ route('Artista', $artista->ID_Artista) }}"/>
+		<meta property="og:image:secure_url" itemprop="image" content="{{ asset('/images/galeria/' . $artista->ID_Artista . '_' . $artista->nombreArtista . '_' . $artista->apellidoArtista . '/perfil/' . $artista->imagenArtista) }}"/>
 		<meta property="og:image:width" content="1200"/>
 		<meta property="og:image:height" content="630"/>
 		<meta property="og:locale:alternate" content="es_ES"/>
 		
 		<!--ETIQUETAS META TWITTER --> 
 		<meta name="twitter:card" content="summary_large_image">
-		<meta name='twitter:image' content='<?php //echo RUTA_URL?>/public/images/galeria/<?php //echo $Datos['datosArtistas']['ID_Suscriptor'];?>_<?php //echo $Datos['datosArtistas']['nombreSuscriptor'];?>_<?php //echo $Datos['datosArtistas']['apellidoSuscriptor'];?>/perfil/<?php //echo $Datos['datosArtistas']['nombre_imagenPortafolio']?>'>
+		<meta name='twitter:image' content='{{ asset('/images/galeria/' . $artista->ID_Artista . '_' . $artista->nombreArtista . '_' . $artista->apellidoArtista . '/perfil/' . $artista->imagenArtista) }}'>
 		        
 		<!-- WHATSAPP -->
 		<!-- Fotos mayores a 300 kb no seran mostradas en la miniatura al compartir la noticia -->

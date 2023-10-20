@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_eventos')
+@extends('layouts.header_eventos')
 
 @section('titulo', 'Eventos')
 

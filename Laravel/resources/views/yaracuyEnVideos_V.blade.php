@@ -1,4 +1,4 @@
-@extends('layouts.partiers.header_yaracuyEnVideo')
+@extends('layouts.header_yaracuyEnVideo')
 
 @section('titulo', 'Yaracuy En Video')
 
