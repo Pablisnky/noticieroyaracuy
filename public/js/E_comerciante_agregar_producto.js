@@ -26,6 +26,31 @@ document.getElementById("ContenidoDes").addEventListener('keydown', function(){v
 // document.addEventListener("keyup", valida_Longitud, false);//valida_Longitud() se encuentra en 
 //************************************************************************************************
 
+//************************************************************************************************
+//Por medio de delegación de eventos se detecta cada input donde se debe aplicar la funcion blanquearInput()
+document.getElementsByTagName("body")[0].addEventListener('keydown', function(e){
+    // console.log("______ Desde función anonima que detecta INPUTS ______") 
+
+    if(e.target.tagName == "INPUT" || e.target.tagName == "TEXTAREA"){
+        var ID_Input = e.target.id
+        
+        document.getElementById(ID_Input).addEventListener('keyup', function(){blanquearInput(ID_Input)}, false)
+    } 
+}, false)
+//************************************************************************************************
+
+//Por medio de delegación de eventos se detecta cada input donde se debe aplicar la funcion blanquearInput()
+document.getElementsByTagName("body")[0].addEventListener('click', function(e){
+    // console.log("______ Desde función anonima que detecta INPUTS ______") 
+
+    if(e.target.tagName == "SELECT"){
+        var ID_Select = e.target.id
+
+        document.getElementById(ID_Select).addEventListener('click', function(){blanquearInput(ID_Select)}, false)
+    } 
+}, false)
+
+//************************************************************************************************
 ///Escucha en cuenta_publicar_V.php por medio de delegación de eventos debido ya que el evento no esta cargado en el DOM por ser una solicitud Ajax   
 //     document.getElementById('Contenedor_80').addEventListener('click',function(event){    
 //     if(event.target.id == 'Span_5'){
@@ -140,9 +165,12 @@ document.getElementById("ContenidoDes").addEventListener('keydown', function(){v
         let ImagenPrin = document.getElementById('imgInp').value 
         let Producto = document.getElementById('ContenidoPro').value
         let Descripcion = document.getElementById('ContenidoDes').value 
+        let Seccion = document.getElementById('Seccion').value
         let PrecioBs = document.getElementById('PrecioBs').value 
-        let PrecioDolar = document.getElementById('PrecioDolar').value 
-
+        let PrecioDolar = document.getElementById('PrecioDolar').value  
+        let Existencia = document.getElementById('Existencia').value 
+  
+        console.log("Imagen", ImagenPrin)
         document.getElementsByClassName("boton")[0].value = "Guardando ..."
         document.getElementsByClassName("boton")[0].disabled = true
         document.getElementsByClassName("boton")[0].style.backgroundColor = "var(--OficialClaro)"
@@ -151,23 +179,26 @@ document.getElementById("ContenidoDes").addEventListener('keydown', function(){v
         document.getElementsByClassName("boton")[0].classList.add('borde_1')    
 
         // //Patron de entrada solo acepta numeros y punto
-        let Pat_Numeros = /^[0-9.]*$/
+        let ER_Numeros = /^[0-9.]*$/
+        
+        // //Patron de entrada solo acepta numeros y punto
+        let ER_SoloNumeros = /^[0-9]*$/
 
         //Patron de entrada para archivos de carga permitidos
-        var Ext_Permitidas = /^[.jpg|.jpeg|.png]*$/
+        var ER_Ext_Permitidas = /^[.jpg|.jpeg|.png]*$/
                 
-        if(Ext_Permitidas.exec(ImagenPrin) == false || ImagenPrin.size > 2000000){
-            alert("Introduzca una imagen con extención .jpeg .jpg .png menor a 2 Mb")
-            document.getElementById("imgInp").value = "";
-            document.getElementsByClassName("boton")[0].value = "Agregar producto"
-            document.getElementsByClassName("boton")[0].disabled = false
-            document.getElementsByClassName("boton")[0].style.backgroundColor = "var(--OficialOscuro)"
-            document.getElementsByClassName("boton")[0].style.color = "var(--OficialClaro)"
-            document.getElementsByClassName("boton")[0].style.cursor = "pointer"
-            document.getElementsByClassName("boton")[0].classList.remove('borde_1')
-            return false;
-        }        
-        else if(Producto == "" || Producto.indexOf(" ") == 0 || Producto.length > 55){
+        // if(ER_Ext_Permitidas.exec(ImagenPrin) == false || ImagenPrin.size > 2000000 || ImagenCatalogo == 'imagen.png'){
+        //     alert("Introduzca una imagen con extención .jpeg .jpg .png menor a 2 Mb")
+        //     document.getElementById("imgInp").value = "";
+        //     document.getElementsByClassName("boton")[0].value = "Agregar producto"
+        //     document.getElementsByClassName("boton")[0].disabled = false
+        //     document.getElementsByClassName("boton")[0].style.backgroundColor = "var(--OficialOscuro)"
+        //     document.getElementsByClassName("boton")[0].style.color = "var(--OficialClaro)"
+        //     document.getElementsByClassName("boton")[0].style.cursor = "pointer"
+        //     document.getElementsByClassName("boton")[0].classList.remove('borde_1')
+        //     return false;
+        // }        
+        if(Producto == "" || Producto.indexOf(" ") == 0 || Producto.length > 55){
             alert ("Necesita introducir un nombre Producto")
             document.getElementById("ContenidoPro").value = "";
             document.getElementById("ContenidoPro").focus()
@@ -192,8 +223,21 @@ document.getElementById("ContenidoDes").addEventListener('keydown', function(){v
             document.getElementsByClassName("boton")[0].style.cursor = "pointer"
             document.getElementsByClassName("boton")[0].classList.remove('borde_1')
             return false;
+        } 
+        else if(Seccion == ""){
+            alert ("Necesita introducir la sección del producto")
+            document.getElementById("Seccion").value = ""
+            document.getElementById("Seccion").focus()
+            document.getElementById("Seccion").style.backgroundColor = "var(--Fallos)"
+            document.getElementsByClassName("boton")[0].value = "Guardar cambios"
+            document.getElementsByClassName("boton")[0].disabled = false
+            document.getElementsByClassName("boton")[0].style.backgroundColor = "var(--OficialOscuro)"
+            document.getElementsByClassName("boton")[0].style.color = "var(--OficialClaro)"
+            document.getElementsByClassName("boton")[0].style.cursor = "pointer"
+            document.getElementsByClassName("boton")[0].classList.remove('borde_1')
+            return false;
         }
-        else if(Pat_Numeros.exec(PrecioBs) == false || PrecioBs == "" || PrecioBs.indexOf(" ") == 0 || PrecioBs.length > 20){
+        else if(ER_Numeros.exec(PrecioBs) == false || PrecioBs == "" || PrecioBs.indexOf(" ") == 0 || PrecioBs.length > 20){
             alert ("Introduzca un Precio")
             document.getElementById("PrecioBs").value = ""
             document.getElementById("PrecioBs").focus()
@@ -206,11 +250,24 @@ document.getElementById("ContenidoDes").addEventListener('keydown', function(){v
             document.getElementsByClassName("boton")[0].classList.remove('borde_1')
             return false;
         }
-        else if(Pat_Numeros.exec(PrecioDolar) == false || PrecioDolar == "" || PrecioDolar.indexOf(" ") == 0 || PrecioDolar.length > 20){
+        else if(ER_Numeros.exec(PrecioDolar) == false || PrecioDolar == "" || PrecioDolar.indexOf(" ") == 0 || PrecioDolar.length > 20){
             alert ("Introduzca un Precio")
             document.getElementById("PrecioDolar").value = ""
             document.getElementById("PrecioDolar").focus()
             document.getElementById("PrecioDolar").style.backgroundColor = "var(--Fallos)"
+            document.getElementsByClassName("boton")[0].value = "Agregar producto"
+            document.getElementsByClassName("boton")[0].disabled = false
+            document.getElementsByClassName("boton")[0].style.backgroundColor = "var(--OficialOscuro)"
+            document.getElementsByClassName("boton")[0].style.color = "var(--OficialClaro)"
+            document.getElementsByClassName("boton")[0].style.cursor = "pointer"
+            document.getElementsByClassName("boton")[0].classList.remove('borde_1')
+            return false;
+        }
+        else if(ER_SoloNumeros.exec(Existencia) == false || Existencia == "" || Existencia.indexOf(" ") == 0 || Existencia.length > 4){
+            alert ("Introduzca la cantidad en existencia")
+            document.getElementById("Existencia").value = ""
+            document.getElementById("Existencia").focus()
+            document.getElementById("Existencia").style.backgroundColor = "var(--Fallos)"
             document.getElementsByClassName("boton")[0].value = "Agregar producto"
             document.getElementsByClassName("boton")[0].disabled = false
             document.getElementsByClassName("boton")[0].style.backgroundColor = "var(--OficialOscuro)"

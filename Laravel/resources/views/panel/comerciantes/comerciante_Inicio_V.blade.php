@@ -1,4 +1,4 @@
-@extends('layouts.header_PanelPortada')
+@extends('layouts.header_suscriptor')
 
 @section('titulo', 'Panel inventario')
 
@@ -15,6 +15,21 @@
         <section class="cont_suscrip_productos">
             <div class="cont_suscrip_productos--membrete">
                 <h2 class="h2_9">Productos en inventaro</h2>
+                
+                <div> 
+                    <label>Secciones</label>
+                    <img class="Default_pointer cont_catalogos--iconChevron" id="Secciones" src="{{ asset('/iconos/chevron/outline_expand_more_black_24dp.png') }}"/>
+                </div>  
+            </div>
+
+            <!-- MUESTRA MENU SECCIONES --> 
+            <div class="cont_catalogos--secciones" id="Con_Secciones">
+                @foreach($secciones as $Key) 
+                    <a class="cont_catalogos--a" href="{{ route('SeccionesTienda', ['id_comerciante' => $id_comerciante, 'id_seccion' => $Key->ID_Seccion]) }}" onclick="verSecion('{{ $Key->ID_Seccion }}">{{ $Key->seccion }}</a> 
+                @endforeach
+                
+                <?php //$Pseudonimo = str_replace(" ", "_", $suscriptor->pseudonimoComerciante); ?>
+                <a class="cont_catalogos--a" href="{{ route('SeccionesTienda', ['id_comerciante' => $id_comerciante, 'id_seccion' => 'todas']) }}" onclick="verSecion('Todos')">Todas las secciones</a>
             </div>
 
             <div class="contenedor_13 cont_suscrip_productos-13" id="ContenedorPrincipal"> 
@@ -23,7 +38,8 @@
                     <div class="contenedor_95 contenedor_95--producto borde_1" id="{{ 'Cont_Producto_' . $Contador }}">
                     
                         <!-- IMAGEN PRINCIPAL -->
-                        <div class="contenedor_9 contenedor_9--pointer">                            <div class="contenedor_142" style="background-image: url('{{ asset('/images/clasificados/' . session('id_comerciante') . '/productos/' . $arr->nombre_img) }}')">
+                        <div class="contenedor_9 contenedor_9--pointer">                            
+                            <div class="contenedor_142" style="background-image: url('{{ asset('/images/clasificados/' . session('id_comerciante') . '/productos/' . $arr->nombre_img) }}')">
                             <input class="input_14 borde_1" type="text" value="{{ $Contador }}"/>
                             </div>
                         </div>

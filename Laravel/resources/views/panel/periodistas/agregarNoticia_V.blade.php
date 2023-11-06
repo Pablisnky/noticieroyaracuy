@@ -15,7 +15,7 @@
  
     <div class="cont_panel--main">  
         <form action="{{ route('RecibeAgregarNoticia') }}" method="POST" enctype="multipart/form-data" autocomplete="off" id="Agregar" onsubmit="return validarAgregarNoticia()">
-            {!! csrf_field() !!}
+            @csrf
             <fieldset class="fieldset_1" id="Portada"> 
                 <legend class="legend_1">Agregar Noticia</legend>
                 <div class="cont_panel--actualizar--contenido">
@@ -29,7 +29,7 @@
                                     <img class="cont_panel--imagen" name="imagenNoticia" alt="Fotografia Principal" id="blah" src="{{ asset('/images/imagen.png') }}"/>
                                 </figure>
                             </label>
-                            <input class="Default_ocultar" type="file" name="imagenPrincipal" id="imgInp"/>
+                            <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenPrincipal" id="imgInp"/>
                         </div>
 
                         <!-- IMAGEN ANUNCIO PUBLICITARIO -->
@@ -126,7 +126,7 @@
                         
                         <!-- IMAGENES SECUNDARIAS -->     
                         <label class="cont_panel--label Default_pointer" style="display: block; color: blue; font-weight: lighter;" for="ImgInp_2">Imagenes secundarias</label>
-                        <input class=" Default_ocultar" type="file" name="imagenesSecUndariaNoticia[]" multiple="multiple" id="ImgInp_2" onchange="muestraImg()"/>  
+                        <input class=" Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenesSecUndariaNoticia[]" multiple="multiple" id="ImgInp_2" onchange="muestraImg()"/>  
                                 
                         <!-- muestra las imagenes secundarias -->
                         <div class="cont_panel--imagenSec" id="muestrasImg_2"></div>                    

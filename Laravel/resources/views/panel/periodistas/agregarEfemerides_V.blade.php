@@ -20,7 +20,7 @@
         <fieldset class="fieldset_1" id="Portada"> 
             <legend class="legend_1">Agregar Efemerides</legend>
                 <form action="{{ route('RecibeEfemerideAgregada') }}" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarAgregarEfemride()">
-                    {!! csrf_field() !!}
+                    @csrf
                     <div style="display: flex; margin-bottom: 30px">   
                         <div class="width: 30%">    
                             <!-- IMAGN -->
@@ -30,7 +30,7 @@
                                 <figure>
                                     <img class="cont_panel--imagen" alt="Fotografia Principal" id="blah" src="<?php //echo RUTA_URL?>/public/images/imagen.png"/>
                                 </figure>
-                                <input class="Default_ocultar" type="file" name="imagenEfemeride" id="imgInp"/>
+                                <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenEfemeride" id="imgInp"/>
                             </div>
                         </div>
                         <div style="width: 100%; padding-left: 1%">

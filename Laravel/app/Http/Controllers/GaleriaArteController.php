@@ -67,7 +67,7 @@ class GaleriaArteController extends Controller
         ); 
     }
     
-    //recorre obra a obra en un slider segun el artista seleccionado
+    // recorre obra a obra en un slider segun el artista seleccionado
     public function diapositivaObra($ID_Obra, $ID_Artista, $Recorrido){
 
         if($Recorrido == 'Retroceder'){

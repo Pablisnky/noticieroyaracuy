@@ -13,14 +13,16 @@
 
     <div class="detalle_cont--main" id="cont_efemerides"> 
      
-        <!-- MEMBRETE FIJO -->
-        <div class="detalle_cont--divFijo">
-            <a class="detalle_cont--membrete" href="{{route('NoticiasPortada')}}">www.NoticieroYaracuy.com</a> 
-            <label class="detalle_cont--fecha" id="Up">San Felipe, {{ $noticia->fecha }} </label>
+        <header class="detalle_cont--divFijo">
+            
+            <!-- MEMBRETE FIJO -->
+            <a class="header__titulo--membrete" href="{{route('NoticiasPortada')}}">www.NoticieroYaracuy.com</a> 
+            <br>
+            <label class="detalle_cont--fecha" id="Up">San Felipe, {{ \Carbon\Carbon::parse(strtotime($noticia->fecha))->format('d-m-Y')}} </label>             
     
             <!-- ICONO CERRAR -->
-            <img class=" cont_modal--cerrar detalle_cont--cerrar Default_pointer" style="width: 1em;" id="CerrarVentana" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}"/>
-        </div>
+            <img class="cont_modal--cerrar Default_pointer" style="width: 1em; position:fixed; z-index:10" id="CerrarVentana" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}"/>
+        </header>
 
         <div class="detalle_cont"> 
             <div class="detalle_cont--imagen">
@@ -55,20 +57,19 @@
                     <span class="detalle_cont--fuente">{{ $noticia->fuente }}</span>
                     <hr class="detalle_cont--hr">
                 </div>    
-            
-                {{-- <p></p> --}}
-        
+                    
                 <!-- COMPARTIR REDES SOCIALES -->
                 <div class="detalle_cont--redesSociales">
 
+                        {{-- <p>https://www.facebook.com/sharer/sharer.php?u=https://www.noticieroyaracuy.com/noticias/detalleNoticia/<?php //echo $noticia->ID_Noticia ?></p> --}}
                     <!-- FACEBOOK -->
                     <div class="detalle_cont--red">
-                        <a href="" target="_blank"><img class="detalle_cont--redesSociales-facebook" alt="facebook" src="{{ asset('/images/facebook.png') }}"/></a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.noticieroyaracuy.com/noticias/detalleNoticia/<?php echo $noticia->ID_Noticia ?>" target="_blank"><img class="detalle_cont--redesSociales-facebook" alt="facebook" src="{{ asset('/images/facebook.png') }}"/></a>
                     </div>
 
                     <!-- TWITTER -->
                     <div class="detalle_cont--red">
-                        <a href="" target="_blank"><img class="detalle_cont--redesSociales-twitter" alt="twitter" src="{{ asset('/images/twitter.png') }}"/></a>
+                        <a href="https://twitter.com/intent/tweet?url=https://www.noticieroyaracuy.com/noticias/detalleNoticia/{{ $noticia->ID_Noticia }}&text={{  $noticia->titulo }}" target="_blank"><img class="detalle_cont--redesSociales-twitter" alt="twitter" src="{{ asset('/images/twitter.png') }}"/></a>
                     </div>          
                     
                     <!-- WHATSAPP -->

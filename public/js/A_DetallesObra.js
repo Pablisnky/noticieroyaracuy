@@ -32,7 +32,9 @@ function conexionAJAX(){
 // *************************************************************************************************
     //Muestra cada obra individualmente en un slider
     function Llamar_detalleObra(Ruta){
-        console.log("______Desde Llamar_detalleObra()______", Ruta)
+        // console.log("______Desde Llamar_detalleObra()______", Ruta)
+
+        document.getElementById("ImagenDetalle").classList.add("imagen_3--ocultar");
 
         var url = Ruta
         http_request.open('GET', url, true)  

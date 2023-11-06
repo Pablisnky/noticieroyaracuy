@@ -5,6 +5,9 @@
 
 		<meta http-equiv="content-type"  content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="author" content="Pablo Cabeza"/>
+		<meta name="MobileOptimized" content="width"/>
+		<meta name="HandheldFriendly" content="true"/>
 		        
 		<link rel="stylesheet" href="{{ asset('/css/estilosNoticieroYaracuy.css?v=' . rand()) }}"/>
 		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_350.css?v=' . rand()) }}"/>
@@ -21,9 +24,6 @@
 			
 			<!-- MEMBRETE FIJO -->
 			<label class="header__titulo">Noticiero Yaracuy</label>	
-			<!-- <figure>
-				{{-- <img class="tapa-logo--mapa" src="{{ asset('/images/Mapa-Venezuela-yaracuy.png') }}"/> --}}
-			</figure> -->
 		</header>
 		
 		<!-- CONTENIDO -->

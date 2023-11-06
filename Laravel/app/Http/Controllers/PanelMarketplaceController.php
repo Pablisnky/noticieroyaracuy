@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Comerciante_M;
 
 use App\Traits\Divisas;
 
@@ -30,10 +29,10 @@ class PanelMarketplaceController extends Controller
         $this->Dolar = $this->ValorDolar();
     }
 
-    //Muestra todos los productos que tiene un comerciante especifico
+    // Muestra todos los productos que tiene un comerciante especifico
     public function index($ID_Comerciante){
 
-        //se consultan los anuncios clasificados de un suscriptor
+        //se consultan todos los productos de una tienda
         $ProductosSuscriptor = DB::connection('mysql_2')->table('productos')
             ->select('productos.ID_Producto','producto','opciones.ID_Opcion','opcion','opciones.precioBolivar','opciones.precioDolar','cantidad','nombre_img')
             ->join('productos_opciones', 'productos.ID_Producto','=','productos_opciones.ID_Producto')
@@ -43,14 +42,34 @@ class PanelMarketplaceController extends Controller
             ->where("fotoPrincipal",'=', 1)
             ->orderBy('productos.ID_Producto', 'desc')
             ->get();
+            // return gettype($ProductosSuscriptor);
             // return $ProductosSuscriptor;
-
-        return view('panel/comerciantes/comerciante_Inicio_V', [
-            'productos' => $ProductosSuscriptor
-        ]);
+            
+        // Consulta las secciones de una tienda especifica  
+        $Secciones = DB::connection('mysql_2')->table('secciones') 
+            ->select('ID_Seccion','seccion') 
+            ->where('ID_Comerciante', '=', $ID_Comerciante)
+            ->orderBy('seccion', 'asc')
+            ->get(); 
+            // return gettype($Secciones);
+            // return empty($Secciones); 
+           
+        if($Secciones->isEmpty()){ //Si la consulta esta vacia
+            return view('modal/modal_completarPerfil_V');
+        }
+        else if($ProductosSuscriptor->isEmpty()){
+            return view('modal/modal_sinProductos_V');
+        }
+        else{            
+            return view('panel/comerciantes/comerciante_Inicio_V', [
+                'productos' => $ProductosSuscriptor,
+                'secciones' => $Secciones,
+                'id_comerciante' => $ID_Comerciante
+            ]);
+        }
     }
 
-    //Da la cantidad de anuncios clasificados que tiene un suscriptor especifico
+    // Da la cantidad de anuncios clasificados que tiene un suscriptor especifico
     public function clasificadoSuscriptor($ID_Suscriptor){
 
         //se consultan los anuncios clasificados de un suscriptor
@@ -61,7 +80,7 @@ class PanelMarketplaceController extends Controller
             return $ProductosSuscriptor;
     }
 
-    //CONSULTA las secciones que tiene el catalogo de un suscriptor
+    // CONSULTA las secciones que tiene el catalogo de un suscriptor
     public function SeccionesSuscriptor($ID_Suscriptor){
 
         //se consultan los anuncios clasificados de un suscriptor
@@ -75,81 +94,44 @@ class PanelMarketplaceController extends Controller
         return $ClasificadosSuscriptor;
     }
 
-    //Muestra todos los productos en la vista clasificados del panel de suscriptores
-    public function Productos($ID_Suscriptor){
-        // echo 'ID_Suscriptor= ' . $ID_Suscriptor . '<br>';
-        // exit;
-
-        //CONSULTA todos los productos de un suscriptor
-        $Productos = $this->ConsultaClasificados_M->consultarTodosProductosSuscriptor($ID_Suscriptor);
-
-        $Datos = [
-            'productos' => $Productos,
-            'suscriptor' => $_SESSION["ID_Suscriptor"],
-            'pseudonimmo' => $_SESSION["PseudonimoSuscriptor"]
-        ];
-
-        // echo "<pre>";
-        // print_r($Datos);
-        // echo "</pre>";
-        // exit();
-
-        //Si no hay productos cargados y no hay datos comerciales, se muestra el modal de sin productos
-        if($Datos['productos'] == Array() && $Datos['pseudonimmo'] == ''){
-            $Datos = [
-               'SinDatosComerciales'  => 'SinDatosComerciales',
-               'ID_Suscriptor' => $ID_Suscriptor
-            ];
-
-            $this->vista('header/header_suscriptor');
-            $this->vista('modal/modal_sinProductos_V', $Datos);
-            exit;
-        }
-        else if($Productos == Array()){//Si no hay productos cargados
-
-            header('location:' . RUTA_URL . '/Panel_Clasificados_C/Publicar/' . $ID_Suscriptor);
-            die();
-        }
-        else{
-            $this->vista('header/header_suscriptor');
-            $this->vista('suscriptores/suscrip_productos_V', $Datos);
-        }
-    }
-
-    // muestra la vista donde se carga un producto
+    // muestra el formulario donde se carga un producto
     public function agregar($ID_Comerciante){
 
         //se consultan las secciones del catalogo del suscriptor
         $Secciones = DB::connection('mysql_2')->table('secciones')
             ->select('ID_Seccion', 'seccion')
             ->where('ID_Comerciante','=', $ID_Comerciante)
+            ->orderBy('seccion', 'asc')
             ->get();
             // return $Secciones;
 
-        return view('panel/comerciantes/comerciante_agregar_producto_V', [
-            'dolarHoy' => $this->Dolar,
-            'ID_Comerciante' => $ID_Comerciante,
-            'secciones' => $Secciones
-        ]);
+        if($Secciones->isEmpty()){ //Si la consulta esta vacia
+            return view('modal/modal_completarPerfil_V');
+        }
+        else{            
+            return view('panel/comerciantes/comerciante_agregar_producto_V', [
+                'dolarHoy' => $this->Dolar,
+                'ID_Comerciante' => $ID_Comerciante,
+                'secciones' => $Secciones
+            ]);
+        }
 
         // $_SESSION['Publicar'] = 1906;
         //Se crea esta sesion para impedir que se recargue la información enviada por el formulario mandandolo varias veces a la base de datos
     }
 
-    // Carga la vista de perfil del suscriptor
+    // Carga la vista de perfil del comerciante
     public function perfil_comerciante($ID_Comerciante){
 
         // CONSULTA toda la información de perfil del Comerciante
-        $Comerciante = Comerciante_M::
-            all()
-            ->where('ID_Comerciante','=', $ID_Comerciante)
-            ->first();
+        $Comerciante = DB::connection('mysql_2')
+            ->select("SELECT * FROM comerciantes WHERE ID_Comerciante = '$ID_Comerciante';");
             // return gettype($Comerciante);
             // return $Comerciante;
 
         // CONSULTA las secciones que tiene el catalogo de un comerciante
         $Secciones = DB::connection('mysql_2')
-            ->select("select ID_Seccion, seccion FROM secciones WHERE ID_Comerciante = '$ID_Comerciante';");
+            ->select("SELECT ID_Seccion, seccion FROM secciones WHERE ID_Comerciante = '$ID_Comerciante';");
             // return gettype($Comerciante);
             // return $Secciones;
 
@@ -220,6 +202,12 @@ class PanelMarketplaceController extends Controller
         ]);
     }
 
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+    // **************************************************************************************************************
+
     // actualiza el nombre de una seccion
     public function actualizarSeccion($Seccion, $ID_Seccion ){
 
@@ -228,12 +216,6 @@ class PanelMarketplaceController extends Controller
             ->where('ID_Seccion', $ID_Seccion)
             ->update(['seccion' => $Seccion]);
     }
-
-    // **************************************************************************************************************
-    // **************************************************************************************************************
-    // **************************************************************************************************************
-    // **************************************************************************************************************
-    // **************************************************************************************************************
 
     // actualiza el nombre de una seccion
     public function insertarSecciones($ID_Suscriptor, $Seccion){
@@ -334,17 +316,12 @@ class PanelMarketplaceController extends Controller
                 //Si existe imagenProducto y tiene un tamaño correcto (maximo 2Mb)
                 if($nombre_imgProducto == !NULL){
                     //indicamos los formatos que permitimos subir a nuestro servidor
-                    if(($tipo_imgProducto == 'image/jpeg')
-                        || ($tipo_imgProducto == 'image/jpg') || ($tipo_imgProducto == 'image/png')){
+                    if(($tipo_imgProducto == 'image/jpeg') || ($tipo_imgProducto == 'image/jpg') || ($tipo_imgProducto == 'image/png')){
 
                         //Se crea el directorio donde iran las imagenes de la tienda
-                        // Usar en remoto
-                        $CarpetaProductos = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/' . session('id_comerciante') . '/productos';
+                        $CarpetaProductos = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_comerciante') . '/productos';
 
-                        // Usar en local
-                        // $CarpetaProductos = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_comerciante') . '/productos';
-
-                        if(!file_exists($CarpetaProductos)){
+                        if(file_exists($CarpetaProductos) == false){
                             mkdir($CarpetaProductos, 0777, true);
                         }
 
@@ -671,13 +648,13 @@ class PanelMarketplaceController extends Controller
 
         $this->vista('header/header');
         $this->vista('view/RecibePedido_V', $Datos);
-    // }
-    // else{
-    //     // header('location:' . RUTA_URL . '/Inicio_C/NoVerificaLink');
-    // }
+        // }
+        // else{
+        //     // header('location:' . RUTA_URL . '/Inicio_C/NoVerificaLink');
+        // }
     }
 
-    //recibe el formulario de perfil para actualizarlo
+    // recibe el formulario de perfil para actualizarlo
     public function recibePerfilComerciante(Request $Request){
         //Se reciben el campo del formulario, se verifica que son enviados por POST y que no estan vacios
         // if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['nombreSuscriptor']) && !empty($_POST['apellidoSuscriptor']) && !empty($_POST['correoSuscriptor']) && !empty($_POST['municipio']) && !empty($_POST['parroquia']) && !empty($_POST['telefono']) && !empty($_POST['pseudonimo']) && (!empty($_POST['transferencia']) || !empty($_POST['pago_movil']) || !empty($_POST['paypal']) || !empty($_POST['zelle']) || !empty($_POST['bolivar']) || !empty($_POST['dolar']) || !empty($_POST['acordado']))){
@@ -694,27 +671,30 @@ class PanelMarketplaceController extends Controller
                 'paypal' =>  empty($Request->get("paypal")) ? 0 : 1,
                 'criptomoneda' =>  empty($Request->get("criptomoneda")) ? 0 : 1,
                 'acordado' =>  empty($Request->get("acordado")) ? 0 : 1,
-                'categoriaComerciante' => $Request->get("categoriaComerciante")
+                'desactivarComerciante' =>  empty($Request->get("desactivarComerciante")) ? 0 : 1,
+                'categoriaComerciante' => $Request->get("categoriaComerciante") 
             ];
             // return $RecibeDatosComerciante;
 
             //Se actualizan datos del comerciante
-            $ActualizarComerciante = Comerciante_M::
-                find(session('id_comerciante'));
-                $ActualizarComerciante->nombreComerciante = $RecibeDatosComerciante['nombreComerciante'];
-                $ActualizarComerciante->apellidoComerciante = $RecibeDatosComerciante['apellidoComerciante'];
-                $ActualizarComerciante->correoComerciante = $RecibeDatosComerciante['correoComerciante'];
-                $ActualizarComerciante->pseudonimoComerciante = $RecibeDatosComerciante['pseudonimoComerciante'];
-                $ActualizarComerciante->municipioComerciante = $RecibeDatosComerciante['municipioComerciante'];
-                $ActualizarComerciante->parroquiaComerciante = $RecibeDatosComerciante['parroquiaComerciante'];
-                $ActualizarComerciante->telefonoComerciante = $RecibeDatosComerciante['telefonoComerciante'];
-                $ActualizarComerciante->transferenciaComerciante = $RecibeDatosComerciante['transferencia'];
-                $ActualizarComerciante->pago_movilComerciante = $RecibeDatosComerciante['pago_movil'];
-                $ActualizarComerciante->paypalComerciante = $RecibeDatosComerciante['paypal'];
-                $ActualizarComerciante->criptomonedaComerciante = $RecibeDatosComerciante['criptomoneda'];
-                $ActualizarComerciante->acordadoComerciante = $RecibeDatosComerciante['acordado'];
-                $ActualizarComerciante->categoriaComerciante = $RecibeDatosComerciante['categoriaComerciante'];
-                $ActualizarComerciante->save();
+            DB::connection('mysql_2')->table('comerciantes')
+                ->where('ID_Comerciante', session('id_comerciante'))
+                ->update([
+                    'nombreComerciante' => $RecibeDatosComerciante['nombreComerciante'],
+                    'apellidoComerciante' => $RecibeDatosComerciante['apellidoComerciante'],
+                    'correoComerciante' => $RecibeDatosComerciante['correoComerciante'],
+                    'pseudonimoComerciante' => $RecibeDatosComerciante['pseudonimoComerciante'],
+                    'municipioComerciante' => $RecibeDatosComerciante['municipioComerciante'],
+                    'parroquiaComerciante' => $RecibeDatosComerciante['parroquiaComerciante'],
+                    'telefonoComerciante' => $RecibeDatosComerciante['telefonoComerciante'],
+                    'categoriaComerciante' => $RecibeDatosComerciante['categoriaComerciante'], 
+                    'transferenciaComerciante' => $RecibeDatosComerciante['transferencia'],
+                    'pago_movilComerciante' => $RecibeDatosComerciante['pago_movil'],
+                    'paypalComerciante' => $RecibeDatosComerciante['paypal'],
+                    'criptomonedaComerciante' => $RecibeDatosComerciante['criptomoneda'],
+                    'acordadoComerciante' => $RecibeDatosComerciante['acordado'], 
+                    'desactivarComerciante' => $RecibeDatosComerciante['desactivarComerciante'],                   
+                ]);
 
             //RECIBE SECCIONES
             // ********************************************************
@@ -724,6 +704,9 @@ class PanelMarketplaceController extends Controller
                 foreach($Request->get('seccion') as $Seccion){
                     $SeccionesRecibidas = $Request->get('seccion');
                 }
+                // echo '<pre>'; 
+                // print_r($SeccionesRecibidas);
+                // echo '</pre>';
 
                 //El array trae elemenos duplicados, se eliminan los duplicado                
                 $SeccionesRecibidas = array_unique($SeccionesRecibidas);
@@ -751,11 +734,12 @@ class PanelMarketplaceController extends Controller
                 // print_r($SoloExistentes);
                 // echo '</pre>';
 
-                // Se devuelven todas las entradas que no están presentes en ninguna de los otros arrays.
+                // Se devuelven todas las entradas que no están presentes en ela BD.
                 $SeccionesInsertar = array_diff($SeccionesRecibidas, $SoloExistentes);
                 // return gettype($SeccionesInsertar);
                 // return $SeccionesInsertar;
                 // return count($SeccionesInsertar);
+               
                 
                 $SeccionesInsertar = implode(',', $SeccionesInsertar);
                 // echo '<pre>'; 
@@ -765,17 +749,18 @@ class PanelMarketplaceController extends Controller
                 
                 $SeccionesInsertar = explode(',', $SeccionesInsertar);
                 // echo '<pre>'; 
-                // print_r($SeccionesInsertar);
+                // print_r($SeccionesInsertar[0]);
                 // echo '</pre>';
                 $Elementos = count($SeccionesInsertar);
-                // echo $Elementos;
-             
-
+                // echo $Elementos; 
+        
                 // Se INSERTAN las nuevas secciones al catalogo   
-                for($i = 0; $i < $Elementos; $i++)  :                 
-                    DB::connection('mysql_2')
-                    ->insert("insert into secciones (ID_Comerciante, seccion) values (?,?)", [session('id_comerciante'), $SeccionesInsertar[$i]]);
-                endfor;
+                if($SeccionesInsertar[0] != null){
+                    for($i = 0; $i < $Elementos; $i++)  :                 
+                        DB::connection('mysql_2')
+                        ->insert("insert into secciones (ID_Comerciante, seccion) values (?,?)", [session('id_comerciante'), $SeccionesInsertar[$i]]);
+                    endfor;
+                }
 
                 // Se crea la sesion con el nombre de la tienda
                 // $_SESSION["PseudonimoSuscriptor"] = $_POST['pseudonimo'];
@@ -822,14 +807,14 @@ class PanelMarketplaceController extends Controller
                 // metodo en Traits Comprimir_imagen
                 $this->imagen_comprimir($BanderaImgCat, $this->Servidor, $nombre_imgCatalogo, $tipo_imgCatalogo, $tamanio_imgCatalogo, $Temporal_imgCatalogo);	
 
-                //Se actualiza imagen de catalogo en BD
-                $ActualizarImgCatalogo = Comerciante_M::
-                    find(session('id_comerciante'));
-                    $ActualizarImgCatalogo->nombreImgCatalogo = $nombre_imgCatalogo;
-                    $ActualizarImgCatalogo->tipoImgCatalogo = $tipo_imgCatalogo;
-                    $ActualizarImgCatalogo->tamanioImgCatalogo = $tamanio_imgCatalogo;
-                    $ActualizarImgCatalogo->save();
-                    // return $ActualizarImgCatalogo;
+                //Se actualiza imagen de catalogo en BD                    
+                DB::connection('mysql_2')->table('comerciantes')
+                ->where('ID_Comerciante', session('id_comerciante'))
+                ->update([
+                    'nombreImgCatalogo' => $nombre_imgCatalogo,
+                    'tipoImgCatalogo' => $tipo_imgCatalogo,
+                    'tamanioImgCatalogo' => $tamanio_imgCatalogo,                  
+                ]);
             }
 
         // }
@@ -839,7 +824,7 @@ class PanelMarketplaceController extends Controller
         //     exit();
         // }
 
-        return redirect()->route("perfil_comerciante", ['id_comerciante' => session('id_comerciante')]);
+        return redirect()->route("Perfil_comerciante", ['id_comerciante' => session('id_comerciante')]);
         die();
     }
 

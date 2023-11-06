@@ -7,35 +7,57 @@
     <section class="section_9" id="Section_3"> 
             
         <header>
-            <div class="cont_clasificados">    
-                <div class="cont_clasificados--item-4">
-                    <h1 class="h1_1">{{ str_replace("_", " ", $tiendasCategorias[0]['categoriaComerciante']) }}</h1> 
-                </div>
+            <div class="cont_catalogosCateg--header">    
+                <h1 class="h1_1">{{ str_replace("_", " ", $comercianteCategorias[0]->categoriaComerciante) }}</h1> 
             </div>
         </header>
+
+        {{-- CINTILLO DE ALERTA --}}
         <!-- <h3 class="contenedor_13--clasificados h3_1 bandaAlerta">Periodo de prueba (simulación)</h3> -->
         
         <div class="cont_catalogosCateg">
-            @foreach($tiendasCategorias as $row)
-                @php($Categoria = $row['categoria'])
+            @foreach($comercianteCategorias as $row)
+                @php($Categoria = $row->categoriaComerciante)
                 
-                <div class="cont_catalogosCateg--item"> 
+                <div class="cont_catalogosCateg--item  borde_1 borde_3"> 
 
                     <!-- IMAGEN -->
                     <div class="">
                         @if(!isset($row->nombreImgCatalogo))
                             <figure>  
-                                <a href="{{ route('Catalogo', ['ID_Suscriptor' => $row->ID_Comerciante]) }}" rel="noopener noreferrer" target="_blank"><img class="cont_catalogosCateg_imgDefault" id="blah" alt="Fotografia del producto" src="{{ asset('/images/clasificados/tienda.png') }}"/></a>
+                                <a href="{{ route('Catalogo', ['id_comerciante' => $row->ID_Comerciante]) }}" rel="noopener noreferrer" target="_blank"><img class="cont_catalogosCateg_imgDefault borde_1" id="blah" alt="Fotografia del producto" src="{{ asset('/images/clasificados/tienda.png') }}"/></a>
                             </figure>
                         @else
-                            <a href="{{ route('Catalogo', ['ID_Suscriptor' => $row->ID_Comerciante]) }}" rel="noopener noreferrer" target="_blank"><img class="cont_catalogosCateg_img" alt="Portada de catalogo" src="{{ asset('/images/clasificados/' . $row->ID_Comerciante . '/' . $row->nombreImgCatalogo) }}"/></a>
+                            <a href="{{ route('Catalogo', ['id_comerciante' => $row->ID_Comerciante]) }}" rel="noopener noreferrer" target="_blank"><img class="cont_catalogosCateg_img borde_top" alt="Portada de catalogo" src="{{ asset('/images/clasificados/' . $row->ID_Comerciante . '/' . $row->nombreImgCatalogo) }}"/></a>
                         @endif
-                    </div>     
+                    </div>    
                 
                     <!-- VEDEDOR -->
                     <div class="">                                         
                         <span class="cont_catalogosCateg_tienda">{{ $row->pseudonimoComerciante }}</span> 
                     </div>
+                    
+                    <!-- IMAGENES MINIATURAS DE SLIDER -->
+                    <article class="cont_miniaturaSlider" id="Cont_miniaturaSlider">
+                        <div class="cont_miniaturaSlider__2" id="Cont_miniaturaSlider__2">    
+                            {{-- Se quitan los espacios en el nombre de la tienda para comparar con la carpeta donde se encuentran las imagenes de la tienda --}}
+                            @php($ContadorLabel = 1)
+                            @foreach($comerciante_productosDestacados as $Key) 
+                                <div class="cont_miniaturaSlider__3" id="Cont_miniaturaSlider__3" >
+                                    <img class="contOpciones__img--tienda" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $Key->ID_Comerciante . '/productos/' . $Key->nombre_img) }}"/>  
+                                </div>  
+                            @endforeach
+                        </div>
+                    </article> 
+                                        
+                    <!-- BOTONES DELANTEROS -->
+                    <article class="Componente_boton">
+                        <div class="contBoton contBoton--100">
+                            <label class="boton boton--corto" onclick="AtrasTarjeta({{ $row->ID_Comerciante }})">Información</label>
+
+                            <a class="boton boton--corto" href="{{ route('Catalogo', ['id_comerciante' => $row->ID_Comerciante]) }}">Entrar</a>
+                        </div>
+                    </article>
                 </div> 
             @endforeach                  
         </div>
@@ -53,8 +75,6 @@
 
     {{-- @include('layouts/footer') --}}
 
-    <script src="<?php //echo RUTA_URL . '/public/javascript/funcionesVarias.js?v='. rand();?>"></script>
-    <!-- <script src="<?php ////echo RUTA_URL . '/public/javascript/E_Clasificados.js?v='. rand();?>"></script> -->
-    <!-- <script src="<?php ////echo RUTA_URL . '/public/javascript/A_Clasificados.js?v='. rand();?>"></script> -->
+    <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
 
 @endsection()

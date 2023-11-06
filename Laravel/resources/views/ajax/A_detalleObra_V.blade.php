@@ -52,7 +52,7 @@
 
 			<!-- IMAGEN OBRA -->
 			<div class="cont_ObraDetalle--img" id="Imagen_Detalle">
-				<img class="imagen_3" src="{{ asset('/images/galeria/' . $artista->ID_Artista . '_' . $artista->nombreArtista . '_' . $artista->apellidoArtista . '/' . $diapositivaObra->imagenObra) }}"/>
+				<img class="imagen_3" id="ImagenDetalle" src="{{ asset('/images/galeria/' . $artista->ID_Artista . '_' . $artista->nombreArtista . '_' . $artista->apellidoArtista . '/' . $diapositivaObra->imagenObra) }}"/>
 			</div>
 			<div class="cont_ObraDetalle--iconos">
 			
@@ -73,13 +73,13 @@
 				<h1 class="cont_ObraDetalle--h1">{{ $diapositivaObra->nombreObra }}</h1>
 				<p class="cont_ObraDetalle--p1"><b>Autor: &nbsp;</b> {{ $artista->nombreArtista }} {{ $artista->apellidoArtista }}</p>
 				<p class="cont_ObraDetalle--p1"><b>Año: &nbsp;</b> {{ $diapositivaObra->anioObra }}</p>
-				<p class="cont_ObraDetalle--p1"><b>Dimensiones: &nbsp;</b> {{ $diapositivaObra->medidaObra }}/p> 
+				<p class="cont_ObraDetalle--p1"><b>Dimensiones: &nbsp;</b> {{ $diapositivaObra->medidaObra }} </p> 
 				<p class="cont_ObraDetalle--p1"><b>Tecnica: &nbsp;</b> {{ $diapositivaObra->tecnicaObra }}</p> 
-				<p class="cont_ObraDetalle--p1"><b>Colección: &nbsp;</b> {{ $diapositivaObra->coleccionObra }}</p> 
+				<p class="cont_ObraDetalle--p1"><b>Serie: &nbsp;</b> {{ $diapositivaObra->coleccionObra }}</p> 
 				<p class="cont_ObraDetalle--p1"><b>Descripción: &nbsp;</b> {{ $diapositivaObra->descripcionObra }}</p> 
-				<p class="cont_ObraDetalle--p1"><b>Precio: &nbsp;</b> {{ $diapositivaObra->precioDolarObra }}</p> 
-				<p class="cont_ObraDetalle--p1"><b>Factura: &nbsp;</b> Si</p> 
-				<label class="boton boton--marg">Comprar</label> 
+				{{-- <p class="cont_ObraDetalle--p1"><b>Precio: &nbsp;</b> {{ $diapositivaObra->precioDolarObra }}</p>  --}}
+				{{-- <p class="cont_ObraDetalle--p1"><b>Factura: &nbsp;</b> Si</p> 
+				<label class="boton boton--marg">Comprar</label>  --}}
 			</div>
 
 			<!-- BOTON DE GIRO-->

@@ -41,6 +41,7 @@ extension = gd esta extencion en php.ini se activo para que pudiera funcionar la
     A_Catalogos.js
     A_Noticia.js
     A_Comerciante_perfil.js
+    A_Registro.js
     
     E_Artista.js
     E_Catalogos.js
@@ -50,5 +51,29 @@ tiene la opcion de subir a servidor remoto y servidor local, esta debe ser cambi
 Todos los contoladores que abren la vista de un formulario abren una sesión para impedir recargar la vista,
 esta sesión se cierra en el controlador que recibe el formulario
 
-
-*******************************************************************************
+# ***********************************************
+# BASE DATOS 1 NOTICIAS
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=noticie2_not_Yar
+DB_USERNAME=noticie2_Pa_Cabeza
+DB_PASSWORD=007PHPcake
+# ***********************************************
+# BASE DATOS 2 MARKETPLACE
+# DB_CONNECTION=mysql_2 cuando se necesite conectar a esta BD (PidoRapido) se especifica en el controlador 
+DB_HOST_2=localhost
+DB_PORT_2=3306
+DB_DATABASE_2=Clasificados
+DB_USERNAME_2=noticie2_Pa_Cabeza
+DB_PASSWORD_2=007PHPcake
+# ***********************************************
+#CORREO
+MAIL_MAILER=smtp
+MAIL_HOST=mail.noticieroyaracuy.com 
+MAIL_PORT=465
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="noticieroyaracuy@noticieroyaracuy.com"
+MAIL_FROM_NAME="${APP_NAME}"

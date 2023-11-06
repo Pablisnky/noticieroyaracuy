@@ -125,6 +125,17 @@ trait Comprimir_Imagen{
                     // usar en local        
                     $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/noticias/';
                 }
+            }      
+            else if($Bandera == 'ImagenCapturePago'){
+                
+                if($Servidor == 'Remoto'){
+                    // Usar en remoto        
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/capture/';
+                }
+                else{
+                    // usar en local        
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/capture/';
+                }
             }
 
             if(isset($Nombre_Imagen)){
@@ -151,6 +162,9 @@ trait Comprimir_Imagen{
                         if($Tipo_Imagen == 'image/jpeg'){
                             $original = imagecreatefromjpeg($rtOriginal);
                         }
+                        // else if($Tipo_Imagen == 'image/jpg'){
+                        //     $original = imagecreatefromjpg($rtOriginal);
+                        // }
                         else if($Tipo_Imagen =='image/png'){
                             $original = imagecreatefrompng($rtOriginal);
                         }	
@@ -189,6 +203,9 @@ trait Comprimir_Imagen{
                         if($Tipo_Imagen == 'image/jpeg'){
                             imagejpeg($lienzo, $Patch . $Nombre_Imagen);
                         }
+                        // else if($Tipo_Imagen == 'image/jpg'){
+                        //     imagejpg($lienzo, $Patch . $Nombre_Imagen);
+                        // }
                         else if($Tipo_Imagen == 'image/png'){
                             imagepng($lienzo, $Patch . $Nombre_Imagen);
                         }

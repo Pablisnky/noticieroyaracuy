@@ -10,8 +10,8 @@
     <div class="cont_panel--main">
         <fieldset class="fieldset_1" id="Not_Principales"> 
             <legend class="legend_1">Noticias en portada</legend>            
-            @if(!empty($noticiasPortadas[0]['ID_Noticia']))
-                @foreach($noticiasPortadas as $Not_Prin)
+            @if(!empty($noticia[0]['ID_Noticia']))
+                @foreach($noticia as $Not_Prin)
                     <div class="cont_panel--flex" id="{{ $Not_Prin->ID_Noticia }}"> 
                                     
                         <!-- IMAGEN NOTICIA -->
@@ -55,17 +55,31 @@
                             <!-- FECHA -->
                             <label class="cont_panel--label">Fecha</label>
                             <label class="cont_panel--fecha">{{ \Carbon\Carbon::parse(strtotime($Not_Prin->fecha))->format('d-m-Y') }}</label>
+                            
                             <!-- COMPARTIR -->
                             <div>
                                 <label class="cont_panel--label">Compartir</label>
                                 <div class="detalle_cont--redesSociales--Panel">
 
-                                    <!-- COMPARTIR FACEBOOK -->     
+                                    <!-- COMPARTIR FACEBOOK --> 
+                                    <div class="detalle_cont--red">        
+                                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.noticieroyaracuy.com/noticias/detalleNoticia/{{ $Not_Prin->ID_Noticia }}" target="_blank" rel="noopener noreferrer"><img style="height: 1.8em;" alt="facebook" src="{{ asset('/images/facebook.png') }}"/></a>
+                                    </div>     
                                     
-                                    <!-- COMPARTIR TWITTER -->
+                                    <!-- COMPARTIR TWITTER --> 
+                                    <div class="detalle_cont--red">
+                                        <a href="https://twitter.com/intent/tweet?url=https://www.noticieroyaracuy.com/noticias/detalleNoticia/{{ $Not_Prin->ID_Noticia }}&text={{  $Not_Prin->titulo }}" target="_blank"><img style="height: 2em;" src="{{ asset('/images/twitter.png') }}"/></a>
+                                    </div>     
+                                    
+                                    <!-- COMPARTIR INSTAGRAM -->   
+                                    <div class="detalle_cont--red">
+                                        <a href="{{ route('Instagram', ['id_noticia' => $Not_Prin->ID_Noticia ]) }}"><img style="height: 1.5em; margin-top:3px" class="" alt="Instagram" src="{{ asset('/images/instagram.png') }}"/></p>
+                                    </div>  
 
                                     <!-- COMPARTIR WHATSAPP --> 
-                                            
+                                    <div class="whatsapp detalle_cont--red">
+                                        <a href="whatsapp://send?text={{ $Not_Prin->titulo }}. {{ route('DetalleNoticia', $Not_Prin->ID_Noticia) }}" data-action="share/whatsapp/share"><img class="detalle_cont--redesSociales-Whatsapp" alt="Whatsapp" src="{{ asset('/images/Whatsapp.png') }}"/></a>
+                                    </div>                                              
                                 </div>
 
                                 <!-- EDITAR NOTICIA -->

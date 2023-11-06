@@ -19,7 +19,7 @@
 
     <div class="cont_panel--main">
         <form action="{{ route('RecibeAgendaAgregada') }}" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarRegistroAgenda()">
-            {!! csrf_field() !!}
+            @csrf
             <fieldset class="fieldset_1" id="Portada"> 
                 <legend class="legend_1">Agregar Agenda</legend>
                     <div class="cont_panel--actualizar--media">    
@@ -32,7 +32,7 @@
                                 </figure>
                             </label>
                             <!-- <span class="material-icons-outlined span_18">edit</span> -->
-                            <input class="Default_ocultar" type="file" name="imagenAgenda" id="imgInp"/>
+                            <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenAgenda" id="imgInp"/>
                         </div>    
                             
                         <div>

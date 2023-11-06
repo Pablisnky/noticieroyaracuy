@@ -177,16 +177,26 @@
 	}
 	.detalle_cont--redesSociales{
 		width: 60%;
-		/* height: 20vh; */
+		margin-top: initial;
+	}
+	.detalle_cont--redesSociales--Panel{
+	   display: flex;
+	   width: 80%;
+	   margin-bottom: 5%;
+	   justify-content: space-between;
 	}
 	.detalle_cont--redesSociales-facebook{
-		width: 50%;
+		width: 30%;
 		margin-left: 20%;
 	}
 	.detalle_cont--redesSociales-twitter{
-		width: 100%;
+		width: 70%;
 		margin-left: 10%;
 	}
+	.detalle_cont--redesSociales-Whatsapp{
+		width: 60%;
+		margin-left: 25%;
+	} 
 	.detalle_cont--redesSociales-icono{
 		width: 89%;
 		margin-left: 20%;
@@ -203,8 +213,8 @@
 	}
 	.cont_detalle--imagen{
 		height: fit-content;
-		max-height: 80vw;
-		min-height: 80vw;
+		max-height: 90vw;
+		min-height: 90vw;
 		margin-top: 1%;
 		object-fit: contain;
 	}
@@ -218,7 +228,7 @@
 	}
 	.cont_detalle--imagenMiniatura{
 		width: 50px;
-		height: 40px;
+		height: 50px;
 	} 
 	.detalle_cont--informacion{
 		width: 95%;
@@ -242,12 +252,6 @@
 	}
 	.detalle_cont--contenido{
 		width: 97%;
-	}
-	.detalle_cont--membrete{	
-		font-size: 1.5em;
-		margin-left: 5%;
-		margin-top: -2%;
-		margin-bottom: 1%;
 	}
 	.detalle_cont--fuente{
 		font-size: 0.7em
@@ -591,8 +595,6 @@
 	}
 	.cont_detalle_Producto--informacion{
 		width: 95%;
-		margin: 3% auto;
-		padding-left: 5%;
 	}
 	.contenedor_15{
 		width: 95%;
@@ -653,6 +655,7 @@
 }
 .contenedor_125{
 	margin-top: 0%;
+	width: 95%;
 }
 .contOpciones{
 	margin-bottom: 12%;
@@ -664,21 +667,13 @@
 .cont_producto{
 	height: 140px;
 }
-.header__titulo--detalleProducto{
+.header__titulo--membrete{
 	position: fixed;
 	top: 0%;
 	left: 0%;
 	z-index: 3;
 	font-size: 1.6em;
 	padding-left: 3%;
-}
-.header__subtitulo--detalleProducto{
-	position: fixed;
-	top: 3%;
-	left: 0%;
-	z-index: 2;
-	font-size: 1.3em;
-	padding-left: 2%;
 }
 .header__subtitulo--catalogo{
 	display: none;
@@ -841,12 +836,8 @@
 	height: 85vh;
 	margin-top: 14vh!important;
 } 
-.cont_catalogos--secciones--item{
-	display: block;
-	height: 5vh;
-}
 .cont_catalogos--productos{
-	margin-top: -85vh;
+	margin-top: 18vh;
 	padding-top: 2vh;
 }
 .cont_catalogos--redesSociales{	
@@ -937,7 +928,8 @@
 	font-size: 2.3em;
 	display: block;
 	margin-top: -4%;
-	margin-left: 20%;
+	margin-left: 15%;
+	text-align: right;
 }
 .header__fecha{
 	font-size: 0.9em;
@@ -1060,16 +1052,6 @@
    margin: auto;
    object-fit: cover; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
 }
-.detalle_cont--redesSociales--Panel{
-   display: flex;
-   width: 80%;
-   margin-bottom: 5%;
-   justify-content: space-between;
-}
-.detalle_cont--redesSociales-Whatsapp{
-	width: 70%;
-	margin-left: 25%;
-} 
 .modal_falloLogin{
 	width: 90%;
 }
@@ -1259,15 +1241,14 @@
 	right: 4%;
 }
 .ocultar{
-	opacity: 1;
-	top: 90px;
+	top: 0px;
 }
-.cont_catalogos--p{
+.cont_catalogos--a{
 	line-height: 40px;
 	height: 40px;
 	font-size: 5vw;
 }
-.cont_catalogos--p:hover{
+.cont_catalogos--a:hover{
 	cursor: pointer;
 	background-color: rgba(51, 51, 51, 0.2);
 	line-height: 40px;
@@ -1632,6 +1613,7 @@
  .imagen_3{
 	 width: 100%;
 	 object-fit: contain; 
+	 margin-left: 0%;
  }
  .cont_ObraDetalle--iconos{
 	 display: flex;
@@ -1645,7 +1627,6 @@
 	 margin-top: 5vh;
 	 margin-bottom: 23vh;
  }
-
  .cont_galeria--agenda{
 	column-count: 1 !important;
  }
@@ -1653,7 +1634,7 @@
 	line-height: 30px; 
 	padding-top: 10vh;
 	padding-left: 5%;
-	min-height: 74vh;
+	height: 70%;
  }
  .cont_Artista--leyenda_1{
 	 font-size: 7.5vw;
@@ -1944,34 +1925,10 @@
 	clear: left;
 	margin-bottom: 5%;
  }
-
- .cont_directorioCom_h1{
-	background-color: white;
-	top: 8%;
-	font-size: 7vw;
-	text-align: center;
-	height: initial;
-	width: 100%;
-	clear: left;
-	margin-bottom: 5%;
- }
  .cont_direccionCom--maain{
 	display: block;
 	margin-top: 15%;
 	margin-bottom: 4%;
- }
- .cont_directorioCom{
-	 top: 13%;
-	 width: 95%; 
-	 padding-top: 1%; 
-	 margin-left: 2%;
- }
- .cont_directorioCom--lazy{
-	 column-count: 1 !important;
-	 column-fill: balance;
-	 width: 100%;
-	 padding-left: 0%; 
-	 margin-top: 35%;
  }
  .cont_panel--NoNoticia {
 	 margin-top: 10%;
@@ -1982,8 +1939,6 @@
  .cont_panel--titulo{
 	width: 100%;
  }
-
-
  .cont_panel--textarea{
 	 min-height: 500px;
  }
@@ -1995,6 +1950,12 @@
  }
  .h1_1--margin{
 	 width: 100%;
+ }
+ .cont_obras{	
+	 margin-top: 15%;
+ }
+ .contGridUna{
+	 padding-top: initial;
  }
  
 

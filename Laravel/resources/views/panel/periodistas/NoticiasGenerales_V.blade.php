@@ -72,7 +72,7 @@
             <fieldset class="fieldset_1">
                 <legend class="legend_1">Noticias generales</legend>
                
-                @foreach($noticiasGenerales as $Not_Gen)
+                @foreach($noticia as $Not_Gen)
                     <div class="cont_panel--flex" id="{{ $Not_Gen->ID_Noticia }}">
                         <!-- IMAGN NOTICIA -->
                         <div class="cont_panel--flex-left">          
@@ -129,16 +129,36 @@
                             <!-- COMPARTIR REDES SOCIALES -->
                             <div>
                                 <div class=" detalle_cont--redesSociales--Panel">
-                                    <!-- COMPARTIR FACEBOOK -->     
+
+                                    <!-- COMPARTIR FACEBOOK --> 
+                                    <div class="detalle_cont--red">        
+                                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.noticieroyaracuy.com/noticias/detalleNoticia/{{ $Not_Gen->ID_Noticia }}" target="_blank" rel="noopener noreferrer"><img style="height: 1.8em;" alt="facebook" src="{{ asset('/images/facebook.png') }}"/></a>
+                                    </div>     
+
+                                    <!-- COMPARTIR TWITTER --> 
+                                    <div class="detalle_cont--red">
+                                        <a href="https://twitter.com/intent/tweet?url=https://www.noticieroyaracuy.com/noticias/detalleNoticia/{{ $Not_Gen->ID_Noticia }}&text={{  $Not_Gen->titulo }}" target="_blank"><img style="height: 2em;" src="{{ asset('/images/twitter.png') }}"/></a>
+                                    </div>     
                                     
-                                    <!-- COMPARTIR TWITTER -->
-                                </div>
+                                    <!-- COMPARTIR INSTAGRAM -->   
+                                    <div class="detalle_cont--red">
+                                        <a href="{{ route('Instagram', ['id_noticia' => $Not_Gen->ID_Noticia ]) }}"><img style="height: 1.5em; margin-top:3px; margin-left: 60%;" class="" alt="Instagram" src="{{ asset('/images/instagram.png') }}"/></p>
+                                    </div>  
+
+                                    <!-- COMPARTIR WHATSAPP --> 
+                                    <div class="whatsapp detalle_cont--red">
+                                        <a href="whatsapp://send?text={{ $Not_Gen->titulo }}. {{ route('DetalleNoticia', $Not_Gen->ID_Noticia) }}" data-action="share/whatsapp/share"><img class="detalle_cont--redesSociales-Whatsapp" alt="Whatsapp" src="{{ asset('/images/Whatsapp.png') }}"/></a>
+                                    </div>   
+                                    
+                                    <br class="Default_quitarEscritorio">
                                                             
-                                <!-- EDITAR NOTICIA -->   
-                                <a style="margin-left: 10%" href="{{ route('ActualizarNoticia', ['id_noticia' => $Not_Gen->ID_Noticia, 'bandera' => 'Not_Generales']) }}" rel="noopener noreferrer">Editar</a>
-                                                        
-                                <!-- ELIMINAR NOTICIA -->                                
-                                <label style="margin-left: 50px; color: blue;" class="Default_pointer" onclick="EliminarNoticia('{{$Not_Gen->ID_Noticia }}','{{ route('EliminarNoticia', $Not_Gen->ID_Noticia) }}')">Eliminar</label>
+                                    <!-- EDITAR NOTICIA -->   
+                                    <a style="margin-left: 10%" href="{{ route('ActualizarNoticia', ['id_noticia' => $Not_Gen->ID_Noticia, 'bandera' => 'Not_Generales']) }}" rel="noopener noreferrer">Editar</a>
+                                                            
+                                    <!-- ELIMINAR NOTICIA -->                                
+                                    <label style="margin-left: 50px; color: blue;" class="Default_pointer" onclick="EliminarNoticia('{{$Not_Gen->ID_Noticia }}','{{ route('EliminarNoticia', $Not_Gen->ID_Noticia) }}')">Eliminar</label>
+
+                                </div>
                             </div>
                         </div>
                     </div>            

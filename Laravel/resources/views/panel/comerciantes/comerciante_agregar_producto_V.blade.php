@@ -1,4 +1,4 @@
-@extends('layouts.header_PanelPortada')
+@extends('layouts.header_suscriptor')
 
 @section('titulo', 'Panel agregar producto')
 
@@ -10,8 +10,6 @@
     <?php    
     //se invoca sesion con el ID_Afiliado creada en validarSesion.php para autentificar la entrada a la vista
     // if(!empty($_SESSION["Publicar"])){
-        
-        // $ID_Suscriptor = $_SESSION["ID_Suscriptor"];
         ?>       
             
         <!-- SDN libreria JQuery, necesaria para la previsualización de la imagen del producto--> 
@@ -19,7 +17,7 @@
 
         <div class="cont_suscrip_publicar">  
             <form action="{{ route('RecibeProductoAgregado') }}" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarPublicacion()">
-                {!! csrf_field() !!}
+                @csrf
 
                 <fieldset class="fieldset_1 fieldset_3"> 
                     <legend class="legend_1">Agregar producto</legend>
@@ -32,7 +30,7 @@
                                     <img class="contenedor_119__img" id="blah" alt="Fotografia del producto" src="{{ asset('/images/imagen.png') }}"/>
                                 </figure>
                             </label>
-                            <input class="Default_ocultar" type="file" name="imagenProducto" id="imgInp"/>
+                            <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp" name="imagenProducto" id="imgInp"/>
                             
                             <!-- NUEVO O USADO -->
                             <div class="cont_radioButon">
@@ -60,7 +58,7 @@
                             <!-- SECCION -->        
                             <label class="default_bold">Sección</label>
                             <select class="login_cont--select borde--input" name="id_seccion" id="Seccion">
-                                <option></option>
+                                <option hidden></option>
                                 @foreach($secciones as $Row_3)  
                                     <option value="{{ $Row_3->ID_Seccion }}">{{ $Row_3->seccion }}</option>
                                 @endforeach
@@ -89,9 +87,9 @@
                             <!-- IMAGENES SECUNDARIAS -->
                             <div class="cont_suscrip_publicar--imgSec">
                                 <label class="Default_pointer" style="display: block; color: blue; font-weight: lighter;" for="ImgInp_2">Añadir imagenes secundarias</label>
-                                <small class="small_1">Añada hasta 5 fotografias no mayor a 4 Mb / CU</small>
+                                <small class="small_1">Añada hasta 4 fotografias no mayor a 4 Mb / CU</small>
 
-                                <input class="Default_ocultar" type="file" name="imagenSecundariiaProducto[]" multiple="multiple" id="ImgInp_2" onchange="muestraImg()"/>  
+                                <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenSecundariiaProducto[]" multiple="multiple" id="ImgInp_2" onchange="muestraImg()"/>  
                             </div>     
                             
                             <!-- muestra las imagenes secundarias -->
@@ -147,14 +145,14 @@
                 var CantidadImagenes = archivos.length
                 console.log("Cantidad Imagenes recibidas= ", CantidadImagenes)
             
-                if(CantidadImagenes < 6){
+                if(CantidadImagenes < 5){
                     SeleccionImagenes.push(CantidadImagenes) 
                     console.log("Imagenes recibidas= ",SeleccionImagenes)
                     // Suma la cantidad de imagenes que se han insertado  
                     TotalSeleccionImagenes = SeleccionImagenes.reduce((a, b) => a + b)
                     console.log("Suma de Imagenes = ",TotalSeleccionImagenes)
                     
-                    if(TotalSeleccionImagenes < 6){
+                    if(TotalSeleccionImagenes < 5){
                         for(i = 0; i < CantidadImagenes; i++){
                             console.log(i)
                             var imgTagCreada = document.createElement("img");

@@ -3,51 +3,58 @@
 @section('titulo', 'Dashboard suscriptor')
 
 @section('contenido')
-
-    <!-- MENU LATERAL -->
-    @include('panel/suscriptores/suscrip_menu_V')
     
     <div class="cont_suscriptor"> 
+        <h1>Selecciona un rol dentro de la plataforma.</h1>
+        <p>Más adelante podras configurar otros roles si lo necesitas</p>
 
-        <!-- COMENTARIOS -->
-        {{-- <a class="cont_suscriptor--item borde_1" href="<?php //echo RUTA_URL . '/Panel_Comentarios_C/comentarios/' . $Datos['ID_Suscriptor']?>" rel="noopener noreferrer">
+        <!-- SUSCRIPTOR -->
+        <a class="cont_suscriptor--item borde_1" href="{{ route('CrearRol', ['id' => session('id_suscriptor'), 'bandera' => 'suscriptor']) }}" rel="noopener noreferrer">
             <div class="contenedor_27">
-                <h1 class="cont_suscriptor--h1">Comentarios realizados</h1>
-                <label class="label_5"><?php //echo $Datos['comentarios']['cantidadComentarios'];?></label>
+                <h1 class="cont_suscriptor--h1">Suscriptor ()por defecto, no deberia aparecer</h1>
+                <p>Podras comentar las noticias y responder a comentarios de otros usuarios, subir quejas y reclamos de ausntos pendientes en tu comunidad o la ciudad en general.</p>
             </div>       
-        </a> --}}
+        </a>
         
-        <!-- CONTRALORIA SOCIAL -->
-        {{-- <a class="cont_suscriptor--item borde_1" href="<?php //echo RUTA_URL . '/Panel_Denuncias_C/index/' . $Datos['ID_Suscriptor']?>" rel="noopener noreferrer">
+        <!-- PERIODISTA -->
+        <a class="cont_suscriptor--item borde_1" href="{{ route('CrearRol', ['id' => session('id_suscriptor'), 'bandera' => 'periodista']) }}" rel="noopener noreferrer">
             <div class="contenedor_27">
-                <h1 class="cont_suscriptor--h1">Quejas y denuncias</h1>
-                <label class="label_5"><?php //echo $Datos['denuncias']['cantidadDenuncias'];?></label>
+                <h1 class="cont_suscriptor--h1">Periodista</h1>
+            <p>Si cuentas con credenciales del CNP, podras redactar notcias locales del estado Yaracuy y promocionar hasta tres de tus anunciantes sin cargos por publicidad en la plataforma</p>
             </div>       
-        </a> --}}
+        </a> 
 
-        <!-- NOTICIAS GUARDADAS -->
-        {{-- <a class="cont_suscriptor--item borde_1" href="<?php //echo RUTA_URL . '/Panel_Noticias_C/noticiaGuardada/' . $Datos['ID_Suscriptor']?>">
+        <!-- COMERCIANTE -->
+        <a class="cont_suscriptor--item borde_1" href="{{ route('CrearRol', ['id' => session('id_suscriptor'), 'bandera' => 'comerciante']) }}">
             <div class="contenedor_27">
-                <h1 class="cont_suscriptor--h1">Noticias guardadas</h1>
-                <label class="label_5"></label>
+                <h1 class="cont_suscriptor--h1">Comerciante</h1>
+                <p>Arma tu tienda virtual y sube tu catalogo de hasta 500 productos.</p>
             </div>
-        </a> --}}
+        </a>
         
-        <!-- MARKETPLACE -->
-        {{-- <a class="cont_suscriptor--item borde_1" href="{{ route('PanelProducto', ['id_comerciante' => session('id_suscriptor')]) }}" rel="noopener noreferrer">
+        <!-- ARTISTA PLASTICO -->
+        <a class="cont_suscriptor--item borde_1" href="{{ route('CrearRol', ['id' => session('id_suscriptor'), 'bandera' => 'artista']) }}" rel="noopener noreferrer">
             <div class="contenedor_27">
-                <h1 class="cont_suscriptor--h1">Marketplace</h1>
-                {{-- <label class="label_5">{{ $marketplace->Cantidad_Productos }}</label> --}}
-            {{-- </div> --}}
-        {{-- </a>  --}}
-
-        <!-- OBRAS -->
-        {{-- <a class="cont_suscriptor--item borde_1" href="{{ route('SuscriptorArtista', ['ID_Suscriptor' => session('id_suscriptor')]) }}" rel="noopener noreferrer">
-            <div class="contenedor_27">
-                <h1 class="cont_suscriptor--h1">Obras</h1>
-                <label class="label_5"><?php //echo $Datos['clasificados']['cantidadAnncios'];?></label>
+                <h1 class="cont_suscriptor--h1">Artista plastico</h1>
+                <p>Publica tus obras en nuestra galeria de arte.</p>
             </div>
-        </a> --}}
+        </a> 
+
+        <!-- DIRECTORIO PROFESIONAL -->
+        <a class="cont_suscriptor--item borde_1" href="{{ route('CrearRol', ['id' => session('id_suscriptor'), 'bandera' => 'profesional']) }}" rel="noopener noreferrer">
+            <div class="contenedor_27">
+                <h1 class="cont_suscriptor--h1">Directorio profesional</h1>
+                <p>Crea tu perfil profesional y lo publicamos en nuestro directorio.</p>
+            </div>
+        </a>
+
+        <!-- DIRECTORIO MEDICO -->
+        <a class="cont_suscriptor--item borde_1" href="{{ route('CrearRol', ['id' => session('id_suscriptor'), 'bandera' => 'medico']) }}" rel="noopener noreferrer">
+            <div class="contenedor_27">
+                <h1 class="cont_suscriptor--h1">Directorio médico</h1>
+                <p>Si eres médico con permisos para ejercer legalmente la médicina, publica tu consulta, horarios y ofrecemos el sistema de apartado de citas.</p>
+            </div>
+        </a>
     </div>
 
     <script src="{{ asset('js/funcionesVarias.js?v=' . rand()) }}"></script>

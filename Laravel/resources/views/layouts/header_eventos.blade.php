@@ -9,22 +9,20 @@
 		<!-- ETIQUETAS OPEN-GRAPH para ayudar a la red social de turno a identificar mejor qué hay en un recurso de nuestra web que alguien está compartiendo -->
 		<meta property="og:title" content="www.noticieroyaracuy.com"/>
 		<meta property="og:description" content="Agenda de eventos"/>
+		<meta property="og:image:width" content="1200"/>
+		<meta property="og:image:height" content="630"/>
 		<meta property="og:type" content="website"/>
 		<meta property="og:site_name" content="NoticieroYaracuy"/>
 		<meta property="fb:app_id" content="928977633900253"/>
-		<meta property="og:image:alt" content="Imagen descriptiva del evento"/>
-		<meta property="og:url" content="{{ route('EventoAgendado', ['id_agenda' => $eventos[0]['ID_Agenda']]) }}"/> 
-		<meta property="og:image:secure_url" itemprop="image" content="{{ asset('images/agenda/' . $eventos[0]['nombre_imagenAgenda']) }}"/>
-		<meta property="og:image:width" content="1200"/>
-		<meta property="og:image:height" content="630"/>
+		<meta property="og:image:alt" content="Imagen descriptiva del evento"/> 
+		{{-- <meta property="og:url" content="{{ route('EventoAgendado', $Key->ID_Agenda) }}"/>  --}}
+		{{-- <meta property="og:image:secure_url" itemprop="image" content="{{ asset('/images/agenda/'.$eventos['nombre_imagenAgenda']) }}"/> --}}
+		<meta property="og:image" itemprop="#"/>
 		<meta property="og:locale:alternate" content="es_ES"/>
 
 		<!--ETIQUETAS META TWITTER --> 
 		<meta name="twitter:card" content="summary_large_image">
-		<meta name='twitter:image' content='{{ '/images/agenda/' . $eventos[0]['nombre_imagenAgenda'] }}'>
-		        
-		<!-- WHATSAPP -->
-		<!-- Fotos mayores a 300 kb no seran mostradas en la miniatura al compartir la noticia -->
+		<meta property="og:image" itemprop="#"/>
 		
 		<link rel="stylesheet" href="{{ asset('/css/estilosNoticieroYaracuy.css?v=' . rand()) }}"/>
 		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_350.css?v=' . rand()) }}"/>

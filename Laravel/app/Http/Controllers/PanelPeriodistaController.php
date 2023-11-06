@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Noticias_M;
 use App\Models\Secciones_M;  
 use App\Models\Efemerides_M;  
@@ -46,7 +47,7 @@ class PanelPeriodistaController extends Controller
         else{        
             //CONSULTA las noticias de portada
             $NoticiasPortadas = Noticias_M::
-                select('ID_Noticia', 'titulo', 'municipio', 'fecha')
+                select('ID_Noticia','titulo','municipio','fecha')
                 ->where('fecha','=', $this->Hoy)
                 ->where('ID_Periodista','=', session('id_periodista'))
                 ->orderBy('ID_Noticia', 'desc')
@@ -56,33 +57,33 @@ class PanelPeriodistaController extends Controller
                         
             //CONSULTA las secciones de las noticias de portada
             $SeccionesNoticiasPortadas = Secciones_M::
-                    select('noticias.ID_Noticia', 'seccion', 'fecha')
-                    ->join('noticias_secciones', 'secciones.ID_Seccion','=','noticias_secciones.ID_Seccion')
-                    ->join('noticias', 'noticias_secciones.ID_Noticia','=','noticias.ID_Noticia')
-                    ->where('fecha','=', $this->Hoy)
-                    ->get();
-                    // return $SeccionesNoticiasPortadas;
+                select('noticias.ID_Noticia', 'seccion', 'fecha')
+                ->join('noticias_secciones', 'secciones.ID_Seccion','=','noticias_secciones.ID_Seccion')
+                ->join('noticias', 'noticias_secciones.ID_Noticia','=','noticias.ID_Noticia')
+                ->where('fecha','=', $this->Hoy)
+                ->get();
+                // return $SeccionesNoticiasPortadas;
                     
             //CONSULTA las imagenes de noticias de portada
             $ImagenesNoticiasPortadas = Imagenes_M::
-                    select('noticias.ID_Noticia', 'nombre_imagenNoticia')
-                    ->join('noticias', 'imagenes.ID_Noticia','=','noticias.ID_Noticia')
-                    ->where('ImagenPrincipal','=', 1)
-                    ->where('fecha','=', $this->Hoy)
-                    ->get();
-                    // return $ImagenesNoticiasPortadas;
+                select('noticias.ID_Noticia', 'nombre_imagenNoticia')
+                ->join('noticias', 'imagenes.ID_Noticia','=','noticias.ID_Noticia')
+                ->where('ImagenPrincipal','=', 1)
+                ->where('fecha','=', $this->Hoy)
+                ->get();
+                // return $ImagenesNoticiasPortadas;
 
             //CONSULTA si hay asociado un anuncio pulicitario
             $Publicidad = Anuncios_M::
-                    select('noticias.ID_Noticia', 'razonSocial')
-                    ->join('noticias_anuncios', 'anuncios.ID_Anuncio','=','noticias_anuncios.ID_Anuncio')
-                    ->join('noticias', 'noticias_anuncios.ID_Noticia','=','noticias.ID_Noticia')
-                    ->where('fecha','=', $this->Hoy)
-                    ->get();
-                    // return $Publicidad;
+                select('noticias.ID_Noticia', 'razonSocial')
+                ->join('noticias_anuncios', 'anuncios.ID_Anuncio','=','noticias_anuncios.ID_Anuncio')
+                ->join('noticias', 'noticias_anuncios.ID_Noticia','=','noticias.ID_Noticia')
+                ->where('fecha','=', $this->Hoy)
+                ->get();
+                // return $Publicidad;
                     
             return view('panel/periodistas/periodistaPortada_V', [
-                'noticiasPortadas' => $NoticiasPortadas, 
+                'noticia' => $NoticiasPortadas, 
                 'seccionesNoticiasPortadas' => $SeccionesNoticiasPortadas,
                 'imagenesNoticiasPortadas' => $ImagenesNoticiasPortadas, 
                 'publicidad' => $Publicidad
@@ -122,7 +123,7 @@ class PanelPeriodistaController extends Controller
                 ->join('secciones', 'noticias_secciones.ID_Seccion','=','secciones.ID_Seccion')
                 ->where('fecha','<', $this->Hoy)
                 ->where('ID_Periodista','=', session('id_periodista'))
-                ->orderBy('fecha', 'desc')->limit(30)
+                ->orderBy('noticias.ID_Noticia', 'desc')->limit(30)
                 ->get();
                 // return $NoticiasGenerales;
 
@@ -157,7 +158,7 @@ class PanelPeriodistaController extends Controller
         // $Visitas = $this->Panel_M->consultaVisitasNoticia();
                 
         return view('panel/periodistas/NoticiasGenerales_V', [
-            'noticiasGenerales' => $NoticiasGenerales, 
+            'noticia' => $NoticiasGenerales, 
             'imagenesNoticiasGenerales' => $ImagenesNoticiasGenerales,
             'seccionessNoticiasGenerales' => $SeccionessNoticiasGenerales, 
             'publicidad' => $Publicidad
@@ -299,11 +300,6 @@ class PanelPeriodistaController extends Controller
         if(session('AgregarNoticia') == 1976){
             session()->forget('actualizarNoticia'); //se borra la sesión. 
             // if(!empty($_FILES['imagenPrincipal']["name"])){
-                
-            // REGLAS DE VALIDACION DEL FORMULARIO
-            $Request->validate([
-                'titulo' => ' required',
-            ]);
 
             $Titulo = $Request->get('titulo');
             $Sub_Titulo = $Request->get('subtitulo'); 
@@ -1185,5 +1181,30 @@ class PanelPeriodistaController extends Controller
             where('ID_Imagen','=', $ID_Imagen)
             ->delete(); 
             //return $EliminaImagen; 
+    }
+
+    public function instagram($ID_Noticia){
+
+        // CONSULTA los datos de la noticia seleccionada
+        $Noticia = Noticias_M::
+            select('titulo','fecha','municipio','seccion','fuente')
+            ->join('noticias_secciones', 'noticias_secciones.ID_Noticia','=','noticias.ID_Noticia')
+            ->join('secciones', 'noticias_secciones.ID_Seccion','=','secciones.ID_Seccion')
+            ->where('noticias.ID_Noticia','=', $ID_Noticia)
+            ->first();
+            // return $Noticia;
+            
+        // CONSULTA las imagenes de la noticia seleccionada
+        $ImagenesNoticia = Imagenes_M::
+            select('nombre_imagenNoticia')
+            ->where('ID_Noticia','=', $ID_Noticia)
+            ->where('ImagenPrincipal','=', 1)
+            ->first();
+            // return $ImagenesNoticia;
+
+        return view('panel/periodistas/periodistaInstagram_V', [
+            'noticia' => $Noticia, 
+            'imagenNoticia' => $ImagenesNoticia
+        ]);
     }
 }

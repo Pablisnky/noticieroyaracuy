@@ -8,15 +8,21 @@
     <script src="https://kit.fontawesome.com/2d6db4c67d.js" crossorigin="anonymous"></script>
 
     <style>
-        
-        .cara {
-            position: absolute;
-            backface-visibility: hidden;
+        @media(max-width: 900px){
+            .cara {
+                position: absolute;
+                backface-visibility: hidden;
+            }
+            .cara.detras {
+                background-color: black;
+                transform: rotateY(180deg);  
+                backface-visibility: hidden;
+            }
         }
-        .cara.detras {
-            background-color: black;
-            transform: rotateY(180deg);  
-            backface-visibility: hidden;
+        @media(min-width: 901px){
+            .cont_ObraDetalle--atras-1{
+                margin-left: 7%
+            }
         }
     </style>
 
@@ -64,18 +70,10 @@
 
                     <!-- LADO FRONTAL DE TARJETA -->
                     <div class="cont_ObraDetalle cara" id="Cont_PinturaDetalle">
-                            {{-- @if($detalleObra->disponible)	
-                                $imagenObra = {{ $detalleObra->imagenObra }}
-                                $nombreObra = $Datos['detalleObra']['nombreObra'];
-                                $TecnicaObra = $Datos['detalleObra']['tecnicaObra'];
-                                $MedidaObra = $Datos['detalleObra']['medidaObra'];	
-                            @else
-                                <!-- <label class="disponible">vendido</label> -->
-                            @endif --}}
 
                         <!-- IMAGEN OBRA -->
                         <div class="cont_ObraDetalle--img" id="Imagen_Detalle">	
-                            <img class="imagen_3" src="{{ asset('/images/galeria/' . $detalleObra->ID_Artista .'_' . $detalleObra->nombreArtista . '_' . $detalleObra->apellidoArtista . '/' .  $detalleObra->imagenObra) }}"/>
+                            <img class="imagen_3" id="ImagenDetalle" src="{{ asset('/images/galeria/' . $detalleObra->ID_Artista .'_' . $detalleObra->nombreArtista . '_' . $detalleObra->apellidoArtista . '/' .  $detalleObra->imagenObra) }}"/>
                         </div>
 
                         <!-- BOTONES INFERIORES -->
@@ -96,16 +94,16 @@
                     <div class="cont_ObraDetalle--atras cara detras">
                         <div class="cont_ObraDetalle--atras-1">
                             
-                            <h1 class="cont_ObraDetalle--h1"><?php //echo $Datos['detalleObra']['nombreObra'];?></h1>
-                            <p class="cont_ObraDetalle--p1"><b>Autor: &nbsp;</b> <?php //echo $Datos['detalleObra']['nombreArtista'];?> <?php //echo $Datos['detalleObra']['apellidoArtista'];?></p>
-                            <p class="cont_ObraDetalle--p1"><b>Año: &nbsp;</b> <?php //echo $Datos['detalleObra']['anioObra'];?></p>
-                            <p class="cont_ObraDetalle--p1"><b>Dimensiones: &nbsp;</b><?php //echo $Datos['detalleObra']['medidaObra'];?></p> 
-                            <p class="cont_ObraDetalle--p1"><b>Tecnica: &nbsp;</b> <?php //echo $Datos['detalleObra']['tecnicaObra'];?></p> 
-                            <p class="cont_ObraDetalle--p1"><b>Colección: &nbsp;</b><?php //echo $Datos['detalleObra']['coleccionObra'];?></p> 
-                            <p class="cont_ObraDetalle--p1"><b>Descripción: &nbsp;</b><?php //echo $Datos['detalleObra']['descripcionObra'];?></p> 
-                            <p class="cont_ObraDetalle--p1"><b>Precio: &nbsp;</b><?php //echo $Datos['detalleObra']['precioDolarObra'];?></p> 
+                            <h1 class="cont_ObraDetalle--h1">{{ $detalleObra->nombreObra }}</h1>
+                            <p class="cont_ObraDetalle--p1"><b>Autor: &nbsp;</b> {{ $detalleObra->nombreArtista . ' ' .  $detalleObra->apellidoArtista }}</p>
+                            <p class="cont_ObraDetalle--p1"><b>Año: &nbsp;</b> {{ $detalleObra->anioObra }}</p>
+                            <p class="cont_ObraDetalle--p1"><b>Dimensiones: &nbsp;</b> {{ $detalleObra->medidaObra }}</p> 
+                            <p class="cont_ObraDetalle--p1"><b>Tecnica: &nbsp;</b> {{ $detalleObra->tecnicaObra }}</p> 
+                            <p class="cont_ObraDetalle--p1"><b>Serie: &nbsp;</b> {{ $detalleObra->coleccionObra }}</p> 
+                            <p class="cont_ObraDetalle--p1"><b>Descripción: &nbsp;</b> {{ $detalleObra->descripcionObra }}</p> 
+                            {{-- <p class="cont_ObraDetalle--p1"><b>Precio: &nbsp;</b> {{ $detalleObra->precioDolarObra }}</p> 
                             <p class="cont_ObraDetalle--p1"><b>Factura: &nbsp;</b> Si</p> 
-                            <label class="boton boton--marg">Comprar</label> 
+                            <label class="boton boton--marg">Comprar</label>  --}}
                         </div>
 
                         <!-- BOTON DE GIRO-->

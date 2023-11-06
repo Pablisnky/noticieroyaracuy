@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route; 
+use App\Http\Controllers\DirectorioProfesionalController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\Efemeride_C;
 use App\Http\Controllers\EventosController;
@@ -13,10 +14,10 @@ use App\Http\Controllers\PanelArtistaController;
 use App\Http\Controllers\Panel_Denuncias_C;
 use App\Http\Controllers\PanelPeriodistaController;
 use App\Http\Controllers\PanelMarketplaceController;
-use App\Http\Controllers\PanelSuscriptor_C; 
-use App\Http\Controllers\Registro_C;
+use App\Http\Controllers\PanelSuscriptorController; 
+use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\RolController;
-use App\Http\Controllers\Suscriptor_C; 
+use App\Http\Controllers\SuscriptorController; 
 use App\Http\Controllers\YaracuyVideoController;
 
 /*
@@ -43,8 +44,12 @@ Route::view("/homepage", "homepage");
 Route::get('/', Inicio_C::class)->name('NoticiasPortada');
 Route::get("roles/{correo}", RolController::class)->name('Roles');
 
-// Efemeride_C *****************************************************
+// Efemeride_C ***************************************************** 
 Route::get('efemeride', Efemeride_C::class)->name('Efemeride');
+
+// DirectorioProfesionalController ********************************* 
+Route::get('directorio/profesional', [DirectorioProfesionalController::class, 'index'])->name('DirectorioProfesional'); 
+Route::get("directorio/categoria/{nombreCategoria}", [DirectorioProfesionalController::class, 'directorioCategoria'])->name('Dir_Abogados');
 
 // YaracuyVideoController ******************************************
 Route::get('yaracuyVideo', [YaracuyVideoController::class, 'index'])->name('YaracuyVideo');
@@ -53,7 +58,7 @@ Route::get('yaracuyVideo/compartirWhatsApp/{id_yaracuyEnVideo}', [YaracuyVideoCo
 Route::get('yaracuyVideo/{id_yaracuyEnVideo}/{recorrido}', [YaracuyVideoController::class, 'recorridoVideos'])->name('RecorridoVideos');
 
 // LoginController *************************************************
-Route::get("login/{id_noticia}/{bandera}/{id_comentario}", [LoginController::class, 'index'])->name('Login');
+Route::get("login/formulario/{id_noticia?}/{bandera?}/{id_comentario?}", [LoginController::class, 'index'])->name('Login');
 Route::post('login/inicioSesion', [LoginController::class, 'ValidarSesion'])->name('IniciarSesion'); 
 Route::get('login/cerrarSesion', [LoginController::class, 'cerrar_Sesion'])->name('CerrarSesion');
 Route::get('login/solicitarClave', [LoginController::class, 'solicitudNuevaCLave'])->name('SolicitudNuevaCLave');
@@ -61,9 +66,12 @@ Route::post('login/recuperarClave', [LoginController::class, 'recuperar_Clave'])
 Route::post('login/recibeClave', [LoginController::class, 'recibeCodigoRecuperacion'])->name('RecibeCodigoRecuperacion');
 Route::post('login/recibeNuevaClave', [LoginController::class, 'recibeCambioClave'])->name('RecibeCambioClave');
 
-// Registro_C ******************************************************
-Route::get("regis", [Registro_C::class, 'suscripcion'])->name('registro');
-Route::post("regis", [Registro_C::class, 'recibeRegistroSuscriptor'])->name('RecibeRegistro');
+// RegistroController ******************************************************
+Route::view('registro', 'registros/registroUsuario_V')->name('Registro');
+Route::post("registro/usuario", [RegistroController::class, 'recibeRegistroSuscriptor'])->name('RecibeRegistro');
+Route::post('registro/dashboard', [RegistroController::class, 'dashboardPanelRegistro'])->name('DashboardPanelRegistro');
+// via AJAX
+Route::get("registro/verificaCorreo/{correo}", [RegistroController::class, 'verificar_correo']);
 
 // NoticiasController ******************************************************
 Route::controller(NoticiasController::class)->group(function(){
@@ -87,7 +95,7 @@ Route::get("marketplace/categoria", [MarketplaceController::class, 'categoria'])
 Route::get("marketplace/catalogo/secciones/{id_comerciante}/{id_seccion}", [MarketplaceController::class, 'Secciones'])->name('SeccionesTienda');
 Route::get("marketplace/categoria/{nombreCategoria}", [MarketplaceController::class, 'tiendasCategoria'])->name('TiendasCategoria');
 Route::get("marketplace/productoAmpliado/{id_producto}/{bandera}", [MarketplaceController::class, 'productoAmpliado'])->name('ProductoAmpliado');
-Route::get("marketplace/catalogo/{ID_Suscriptor}", [MarketplaceController::class, 'catalogo'])->name('Catalogo'); 
+Route::get("marketplace/catalogo/{id_comerciante}", [MarketplaceController::class, 'catalogo'])->name('Catalogo'); 
 Route::post('marketplace/pedido', [MarketplaceController::class, 'recibePedido'])->name('RecibePedido'); 
 // via Ajax desde A_Catalogo.js
 Route::get("marketplace/carrito/{id_comerciante}/{dolar}", [MarketplaceController::class, 'verCarrito'])->name('VerCarrito');
@@ -108,10 +116,11 @@ Route::get("galeriaArte/obras/{id_obra}/{id_artista}/{posicion}", [GaleriaArteCo
 Route::get("eventos", [EventosController::class, 'index'])->name('Eventos');
 Route::get("eventos/{id_agenda}", [EventosController::class, 'redes_sociales'])->name('EventoAgendado');
 
-// Suscriptor_C *******************************************************
-Route::get("suscriptor/{ID_Suscriptor}", [Suscriptor_C::class, 'accesoSuscriptor'])->name('DashboardSuscriptor');
-Route::get("suscriptor/perfil/{ID_Suscriptor}", [Suscriptor_C::class, 'perfil_suscriptor'])->name('PerfilSuscriptor');
-Route::post("suscriptor/actualizarPerfil", [Suscriptor_C::class, 'actualizarPerfilSuscriptor'])->name('ActualizaPerfilSuscriptor');
+// SuscriptorController *******************************************************
+Route::get("suscriptor/{id_suscriptor}", [SuscriptorController::class, 'accesoSuscriptor'])->name('Suscriptor');
+// Route::get("suscriptor/{ID_Suscriptor}", [SuscriptorController::class, 'accesoSuscriptor'])->name('DashboardSuscriptor');
+Route::get("suscriptor/perfil/{id_suscriptor}", [SuscriptorController::class, 'perfil_suscriptor'])->name('PerfilSuscriptor');
+Route::post("suscriptor/actualizarPerfil", [SuscriptorController::class, 'actualizarPerfilSuscriptor'])->name('ActualizaPerfilSuscriptor');
 
 
 
@@ -122,15 +131,18 @@ Route::post("suscriptor/actualizarPerfil", [Suscriptor_C::class, 'actualizarPerf
 
 
 // RUTAS PRIVADAS
-// PanelSuscriptor_C ******************************************************
-Route::get('panelSuscriptor/{id}', [PanelSuscriptor_C::class, 'perfil_suscriptor'])->name('PerfillSuscriptor');
+// PanelMedicoController ******************************************************
+Route::get('panelMedico/{id_medico}', [PanelMedicoController::class, 'perfil_medico'])->name('Perfil_medico');
+
+// PanelSuscriptorController ******************************************************
+Route::get('panelSuscriptor/{id}/{bandera}', [PanelSuscriptorController::class, 'crear_Rol'])->name('CrearRol');
 
 // Panel_Denuncias_C **************************************************
 Route::get("denuncias/{ID_Suscriptor}", [Panel_Denuncias_C::class, 'index'])->name('SuscriptorDenuncias'); 
 
 // PanelMarketplaceController ***************************************** 
 Route::post("panelComerciante/actualizarPerfil", [PanelMarketplaceController::class, 'recibePerfilComerciante'])->name('ActualizaPerfilComerciante');
-Route::get('panelComerciante/{id_comerciante}', [PanelMarketplaceController::class, 'perfil_comerciante'])->name('perfil_comerciante');
+Route::get('panelComerciante/{id_comerciante}', [PanelMarketplaceController::class, 'perfil_comerciante'])->name('Perfil_comerciante');
 Route::get("marketplace/{id_comerciante}", [PanelMarketplaceController::class, 'index'])->name('PanelProducto');
 Route::get("marketplace/actualizar/{id_producto}/{opcion}", [PanelMarketplaceController::class, 'actualizarProducto'])->name('ActualizarProducto');
 Route::get("marketplace/agregarProducto/{id_comerciante}", [PanelMarketplaceController::class, 'agregar'])->name('AgregarProducto');
@@ -149,7 +161,8 @@ Route::get("artista/agregarObra/{id_artista}", [PanelArtistaController::class, '
 Route::get("artista/perfil/{id_artista}", [PanelArtistaController::class, 'perfil_artista'])->name('PerfilArtista');
 
 // PanelPeriodistaController ******************************************************
-Route::get('panelPeriodista', [PanelPeriodistaController::class, 'index'])->name('Index');     
+Route::get('panelPeriodista', [PanelPeriodistaController::class, 'index'])->name('Index');   
+Route::get('panelPeriodista/redSocial/{id_noticia}', [PanelPeriodistaController::class, 'instagram'])->name('Instagram'); 
 Route::get('panelPeriodista/noticiasGenerales', [PanelPeriodistaController::class, 'not_Generales'])->name('NoticiasGenerales');
 Route::get('panelPeriodista/agenda', [PanelPeriodistaController::class, 'agenda'])->name('Agenda');  
 Route::get('panelPeriodista/efemeride', [PanelPeriodistaController::class, 'efemerides'])->name('Efemerides');  

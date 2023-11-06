@@ -1,4 +1,5 @@
 <!-- Archivo cargado desde Ajax por medio de Llamar_seccionesDisponible en A_AgregarNoticias.js-->
+
 <section class="sectionModal section_10" id="MostrarSeccion">
     <div class="contenedor_24"> 
         <div class="contenedor_102">

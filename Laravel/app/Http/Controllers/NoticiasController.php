@@ -176,13 +176,6 @@ class NoticiasController extends Controller{
             'imagenSeleccionada' => $DetalleImagen,
         ]);
     }
-    
-    // public function recibeComentario($ID_Noticia, $Comentario){	
-    //     echo 'Controlador = NoticiasController' . '<br>';
-    //     echo 'Metodo = recibeComentario' . '<br>';
-    //     echo 'Variable ID_Noticia = ' . $ID_Noticia . '<br>';
-    //     echo 'Variable Comentario = ' . $Comentario . '<br>';
-    // }
         
     // Verifica que el usuario haya hecho login para poder comentar una noticia
     public function Verificar_Login($ID_Noticia, $Bandera, $ID_Comentario){
@@ -260,14 +253,6 @@ class NoticiasController extends Controller{
             'cantidadNoticiasSeccion' => $CantidadNoticiasSeccion
         ]);  
     }
-
-    // //Se consulta el comentario al que se va a dar una respuesta
-    // public function responderComentario($ID_Comentario){
-    // }
-    
-    // // ELimina comentario
-    // public function eliminar_comentario($ID_Comentario){
-    // }
     
     public function filtrarMunicipio($Seccion, $Municipio){
 

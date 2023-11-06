@@ -12,7 +12,7 @@
 
     <div class="login_cont" id="Contenedor_42">  
         <form action="{{ route('ActualizaPerfilSuscriptor') }}" method="POST" name="form_Configurar" enctype="multipart/form-data" autocomplete="off"> <!--  onsubmit="return validarPerfil()" -->
-            {!! csrf_field() !!}
+            @csrf
               
                 <!-- SUSCRIPTOR -->
                 <fieldset class="fieldset_1">
@@ -69,14 +69,14 @@
                                         <img class="cont_panel--imagen--catalogo" name="imagenNoticia" alt="Fotografia Principal" id="blah" src="{{ asset('/images/imagen.png') }}"/>
                                     </figure>
                                 </label>
-                                <input class="Default_ocultar" type="file" name="imagenCatalogo" id="imgCatalogo"/>
+                                <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenCatalogo" id="imgCatalogo"/>
                             @else
                                 <label class="Default_pointer" for="imgCatalogo"> 
                                     <figure>
                                         <img class="cont_panel--imagen--catalogo" name="imagenNoticia" alt="Fotografia del catalogo" id="blah" src="{{ asset('/images/clasificados/' . $suscriptor->ID_Suscriptor . '/' . $suscriptor->nombreImgCatalogo) }}"/>
                                     </figure>
                                 </label>
-                                <input class="Default_ocultar" type="file" name="imagenCatalogo" id="imgCatalogo"/>
+                                <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenCatalogo" id="imgCatalogo"/>
                             @endif
                     </div>               
 

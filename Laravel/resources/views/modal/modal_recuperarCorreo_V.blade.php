@@ -19,7 +19,7 @@
                 <p class="sectionModal__div__p">Indiquenos el correo afiliado, <br> enviaremos un código de recuperación</p>
                 <br>
                 <form action="{{ route('RecuperarClave') }}" method="POST" autocomplete="off" onsubmit = "return validarCorreo()">
-                    {!! csrf_field() !!}
+                    @csrf
                     <input class="login_cont--input borde--input" type="text" name="correo" id="Input_13_JS">
 
                     <div class="contBoton">
@@ -41,7 +41,7 @@
                 <p class='sectionModal__div__p'>Se ha enviado un código al correo suministrado.</p> 
                 <br>
                 <form action="{{ route('RecibeCodigoRecuperacion') }}" method="POST" onsubmit = "return validarCodigoEnviado()">
-                    {!! csrf_field() !!}
+                    @csrf
                     <input  class="login_cont--input borde--input" type= "text" readonly value="{{ $correo }}" name="correo">
                     <br>
                     <input  class="login_cont--input borde--input" type="text" name="ingresarCodigo" id="IngresarCodigo" placeholder="Ingresar Código"> 
@@ -84,7 +84,7 @@
                 <p class="sectionModal__div__p">Nueva clave de acceso</p>
                 <br>
                 <form action="{{ route('RecibeCambioClave') }}" method="POST" onsubmit = "return validarCambioClave()">
-                    {!! csrf_field() !!}
+                    @csrf
 
                     <!-- NUEVA CLAVE -->
                     <input  class="login_cont--input borde--input" type="" name="claveNueva" placeholder="Nueva clave" id="ClaveNueva">

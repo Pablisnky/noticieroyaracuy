@@ -33,63 +33,63 @@ function conexionAJAX(){
 // document.getElementById("Secciones").addEventListener('click', Llamar_secciones, false)
 
 //************************************************************************************************
-function Llamar_seccion(ID_Suscriptor,ID_Seccion){
-    // console.log("_____ Desde Llamar_seccion() _____ ", ID_Suscriptor + ',' + ID_Seccion)
+// function Llamar_seccion(ID_Suscriptor,ID_Seccion){
+//     // console.log("_____ Desde Llamar_seccion() _____ ", ID_Suscriptor + ',' + ID_Seccion)
     
-    var url = "../../Catalogos_C/Secciones/" + ID_Suscriptor + ',' + ID_Seccion
-    http_request.open('GET', url, true)  
-    peticion.onreadystatechange = respuesta_secciones
-    peticion.setRequestHeader("content-type","application/x-www-form-urlencoded")
-    peticion.send("null")
-}                                                           
-function respuesta_secciones(){
-    if(peticion.readyState == 4){
-        if(peticion.status == 200){    
-            //Oculta el menu que muestra las secciones           
-            document.getElementById("Con_Secciones").classList.remove("ocultar");                   
-            statu = false
+//     var url = "../../Catalogos_C/Secciones/" + ID_Suscriptor + ',' + ID_Seccion
+//     http_request.open('GET', url, true)  
+//     peticion.onreadystatechange = respuesta_secciones
+//     peticion.setRequestHeader("content-type","application/x-www-form-urlencoded")
+//     peticion.send("null")
+// }                                                           
+// function respuesta_secciones(){
+//     if(peticion.readyState == 4){
+//         if(peticion.status == 200){    
+//             //Oculta el menu que muestra las secciones           
+//             document.getElementById("Con_Secciones").classList.remove("ocultar");                   
+//             statu = false
 
-            //Coloca el div que se va a mostrar en el borde superior del viewport
-            // document.getElementById("Contenedor_13Js").scroll(0,0)
+//             //Coloca el div que se va a mostrar en el borde superior del viewport
+//             // document.getElementById("Contenedor_13Js").scroll(0,0)
 
-            document.getElementById("Contenedor_13Js").innerHTML = peticion.responseText
-        } 
-        else{
-            alert('Problemas con la petición.')
-        }
-    }
-    else{ //en caso contrario, mostramos un gif simulando una precarga
-        // document.getElementById('Mostrar_Maquinas').innerHTML='Cargando registros';
-    }
-}
+//             document.getElementById("Contenedor_13Js").innerHTML = peticion.responseText
+//         } 
+//         else{
+//             alert('Problemas con la petición.')
+//         }
+//     }
+//     else{ //en caso contrario, mostramos un gif simulando una precarga
+//         // document.getElementById('Mostrar_Maquinas').innerHTML='Cargando registros';
+//     }
+// }
 
 // *************************************************************************************************
-function Llamar_Todasseccion(ID_Suscriptor, Pseudonimo){
-    // console.log("_____ Desde Llamar_Todasseccion() _____ ", ID_Suscriptor + ',' + Pseudonimo)
+// function Llamar_Todasseccion(ID_Suscriptor, Pseudonimo){
+//     // console.log("_____ Desde Llamar_Todasseccion() _____ ", ID_Suscriptor + ',' + Pseudonimo)
 
-    var url = "../../Catalogos_C/Secciones/" + ID_Suscriptor + ',' + Pseudonimo
-    http_request.open('GET', url, true)  
-    peticion.onreadystatechange = respuesta_secciones
-    peticion.setRequestHeader("content-type","application/x-www-form-urlencoded")
-    peticion.send("null")
-}                                                           
-function respuesta_secciones(){
-    if(peticion.readyState == 4){
-        if(peticion.status == 200){    
-            //Oculta el menu que muestra las secciones           
-            document.getElementById("Con_Secciones").classList.remove("ocultar");                   
-            statu = false
+//     var url = "../../Catalogos_C/Secciones/" + ID_Suscriptor + ',' + Pseudonimo
+//     http_request.open('GET', url, true)  
+//     peticion.onreadystatechange = respuesta_secciones
+//     peticion.setRequestHeader("content-type","application/x-www-form-urlencoded")
+//     peticion.send("null")
+// }                                                           
+// function respuesta_secciones(){
+//     if(peticion.readyState == 4){
+//         if(peticion.status == 200){    
+//             //Oculta el menu que muestra las secciones           
+//             document.getElementById("Con_Secciones").classList.remove("ocultar");                   
+//             statu = false
 
-            document.getElementById("Contenedor_13Js").innerHTML = peticion.responseText
-        } 
-        else{
-            alert('Problemas con la petición.')
-        }
-    }
-    else{ //en caso contrario, mostramos un gif simulando una precarga
-        // document.getElementById('Mostrar_Maquinas').innerHTML='Cargando registros';
-    }
-}
+//             document.getElementById("Contenedor_13Js").innerHTML = peticion.responseText
+//         } 
+//         else{
+//             alert('Problemas con la petición.')
+//         }
+//     }
+//     else{ //en caso contrario, mostramos un gif simulando una precarga
+//         // document.getElementById('Mostrar_Maquinas').innerHTML='Cargando registros';
+//     }
+// }
 
 //****************************************************************************************************
 //Muestra la orden de compra
@@ -130,9 +130,15 @@ function respuesta_PedidoEnCarrito(){
 //****************************************************************************************************
 //Muestra el formulario de usuario registrado
 function Llamar_UsuarioRegistrado(CedulaUsuario){
+
     // console.log("______Desde Llamar_UsuarioRegistrado()______", CedulaUsuario)
+
+    // remoto
+    // var url= "https://www.noticieroyaracuy.com/marketplace/mostrarUsuario/" + CedulaUsuario
    
+    // local
     var url= "http://nuevonoticiero.com/marketplace/mostrarUsuario/" + CedulaUsuario 
+    
     http_request.open('GET', url, true);    
     peticion.onreadystatechange = respuesta_UsuarioRegistrado;
     peticion.setRequestHeader("content-type","application/x-www-form-urlencoded")

@@ -27,7 +27,7 @@
                     
                     <!-- COMPARTIR TWITTER -->
                     <div class="detalle_cont--red">
-                        <a href="https://twitter.com/intent/tweet?url=<?php //echo RUTA_URL;?>/agenda_C/redes_sociales/<?php //echo $Key['ID_Agenda'];?>" target="_blank"><img style="height: 2em;" src=""/></a>
+                        <a href="https://twitter.com/intent/tweet?url=https://www.noticieroyaracuy.com/eventos/{{ $Key->ID_Agenda }}&text=Evento" target="_blank"><img style="height: 2em;" src="{{ asset('/images/twitter.png') }}"/></a>                        
                     </div>  
                     
                     <!-- WHATSAPP -->

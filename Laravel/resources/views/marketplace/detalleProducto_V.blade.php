@@ -3,23 +3,26 @@
 @section('titulo', 'MarketPlace - producto')
 
 @section('contenido')
-    <!-- ICONO REGRESAR -->    
-    <?php
-    if($bandera == 'Desde_Clasificados'){   ?>
-        <img class="cont_modal--cerrar  Default_pointer" style="width: 1em; position:fixed; z-index:10" id="Cerrar" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="cerrarVentana()"/>    <?php
-    }
-    else{   ?>
-        <img class="cont_modal--cerrar  Default_pointer" style="width: 1em; position:fixed; z-index:10" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="cerrarVentana()"/>
+
+    <!-- MEMBRETE FIJO -->  
+    <header class="detalle_cont--divFijo">      
+        <a class="header__titulo--membrete" href="{{ route('NoticiasPortada') }}">www.NoticieroYaracuy.com</a> 
+        <br>
+        <label class="detalle_cont--fecha">Marketplace</label>
+
+        <!-- ICONO REGRESAR -->    
         <?php
-    }   ?>
+        if($bandera == 'Desde_Clasificados'){   ?>
+            <img class="cont_modal--cerrar Default_pointer" style="width: 1em; position:fixed; z-index:10" id="Cerrar" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="cerrarVentana()"/>    <?php
+        }
+        else{   ?>
+            <img class="cont_modal--cerrar Default_pointer" style="width: 1em; position:fixed; z-index:10" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="cerrarVentana()"/>
+            <?php
+        }   ?>
+    
+    </header>
     
     <section>
-        <!-- MEMBRETE FIJO -->  
-        <header>      
-            <a class="header__titulo--detalleProducto" href="<?php //echo RUTA_URL . '/Inicio_C';?>">www.NoticieroYaracuy.com</a> 
-            <label class="header__subtitulo--detalleProducto">Clasificados</label>
-        </header>
-
         <div class="contenedor_122"> 
             <div class="contGridUna">               
                 <div id="Imagen_Principal"> 
@@ -46,37 +49,59 @@
                     @endforeach
                 </div>
 
-                {{-- PRODUCTO - OPCION --}}
+                {{-- PRODUCTO - DESCRIPCION --}}
                 <div class="cont_detalle_Producto--precio">
                     <h1 class="h1_1 h1_1--margin font--bold">{{ $producto->producto }}</h1>
                     <h3 class="h1_11 font--center">{{ $producto->opcion }}</h3>
                 </div>
 
+                {{-- PRECIO --}}
                 <div class="cont_precio">
                     <label class="label_22 borde_1">$ {{ $producto->precioDolar }}
                         <small class="small_2">Bs. {{ $producto->precioBolivar }}</small>
                     </label>
                 </div>    
+                
+                    
+                <!-- COMPARTIR REDES SOCIALES -->
+                <div class="detalle_cont--redesSociales">
+
+                        {{-- <p>https://www.facebook.com/sharer/sharer.php?u=https://www.noticieroyaracuy.com/noticias/detalleNoticia/<?php //echo $noticia->ID_Noticia ?></p> --}}
+                    <!-- FACEBOOK -->
+                    <div class="detalle_cont--red">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.noticieroyaracuy.com/marketplace/productoAmpliado/<?php echo $producto->ID_Producto ?>" target="_blank"><img class="detalle_cont--redesSociales-facebook" alt="facebook" src="{{ asset('/images/facebook.png') }}"/></a>
+                    </div>
+
+                    <!-- TWITTER -->
+                    <div class="detalle_cont--red">
+                        <a href="https://twitter.com/intent/tweet?url=https://www.noticieroyaracuy.com/marketplace/productoAmpliado/{{ $producto->ID_Producto }}&text={{ $producto->producto }}" target="_blank"><img class="detalle_cont--redesSociales-twitter" alt="twitter" src="{{ asset('/images/twitter.png') }}"/></a>
+                    </div>          
+                    
+                    <!-- WHATSAPP -->
+                    <div class="whatsapp detalle_cont--red">
+                        <a href="whatsapp://send?text={{ $producto->producto }}. {{ route('ProductoAmpliado',['id_producto' => $producto->ID_Producto, 'bandera' => 'DesdeClasificados']) }}" data-action="share/whatsapp/share"><img class="detalle_cont--redesSociales-Whatsapp" alt="Whatsapp" src="{{ asset('/images/Whatsapp.png') }}"/></a>
+                    </div>            
+                </div> 
             </div>
 
             <!-- INFORMACION DE CONTACTO DEL COMERCIANTE -->
             <div class="contGridUna">
                 <div class="cont_detalle_Producto--informacion">
-                    <p class="cont_detalle_Producto--p"><b>Ofertado por:</b> {{ $comerciante->pseudonimoComerciante }}</p>
+                    <p><b>Ofertado por:</b> {{ $comerciante[0]->pseudonimoComerciante }}</p>
                     <div class="cont_detalle_Producto--suscriptor">
                         <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>
-                        <label>{{ $comerciante->parroquiaComerciante }} - {{ $comerciante->municipioComerciante }}</label>
+                        <label>{{ $comerciante[0]->parroquiaComerciante }} - {{ $comerciante[0]->municipioComerciante }}</label>
                     </div>
                     <div class="cont_detalle_Producto--suscriptor">
                         <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_perm_identity_black_24dp.png') }}"/>
-                        <label>{{ $comerciante->nombreComerciante . ' ' . $comerciante->apellidoComerciante }}</label>
+                        <label>{{ $comerciante[0]->nombreComerciante . ' ' . $comerciante[0]->apellidoComerciante }}</label>
                     </div>
                     <div class="cont_detalle_Producto--suscriptor">
                         <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/telefono/outline_phone_iphone_black_24dp.png') }}"/>
-                        <label><?php echo $comerciante->telefonoComerciante?></label>
+                        <label>{{ $comerciante[0]->telefonoComerciante }}</label>
                     </div>
                     @if($bandera == 'DesdeClasificados') 
-                        <a class="cont_detalle_Producto--p" href="{{ route('Catalogo', ['ID_Suscriptor' => $producto->ID_Comerciante, 'pseudonimoSuscripto' => $comerciante->pseudonimoComerciante ]) }}">Ver catalogo de vendedor</a>
+                        <a class="cont_detalle_Producto--p" href="{{ route('Catalogo', ['id_comerciante' => $producto->ID_Comerciante, 'pseudonimoSuscripto' => $comerciante[0]->pseudonimoComerciante ]) }}">Ver catalogo de vendedor</a>
                     @endif
                 </div>
 
@@ -97,7 +122,7 @@
                         <?php
 
                         // TRANSFERENCIA BANCARIAS
-                        if($comerciante->transferenciaComerciante == 1){     ?>     
+                        if($comerciante[0]->transferenciaComerciante == 1){     ?>     
                             <div class="contenedor_161 contenedor_161--fijo">
                                 <p class="p_19">Tranferencia bancaria</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
@@ -113,7 +138,7 @@
                         }
 
                         // PAGO MOVIL
-                        if($comerciante->pago_movilComerciante == 1){  ?>
+                        if($comerciante[0]->pago_movilComerciante == 1){  ?>
                             <div class="contenedor_161">
                                 <p class="p_19">Pago movil</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
@@ -129,7 +154,7 @@
                         } 
                                                 
                         // PAYPAL 
-                        if($comerciante->paypalComerciante == 1){   ?>
+                        if($comerciante[0]->paypalComerciante == 1){   ?>
                             <div class="contenedor_161">
                                 <p class="p_19">Paypal</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
@@ -145,7 +170,7 @@
                         }
 
                         // CRIPTOMONEDA
-                        if($comerciante->criptomonedaComerciante == 1){  ?>
+                        if($comerciante[0]->criptomonedaComerciante == 1){  ?>
                             <div class="contenedor_161">
                                 <p class="p_19">Criptomoneda</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>
@@ -162,7 +187,7 @@
                                 
        
                         // ACORDADO EN TIENDA
-                        if($comerciante->acordadoComerciante == 1){   ?>
+                        if($comerciante[0]->acordadoComerciante == 1){   ?>
                             <div class="contenedor_161">
                                 <p class="p_19">Acordado con vendedor</p>
                                 <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/check/outline_done_black_24dp.png') }}"/>

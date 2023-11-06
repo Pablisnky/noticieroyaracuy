@@ -3,108 +3,107 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request; 
+use Illuminate\Support\Facades\DB;
 use App\Models\Artistas_M;  
 use App\Models\ArtistaPasword_M; 
 use App\Models\Comerciante_M; 
 use App\Models\Suscriptor_M; 
 use App\Models\Periodistas_M; 
-use App\Models\ComerciantePasword_M;
+use App\Models\SuscriptorPassword_M;
 use App\Models\PeriodistaPasword_M;
-use App\Models\SuscriptorPasword_M; 
 use App\Models\CodigoRecuperacion_M;
-// use App\Models\PanelMaketplaceController;
 
 use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
     //Muestra el formulario de login en caso de que no exista una sesión abierta
-    public function index($ID_Noticia, $Bandera, $ID_Comentario){
-            //Se verifica si el usuario esta memorizado en las cookie de su computadora y las compara con la BD, para recuperar sus datos y autorellenar el formulario de inicio de sesion, las cookies de registro de usuario se crearon en validarSesion.php
-            
-            // echo Cookie::get('id_periodista') . '<br>';
-            // echo Cookie::get('clavePeriodista') . '<br>';
-            // exit;
-            // echo Cookie::get('id_comerciante') . '<br>';
-            // echo Cookie::get('clave') . '<br>';
-            // exit;
+    public function index($ID_Noticia = null, $Bandera = null, $ID_Comentario = null){
+        //Se verifica si el usuario esta memorizado en las cookie de su computadora y las compara con la BD, para recuperar sus datos y autorellenar el formulario de inicio de sesion, las cookies de registro de usuario se crearon en validarSesion.php
+        
+        // echo Cookie::get('id_periodista') . '<br>';
+        // echo Cookie::get('clavePeriodista') . '<br>';
+        // exit;
+        // echo Cookie::get('id_comerciante') . '<br>';
+        // echo Cookie::get('clave') . '<br>';
+        // exit;
            
-            // COOKIE PERIODISTA
-            if(!empty(Cookie::get('id_periodista')) AND !empty(Cookie::get('clavePeriodista'))){//Si la variable $_COOKIE esta establecida o creada
+        // COOKIE PERIODISTA
+        if(!empty(Cookie::get('id_periodista')) AND !empty(Cookie::get('clavePeriodista'))){//Si la variable $_COOKIE esta establecida o creada
 
-                //Se CONSULTA el correo guardado como Cookie con el id_periodista como argumento, se consulta en todos los tipos de usuario que existe
-                $CorreoPeriodista = Periodistas_M::
-                    select('correoPeriodista')
-                    ->where('id_Periodista','=', Cookie::get('id_periodista'))
-                    ->first(); 
-                    // return $CorreoPeriodista;
+            //Se CONSULTA el correo guardado como Cookie con el id_periodista como argumento, se consulta en todos los tipos de usuario que existe
+            $CorreoPeriodista = Periodistas_M::
+                select('correoPeriodista')
+                ->where('id_Periodista','=', Cookie::get('id_periodista'))
+                ->first(); 
+                // return $CorreoPeriodista;
 
-                return view('login_V', [
-                    'correo' => $CorreoPeriodista,
-                    'clave' =>  Cookie::get('clavePeriodista'),
-                    'id_noticia' => 'sin_id_noticia',
-                    'id_comentario' => 'sin_id_comentario',
-                    'bandera' => 'sin_bandera'
-                ]);
-            }
-                 // COOKIE COMERCIANTEs
-            else if(!empty(Cookie::get('id_comerciante')) AND !empty(Cookie::get('claveComerciante'))){//Si la variable $_COOKIE esta establecida o creada
+            return view('login_V', [
+                'correo' => $CorreoPeriodista,
+                'clave' =>  Cookie::get('clavePeriodista'),
+                'id_noticia' => 'sin_id_noticia',
+                'id_comentario' => 'sin_id_comentario',
+                'bandera' => 'sin_bandera'
+            ]);
+        }
+                // COOKIE COMERCIANTEs
+        else if(!empty(Cookie::get('id_comerciante')) AND !empty(Cookie::get('claveComerciante'))){//Si la variable $_COOKIE esta establecida o creada
 
-                //Se CONSULTA el correo guardado como Cookie con el id_comerciante como argumento, se consulta en todos los tipos de usuario que existe
-                $CorreoComerciante = Comerciante_M::
-                    select('correoComerciante')
-                    ->where('id_comerciante','=', Cookie::get('id_comerciante'))
-                    ->first(); 
-                    // return $CorreoPeriodista;
+            //Se CONSULTA el correo guardado como Cookie con el id_comerciante como argumento, se consulta en todos los tipos de usuario que existe
+            $CorreoComerciante = Comerciante_M::
+                select('correoComerciante')
+                ->where('id_comerciante','=', Cookie::get('id_comerciante'))
+                ->first(); 
+                // return $CorreoPeriodista;
 
-                return view('login_V', [
-                    'correo' => $CorreoComerciante,
-                    'clave' =>  Cookie::get('claveComerciante'),
-                    'id_noticia' => 'sin_id_noticia',
-                    'id_comentario' => 'sin_id_comentario',
-                    'bandera' => 'sin_bandera'
-                ]);
-            }
-            // else{
-            //     // echo " no existen cookies";
-            //     // exit;
-            // }
+            return view('login_V', [
+                'correo' => $CorreoComerciante,
+                'clave' =>  Cookie::get('claveComerciante'),
+                'id_noticia' => 'sin_id_noticia',
+                'id_comentario' => 'sin_id_comentario',
+                'bandera' => 'sin_bandera'
+            ]);
+        }
+        // else{
+        //     // echo " no existen cookies";
+        //     // exit;
+        // }
 
-            else if($Bandera == 'comentar' || $Bandera == 'panelSuscriptor'){//Entra cuando viene de una noticia y desea hacer comentario o cambio de contraseña
+        else if($Bandera == 'comentar' || $Bandera == 'panelSuscriptor'){//Entra cuando viene de una noticia y desea hacer comentario o cambio de contraseña
 
-                echo $Bandera ;
-                return view('login_V', ['id_noticia' => $ID_Noticia, 'id_comentario' => $ID_Comentario, 'bandera' => $Bandera]);
-            }
-            else if($Bandera == 'responder'){//Entra cuando viene de una noticia y desea responder un comentario existente
-                
-                echo $Bandera ;
-                return view('login_V', ['id_noticia' => $ID_Noticia, 'id_comentario' => $ID_Comentario, 'bandera' => $Bandera]);
-            }
-            else if($Bandera == 'denuncia'){//Bamdera creada en Contraloria_C/VerificaLogin Entra cuando se desea realizar una denuncia
+            echo $Bandera ;
+            return view('login_V', ['id_noticia' => $ID_Noticia, 'id_comentario' => $ID_Comentario, 'bandera' => $Bandera]);
+        }
+        else if($Bandera == 'responder'){//Entra cuando viene de una noticia y desea responder un comentario existente
+            
+            echo $Bandera ;
+            return view('login_V', ['id_noticia' => $ID_Noticia, 'id_comentario' => $ID_Comentario, 'bandera' => $Bandera]);
+        }
+        else if($Bandera == 'denuncia'){//Bamdera creada en Contraloria_C/VerificaLogin Entra cuando se desea realizar una denuncia
 
-                echo $Bandera ;
-                // $Datos=[
-                //     'id_noticia' => 'SinID_Denuncia',
-                //     'id_comentario' => 'SinID_Comentario',
-                //     'bandera' => $Bandera
-                // ];
+            // echo $Bandera ;
+            // $Datos=[
+            //     'id_noticia' => 'SinID_Denuncia',
+            //     'id_comentario' => 'SinID_Comentario',
+            //     'bandera' => $Bandera
+            // ];
 
-                // echo "<pre>";
-                // print_r($Datos);
-                // echo "</pre>";
-                // exit();
+            // echo "<pre>";
+            // print_r($Datos);
+            // echo "</pre>";
+            // exit();
 
-                //carga la vista login_V en formulario login
-                // $this->vista("header/header_noticia");
-                // $this->vista("view/login_V", $Datos);
-            }
-            else{
-                return view('login_V', [
-                    'id_noticia' => $ID_Noticia, 
-                    'id_comentario' => $ID_Comentario, 
-                    'bandera' => $Bandera
-                ]);
-            }
+            //carga la vista login_V en formulario login
+            // $this->vista("header/header_noticia");
+            // $this->vista("view/login_V", $Datos);
+        }
+        else{
+            return view('login_V', [
+                'id_noticia' => $ID_Noticia, 
+                'id_comentario' => $ID_Comentario, 
+                'bandera' => $Bandera
+            ]);
+        }
         // }       
     }
     
@@ -114,26 +113,27 @@ class LoginController extends Controller
         $ClaveEnviada = $Request->get('clave_Arr'); 
         $Bandera = $Request->get('bandera'); 
         $Recordar = $Request->get('recordar'); 
-        // echo $CorreoEnviado . '<br>';
-        // echo $ClaveEnviada . '<br>';
-        // echo $Bandera . '<br>';
-        // echo $Recordar . '<br>';
+        // echo 'CorreoEnviado= ' . $CorreoEnviado . '<br>';
+        // echo 'ClaveEnviada= ' .  $ClaveEnviada . '<br>';
+        // echo 'Bandera= ' . $Bandera . '<br>';
+        // echo 'Recordar= ' . $Recordar . '<br>';
         // exit;
         
-        if(!empty($CorreoEnviado) AND empty(!$ClaveEnviada)){
+        if(!empty($CorreoEnviado) AND !empty($ClaveEnviada)){
             
             //Se CONSULTA si el correo existe como periodista
             $Periodista = Periodistas_M::
                 where('correoPeriodista','=', $Request->get('correo_Arr'))
                 ->first();
-                // return $Periodista = $Periodista == null ? null : $Periodista;
+                // return $Periodista;
 
             //Se CONSULTA si el correo existe como comerciante
-            $Comerciante = Comerciante_M::
-                where('correoComerciante','=', $Request->get('correo_Arr'))
-                ->first();
-                // echo gettype($Comerciante);
-                // return $Comerciante;
+            $Comerciante = DB::connection('mysql_2')
+                ->select(
+                    "SELECT ID_Comerciante, nombreComerciante, apellidoComerciante, correoComerciante 
+                    FROM comerciantes 
+                    WHERE correoComerciante = '$CorreoEnviado'; ");
+                    // return $Comerciante;
 
             //Se CONSULTA si el correo existe como artista
             $Artista = Artistas_M::
@@ -148,12 +148,9 @@ class LoginController extends Controller
                 ->first();
                 // echo gettype($Suscriptor);
                 // return $Suscriptor;
-                        
-            // $Datos = ['suscriptor' => $Suscriptor, 'periodista' => $Periodista];
-            // return $ID_Periodista;
-                                
+                                                        
             // EXISTE COMO PERIODISTA
-            if(!empty($Periodista)){
+            if($Periodista != null){
                 
                 $ID_Periodista =  $Periodista->ID_Periodista; 
                 $Correo_BD =  $Periodista->correoPeriodista;
@@ -200,20 +197,21 @@ class LoginController extends Controller
             }   
            
             // EXISTE COMO COMERCIANTE
-            if(!empty($Comerciante)){
+            if($Comerciante != null){
                 
-                $ID_Comerciante =  $Comerciante->ID_Comerciante; 
-                $Correo_BD =  $Comerciante->correoComerciante;
+                $ID_Comerciante =  $Comerciante[0]->ID_Comerciante; 
+                $Correo_BD =  $Comerciante[0]->correoComerciante;
                 
-                //Se CONSULTA la contraseña guardada en BD, para verificar que sea igual a la contraseña de la BD
-                $Contrasenia_BD = ComerciantePasword_M::
+                //Se CONSULTA la contraseña guardada en BD
+                $Contrasenia_BD = SuscriptorPassword_M::
                     select('claveCifrada')
-                    ->where('ID_Comerciante','=', $ID_Comerciante)
+                    ->where('ID_Suscriptor','=', $ID_Comerciante)
                     ->first();                    
                     // return $Contrasenia_BD;
                     
                 // echo $CorreoEnviado . '<br>';
                 // echo $Correo_BD . '<br>';
+                // echo $Contrasenia_BD->claveCifrada . '<br>';
                 // echo password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada);
                 // exit;
 
@@ -222,15 +220,13 @@ class LoginController extends Controller
                 if($CorreoEnviado == $Correo_BD AND $ClaveEnviada == password_verify($ClaveEnviada, $Contrasenia_BD->claveCifrada)){
 
                     //Se crea la sesion exigida en las páginas de cuentas de usuarios           
-                    session(['id_comerciante' =>  $Comerciante->ID_Comerciante]);
-                    session(['nombreComerciante' => $Comerciante->nombreComerciante]);
-                    session(['apellidoComerciante' => $Comerciante->apellidoComerciante]);                
-                    session(['PseudonimoComerciante' =>  $Comerciante->pseudonimoComerciante]);           
-                    session(['correoComerciante' =>  $Comerciante->correoComerciante]);
+                    session(['id_comerciante' =>  $Comerciante[0]->ID_Comerciante]);
+                    session(['nombreComerciante' => $Comerciante[0]->nombreComerciante]);
+                    session(['apellidoComerciante' => $Comerciante[0]->apellidoComerciante]);                
+                    session(['correoComerciante' =>  $Comerciante[0]->correoComerciante]);
 
                     // echo session('nombreComerciante') . '<br>';
                     // echo session('apellidoComerciante') . '<br>';
-                    // echo session('PseudonimoComerciante') . '<br>';
                     // echo session('correoComerciante') . '<br>';
                     // exit;
                     
@@ -314,7 +310,7 @@ class LoginController extends Controller
                 $Correo_BD =  $Suscriptor->correoSuscriptor;
                 
                 //Se CONSULTA la contraseña guardada en BD, para verificar que sea igual a la contraseña de la BD
-                $Contrasenia_BD = SuscriptorPasword_M::
+                $Contrasenia_BD = SuscriptorPassword_M::
                     select('claveCifrada')
                     ->where('ID_Suscriptor','=', $ID_Suscriptor)
                     ->first();                    
@@ -327,8 +323,7 @@ class LoginController extends Controller
                     //Se crea la sesion exigida en las páginas de cuentas de usuarios           
                     session(['id_suscriptor' =>  $Suscriptor->ID_Suscriptor]);
                     session(['nombreSuscriptor' => $Suscriptor->nombreSuscriptor]);
-                    session(['apellidoSuscriptor' => $Suscriptor->apellidoSuscriptor]);                
-                    session(['PseudonimoSuscriptor' =>  $Suscriptor->pseudonimoSuscripto]);
+                    session(['apellidoSuscriptor' => $Suscriptor->apellidoSuscriptor]);    
 
                     // echo session('nombreSuscriptor') . '<br>';
                     // echo session('apellidoSuscriptor') . '<br>';
@@ -352,6 +347,10 @@ class LoginController extends Controller
                         die();
                     }
                 //     else if($Bandera == 'SinLogin'){// si va a hacer un comentario y esta logeado
+                //         header('Location:'. RUTA_URL . '/NoticiasController/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#ContedorComentario');
+                //         die();
+                //     }
+                //     else if($Bandera == 'ID_Noticia'){// si va a hacer un comentario y esta logeado
                 //         header('Location:'. RUTA_URL . '/NoticiasController/detalleNoticia/'.$ID_Noticia.',sinAnuncio,#ContedorComentario');
                 //         die();
                 //     }
@@ -379,7 +378,6 @@ class LoginController extends Controller
                         // require_once(RUTA_APP . "/controladores/Panel_Denuncias_C.php");
                         // $Denuncias = new Panel_Denuncias_C();
                         // $Cant_Denuncias = $Denuncias->denunciasSuscriptor($ID_Suscriptor);
-                        
                         return view('panel/suscriptores/suscrip_Inicio_V', [
                             //     'ID_Suscriptor' => $ID_Suscriptor,
                             //     'nombre' => $Nombre,
@@ -393,6 +391,10 @@ class LoginController extends Controller
                 else{ //en caso de clave o usuario incorrecto
                     return view('modal/modal_falloLogin_V');
                 }
+            }
+
+            if(!isset($Periodista) || !isset($Comerciante) || !isset($Artista) || !isset($Suscriptor)){ //en caso de clave o usuario incorrecto
+                return view('modal/modal_falloLogin_V');
             }
             
         }
@@ -522,7 +524,7 @@ class LoginController extends Controller
 
             if($ID_Suscriptor != Array()){
                 //Se actualiza en la base de datos la clave del usuario                    
-                SuscriptorPasword_M:: 
+                SuscriptorPassword_M:: 
                     where('ID_Suscriptor', '=', $ID_Suscriptor->ID_Suscriptor)
                     ->update(['claveCifrada' => $ClaveCifrada]);
 
@@ -552,7 +554,8 @@ class LoginController extends Controller
     }
 
     public function cerrar_Sesion(){
-        session()->forget('id_periodista');
+
+        session()->forget('id_periodista'); 
         session()->forget('id_suscriptor');
         session()->forget('id_comerciante');
         

@@ -22,6 +22,25 @@
 				
 		<!-- CDN FUENTES DE GOOGLE-->
         <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=RLato|Raleway:400|Montserrat|Gruppo'/>
+		
+		<style>    
+			#ConoDesplegar:hover #MenuSecundario{ 
+				margin-top: 0px; 
+				opacity: 1;        
+				z-index: 3;
+			}
+			#ConoDesplegar:hover #IconoExpandir{
+				transform: rotate(180deg);
+				transition: all 0.4s;
+			}
+			/* .cambiar{ */
+				/* margin-top: -10%!important; */
+			/* } */
+			.rotar{        
+				/* transform: rotate(0deg);
+				transition: all 0.4s; */
+			}
+		</style>
     </head>
     <body>				
 		<header class="header" id="Header">
@@ -30,16 +49,13 @@
 
 			<!-- MEMBRETE FIJO -->
 			<label class="header__titulo">Noticiero Yaracuy</label>
+
+			{{-- ROLES --}}
+			@include('layouts.partials.roles')
 			
-			<!-- FECHA Y CARITA -->
+			<!-- CARITA -->
 			<div class="cont_header--loginFecha Default_quitarMovil">
-				<div>
-					<?php
-					// if(!empty(session('id_suscriptor'))){	?>
-						<label class="Default_pointer"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}" onclick="cerrarSecion('{{ route('CerrarSesion') }}')"/></label>						
-						<?php
-					// }	?>
-				</div>
+				<label class="Default_pointer"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}" onclick= "cerrarSecion('{{ route('CerrarSesion') }}')"/></label>	
 			</div>
 		</header>
         

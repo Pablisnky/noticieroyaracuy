@@ -9,8 +9,8 @@ class Suscriptor_M extends Model
 {
     use HasFactory;
 
-    // public $TimesTamp = false;
+    public $timestamps = false;
     protected $table = 'suscriptores';
     protected $primaryKey  = 'ID_Suscriptor'; 
-    protected $fillable = ['nombreSuscriptor','apellidoSuscriptor','estadoSuscriptor','pseudonimoSuscripto','nombre_imagenPortafolio','paisSuscriptor','telefonoSuscriptor'];
+    protected $fillable = ['nombreSuscriptor','apellidoSuscriptor','correoSuscriptor'];
 }

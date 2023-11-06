@@ -10,15 +10,15 @@
 
                 {{-- MEMBRETE --}}
                 <div class="cont_catalogos--membrete--1">     
-                    <a class="header__titulo--catalogo" href="{{ route('NoticiasPortada')}}">www.NoticieroYaracuy.com</a> 
+                    <a class="header__titulo--catalogo" href="{{ route('NoticiasPortada') }}">www.noticieroyaracuy.com</a> 
                     <br class="Default_quitarMovil">
-                    <label class="header__subtitulo--catalogo">Clasificados</label>
+                    <label class="header__subtitulo--catalogo">Catalogo</label>
                 </div> 
 
                 <!-- PSEUDONIMO -->
                 <div class="cont_catalogos--membrete--2">
                     {{-- <img class="cont_catalogos--tienda Default_pointer" src="{{ asset('/iconos/tienda/outline_storefront_black_24dp.png') }}"/> --}}
-                    <h1 class="h1_1 h1_1--catalogo">{{ $suscriptor->pseudonimoComerciante }}</h1> 
+                    <h1 class="h1_1 h1_1--catalogo">{{ $comerciante[0]->pseudonimoComerciante }}</h1> 
                 </div>
                     
                 <!-- COMPARTIR REDES SOCIALES -->
@@ -40,16 +40,16 @@
                     
                     <!-- WHATSAPP -->
                     <div class="whatsapp cont_catalogos--iconos">
-                        <a href="whatsapp://send?text={{ 'Catalogo ' . $suscriptor->pseudonimoComerciante }}. {{ route('Catalogo', ['ID_Suscriptor' => $suscriptor->ID_Comerciante ]) }}" data-action="share/whatsapp/share"><i class="fa-brands fa-whatsapp catalogo-RS WHhatsApp-catalogo"></i></a>
+                        <a href="whatsapp://send?text={{ 'Catalogo' . $comerciante[0]->pseudonimoComerciante }}. {{ route('Catalogo', ['id_comerciante' => $comerciante[0]->ID_Comerciante ]) }}" data-action="share/whatsapp/share"><i class="fa-brands fa-whatsapp catalogo-RS WHhatsApp-catalogo"></i></a>
                     </div>    
                     <div>
                         <p style="text-align: center; font-size: 0.7em">Compartir</p>
                     </div>
                 </div>
-                                
+                            
+                {{-- ICONO CHEVRON SECCIONES --}}
                 <div class="cont_catalogos--membrete--4">
                     <div> 
-                        <!-- ICONO CEVRON SECCIONES -->
                         <img class="Default_pointer cont_catalogos--iconChevron" id="Secciones" src="{{ asset('/iconos/chevron/outline_expand_more_black_24dp.png') }}"/>
                     </div>  
 
@@ -64,36 +64,36 @@
         <!-- MUESTRA MENU SECCIONES --> 
         <div class="cont_catalogos--secciones" id="Con_Secciones">
             @foreach($secciones as $Key) 
-                <a class="cont_catalogos--secciones--item" href="{{ route('SeccionesTienda', ['id_comerciante' => $id_comerciante, 'id_seccion' => $Key->ID_Seccion]) }}" onclick="verSecion('{{ $Key->ID_Seccion }}">{{ $Key->seccion }}</a> 
+                <a class="cont_catalogos--a" href="{{ route('SeccionesTienda', ['id_comerciante' => $id_comerciante, 'id_seccion' => $Key->ID_Seccion]) }}" onclick="verSecion('{{ $Key->ID_Seccion }}">{{ $Key->seccion }}</a> 
             @endforeach
             
-            <?php //$Pseudonimo = str_replace(" ", "_", $suscriptor->pseudonimoComerciante); ?>
-            <a class="cont_catalogos--p" href="<?php //echo RUTA_URL . '/Catalogos_C/Secciones/' . $Datos['ID_Suscriptor'] . ',' . $Pseudonimo;?>" onclick="verSecion('Todos')">Todos</a>
+            <?php //$Pseudonimo = str_replace(" ", "_", $comerciante[0]->pseudonimoComerciante); ?>
+            <a class="cont_catalogos--a" href="{{ route('SeccionesTienda', ['id_comerciante' => $id_comerciante, 'id_seccion' => 'todas']) }}" onclick="verSecion('Todos')">Todas las secciones</a>
             <hr class="hr_3 hr_3a">
             
             <!-- INFORMACION DE CONTACTO DEL VENDEDOR -->  
             <div class="cont_detalle_Producto--informacion cont_detalle_Producto---catalogo">
                 <div class="cont_detalle_Producto--suscriptor">
                     <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/tienda/outline_storefront_black_24dp.png') }}"/>
-                    <label class="cont_detalle_Producto--p">{{ $suscriptor->pseudonimoComerciante }}</label>
+                    <label class="cont_detalle_Producto--p">{{ $comerciante[0]->pseudonimoComerciante }}</label>
                 </div>
                 <div class="cont_detalle_Producto--suscriptor">
                     <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>
-                    <label class="cont_detalle_Producto--p">{{ $suscriptor->municipioComerciante . '-' . $suscriptor->parroquiaComerciante }}</label> 
+                    <label class="cont_detalle_Producto--p">{{ $comerciante[0]->municipioComerciante . '-' . $comerciante[0]->parroquiaComerciante }}</label> 
                 </div>
                 <div class="cont_detalle_Producto--suscriptor">
                     <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_perm_identity_black_24dp.png') }}"/>
-                    <label class="cont_detalle_Producto--p">{{ $suscriptor->nombreComerciante . ' ' .$suscriptor->apellidoComerciante }}</label>
+                    <label class="cont_detalle_Producto--p">{{ $comerciante[0]->nombreComerciante . ' ' .$comerciante[0]->apellidoComerciante }}</label>
                 </div>
                 <div class="cont_detalle_Producto--suscriptor">
                     <img class="" style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/telefono/outline_phone_iphone_black_24dp.png') }}"/>
-                    <label class="cont_detalle_Producto--p">{{ $suscriptor->telefonoComerciante }}</label>
+                    <label class="cont_detalle_Producto--p">{{ $comerciante[0]->telefonoComerciante }}</label>
                 </div>
             </div>
         </div>
 
         <!-- PRODUCTOS -->
-        <form>
+        <form id="Formulario">
         <div class="cont_catalogos--productos" id="Contenedor_13Js"> 
             
             @foreach($productos as $row)
@@ -141,7 +141,7 @@
                             <!-- BOTON AGREGAR -->
                             <div style="width:40%;">
                                 @if($row->cantidad == 0)    <!--SINO HAY PRODUCTOS EN INVENTARIO SE DESABILITA-->
-                                    <label class="label_4 label_4--innabilitado">Agregar</label> 
+                                    <label class="label_4 label_4--innabilitado">Agotado</label> 
                                 @else   <!--SI HAY PRODUCTOS EN INVENTARIO SE HABILITA-->
                                     <label for="{{ 'ContadorLabel_' . $row->ID_Opcion }}" class="label_4 Label_3js" id="{{ 'Etiqueta_' . $row->ID_Opcion }}">Agregar</label> 
                                     <!-- Este input es el que se envia al archivo JS por medio de la función agregarProducto(), en el valor se colocan el caracter _ para usarlo como separardor en JS-->
@@ -180,9 +180,9 @@
                         <div class="cont_vendedor--span">                        
                             <div class="cont_vendedor--span-2">              
                                 <span class="span--vendedor--ubicacion"></span>
-                                <img class="icono--ubicacion" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>{{ $suscriptor->parroquiaComerciante}} 
+                                <img class="icono--ubicacion" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>{{ $comerciante[0]->parroquiaComerciante}} 
                             </div>
-                            <span class="span--vendedor">Vendedor: {{ $suscriptor->pseudonimoComerciante }}</span> 
+                            <span class="span--vendedor">Vendedor: {{ $comerciante[0]->pseudonimoComerciante }}</span> 
                         </div> 
                     </div>
 
@@ -201,13 +201,13 @@
 
         {{-- se entregan a JS el ID_Suscriptor y el pseudonimoSuscripto de la tienda para verificar que no existan productos cargado de dos tendas diferentes --}}
         <input class="Default_ocultar" type="text" id="ID_Suscriptor" value='{{ $id_comerciante }}'/>   
-        <input class="Default_ocultar" type="text" id="PseudonimoSuscripto" value='{{ $suscriptor->pseudonimoSuscripto }}'/>
+        <input class="Default_ocultar" type="text" id="PseudonimoSuscripto" value='{{ $comerciante[0]->pseudonimoComerciante }}'/>
     </section>
 
     <!-- BOTON CARRITO DE COMPRAS -->
     <div class="contenedor_61" id="Contenedor_61"> 
         <input type="text" class="Default_ocultar" id="PrecioDolar" value="{{ $dolar }}" />
-        <div class="contenedor_21" id="Mostrar_Carrito" onclick="llamar_PedidoEnCarrito('{{ route('VerCarrito', ['id_comerciante' => $row->ID_Comerciante, 'dolar' => $dolar]) }}')">
+        <div class="contenedor_21" id="Mostrar_Carrito" onclick="llamar_PedidoEnCarrito('{{ route('VerCarrito', ['id_comerciante' => $id_comerciante, 'dolar' => $dolar]) }}')">
             <div class="contenedor_31">
                 <small class="small_1 small_4" id="Small_4--JS">Ver <br class="br_3"> carrito</small>
                 <img class="Default_pointer" style="width: 1.8em;" id="Cerrar" src="{{ asset('/iconos/carritoCompras/outline_shopping_cart_white_24dp.png') }}"/>

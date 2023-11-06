@@ -1,4 +1,4 @@
-@extends('layouts.header_PanelPortada')
+@extends('layouts.header_suscriptor')
 
 @section('titulo', 'Panel actualizar producto')
 
@@ -17,7 +17,7 @@
             
         <div class="cont_suscrip_publicar">    
             <form action="{{ route('RecibeAtualizarProducto') }}" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit = "return validarActualizacion()">
-                {!! csrf_field() !!}
+                @csrf
 
                 <a id="Ancla_01" class="ancla_1"></a>
                 <fieldset class="fieldset_1 fieldset_3">
@@ -32,7 +32,7 @@
                                     <img class="contenedor_119__img" id="blah_2" alt="Fotografia de producto" src="{{ asset('/images/clasificados/' . session('id_comerciante') . '/productos/' .  $imagenPrin->nombre_img) }}"/>
                                 </figure>
                             </label>
-                            <input class="Default_ocultar" type="file" accept="image/*" name="imagenPrinci_Editar" id="imgInp"/>
+                            <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  accept="image/*" name="imagenPrinci_Editar" id="imgInp"/>
 
                             <!-- NUEVO O USADO -->
                             <div class="cont_radioButon">
@@ -87,9 +87,9 @@
                             <!-- IMAGENES SECUNDARIAS -->
                             <div class="cont_suscrip_publicar--imgSec">
                                 <label class="Default_pointer" style="display: block; color: blue; font-weight: lighter;" for="ImgInp_3">Añadir imagenes secundarias</label>
-                                <small class="small_1">Añada hasta 5 fotografias no mayor a 4 Mb / CU</small>
+                                <small class="small_1">Añada hasta 4 fotografias no mayor a 4 Mb / CU</small>
 
-                                <input class="Default_ocultar" type="file" name="imagenSecundariiaProdActualizar[]" multiple="multiple" id="ImgInp_3" onchange="VariasImg()"/>  
+                                <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenSecundariiaProdActualizar[]" multiple="multiple" id="ImgInp_3" onchange="VariasImg()"/>  
                             </div>  
 
                             {{-- DIV QUE MUESTRA LAS IMGENES SECUNDARIAS --}}
@@ -98,7 +98,7 @@
                                     <div style="margin: 1%;" id=PadreImagenes">
 
                                         <!-- ICONO ELIMINAR IMAGEN -->
-                                        <input class="Default_ocultar" type="file" name="img_sSecundaria"  id="imgInp_3"/>
+                                        <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="img_sSecundaria"  id="imgInp_3"/>
                                         <div class="cont_edit--dosBotones" id="Cont_Botones--{{ $Row_2->ID_Imagen }}">
                                             <!-- <div> -->
                                             <img class="Default_pointer" style="width: 2em" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="EliminarImagenSecundaria('{{ $Row_2->ID_Imagen }}','Cont_Botones--{{ $Row_2->ID_Imagen }}','{{ route('EliminarImgSecundariaPRoducto', ['id_imagenSec' => $Row_2->ID_Imagen] ) }}')"/>
@@ -179,14 +179,14 @@
                 var CantidadImagenes = archivos.length
                 console.log("Cantidad Imagenes recibidas= ", CantidadImagenes)
             
-                if(CantidadImagenes < 6){
+                if(CantidadImagenes < 5){
                     SeleccionImagenes.push(CantidadImagenes) 
                     console.log("Imagenes recibidas= ",SeleccionImagenes)
                     // Suma la cantidad de imagenes que se han insertado  
                     TotalSeleccionImagenes = SeleccionImagenes.reduce((a, b) => a + b)
                     console.log("Suma de Imagenes = ",TotalSeleccionImagenes)
                     
-                    if(TotalSeleccionImagenes < 6){
+                    if(TotalSeleccionImagenes < 5){
                         for(i = 0; i < CantidadImagenes; i++){
                             console.log(i)
                             var imgTagCreada = document.createElement("img");

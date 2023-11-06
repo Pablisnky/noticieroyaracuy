@@ -1,4 +1,4 @@
-@extends('layouts.header')
+@extends('layouts.header_Noticia')
 
 @section('titulo', 'MarketPlace - compra exitosa')
 

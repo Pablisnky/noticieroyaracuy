@@ -8,7 +8,7 @@
     <ul class="cont_panel--ul">
 
         <!-- INICIO --> 
-        <li><a class="cont_panel--li" href="{{ route('DashboardPanelSuscriptor', ['id_suscriptor' => session('id_suscriptor')]) }}">Inicio</a></li>
+        <li><a class="cont_panel--li" href="{{ route('DashboardPanelRegistro', ['id_suscriptor' => session('id_suscriptor')]) }}">Inicio</a></li>
 
         <!-- OBRAS -->
         {{-- <li><a class="cont_panel--li" href="{{ route('SuscriptorArtista', ['ID_Suscriptor' => session('id_suscriptor')]) }}" rel="noopener noreferrer">Obras de arte</a></li> --}}

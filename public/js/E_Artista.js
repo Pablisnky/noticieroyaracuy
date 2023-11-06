@@ -1,5 +1,5 @@
-document.getElementById("DescripcionArtista").addEventListener('mouseover', mostrarDescripcionArtista, false)
-document.getElementById("Cerrar").addEventListener('click', ocultarDescripcionArtista, false)
+// document.getElementById("DescripcionArtista").addEventListener('mouseover', mostrarDescripcionArtista, false)
+// document.getElementById("Cerrar").addEventListener('click', ocultarDescripcionArtista, false)
 
 //Por medio de funcion autoejecutable se svalua si el carrito de compras esta cargado
 // (function(){ 

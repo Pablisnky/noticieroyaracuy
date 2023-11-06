@@ -32,7 +32,7 @@ function conexionAJAX(){
 // *************************************************************************************************
     //Elimina una seccion
     function Llamar_EliminarSeccion(ID_Seccion, SeccionUnica){
-        console.log("______Desde Llamar_EliminarSeccion()______", ID_Seccion + '/' + SeccionUnica)
+        // console.log("______Desde Llamar_EliminarSeccion()______", ID_Seccion + '/' + SeccionUnica)
         
         //Si hay una sola sección se detiene el proceso de eliminación
         if(SeccionUnica == true){
@@ -73,10 +73,10 @@ function conexionAJAX(){
         // console.log("______Desde Llamar_ActualizarSeccion()______",Seccion + " / "  + ID_Seccion)
 
         // Remoto
-        var url = "https://www.noticieroyaracuy.com/marketplace/actualizarSeccion/" + Seccion + "/"  + ID_Seccion
+        // var url = "https://www.noticieroyaracuy.com/marketplace/actualizarSeccion/" + Seccion + "/"  + ID_Seccion
         
         // local
-        // var url = "http://nuevonoticiero.com/marketplace/actualizarSeccion/" + Seccion + "/"  + ID_Seccion
+        var url = "http://nuevonoticiero.com/marketplace/actualizarSeccion/" + Seccion + "/"  + ID_Seccion
 
         http_request.open('GET', url, true)  
         peticion.onreadystatechange = respuesta_ActualizarSeccion

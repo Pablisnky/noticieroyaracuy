@@ -39,8 +39,8 @@
         <img class=" cont_modal--cerrar detalle_cont--cerrar Default_pointer" style="width: 1em;"  src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="javascript:window.location.reload()"/>
 
         <div class="login_cont cont_login">
-            <form action="{{ route('IniciarSesion') }}" method="POST">	
-                {!! csrf_field() !!}
+            <form action="{{ route('IniciarSesion') }}" method="POST" onsubmit="return validarLogin()">	
+                @csrf
                 <fieldset class="fieldset_1" >
                     <legend class="legend_1">Acceso a suscriptor</legend>
                     <div class="login_cont--form">
@@ -87,11 +87,11 @@
                 <br><br>
 
                 <p>¿Quieres suscribirte?</p>
-                <a href="{{route('registro')}}">Suscribete</a>
+                <a href="{{route('Registro')}}">Suscribete</a>
                 <br><br>
 
-                <p class="Inicio_8" style="line-height: 160%;">¿Eres periodista acreditado CNP en Venezuela?</p>
-                <a href="#">Crea contenido</a>
+                {{-- <p class="Inicio_8" style="line-height: 160%;">¿Eres periodista acreditado CNP en Venezuela?</p>
+                <a href="#">Crea contenido</a> --}}
             </div>
         </div>
     </section>

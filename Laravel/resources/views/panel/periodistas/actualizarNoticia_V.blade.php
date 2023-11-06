@@ -15,8 +15,8 @@
 
     <div class="cont_panel--actualizar">   
         <form action="{{ route('RecibeActualizarNoticia') }}" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit="return validarActualizarNoticia()">	
-            {!! csrf_field() !!}
-
+            @csrf
+            
             <fieldset class="fieldset_1" id="Portada"> 
                 <legend class="legend_1">Actualizar Noticia</legend>
                 <div class="cont_panel--actualizar--contenido">
@@ -33,7 +33,7 @@
                             <figure>
                                 <img class="cont_panel--imagen" alt="Fotografia Principal" id="ImagenPrincipal" src="{{ asset('/images/noticias/' . $noticiaActualizar->nombre_imagenNoticia) }}"/> 
                             </figure>                                
-                            <input class="Default_ocultar" type="file" accept="image/*" name="imagenPrincipal" id="imgInp"/>
+                            <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  accept="image/*" name="imagenPrincipal" id="imgInp"/>
                         </div>
 
                         <!-- ANUNCIO PUBLICITARIO --> 
@@ -173,7 +173,7 @@
                 
                 <!-- AGREGAR MAS IMAGENES SECUNDARIAS -->
                 <label class="actualizar_cont--label Default_pointer" for="imgSec"><img class=" actualizar_cont--span" src="{{ asset('/iconos/agregar/outline_add_circle_outline_black_24dp.png') }}"/></label>
-                <input class="Default_ocultar" type="file" name="imagenesSecundarias[]" multiple="multiple" id="imgSec" onchange="muestraImgSecundarias()"/>
+                <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenesSecundarias[]" multiple="multiple" id="imgSec" onchange="muestraImgSecundarias()"/>
 
                 <br><br> 
                 <legend class="legend_1">Imagenes secundarias</legend> 
@@ -182,7 +182,7 @@
                 <div class="cont_panel--imagenSec">
                     @foreach($imagenesNoticiaActualizar as $Row)                    
                         <div style="margin: 1%;" id=PadreImagenes">
-                            <input class="Default_ocultar" type="file" name="img_sSecundaria"  id="imgInp_3"/>
+                            <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="img_sSecundaria"  id="imgInp_3"/>
                             <div class="cont_edit--dosBotones" id="Cont_Botones--{{ $Row->ID_Imagen }}">
                                 <div>
                                     <img class="Default_pointer" style="width: 2em" src="{{ asset('/iconos/cerrar/outline_cancel_black_24dp.png') }}" onclick="EliminarImagenSecundaria('{{  $Row->ID_Imagen }}','Cont_Botones--{{ $Row['ID_Imagen'] }}','{{ route('EliminarImgSecundaria', $Row->ID_Imagen ) }}')"/>

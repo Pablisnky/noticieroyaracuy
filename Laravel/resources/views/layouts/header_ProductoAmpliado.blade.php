@@ -12,16 +12,16 @@
 		<meta property="og:type" content="website"/>
 		<meta property="og:site_name" content="NoticieroYaracuy"/>
 		<meta property="fb:app_id" content="928977633900253"/>
-		<meta property="og:image:alt" content="Imagen descriptiva del clasificado"/>
-		<meta property="og:url" content="<?php //echo RUTA_URL?>/MarketplaceController/productoAmpliado/<?php //echo $Datos['Producto']['ID_Producto']?>"/>
-		<meta property="og:image:secure_url" itemprop="image" content="<?php //echo RUTA_URL?>/public/images/clasificados/<?php //echo $Datos['Producto']['ID_Suscriptor']?>/productos/<?php //echo $Datos['Imagenes']['nombre_img'];?>"/>
+		<meta property="og:image:alt" content="Imagen descriptiva del clasificado"/> 
+		<meta property="og:url" content="{{ route('ProductoAmpliado',['id_producto' => $producto->ID_Producto, 'bandera' => 'DesdeClasificados']) }}"/>
+		<meta property="og:image:secure_url" itemprop="image" content="{{ asset('/images/clasificados/' . $producto->ID_Comerciante . '/productos/' . $imagen->nombre_img) }}"/>
 		<meta property="og:image:width" content="1200"/>
 		<meta property="og:image:height" content="630"/>
 		<meta property="og:locale:alternate" content="es_ES"/>
 
 		<!--ETIQUETAS META TWITTER --> 
 		<meta name="twitter:card" content="summary_large_image">
-		<meta name='twitter:image' content='<?php //echo RUTA_URL?>/public/images/clasificados/<?php //echo $Datos['Producto']['ID_Suscriptor']?>/productos/<?php //echo $Datos['Imagenes']['nombre_img'];?>'>
+		<meta name='twitter:image' content='{{ asset('/images/clasificados/' . $producto->ID_Comerciante . '/productos/' . $imagen->nombre_img) }}'>
 		        
 		<link rel="stylesheet" href="{{ asset('/css/estilosNoticieroYaracuy.css?v=' . rand()) }}"/>
 		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_350.css?v=' . rand()) }}"/>

@@ -15,7 +15,8 @@
 		<meta property="og:site_name" content="NoticieroYaracuy"/>
 		<meta property="fb:app_id" content="928977633900253"/>
 		<meta property="og:image:alt" content="Imagen descriptiva de la noticia"/>
-		<meta property="og:url" content="#"/>
+		{{-- <meta property="og:url" content="{{ route('DetalleNoticia', $noticia->ID_Noticia) }}"/> --}}
+		{{-- <meta property="og:url" content="{{ 'https://www.noticieroyaracuy.com/noticias/detalleNoticia/' . $noticia['ID_Noticia'] }}"/> --}}
 		<meta property="og:image" itemprop="#"/>
 		<meta property="og:locale:alternate" content="es_ES"/>
 
@@ -40,18 +41,9 @@
 			<!-- MEMBRETE FIJO -->
 			<label class="header__titulo--Panelperiodista">Noticiero Yaracuy</label>
 			
-			<!-- FECHA Y CARITA -->
+			<!-- CARITA -->
 			<div class="cont_header--loginFecha Default_quitarMovil">
-				<!-- <div style="margin-right: 15px;">
-					<label class="header__fecha Default_pointer" onclick="cerrarSecion()"></label>
-				</div> -->
-				<div>
-					<?php
-					if(!empty(session('id_periodista'))){	?>
-						<label class="Default_pointer"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}" onclick="cerrarSecion('{{ route('CerrarSesion') }}')"/></label>							
-						<?php
-					}	?>
-				</div>
+				<label class="Default_pointer"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}" onclick="cerrarSecion('{{ route('CerrarSesion') }}')"/></label>							
 			</div>
 		</header>
 		

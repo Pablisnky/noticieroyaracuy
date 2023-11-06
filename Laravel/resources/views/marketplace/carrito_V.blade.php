@@ -92,7 +92,7 @@
                     
                     <div class="Default_ocultar" id="Mostrar_Cedula">
                         <form>
-                            <input class="login_cont--input borde--input" type="text" name="cedulaUsuario" id="Cedula_Usuario" placeholder="Nº Cedula (Solo números)" value="2222222"/>
+                            <input class="login_cont--input borde--input" type="text" name="cedulaUsuario" id="Cedula_Usuario" placeholder="Nº Cedula (Solo números)" autocomplete="off" value="2222222"/>
 
                             <label class="boton boton--centro" for="Cedula_Usuario" onclick="soloNumeros(this.form, 'Cedula_Usuario')"/>Enviar</label>
                         </form>
@@ -106,8 +106,7 @@
     <section class="ancla" id="Seccion_datos"> 
         <div class="contOculto" id="MuestraEnvioFactura">
             <form action="{{ route('RecibePedido') }}" method="POST" enctype="multipart/form-data" onsubmit="return validarDespacho()" id="DatosUsuario">
-                {!! csrf_field() !!}
-                {{-- <input type="hidden" name="_token" value="{{ csrf_token() }}" /> --}}
+                @csrf
                 <article>
                     <div class="contenedor_24 contFlex">
                         <header>
@@ -207,6 +206,12 @@
                                     <label class="contInputRadio__label" for="Paypal">Paypal</label> 
                                 </div>
 
+                                <!-- SELECCIONAR PAGO BITCOIN -->                               
+                                <div class="contInputRadio--carrito">    
+                                    <input type="radio" name="formaPago" id="Bitcoin" value="bitcoin" onclick="verPagoBitcoin()"/>
+                                    <label class="contInputRadio__label" for="Bitcoin">Bitcoin</label> 
+                                </div>
+
                                 <!-- SELECCIONAR PAGO ACORDADO -->
                                 <div class="contInputRadio--carrito">    
                                     <input type="radio" name="formaPago" id="Acordado" value="acordado" onclick="verPagoAcordado()"/>
@@ -214,26 +219,26 @@
                                 </div>  
                             </div>   
 
-                            <!-- PAGO TRANSFERENCIA -->
+                            <!-- DATOS PAGO TRANSFERENCIA -->
                             <div class="contInforPago" id="Contenedor_60a">
-                                <h3 class="h3_2">Cuenta para transferencia</h3>
+                                <h3 class="h3_2">Datos para transferencia</h3>
                                 <table class="tabla_2">
                                     <tbody>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Banco</td>
-                                            {{-- <td>Mercantil</td> --}}
+                                            <td>Mercantil</td>
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Titular</td>
-                                            {{-- <td>Pablo Cabeza</td> --}}
+                                            <td>Pablo Cabeza</td>
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Nº cuenta</td>
-                                            {{-- <td>0105 0062 10 1062261763</td> --}}
+                                            <td>0105 0062 10 1062261763</td>
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Cedula/RIF</td>
-                                            {{-- <td>12.728.036</td> --}}
+                                            <td>12.728.036</td>
                                         </tr class="tabla2__tr1">
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Monto</td>
@@ -242,53 +247,24 @@
                                         <tr class="tabla2__tr2"></tr>
                                     </tbody>
                                 </table>
-
-                                <!-- INFORMAR PAGO TRANSFERENCIA contFlex--suscribir-->
-                                <div class="contFlex--pagos">
-                                    <div>
-                                        <h3 class="rompe_Flex h3_2">Informe su pago</h3>
-                                    </div>
-                                    <div class="contInputRadio">
-                                        <input type="radio" name="referenciaPago" id="ReferenciaPago" value="codigoTransferencia" onclick="verInputTransferencia()"/>
-                                        <label class="contInputRadio__label" for="ReferenciaPago">Codigo transferencia</label> 
-                                    </div>
-                                    <div class="contInputRadio">
-                                        <input type="radio" name="referenciaPago" id="CapturePago" value="CaptureTransferencia" onclick="verCaptureTransferencia()"/>
-                                        <label class="contInputRadio__label" for="CapturePago">Capture transferencia</label> 
-                                    </div>
-                                </div>
-                                <!-- INPUT TRANSFERENCIA class="login_cont--input borde--input"-->
-                                <div class="contOculto " id="InputTransferencia">
-                                    <input class="login_cont--input borde--input" type="text" name="codigoTransferencia" id="RegistroPago_Transferencia" placeholder="Código transferencia"/>
-                                </div>                                                    
-                                <!-- CAPTURE TRANSFERENCIA -->
-                                <div class="contOculto " id="CaptureTransferencia">
-                                    <label class="boton boton--largo boton--centro" for="ImagenTransferencia">Insertar capture</label>
-                                    <input class="Default_ocultar" type="file" name="imagenTransferencia" id="ImagenTransferencia" onchange="CaptureTransferencia()"/>
-                                    <br>
-                                    </div>
-                                    <!-- div que muestra la previsualización del capture-->
-                                    <div class="contGeneralCentro" id="DivCaptureTransferencia"></div>
-                                </div> 
                             </div>
                             
-
-                            <!-- PAGOMOVIL -->
+                            <!-- DATOS PAGOMOVIL -->
                             <div class="contInforPago" id="Contenedor_60b">
-                                <h3 class="h3_2">PagoMovil</h3>                                
+                                <h3 class="h3_2">Datos para PagoMovil</h3>                                
                                 <table class="tabla_2">
                                     <tbody>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Banco</td>
-                                            {{-- <td>Mercantil</td> --}}
+                                            <td>Mercantil</td>
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Cedula</td>
-                                            {{-- <td>12.728.036</td> --}}
+                                            <td>12.728.036</td>
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Telefono</td>
-                                            {{-- <td>0424-537.40.44</td> --}}
+                                            <td>0424-537.40.44</td>
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Monto</td>
@@ -301,25 +277,16 @@
                                         <tr class="tabla2__tr2"></tr>
                                     </tbody>
                                 </table>
-                                                    
-                                <!-- INFORMAR PAGO MOVIL -->
-                                <div class="contGeneral" id="CapturePagoMovil">
-                                    <label class="boton boton--largo boton--centro" for="ImagenPagoMovil">Insertar capture</label>
-                                    <input class="Default_ocultar" type="file" name="imagenPagoMovil" id="ImagenPagoMovil" onchange="CapturePagoMovil()"/>
-
-                                    <!-- div que muestra la previsualización del capture-->
-                                    <div class="contGeneralCentro" id="DivCapturePagoMovil"></div>
-                                </div> 
                             </div>
 
-                            <!-- PAYPAL -->
+                            <!-- DATOS PAYPAL -->
                             <div class="contInforPago" id="Contenedor_60g">
-                                <h3 class="h3_2">Paypal</h3>                                
+                                <h3 class="h3_2">Datos para Paypal</h3>                                
                                 <table class="tabla_2">
                                     <tbody>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Usuario</td>
-                                            {{-- <td>pcabeza7@gmail.com</td> --}}
+                                            <td>pcabeza7@gmail.com</td>
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Monto</td>
@@ -327,15 +294,31 @@
                                         </tr>
                                     </tbody>
                                 </table>      
- 
-                                <!-- IMAGEN CAPTURE -->                                                           
-                                <div class="contGeneral" id="CapturePagoPaypal">
-                                    <label class="boton boton--largo boton--centro" for="ImagenPagoPaypal">Insertar capture</label>
-                                    <input class="Default_ocultar" type="file" name="imagenPagoPaypal" id="ImagenPagoPaypal" onchange="CapturePagoPaypal()"/>
-
-                                    <!-- div que muestra la previsualización del capture-->
-                                    <div class="contGeneralCentro" id="DivCapturePagoPaypal"></div>
-                                </div> 
+                            </div>
+                            
+                            <!-- DATOS BITCOIN -->
+                            <div class="contInforPago" id="Contenedor_60g">
+                                <h3 class="h3_2">Datos para bitcoin</h3>                                
+                                <table class="tabla_2">
+                                    <tbody>
+                                        <tr class="tabla2__tr1">
+                                            <td class="tabla2__td1">wallet</td>
+                                            <td>1231qweqw29342340234923423</td>
+                                        </tr>
+                                        <tr class="tabla2__tr1">
+                                            <td class="tabla2__td1">red</td>
+                                            <td>smart-chain</td>
+                                        </tr>
+                                        <tr class="tabla2__tr1">
+                                            <td class="tabla2__td1">moneda</td>
+                                            <td>BTC</td>
+                                        </tr>
+                                        <tr class="tabla2__tr1">
+                                            <td class="tabla2__td1">Monto</td>
+                                            <td><input class="contInforPago--input" type="text" id="PagarDolaresPaypal" readonly></td>
+                                        </tr>
+                                    </tbody>
+                                </table>      
                             </div>
 
                             <!-- PAGO ACORDADO -->
@@ -343,16 +326,48 @@
                                 <h3 class="h3_2">Acuerdo con tienda</h3>
                                 <p>Contacta al encargado de la tienda.</p>
                             </div>
-                        
+
+                            <!-- INFORMAR PAGO -->
+                            <div style="display: none" id="Contenedor_60f"> 
+                                <div class="contFlex--pagos">
+                                    <div>
+                                        <h3 class="rompe_Flex h3_2">Informe su pago</h3>
+                                    </div>
+                                    <div class="contInputRadio">
+                                        <input type="radio" name="referenciaPago" id="ReferenciaPago" value="NumeroPagoBancario" onclick="verInputReferencia()"/>
+                                        <label class="contInputRadio__label" for="ReferenciaPago">Codigo referencia</label> 
+                                    </div>
+                                    <div class="contInputRadio">
+                                        <input type="radio" name="referenciaPago" id="CapturePago" value="CapturePagoBancario" onclick="verCapturePago()"/>
+                                        <label class="contInputRadio__label" for="CapturePago">Capture de pago</label> 
+                                    </div>
+                                </div>
+
+                                <!-- INPUT CODIGO REFERENCIA -->
+                                <div class="contOculto " id="InputReferencia">
+                                    <input class="login_cont--input borde--input" type="text" name="codigoReferencia" id="Codigo_RegistroPago" placeholder="Código referencia"/>
+                                </div>                           
+                                                         
+                                <!-- CAPTURE TRANSFERENCIA -->
+                                <div class="contOculto " id="InputCapturePago">
+                                    <label class="boton boton--largo boton--centro" for="ImagenCapturePago">Insertar capture</label>
+                                    <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenCapturePago" id="ImagenCapturePago" onchange="CapturePago()"/>
+                                    <br>
+                                    </div>
+                                    <!-- div que muestra la previsualización del capture-->
+                                    <div class="contGeneralCentro" id="DivCapturePago"></div>
+                                </div> 
+                            </div>
+                            
                             <!-- BOTON DE ENVIO Y DATOS OCULTOS -->
                             <article>
                                 <div class="contBoton">
-                                    <input class="Default_ocultar" type="text" name="id_tienda" value="{{ $id_suscriptor }}"/>     
+                                    <input class="Default_ocultar" type="text" name="id_comerciante" value="{{ $id_comerciante }}"/>     
                                     <!-- Cargado via Ajax cuando el usuario es recordado -->
                                     <input class="Default_ocultar" type="text" name="id_usuario" id="ID_Usuario" />
                                     <input class="Default_ocultar" type="text" name="pedido" id="Pedido"/>
     
-                                    <input class="boton boton--alto botonJS" id="InformarPago" type="submit" value="Enviar Pago"/>
+                                    <input class="Default_ocultar boton boton--alto botonJS" id="InformarPago" type="submit" value="Enviar Pago"/>
                                 </div>
                             </article> 
                         </div>

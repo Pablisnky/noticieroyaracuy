@@ -103,33 +103,10 @@
 	margin-top: 15%;
 	margin-bottom: 4%;
  }
- .cont_directorioCom_h1{
-	background-color: white;
-	top: 8%;
-	font-size: 7vw;
-	text-align: center;
-	height: initial;
-	width: 100%;
-	clear: left;
-	margin-bottom: 5%;
- }
  .cont_direccionCom--maain{
 	display: block;
 	margin-top: 15%;
 	margin-bottom: 4%;
- }
- .cont_directorioCom{
-	 top: 13%;
-	 width: 95%; 
-	 padding-top: 1%; 
-	 margin-left: 2%;
- }
- .cont_directorioCom--lazy{
-	 column-count: 1 !important;
-	 column-fill: balance;
-	 width: 100%;
-	 padding-left: 0%; 
-	 margin-top: 35%;
  }
  .cont_galeria{
 	column-count: 2 !important;
@@ -262,7 +239,7 @@
 .cont_detalle{
     width: 100%;
 }
-.cont_detalle--imagen{ /*configuracion ideal para imagenes que cambian*/
+.cont_detalle--imagen{ /*configuracion ideal para imagenes que cambian, siempre se pegara al top*/
 	height: fit-content;
 	max-height: 80vw;
 	min-height: 80vw;
@@ -277,7 +254,7 @@
 }
 .cont_detalle--imagenMiniatura{
 	width: 50px;
-	height: 40px;
+	height: 50px;
 } 
 .cont_efemerides{
     width: 100%;
@@ -337,12 +314,6 @@
 	left: 0%;
 	width: 100%
 }
-.detalle_cont--membrete{	
-	font-size: 1.5em;
-	margin-left: 5%;
-	margin-top: -2%;
-	margin-bottom: 1%;
-}
 .detalle_cont--cerrar{
 	top: 50%;
 	right: 4%;
@@ -388,23 +359,6 @@
 	width: 100%; 
 	margin: auto; 
 	text-align: left
-}
-.detalle_cont--redesSociales{
-	width: 70%;
-	margin-left: 15%;
-	margin-top: initial;
-}
-.detalle_cont--redesSociales-facebook{
-	width: 45%;
-	margin-left: 20%;
-}
-.detalle_cont--redesSociales-twitter{
-	width: 100%;
-	margin-left: 10%;
-}
-.detalle_cont--redesSociales-icono{
-	width: 89%;
-	margin-left: 20%;
 }
 .Default_quitarEscritorio{
 	display: flex;
@@ -656,21 +610,13 @@
 	max-height: 80vw;
 	margin-bottom: 1%;
 }
-.header__titulo--detalleProducto{
+.header__titulo--membrete{
 	position: fixed;
 	top: 0%;
 	left: 0%;
 	z-index: 3;
 	font-size: 1.4em;
 	padding-left: 3%;
-}
-.header__subtitulo--detalleProducto{
-	position: fixed;
-	top: 3%;
-	left: 0%;
-	z-index: 2;
-	font-size: 1.3em;
-	padding: 2% 0% 1% 2%;
 }
 .header__subtitulo--catalogo{
 	display: none;
@@ -1030,16 +976,33 @@
 	margin: auto;
 	object-fit: cover; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
  }
+ .detalle_cont--redesSociales{
+	 width: 70%;
+	 margin-left: 15%;
+	 margin-top: initial;
+ }
  .detalle_cont--redesSociales--Panel{
 	display: flex;
 	width: 80%;
 	margin-bottom: 5%;
 	justify-content: space-between;
  }
- .detalle_cont--redesSociales-Whatsapp{
+ .detalle_cont--redesSociales-facebook{
+	 width: 30%;
+	 margin-left: 20%;
+ }
+ .detalle_cont--redesSociales-twitter{
 	 width: 70%;
+	 margin-left: 10%;
+ }
+ .detalle_cont--redesSociales-Whatsapp{
+	 width: 60%;
 	 margin-left: 25%;
  } 
+ .detalle_cont--redesSociales-icono{
+	 width: 89%;
+	 margin-left: 20%;
+ }
 .modal_falloLogin{
 	width: 90%;
 }
@@ -1095,6 +1058,7 @@
 }
 .contenedor_125{
 	margin-top: 0%;
+	width: 95%;
 }
 .contenedor_42{
 	width: 95%;
@@ -1223,7 +1187,7 @@
 	position: absolute;
 	right: 4%;
 } 
-.cont_catalogos--p{
+.cont_catalogos--a{
 	line-height: 30px;
 	height: 30px;
 	font-size: 5vw;
@@ -1239,8 +1203,6 @@
 } 
 .cont_detalle_Producto--informacion{
 	width: 95%;
-	margin: 3% auto;
-	padding-left: 5%;
 }
 .cont_detalle_Producto--p{
 	font-size: 5vw;
@@ -1281,7 +1243,7 @@
 	line-height: 20px;
 }
 .ocultar{
-	top: 80px;
+	top: 1px;
 }
 .contenedor_13{
 	display: block; 
@@ -1315,12 +1277,8 @@
 	height: 85vh;
 	margin-top: 17vh!important;
 } 
-.cont_catalogos--secciones--item{
-	display: block;
-	height: 5vh;
-}
 .cont_catalogos--productos{
-	margin-top: -85vh;
+	margin-top: 18vh;
 	padding-top: 4vh;
 	width: 98%;
 }
@@ -1552,13 +1510,13 @@
  }
  .cont_ObraDetalle--img{
 	width: 100%; 
-	max-height: 75vh;
-	min-height: 74vh;
+	height: 70%;
 	margin: auto;
 	padding-top: 0%;
+	margin-top: 10px;
 	/*estas dos ultimas lineas hacen crecer hacia abajo el contenido del contenedor lo mas que pueda aun si su contenido no lo llena completamente, con esto se garantiza que el footer se manntendra abajo*/
-	flex-grow: 1;
-	flex-shrink: 1;
+	/* flex-grow: 1;
+	flex-shrink: 1; */
  }
  .cont_ObraDetalle--atras{
 	display: flex;
@@ -1571,7 +1529,13 @@
 	line-height: 30px; 
 	padding-top: 3vh;
 	padding-left: 5%;
-	height: 100vh;
+	height: 85%;
+	
+	/* width: 100%; 
+	height: 70%;
+	margin: auto;
+	padding-top: 0%;
+	margin-top: 10px; */
  }
 .cont_ObraDetalle--leyenda{
 	position: initial;
@@ -1597,7 +1561,7 @@
 	align-items: center;
 	width: 90%;
 	margin: auto;
-	/* margin-top: 3%; */
+	margin-top: -50px;
 }
 .cont_ObraDetalle--giro{
 	background-color: rgba(255, 255, 255, 0.5); 
@@ -1608,11 +1572,12 @@
 	margin: auto;
 }
 .cont_ObraDetalle--h1{
-	font-size: 10vw !important;
+	font-size: 9vw !important;
 	font-family: 'Moon Dance', cursive;
 	font-weight: lighter;
 	padding-left: 3%;
-	margin-bottom: 7%;
+	margin-bottom: 5%;
+	margin-top: 8%
 }
 .cont_ObraDetalle--p1{
 	color: white;
@@ -1637,6 +1602,7 @@
 	width: 100%;
 	object-fit: contain; 
 	margin-left: 0%;
+	/* height: 100vh; */
 }
 .cont_obra--redesSociales{
 	position: absolute;
@@ -2218,6 +2184,12 @@
 }
 .h1_1--margin{
 	width: 100%;
+}
+.detalle_cont--fecha{
+	margin-left: 2%;
+}
+.contGridUna{
+	padding-top: initial;
 }
 
 

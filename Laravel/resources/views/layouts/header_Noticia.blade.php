@@ -20,13 +20,6 @@
 		
 		<!-- CDN FUENTES DE GOOGLE-->
         <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=RLato|Raleway:400|Montserrat|Gruppo|Moon+Dance'>
-
-		<style>
-			.active{
-				background: black;
-				color: white;
-			}
-		</style>
     </head>
 	<body>
 		<header class="header" id="Header">
@@ -34,44 +27,14 @@
 			{{-- MENU NAVEGACION --}}
 			@include('layouts.partials.menu')			
 
-			<!-- BOTONES DE MARKETPLACE Y EVENTOS -->
-			<div class="cont_botones_destacados">
-				<div>
-					<label class="boton boton--corto"><a class="Default_font--white boton_a" href="{{ route('Eventos') }}">Eventos</a></label> 
-				</div>        
-				<div>
-					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="{{ route('Noticias') }}">Mas noticias</a></label> 
-				</div>         
-				<div>
-					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="{{ route('Marketplace') }}">Marketplace</a></label> 
-				</div>          
-				<div>
-					<label class="boton boton--corto"><a class="Default_font--white boton_a"" href="{{ route('GaleriaArte') }}">Galeria de arte</a></label> 
-				</div>      
-			</div> 
+			<!-- BOTONES DESTACADOS -->
+			@include('layouts.partials.botones')
 
 			<!-- MEMBRETE FIJO -->
 			<label class="header__titulo">Noticiero Yaracuy</label>
 			
 			<!-- FECHA Y CARITA -->
-			<div class="cont_header--loginFecha">
-				<div style="margin-right: 15px;">
-					<label class="header__fecha">San Felipe, {{ date('d') }} de {{ date('M') }}</label>
-				</div>
-				
-				<!--CARITA -->
-				<div>
-					@if(!empty(session('id_comerciante')))
-						<a class="Default_quitarMovil" href="{{ route('PanelProducto', ['id_comerciante' => session('id_comerciante')]) }}"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}"/></a>	
-					@elseif(!empty(session('id_suscriptor')))
-						<a class="Default_quitarMovil" href="{{ route('DashboardPanelSuscriptor', ['id_suscriptor' => session('id_suscriptor')]) }}"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}"/></a>				
-					@elseif(empty(session('id_suscriptor')) AND empty(session('id_periodista')))
-						<a class="Default_quitarMovil" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}" rel="noopener noreferrer"><img class="Default_logout" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}"/></a>
-					@elseif(!empty(session('id_periodista')))
-						<a class="Default_quitarMovil" href="{{ route('Index') }}"><img class="Default_login" src="{{ asset('/iconos/perfil/outline_face_6_black_24dp.png') }}"/></a>		
-					@endif
-				</div>
-			</div>
+			@include('layouts.partials.carita')
 		</header>
 		
 		<!-- MEMBRETE DESPLAZANTE -->
@@ -132,7 +95,7 @@
 				}	
 					?>
 
-				<!-- NUESTRO ADN-->			            
+				<!-- NUESTRO ADN -->			            
 				<a class="Default_quitarEscritorio" style=" color: white; " href="#">
 					<div class="tapa-logo--ADN" style="margin-left: -10px; margin-top: 12px">
 						<img style="width: 2em; margin-lef:0px; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_groups_white_24dp.png') }}" rel="noopener noreferrer"/>Nuestro ADN

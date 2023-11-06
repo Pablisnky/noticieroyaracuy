@@ -217,8 +217,8 @@
 	}
 	.cont_detalle--imagen{
 		height: fit-content;
-		max-height: 75vw;
-		min-height: 75vw;
+		max-height: 80vw;
+		min-height: 80vw;
 		margin-top: 1%;
 		object-fit: contain;
 	}
@@ -232,7 +232,7 @@
 	}
 	.cont_detalle--imagenMiniatura{
 		width: 50px;
-		height: 40px;
+		height: 50px;
 	} 
 	.detalle_cont--cerrar{
 		top: 105%;
@@ -262,12 +262,6 @@
 	.detalle_cont--contenido{
 		width: 97%;
 	}
-	.detalle_cont--membrete{	
-		font-size: 1.5em;
-		margin-left: 5%;
-		margin-top: -2%;
-		margin-bottom: 1%;
-	}
 	.detalle_cont--fuente{
 		font-size: 0.8em
 	}
@@ -278,6 +272,7 @@
 	}
 	.detalle_cont--redesSociales{
 		width: 70%;
+		margin-top: initial;
 	}
 	.detalle_cont--redesSociales-facebook{
 		width: 45%;
@@ -600,8 +595,6 @@
 	}
 	.cont_detalle_Producto--informacion{
 		width: 95%;
-		margin: 3% auto;
-		padding-left: 5%;
 	}
 	.contenedor_15{
 		width: 95%;
@@ -698,6 +691,7 @@
 }
 .contenedor_125{
 	margin-top: 0%;
+	width: 95%;
 }
 .contenedor_95{
 	margin: auto;
@@ -721,21 +715,13 @@
 .cont_producto{
 	height: 160px;
 }
-.header__titulo--detalleProducto{
+.header__titulo--membrete{
 	position: fixed;
 	top: 0%;
 	left: 0%;
 	z-index: 3;
 	font-size: 1.8em;
 	padding-left: 3%;
-}
-.header__subtitulo--detalleProducto{
-	position: fixed;
-	top: 3%;
-	left: 0%;
-	z-index: 2;
-	font-size: 1.3em;
-	padding-left: 2%;
 }
 .header__subtitulo--catalogo{
 	display: none;
@@ -1374,15 +1360,14 @@
 	right: 4%;
 }
 .ocultar{
-	opacity: 1;
-	top: 100px;
+	top: 0px;
 }
-.cont_catalogos--p{
+.cont_catalogos--a{
 	line-height: 40px;
 	height: 40px;
 	font-size: 5vw;
 }
-.cont_catalogos--p:hover{
+.cont_catalogos--a:hover{
 	cursor: pointer;
 	background-color: rgba(51, 51, 51, 0.2);
 	line-height: 40px;
@@ -1429,12 +1414,8 @@
 	height: 85vh;
 	margin-top: 15vh!important;
 } 
-.cont_catalogos--secciones--item{
-	display: block;
-	height: 5vh;
-}
 .cont_catalogos--productos{
-	margin-top: -85vh;
+	margin-top: 20vh;
 	padding-top: 2vh;
 }
 .con_portada--titulo{
@@ -1701,6 +1682,7 @@
  .imagen_3{
 	 width: 100%;
 	 object-fit: contain; 
+	 margin-left: 0%;
  }
  .cont_ObraDetalle--iconos{
 	 display: flex;
@@ -2013,33 +1995,10 @@
 	clear: left;
 	margin-bottom: 5%;
  }
- .cont_directorioCom_h1{
-	background-color: white;
-	top: 8%;
-	font-size: 7vw;
-	text-align: center;
-	height: initial;
-	width: 100%;
-	clear: left;
-	margin-bottom: 5%;
- }
  .cont_direccionCom--maain{
 	display: block;
 	margin-top: 15%;
 	margin-bottom: 4%;
- }
- .cont_directorioCom{
-	 top: 13%;
-	 width: 95%; 
-	 padding-top: 1%; 
-	 margin-left: 2%;
- }
- .cont_directorioCom--lazy{
-	 column-count: 1 !important;
-	 column-fill: balance;
-	 width: 100%;
-	 padding-left: 0%; 
-	 margin-top: 35%;
  }
  .cont_panel--NoNoticia {
 	 margin-top: 10%;
@@ -2053,8 +2012,6 @@
 .cont_panel--titulo{
    width: 100%;
 }
-
-
 .cont_panel--textarea{
 	min-height: 500px;
 }
@@ -2066,6 +2023,12 @@
 }
 .h1_1--margin{
 	width: 100%;
+}
+.cont_obras{	
+	margin-top: 5%;
+}
+.contGridUna{
+	padding-top: initial;
 }
 
 

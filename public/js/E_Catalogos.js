@@ -72,9 +72,9 @@ document.getElementsByTagName("body")[0].addEventListener('keydown', function(e)
     }
 
 //************************************************************************************************
-    var statu = false //CUando carga el archivo le da valor false, solo la primera vez luego el valor cambia al llamar la funcion
+    var statu = false // Cuando carga el archivo le da valor false, solo la primera vez luego el valor cambia al llamar la funcion
     function MostrarSecciones(){        
-    console.log("______Desde MostrarSecciones______")   
+    // console.log("______Desde MostrarSecciones______")   
        
         if(statu == true){
             document.getElementById("Con_Secciones").classList.remove("ocultar");        
@@ -241,9 +241,10 @@ if(document.getElementById("Label_1")){
         // En el caso que la seccion tenga un solo producto, se añade un input radio, sino se añade el Opcion.legth sera undefined y no entrará en el ciclo for
         if(Opcion.length == undefined){
 
-        //Se añade una opcion al input tipo radio para que existan al menos dos opciones, cuando es uno el valor de Opcion.length es undefined lo que impide que se ejecute el ciclo for más adelante, esto sucede cuando solo existe un producto en una seccción
+            //Se añade una opcion al input tipo radio para que existan al menos dos opciones, cuando es uno el valor de Opcion.length es undefined lo que impide que se ejecute el ciclo for más adelante, esto sucede cuando solo existe un producto en una seccción
             //Se crea un input tipo radio que pertenezca a los de name = "opcion"
             var NuevoElemento = document.createElement("input")
+            console.log("NuevoElemento= ", NuevoElemento)
 
             //Se dan valores a la propiedades del nuevo elemento 
             NuevoElemento.name = "opcion"
@@ -1285,24 +1286,24 @@ if(document.getElementById("Label_1")){
     }
    
 //************************************************************************************************
-//Muestra el contenedor del input transferencia
-    function verInputTransferencia(){
-        document.getElementById("InputTransferencia").style.display = "block"
-        document.getElementById("CaptureTransferencia").style.display = "none"
+//Muestra el contenedor del input referencia bancaria
+    function verInputReferencia(){
+        document.getElementById("InputReferencia").style.display = "block"
+        document.getElementById("InputCapturePago").style.display = "none"
     }
 
 //************************************************************************************************
-    //Muestra el contenedor del capture transferencia
-    function verCaptureTransferencia(){
-        document.getElementById("InputTransferencia").style.display = "none"
-        document.getElementById("CaptureTransferencia").style.display = "block"
+    //Muestra el contenedor del capture de pago
+    function verCapturePago(){
+        document.getElementById("InputReferencia").style.display = "none"
+        document.getElementById("InputCapturePago").style.display = "block"
     }
 
 //************************************************************************************************
-    //Da una vista previa del capture de transferencia bancaria
-    function CaptureTransferencia(){
-        var contenedor = document.getElementById("DivCaptureTransferencia");
-        var archivos = document.getElementById("ImagenTransferencia").files;
+    //Da una vista previa del capture de pago
+    function CapturePago(){
+        var contenedor = document.getElementById("DivCapturePago");
+        var archivos = document.getElementById("ImagenCapturePago").files;
 
         if(contenedor.childElementCount < 1){
             for(i = 0; i < archivos.length; i++){
@@ -1318,90 +1319,12 @@ if(document.getElementById("Label_1")){
             //Se elimina la imagen existente
             contenedor.removeChild(imgTag);
 
-            CaptureTransferencia()
+            // Mostrar_CapturePago()
         }
         
         // document.getElementById("InformarPago").style.display = "block"
     }
      
-//************************************************************************************************
-    //Da una vista previa del capture del pagoMovil
-    function CapturePagoMovil(){
-        var contenedor = document.getElementById("DivCapturePagoMovil");
-        var archivos = document.getElementById("ImagenPagoMovil").files;
-
-        if(contenedor.childElementCount < 1){
-            for(i = 0; i < archivos.length; i++){
-                imgTag = document.createElement("img");
-                imgTag.height = 400;
-                imgTag.width = 280;   
-                imgTag.objectFit = "cover" 
-                imgTag.src = URL.createObjectURL(archivos[i]);
-                contenedor.appendChild(imgTag);
-            }
-        }
-        else{
-            //Se elimina la imagen existente
-            contenedor.removeChild(imgTag);
-
-            CapturePagoMovil()
-        }
-
-        document.getElementById("InformarPago").style.display = "block"
-    }
-
-//************************************************************************************************
-    //Da una vista previa del capture de Paypal
-    function CapturePagoPaypal(){
-        var contenedor = document.getElementById("DivCapturePagoPaypal");
-        var archivos = document.getElementById("ImagenPagoPaypal").files;
-
-        if(contenedor.childElementCount < 1){
-            for(i = 0; i < archivos.length; i++){
-                imgTag = document.createElement("img");
-                imgTag.height = 400;
-                imgTag.width = 280;   
-                imgTag.objectFit = "cover" 
-                imgTag.src = URL.createObjectURL(archivos[i]);
-                contenedor.appendChild(imgTag);
-            }
-        }
-        else{
-            //Se elimina la imagen existente
-            contenedor.removeChild(imgTag);
-
-            CapturePagoPaypal()
-        }
-        
-        document.getElementById("InformarPago").style.display = "block"
-    }
-
-//************************************************************************************************
-    //Da una vista previa del capture del Zelle
-    function CapturePagoZelle(){
-        var contenedor = document.getElementById("DivCapturePagoZelle");
-        var archivos = document.getElementById("ImagenPagoZelle").files;
-
-        if(contenedor.childElementCount < 1){
-            for(i = 0; i < archivos.length; i++){
-                imgTag = document.createElement("img");
-                imgTag.height = 400;
-                imgTag.width = 280;   
-                imgTag.objectFit = "cover" 
-                imgTag.src = URL.createObjectURL(archivos[i]);
-                contenedor.appendChild(imgTag);
-            }
-        }
-        else{
-            //Se elimina la imagen existente
-            contenedor.removeChild(imgTag);
-
-            CapturePagoZelle()
-        }
-        
-        document.getElementById("InformarPago").style.display = "block"
-    }
-
 //************************************************************************************************
     //Coloca el cursor en el input automaticamente 
     function autofocus(id){
@@ -1462,13 +1385,8 @@ if(document.getElementById("Label_1")){
         return false;
     }
 
-// ************************************************************************************************
-    function EliminarLeyendaVitrina(){
-        alert("HOA")
-    }
-
 //************************************************************************************************
-    // invocada desde carrito_V.php
+    // muestra la informacion para pagos via transferencia bancaria
     function verPagoTransferencia(){
         // console.log("______Desde verTransferenciaBancaria()______") 
         
@@ -1476,13 +1394,14 @@ if(document.getElementById("Label_1")){
         document.getElementById("Contenedor_60b").style.display = "none"
         document.getElementById("Contenedor_60e").style.display = "none"
         document.getElementById("Contenedor_60g").style.display = "none"
+        document.getElementById("Contenedor_60f").style.display = "block"
         
         //Se muestra el monto total de la compra en Bolivares
         document.getElementById("PagarTransferencia").value = SeparadorMiles(MontoTotal) + " Bs."
     }
 
 //************************************************************************************************
-    // invocada desde carrito_V.php
+    // muestra la informacion para pagos via pagomovil
     function verPagoMovil(){
         // console.log("______Desde verPagoMovil()______") 
         
@@ -1490,25 +1409,27 @@ if(document.getElementById("Label_1")){
         document.getElementById("Contenedor_60b").style.display = "block"
         document.getElementById("Contenedor_60e").style.display = "none"
         document.getElementById("Contenedor_60g").style.display = "none"
+        document.getElementById("Contenedor_60f").style.display = "block"
 
         //Se muestra el monto total de la compra en Bolivares
         document.getElementById("PagarPagoMovil").value = SeparadorMiles(MontoTotal) + " Bs."
     }
 
 //************************************************************************************************
-    // invocada desde carrito_V.php
+    // muestra la informacion para pagos via paypal
     function verPagoPaypal(){
         document.getElementById("Contenedor_60a").style.display = "none"
         document.getElementById("Contenedor_60b").style.display = "none"
         document.getElementById("Contenedor_60e").style.display = "none"
         document.getElementById("Contenedor_60g").style.display = "block"
+        document.getElementById("Contenedor_60f").style.display = "block"
         
         //Se muestra el monto total de la compra en Dolares
         document.getElementById("PagarDolaresPaypal").value = SeparadorMiles(MontoTotalDolares) + " USD"
     }
 
 //************************************************************************************************
-    // invocada desde carrito_V.php
+    // muestra la informacion para pagos via pago acordado
     function verPagoAcordado(){
         // console.log("______Desde verPagoAcordado()______") 
 
@@ -1516,6 +1437,7 @@ if(document.getElementById("Label_1")){
         document.getElementById("Contenedor_60b").style.display = "none"
         document.getElementById("Contenedor_60e").style.display = "block"
         document.getElementById("Contenedor_60g").style.display = "none"
+        document.getElementById("Contenedor_60f").style.display = "none"
     }
     
 //************************************************************************************************
@@ -1554,10 +1476,8 @@ if(document.getElementById("Label_1")){
                 // console.log("FormaPago", FormaPagoSeleccionada)
             }
         }       
-        let RegistroPago_Transferencia = document.getElementById('RegistroPago_Transferencia').value
-        let CaptureTransferencia = document.getElementById('ImagenTransferencia').value  
-        let CapturePagoMovil = document.getElementById('ImagenPagoMovil').value 
-        let CapturePagoPaypal = document.getElementById('ImagenPagoPaypal').value
+        let Codigo_RegistroPago = document.getElementById('Codigo_RegistroPago').value
+        let CaptureTransferencia = document.getElementById('ImagenCapturePago').value  
         
         //Patron de entrada solo acepta letras (Nombre - Apellido)
         let P_Letras = /^[ñA-Za-zÁÉÍÓÚáéíóú _]*[ñA-Za-zÁÉÍÓÚáéíóú][ñA-Za-zÁÉÍÓÚáéíóú _]*$/
@@ -1717,30 +1637,6 @@ if(document.getElementById("Label_1")){
         else if(PagoSeleccionado == "Transferencia" && FormaPagoSeleccionada == "CaptureTransferencia"){            
             if(Ext_Permitidas.exec(CaptureTransferencia ) == false || CaptureTransferencia .size > 20000){
                 alert("Introduzca el capture de la transferencia")
-                document.getElementsByClassName("botonJS")[0].value = "Enviar pago"
-                document.getElementsByClassName("botonJS")[0].disabled = false
-                document.getElementsByClassName("botonJS")[0].style.backgroundColor = "var(--OficialOscuro)"
-                document.getElementsByClassName("botonJS")[0].style.color = "var(--OficialClaro)"
-                document.getElementsByClassName("botonJS")[0].classList.remove('borde_1')
-                document.getElementsByClassName("botonJS")[0].style.cursor = "pointer"
-                return false;
-            }
-        }
-        else if(PagoSeleccionado == "PagoMovil"){            
-            if(Ext_Permitidas.exec(CapturePagoMovil) == false || CapturePagoMovil .size > 20000){
-                alert("Introduzca el capture del PagoMovil")
-                document.getElementsByClassName("botonJS")[0].value = "Enviar pago"
-                document.getElementsByClassName("botonJS")[0].disabled = false
-                document.getElementsByClassName("botonJS")[0].style.backgroundColor = "var(--OficialOscuro)"
-                document.getElementsByClassName("botonJS")[0].style.color = "var(--OficialClaro)"
-                document.getElementsByClassName("botonJS")[0].classList.remove('borde_1')
-                document.getElementsByClassName("botonJS")[0].style.cursor = "pointer"
-                return false;
-            }
-        }
-        else if(PagoSeleccionado == "Paypal"){            
-            if(Ext_Permitidas.exec(CapturePagoPaypal) == false || CapturePagoPaypal .size > 20000){
-                alert("Introduzca el capture del pago en Paypal")
                 document.getElementsByClassName("botonJS")[0].value = "Enviar pago"
                 document.getElementsByClassName("botonJS")[0].disabled = false
                 document.getElementsByClassName("botonJS")[0].style.backgroundColor = "var(--OficialOscuro)"

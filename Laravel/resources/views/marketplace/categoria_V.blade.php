@@ -7,9 +7,26 @@
     <!-- CDN iconos de font-awesome-->
     <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css'/>
 
-    <div class="contenedor_4">
-        
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Arte';?>" rel="noopener noreferrer">
+    <header class="cont_clasificados">
+        <div class="cont_clasificados--item-1 Default_quitarMovil">
+            <h1 class="h1_1">Directorio Comercial</h1> 
+        </div>
+
+        <!-- BUSCADOR -->
+        <div style="display:flex; justify-content: space-around; align-items: center; margin-top: 5px; width: 100%; ">
+            <div>
+                <input style="width: 110%;" class="login_cont--input borde--input" type="text" name="buscador" id="Buscador" placeholder="Buscar por nombre de tienda"/>
+            </div>
+            <div>
+                <img class="Default_pointer" style="width: 100%;" src="{{ asset('/iconos/refrescar/outline_refresh_black_24dp.png') }}" id="Refrescar"/>
+            </div>
+        </div>
+        <div class="cont_clasificados--item-2">
+            <a class="boton boton--publicar" href="{{ route('Registro') }}" rel="noopener noreferrer">Crear Tienda</a>
+        </div>
+    </header>
+    <div class="cont_directorio--main">        
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Arte';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>ARTE LITERATURA</h2>
                 <i class="fas fa-pen-nib icono_2"></i>      
@@ -38,7 +55,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Bodega';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Bodega';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>BODEGAS</h2>
                 <i class="fas fa-store icono_2"></i>    
@@ -67,7 +84,7 @@
             </div>
         </a>
         
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/ComidaRapida';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/ComidaRapida';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>COMIDA RAPIDA</h2>
                 <i class="fas fa-drumstick-bite icono_2"></i>            
@@ -96,7 +113,7 @@
             </div> 
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Cosmeticos';?>" rel="noopener noreferrer">    
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Cosmeticos';?>" rel="noopener noreferrer">    
             <div>
                 <h2 class='h2_1'>COSMETICOS</h2>  
                 <i class="fas fa-female icono_2"></i>    
@@ -125,7 +142,7 @@
             </div> 
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Mascotas';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Mascotas';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>MASCOTAS</h2>
                 <i class="fas fa-cat icono_2"></i>                
@@ -154,7 +171,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/RepuestoAutomotriz';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/RepuestoAutomotriz';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>REPUESTO AUTOMOTRIZ</h2>
                 <i class="fas fa-car-crash icono_2"></i>                
@@ -183,7 +200,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/MaterialMedicoQuirurgico';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/MaterialMedicoQuirurgico';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>MATERIAL MÉDICO</h2>
                 <i class="fas fa-hospital icono_2"></i>              
@@ -212,7 +229,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Caramelos';?>" rel="noopener noreferrer">    
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Caramelos';?>" rel="noopener noreferrer">    
             <div>
                 <h2 class='h2_1'>CHOCOLATES CARAMELOS</h2>
                 <i class="fas fa-candy-cane icono_2"></i>         
@@ -241,7 +258,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Merceria';?>" rel="noopener noreferrer">    
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Merceria';?>" rel="noopener noreferrer">    
             <div>
                 <h2 class='h2_1'>MERCERÍA TALABARTERÍA</h2>
                 <i class="fas fa-hat-cowboy-side icono_2"></i>      
@@ -270,7 +287,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Frutas';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Frutas';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>FRUTAS VERDURAS</h2>
                 <i class="fas fa-carrot icono_2"></i>    
@@ -299,7 +316,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Minimarket';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Minimarket';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>MINIMARKET</h2>
                 <i class="fas fa-shopping-basket icono_2"></i>    
@@ -359,7 +376,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Farmacia';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Farmacia';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>FARMACIA SALUD</h2>
                 <i class="fas fa-medkit icono_2"></i>    
@@ -388,7 +405,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Ferreteria';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="{{ route('TiendasCategoria', ['nombreCategoria' => 'Ferreteria']) }}" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>FERRETRÍA HOGAR</h2>
                 <i class="fas fa-screwdriver icono_2"></i>    
@@ -397,6 +414,7 @@
                             @foreach($cantidadTiendasCategoria as $arr)
                                 @if($arr->categoriaComerciante == 'Ferreteria') 
                                     @php($CantidadFerreteria = $arr->cantidad)
+                                    {{ $CantidadFerreteria }}
                                     <style>
                                         .ferreteria_js {
                                             background-color: var(--Aciertos);
@@ -417,7 +435,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Panaderia';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Panaderia';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>PANADERÍA PASTELERÍA</h2>
                 <i class="fas fa-birthday-cake icono_2"></i>    
@@ -446,7 +464,7 @@
             </div> 
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Licoreria';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Licoreria';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>LICORES</h2>
                 <i class="fas fa-wine-bottle icono_2"></i>    
@@ -475,7 +493,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/JoyasRelojeria';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/JoyasRelojeria';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>JOYAS RELOJERÍA</h2>
                 <i class="fas fa-gem icono_2"></i>    
@@ -504,7 +522,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Deportes';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Deportes';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>DEPORTES</h2>
                 <i class="fas fa-biking icono_2"></i>    
@@ -533,7 +551,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Floristeria';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Floristeria';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>FLORISTERÍA DECORACIÓN</h2>
                 <i class="fas fa-leaf icono_2"></i>    
@@ -562,7 +580,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Construccion';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Construccion';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>CONSTRUCCIÓN</h2>
                 <i class="fas fa-hard-hat icono_2"></i>    
@@ -591,7 +609,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Telefonos';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Telefonos';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>TELEFONOS COMPUTADORAS</h2>
                 <i class="fas fa-mobile-alt icono_2"></i>    
@@ -620,7 +638,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Papeleria';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Papeleria';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>PAPELERÍA OFICINA</h2>
                 <i class="fas fa-paperclip icono_2"></i>    
@@ -678,7 +696,7 @@
             </div>
         </a>
 
-        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/Suscriptor_C/categoria/Papeleria';?>" rel="noopener noreferrer">
+        <a class="contenedor_6 borde_1 Default_font--black" href="<?php //echo RUTA_URL . '/SuscriptorController/categoria/Papeleria';?>" rel="noopener noreferrer">
             <div>
                 <h2 class='h2_1'>LIBRERÍAS Y MÚSICA</h2>
                 <i class="fas fa-book icono_2"></i>    
@@ -716,6 +734,6 @@
 
     {{-- @include('layouts/footer') --}}
 
-    <script src="<?php //echo RUTA_URL . '/public/javascript/funcionesVarias.js?v='. rand();?>"></script>
+    <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
     
 @endsection()

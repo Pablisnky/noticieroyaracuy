@@ -4,25 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\reciboCompra_mail;
+
 use App\Models\Comerciante_M; 
 
 use App\Traits\Divisas; 
-use App\Http\Controllers\Suscriptor_C;
+use App\Traits\ServidorUse;
+use App\Traits\Comprimir_Imagen;
+
+use App\Http\Controllers\SuscriptorController;
 
 
 class MarketplaceController extends Controller
 {
     use Divisas; //Traits
+    use ServidorUse; //Traits
+    use Comprimir_Imagen; //Traits
     
     private $Dolar;
-    private $Instancia_Suscriptor_C;
+    private $Comprimir;
+    private $Servidor;
+    private $Instancia_SuscriptorController;
     
     public function __construct(){
 
-        $this->Instancia_Suscriptor_C = new Suscriptor_C();
+        $this->Instancia_SuscriptorController = new SuscriptorController();
         
         //Solicita el precio del dolar al Trait Divisas
         $this->Dolar = $this->ValorDolar();
+        
+        $this->Servidor = $this->conexionServidor(); // metodo en Traits ServidorUse
     }
         
     // Muestra la vista con todos los productos, los muestra de manera aleatoria
@@ -38,8 +50,8 @@ class MarketplaceController extends Controller
             ->get(); 
             // return $Productos; 
             
-            //Solicita datos del suscriptor al controlador Suscriptor_C   
-            $Suscriptores = $this->Instancia_Suscriptor_C->suscriptores();
+            //Solicita datos del suscriptor al controlador SuscriptorController   
+            $Suscriptores = $this->Instancia_SuscriptorController->suscriptores();
             // return $Suscriptores;
         
             return view('marketplace.clasificados_V', [
@@ -78,12 +90,12 @@ class MarketplaceController extends Controller
             // return $ImagenesSec; 
         
         //CONSULTA solo el ID_Suscriptor para usarlo como filtro en table comerciante
-        // $Vendedor = $this->Instancia_Suscriptor_C->index($Producto->ID_Comerciante);
+        // $Vendedor = $this->Instancia_SuscriptorController->index($Producto->ID_Comerciante);
         // return gettype($Vendedor);
         // return $Vendedor;         
       
-        //Se consulta en la tabla del rol comerciante, esta debe estar en la BD clasificados
-        $Comerciante = $this->Instancia_Suscriptor_C->suscriptorComerciante($Producto->ID_Comerciante);        
+        //Se consulta en la tabla del rol comerciante, en la BD MySQL_2
+        $Comerciante = $this->Instancia_SuscriptorController->suscriptorComerciante($Producto->ID_Comerciante);        
         // return $Comerciante;
         
         return view('marketplace.detalleProducto_V', [
@@ -97,7 +109,7 @@ class MarketplaceController extends Controller
         );
     } 
 
-    // muestra la vista de todos los productos de una tienda
+    // muestra la vista de todos los productos de un comerciante
     public function catalogo($ID_Comerciante){
         
         // Consulta todos los productos publicados en clasificados de un suscriptor especifico 
@@ -116,31 +128,87 @@ class MarketplaceController extends Controller
         $Secciones = DB::connection('mysql_2')->table('secciones') 
             ->select('ID_Seccion','seccion') 
             ->where('ID_Comerciante', '=', $ID_Comerciante)
+            ->orderBy('seccion', 'asc')
             ->get(); 
             // return $Secciones; 
             
-        //Solicita datos del suscriptor al controlador Suscriptor_C   
-        $Comerciante = $this->Instancia_Suscriptor_C->suscriptorComerciante($ID_Comerciante);
+        //Solicita datos del suscriptor al controlador SuscriptorController   
+        $Comerciante = $this->Instancia_SuscriptorController->suscriptorComerciante($ID_Comerciante);
         // return $Comerciante; 
         
         return view('marketplace.catalogos_V', [
             'dolar' => $this->Dolar,
             'id_comerciante' => $ID_Comerciante,
             'productos' => $Productos,
-            'suscriptor' => $Comerciante,
+            'comerciante' => $Comerciante,
             'secciones' => $Secciones
             ]
         );
     }  
 
-    // muestra la VISTA carrito de compras
-    public function verCarrito($ID_Suscriptor, $Dolar){ 
+    // muestra los productos de una seccion especifica
+    public function Secciones($ID_Comerciante, $ID_Seccion){
         
+        //Consulta las secciones de un catalogo especifico 
+        $Secciones = DB::connection('mysql_2')
+        ->select(
+            "SELECT ID_Seccion, seccion 
+            FROM secciones 
+            WHERE ID_Comerciante = '$ID_Comerciante'
+            ORDER BY seccion
+            ASC; ");
+        // return gettype($Secciones);
+        // return $Secciones;
+       
+        if(is_numeric($ID_Seccion)){          
+            //Consulta los productos  de una seccion especifica
+            $Productos = DB::connection('mysql_2')
+                ->select(
+                "SELECT productos.ID_Producto, productos.ID_Comerciante, opciones.ID_Opcion, ID_Seccion, producto, nombre_img, opcion, precioBolivar, precioDolar, cantidad, nuevo
+                FROM productos 
+                INNER JOIN imagenes ON productos.ID_Producto=imagenes.ID_Producto
+                INNER JOIN productos_opciones ON productos.ID_Producto=productos_opciones.ID_Producto
+                INNER JOIN opciones ON productos_opciones.ID_Opcion=opciones.ID_Opcion
+                INNER JOIN secciones_productos ON productos.ID_Producto=secciones_productos.ID_Producto
+                WHERE productos.ID_Comerciante = $ID_Comerciante AND ID_Seccion = $ID_Seccion AND fotoPrincipal = 1;");
+                // return gettype($Productos);
+                // return $Productos;
+        }
+        else{         
+            //Consulta los productos de todo el catalogo          
+            $Productos = DB::connection('mysql_2')
+                ->select(
+                "SELECT productos.ID_Producto, productos.ID_Comerciante, opciones.ID_Opcion, ID_Seccion, producto, nombre_img, opcion, precioBolivar, precioDolar, cantidad, nuevo
+                FROM productos 
+                INNER JOIN imagenes ON productos.ID_Producto=imagenes.ID_Producto
+                INNER JOIN productos_opciones ON productos.ID_Producto=productos_opciones.ID_Producto
+                INNER JOIN opciones ON productos_opciones.ID_Opcion=opciones.ID_Opcion
+                INNER JOIN secciones_productos ON productos.ID_Producto=secciones_productos.ID_Producto
+                WHERE productos.ID_Comerciante = $ID_Comerciante AND fotoPrincipal = 1;");
+        }
+        
+        // Se consultan datos del comerciante al controlador SuscriptorController     
+        $Comerciante = $this->Instancia_SuscriptorController->suscriptorComerciante($ID_Comerciante);
+        // return $Comerciante; 
+        
+        return view('marketplace.catalogos_V', [
+            'dolar' => $this->Dolar,
+            'id_comerciante' => $ID_Comerciante,
+            'productos' => $Productos,
+            'comerciante' => $Comerciante,
+            'secciones' => $Secciones
+            ]
+        );
+    } 
+
+    // muestra la VISTA carrito de compras
+    public function verCarrito($ID_Comerciante, $Dolar){ 
+
         // CONSULTA información del vendedor
         // $ContactoTienda = DB::connection('mysql_2')->table('afiliado_com') 
         //     ->select('telefono_AfiCom','ID_Tienda') 
         //     ->join('tiendas', 'afiliado_com.ID_AfiliadoCom','=','tiendas.ID_AfiliadoCom')  
-        //     ->where('afiliado_com.ID_AfiliadoCom', '=', $ID_Suscriptor)
+        //     ->where('afiliado_com.ID_AfiliadoCom', '=', $ID_Comerciante)
         //     ->first(); 
             // return $ContactoTienda; 
             
@@ -151,7 +219,7 @@ class MarketplaceController extends Controller
         session(['Carrito' =>  1806]);
 
         return view('marketplace.carrito_V', [
-            'id_suscriptor' => $ID_Suscriptor,
+            'id_comerciante' => $ID_Comerciante,
             // 'contactoTienda' => $ContactoTienda, 
             'dolar' => $Dolar, 
             'costoDelivery' => $CostoDelivery
@@ -174,7 +242,7 @@ class MarketplaceController extends Controller
                 }
 
                 $RecibeDatosUsuario = [                    
-                    'id_tienda' => $Request->get('id_tienda'),
+                    'id_comerciante' => $Request->get('id_comerciante'),
                     'id_usuario' => $Request->get('id_usuario'),
                     'nombreUsuario' => $Request->get('nombreUsuario'),
                     'apellidoUsuario' => $Request->get('apellidoUsuario'),
@@ -188,10 +256,10 @@ class MarketplaceController extends Controller
                     'montoTotal' => $Request->get('montoTotal'),
                     'montoTienda' => $Request->get('montoTienda'),
                 ];        
-                echo '<pre>';
-                print_r($RecibeDatosUsuario);
-                echo '</pre>';
-                exit();
+                // echo '<pre>';
+                // print_r($RecibeDatosUsuario); 
+                // echo '</pre>';
+                // exit();
                 
                  //Se solicita la hora de la compra
                  date_default_timezone_set('America/Caracas');
@@ -202,13 +270,9 @@ class MarketplaceController extends Controller
                     'formaPago' => $Request->get('formaPago'),
                     'entrega' => $Request->get('entrega'),
                     'despacho' => $Request->get('despacho'),
-                    'codigoTransferencia' => $Request->get('codigoTransferencia'),
+                    'codigoReferencia' => $Request->get('codigoReferencia'),
                     'Hora' => $Hora
-                 ];           
-                //  echo '<pre>';
-                //  print_r($RecibeDatosPedido);
-                //  echo '</pre>';
-                //  exit()
+                 ];         
                  
                  //Despues de evaluar con is_numeric se da un aviso en caso de fallo
                 //  if($RecibeDatos['Telefono'] == false){      
@@ -274,9 +338,9 @@ class MarketplaceController extends Controller
                         $Inventario = $Key->cantidad - $Cantidad;
                         
                         // Se ACTUALIZA el inventario de los productos pedidos
-                        DB::connection('mysql_2')->table('opciones')
-                            ->where('ID_Opcion', $ID_Opcion)
-                            ->update(['cantidad' => $Inventario]);
+                        // DB::connection('mysql_2')->table('opciones')
+                        //     ->where('ID_Opcion', $ID_Opcion)
+                        //     ->update(['cantidad' => $Inventario]);
                     endforeach;
                 }
                 else{
@@ -302,12 +366,12 @@ class MarketplaceController extends Controller
 
             // Sino se recibe el codigo de transferencia se da un valor por defecto
             // *****************************************
-            if(empty($RecibeDatosPedido['CodigoTransferencia'])){
-                // $CodigoTransferencia = $RecibeDatosPedido['formaPago'];
-                $CodigoTransferencia = 'No aplica';
+            if(empty($RecibeDatosPedido['CodigoReferencia'])){
+                // $CodigoReferencia = $RecibeDatosPedido['formaPago'];
+                $CodigoReferencia = 'No aplica';
             } 
             else{
-                $CodigoTransferencia = $RecibeDatosPedido['CodigoTransferencia'];
+                $CodigoReferencia = $RecibeDatosPedido['CodigoReferencia'];
             }
                  
              //Se INSERTAN los datos del comprador en la BD si el usuario acepta
@@ -315,7 +379,7 @@ class MarketplaceController extends Controller
 
                  //Se consulta si el usuario ya existe en la BD
                 $UsuarioPedido = DB::connection('mysql_2')->table('usuarios') 
-                    ->select('nombre_usu','apellido_usu','cedula_usu','telefono_usu','correo_usu','Estado_usu','Ciudad_usu','direccion_usu')  
+                    ->select('nombre_usu','apellido_usu','cedula_usu','telefono_usu','correo_usu','Ciudad_usu','direccion_usu')  
                     ->where('cedula_usu', '=', $RecibeDatosUsuario['cedulaUsuario'])
                     ->first(); 
                     // echo gettype($UsuarioPedido);
@@ -331,7 +395,6 @@ class MarketplaceController extends Controller
                          'cedula_usu' => $RecibeDatosUsuario['cedulaUsuario'],
                          'telefono_usu' => $RecibeDatosUsuario['telefonoUsuario'],
                          'correo_usu' => $RecibeDatosUsuario['correoUsuario'],
-                         'estado_usu' => $RecibeDatosUsuario['estado'],
                          'ciudad_usu' => $RecibeDatosUsuario['ciudad'],
                          'direccion_usu' => $RecibeDatosUsuario['direccionUsuario'],
                          'suscrito' => $Suscrito,
@@ -344,27 +407,27 @@ class MarketplaceController extends Controller
             else{
                 // Se INSERTAN pero no se recuerdan porque e usuario no aceptó guardar datos
                 $Suscrito = 0;
-                DB::connection('mysql_2')->table('usuarios') 
-                ->insert(
-                    ['nombre_usu' => $RecibeDatosUsuario['nombreUsuario'], 
-                    'apellido_usu' => $RecibeDatosUsuario['apellidoUsuario'],
-                    'cedula_usu' => $RecibeDatosUsuario['cedulaUsuario'],
-                    'telefono_usu' => $RecibeDatosUsuario['telefonoUsuario'],
-                    'correo_usu' => $RecibeDatosUsuario['correoUsuario'],
-                    'estado_usu' => $RecibeDatosUsuario['estado'],
-                    'ciudad_usu' => $RecibeDatosUsuario['ciudad'],
-                    'direccion_usu' => $RecibeDatosUsuario['direccionUsuario'],
-                    'suscrito' => $Suscrito,
-                    'fecha' => date('Y-m-d'),
-                    'hora' => date('H:i')
-                    ]
-                );
+                // DB::connection('mysql_2')->table('usuarios') 
+                // ->insert(
+                //     ['nombre_usu' => $RecibeDatosUsuario['nombreUsuario'], 
+                //     'apellido_usu' => $RecibeDatosUsuario['apellidoUsuario'],
+                //     'cedula_usu' => $RecibeDatosUsuario['cedulaUsuario'],
+                //     'telefono_usu' => $RecibeDatosUsuario['telefonoUsuario'],
+                //     'correo_usu' => $RecibeDatosUsuario['correoUsuario'],
+                //     'estado_usu' => $RecibeDatosUsuario['estado'],
+                //     'ciudad_usu' => $RecibeDatosUsuario['ciudad'],
+                //     'direccion_usu' => $RecibeDatosUsuario['direccionUsuario'],
+                //     'suscrito' => $Suscrito,
+                //     'fecha' => date('Y-m-d'),
+                //     'hora' => date('H:i')
+                //     ]
+                // );
             }
 
             // Se INSERTAN los datos generales del pedido en la BD
             DB::connection('mysql_2')->table('pedido') 
             ->insert(
-                ['ID_Tienda' => $RecibeDatosUsuario['id_tienda'], 
+                ['ID_Comerciante' => $RecibeDatosUsuario['id_comerciante'], 
                 'ID_Usuario' => $RecibeDatosUsuario['id_usuario'],
                 'numeroorden' => $Ale_NroOrden,
                 'montoDelivery' => $Delivery,
@@ -372,132 +435,145 @@ class MarketplaceController extends Controller
                 'montoTotal' => $RecibeDatosUsuario['montoTotal'],
                 'despacho' => $RecibeDatosPedido['despacho'],
                 'formaPago' => $RecibeDatosPedido['formaPago'],
-                'codigoPago' => $CodigoTransferencia,
+                'codigoPago' => $CodigoReferencia,
                 'fecha' => date('Y-m-d'),
                 'hora' => date('H:i')
                 ]
             );
-             
-            //Se recibe y se inserta el capture de transferencia 
-            if($_FILES['imagenTransferencia']['name'] != ''){
-                $CodigoTransferencia = $RecibeDatosPedido['formaPago'];
-                $archivonombre = 'imagen_2.png';
-                
-                // Se ACTUALIZA el inventario de los productos pedidos
-                DB::connection('mysql_2')->table('opciones')
-                    ->where('ID_Opcion', $ID_Opcion)
-                    ->update(['cantidad' => $Inventario]);
-
-
-
-
-
-
-
-
-
-
-
-            //  $this->ConsultaRecibePedido_M->UpdateCapturePago($Ale_NroOrden, $archivonombre);
-            }
-            else{
-                $archivonombre = $_FILES['imagenTransferencia']['name'];
-                $Ruta_Temporal = $_FILES['imagenTransferencia']['tmp_name'];
-
-                //Usar en remoto
-                $directorio = $_SERVER['DOCUMENT_ROOT'] . '/public/images/capture/';
-
-                //Subimos el fichero al servidor
-                move_uploaded_file($Ruta_Temporal, $directorio.$archivonombre);
-
-                //Se INSERTA el capture del pago por medio de un UPDATE debido a que ya existe un registro con el pedido en curso
-            //  $this->ConsultaRecibePedido_M->UpdateCapturePago($Ale_NroOrden, $archivonombre);
-            }
             
-            //RECIBE CAPTURE PAGOMOVIL
-            if($_FILES['imagenPagoMovil']['name'] != '' && $RecibeDatosPedido['FormaPago'] == 'PagoMovil'){
-                $archivonombre = $_FILES['imagenPagoMovil']['name'];
-                $Ruta_Temporal = $_FILES['imagenPagoMovil']['tmp_name'];
+            // Se ACTUALIZA el inventario de los productos pedidos
+            // DB::connection('mysql_2')->table('opciones')
+            //     ->where('ID_Opcion', $ID_Opcion)
+            //     ->update(['cantidad' => $Inventario]);
 
-                //Usar en remoto
-                $directorio = $_SERVER['DOCUMENT_ROOT'] . '/public/images/capture/';
+            //  $this->ConsultaRecibePedido_M->UpdateCapturePago($Ale_NroOrden, $Archivonombre);
+                
+            //RECIBE CAPTURE DEL PAGO 
+            if($_FILES['imagenCapturePago']['name'] != ''){
+                $Archivonombre = $_FILES['imagenCapturePago']['name'];
+                $Tipo_Archivonombre = $_FILES['imagenCapturePago']['type'];
+                $Tamanio_Archivonombre = $_FILES['imagenCapturePago']['size'];
+                $Temporal_Archivonombre = $_FILES['imagenCapturePago']['tmp_name'];
 
-                //Subimos el fichero al servidor
-                move_uploaded_file($Ruta_Temporal, $directorio.$archivonombre);
+                //Quitar de la cadena del nombre de la imagen todo lo que no sean números, letras o puntos
+                $Archivonombre = preg_replace('([^A-Za-z0-9.])', '', $Archivonombre);
 
-                //Se INSERTA el capture del pago por medio de un UPDATE debido a que ya existe un registro con el pedido en curso
-            //  $this->ConsultaRecibePedido_M->UpdateCapturePago($Ale_NroOrden, $archivonombre);
-            }
-             // else{
-             //     echo 'No se recibio capture de PagoMovil';
-             //     exit;
-             // }
-
-            //RECIBE CAPTURE PAYPAL
-            if($_FILES['imagenPagoPaypal']['name'] != '' && $RecibeDatosPedido['FormaPago'] == 'Paypal'){
-                $archivonombre = $_FILES['imagenPagoPaypal']['name'];
-                $Ruta_Temporal = $_FILES['imagenPagoPaypal']['tmp_name'];
-
-                //Usar en remoto
-                $directorio = $_SERVER['DOCUMENT_ROOT'] . '/public/images/capture/';
-
-                //Subimos el fichero al servidor
-                move_uploaded_file($Ruta_Temporal, $directorio.$archivonombre);
+                // Se coloca nuumero randon al principio del nombrde de la imagen para evitar que existan imagenes duplicadas
+                $Archivonombre = mt_rand() . '_' . $Archivonombre;
 
                 //Se INSERTA el capture del pago por medio de un UPDATE debido a que ya existe un registro con el pedido en curso
-            //  $this->ConsultaRecibePedido_M->UpdateCapturePago($Ale_NroOrden, $archivonombre);
-            }
-             // else{
-             //     echo 'No se recibio capture de pago en Paypal';
-             //     exit;
-             // }
+                DB::connection('mysql_2')->table('pedido')
+                    ->where('numeroorden', $Ale_NroOrden)
+                    ->update(['capture' => $Archivonombre]);
+              
+                // INSSERTA IMAGEN DE CAPTURE EN SERVIDOR
+                // se comprime y se inserta el archivo en el directorio de servidor 
+                $BanderaImg = 'ImagenCapturePago';
+                // metodo en Traits Comprimir_imagen
+                $this->imagen_comprimir($BanderaImg, $this->Servidor, $Archivonombre, $Tipo_Archivonombre, $Tamanio_Archivonombre, $Temporal_Archivonombre);	
+            }      
+                //RECIBE CAPTURE PAGOMOVIL
+            // else if($_FILES['imagenPagoMovil']['name'] != '' && $RecibeDatosPedido['FormaPago'] == 'PagoMovil'){
+            //     $Archivonombre = $_FILES['imagenPagoMovil']['name'];
+            //     $Tipo_Archivonombre = $_FILES['imagenPagoMovil']['type'];
+            //     $Tamanio_Archivonombre = $_FILES['imagenPagoMovil']['size'];
+            //     $Temporal_Archivonombre = $_FILES['imagenPagoMovil']['tmp_name'];
+
+            //     //Quitar de la cadena del nombre de la imagen todo lo que no sean números, letras o puntos
+            //     $Archivonombre = preg_replace('([^A-Za-z0-9.])', '', $Archivonombre);
+
+            //     // Se coloca nuumero randon al principio del nombrde de la imagen para evitar que existan imagenes duplicadas
+            //     $Archivonombre = mt_rand() . '_' . $Archivonombre;
+
+            //     //Se INSERTA el capture del pago por medio de un UPDATE debido a que ya existe un registro con el pedido en curso
+            //     DB::connection('mysql_2')->table('pedido')
+            //         ->where('numeroorden', $Ale_NroOrden)
+            //         ->update(['capture' => $Archivonombre]);
+
+            //     // INSSERTA IMAGEN DE CAPTURE EN SERVIDOR
+            //     // se comprime y se inserta el archivo en el directorio de servidor 
+            //     $BanderaImg = 'ImagenCapturePago';
+            //     // metodo en Traits Comprimir_imagen
+            //     $this->imagen_comprimir($BanderaImg, $this->Servidor, $Archivonombre, $Tipo_Archivonombre, $Tamanio_Archivonombre, $Temporal_Archivonombre);	
+            // }
+            //     //RECIBE CAPTURE PAYPAL
+            // else if($_FILES['imagenPagoPaypal']['name'] != '' && $RecibeDatosPedido['FormaPago'] == 'Paypal'){
+            //     $Archivonombre = $_FILES['imagenPagoPaypal']['name'];
+            //     $Tipo_Archivonombre = $_FILES['imagenPagoPaypal']['type'];
+            //     $Tamanio_Archivonombre = $_FILES['imagenPagoPaypal']['size'];
+            //     $Temporal_Archivonombre = $_FILES['imagenPagoPaypal']['tmp_name'];
+
+            //     //Quitar de la cadena del nombre de la imagen todo lo que no sean números, letras o puntos
+            //     $Archivonombre = preg_replace('([^A-Za-z0-9.])', '', $Archivonombre);
+
+            //     // Se coloca nuumero randon al principio del nombrde de la imagen para evitar que existan imagenes duplicadas
+            //     $Archivonombre = mt_rand() . '_' . $Archivonombre;
+
+            //     //Se INSERTA el capture del pago por medio de un UPDATE debido a que ya existe un registro con el pedido en curso
+            //     DB::connection('mysql_2')->table('pedido')
+            //         ->where('numeroorden', $Ale_NroOrden)
+            //         ->update(['capture' => $Archivonombre]);
+
+            //     // INSSERTA IMAGEN DE CAPTURE EN SERVIDOR
+            //     // se comprime y se inserta el archivo en el directorio de servidor 
+            //     $BanderaImg = 'ImagenCapturePago';
+            //     // metodo en Traits Comprimir_imagen
+            //     $this->imagen_comprimir($BanderaImg, $this->Servidor, $Archivonombre, $Tipo_Archivonombre, $Tamanio_Archivonombre, $Temporal_Archivonombre);	
+            // }
+            //  else{
+            //     echo 'No se recibio capture de pago en Paypal';
+            //     exit;
+            //  }
 
              // ****************************************
              //DATOS ENVIADOS POR CORREOS
-             //Se CONSULTA el pedido recien ingresado a la BD
-            //  $Pedido = $this->ConsultaRecibePedido_M->consultarPedido($Ale_NroOrden);
+             // ****************************************
              
-             //Se CONSULTA el usuario que realizó el pedido
-            //  $Usuario = $this->ConsultaRecibePedido_M->consultarUsuario($RecibeDatosUsuario['Cedula']);
+            //Se CONSULTA el pedido recien ingresado a la BD
+            $Pedido = DB::connection('mysql_2')
+                ->select(
+                "SELECT ID_Pedido, comerciantes.ID_Comerciante, pseudonimoComerciante, seccion, producto, cantidad, opcion, precio, total, detallepedido.numeroorden, DATE_FORMAT(fecha, '%d-%m-%Y') AS fecha, DATE_FORMAT(hora, '%h:%i %p') AS hora, pedido.montoDelivery, pedido.montoTienda, pedido.montoTotal, pedido.despacho, pedido.formaPago, pedido.codigoPago, pedido.capture 
+                FROM detallepedido 
+                INNER JOIN pedido ON detallepedido.numeroorden=pedido.numeroorden 
+                INNER JOIN comerciantes ON pedido.ID_Comerciante=comerciantes.ID_Comerciante
+                WHERE detallepedido.numeroorden = $Ale_NroOrden");
+                // return $Pedido;
+            
+            //Se CONSULTA el usuario que realizó el pedido
+            $ID_Pedido = $Pedido[0]->ID_Pedido;
+            $Usuario = DB::connection('mysql_2')
+                ->select(
+                "SELECT nombre_usu, apellido_usu, cedula_usu, telefono_usu, estado_usu, ciudad_usu, direccion_usu 
+                FROM pedido 
+                INNER JOIN usuarios ON pedido.ID_Usuario=usuarios.ID_Usuario 
+                WHERE ID_Pedido = $ID_Pedido");
              
-             //Se CONSULTA el correo y el nombre de la tienda
-            //  $Tienda = $this->ConsultaRecibePedido_M->consultarCorreo($RecibeDatosPedido['ID_Tienda']);
 
              // Se genera el código de despacho que será solicitado por el despachador
              $Ale_CodigoDespacho = mt_rand(0001,9999);
 
-            //  $DatosCorreo = [
-            //      'informacion_pedido' => $Pedido,
-            //      'informacion_usuario' => $Usuario,
-            //      'informacion_tienda' => $Tienda,
-            //      'Codigo_despacho' => $Ale_CodigoDespacho
-            //  ];
-
-             // echo '<pre>';
-             // print_r($DatosCorreo);
-             // echo '</pre>';
-             // exit;
+            $DatosCorreo = [
+                'informacion_pedido' => $Pedido,
+                'informacion_usuario' => $Usuario,
+                'Codigo_despacho' => $Ale_CodigoDespacho
+            ];
 
             //  $Datos = [
             //      'Codigo_despacho' => $Ale_CodigoDespacho
             //  ];
 
              // CORREOS
-             // **************************************** 
+             // ****************** correo para vendedor y noticieroyaracuy             
+             $bccEmails = ["pcabeza7@gmail.com"];
 
-             //Carga la vista "recibo de compra" dirigida al usuario ubicada en app/clases/controlador.php
-            //  $this->correo('reciboCompra_mail', $DatosCorreo); 
-
-             //Carga la vista de correo "orden de compra" dirigida al cliente y al marketplace
-            //  $this->correo('ordenCompra_mail', $DatosCorreo); 
-
-            //  $this->vista('header/header');
-            //  $this->vista('view/RecibePedido_V', $Datos);
+             Mail::to($RecibeDatosUsuario['correoUsuario'])
+                ->bcc($bccEmails)
+                ->send(new reciboCompra_mail($DatosCorreo));                    
              
-            // return view('marketplace.RecibePedido_V', [
-            //     'codigo_despacho' => $Ale_CodigoDespacho
-            //     ]
-            // );
+            return view('marketplace.RecibePedido_V', [
+                'codigo_despacho' => $Ale_CodigoDespacho
+                ]
+            );
         // }        
         // else{ 
         //      return redirect()->action([Inicio_C::class]);   
@@ -524,7 +600,76 @@ class MarketplaceController extends Controller
             echo $Usuario->nombre_usu . ',' . $Usuario->apellido_usu . ',' .  $Usuario->cedula_usu . ',' .$Usuario->telefono_usu . ',' . $Usuario->correo_usu . ',' . $Usuario->estado_usu . ',' . $Usuario->ciudad_usu . ',' . $Usuario->direccion_usu . ',' . $Usuario->ID_Usuario;
         }
     }
+    
+    // muestra la imagen seleccionada en la miniatura de un producto
+    public function muestraImagenSeleccionada($ID_Imagen){
+        //Se CONSULTA la imagen que se solicito en detalle
+        $ImageneMiniatura = DB::connection('mysql_2')->table('imagenes') 
+            ->select('nombre_img','ID_Comerciante') 
+            ->join('productos', 'imagenes.ID_Producto','=','productos.ID_Producto')
+            ->where('ID_Imagen', '=', $ID_Imagen)
+            ->first(); 
+            // return $ImageneMiniatura; 
 
+        return view('ajax.A_imagenSeleccionada_V', [
+            'imagenSeleccionada' => $ImageneMiniatura,
+        ]);
+    }
+    
+    // Muestra la vista donde aparecen todas las categorias con la cantidad de tiendas activas
+    public function categoria(){
+               
+        // //Se CONSULTA la cantidad de tiendas que estan afiliadas por categorias
+        $CantidadTiendas = DB::connection('mysql_2')
+            ->select("SELECT COUNT(ID_Comerciante) AS 'cantidad', categoriaComerciante 
+                FROM comerciantes
+                WHERE desactivarComerciante = 0
+                GROUP BY categoriaComerciante
+                ORDER BY cantidad
+                DESC");
+                // return gettype($CantidadTiendas);
+                // return $CantidadTiendas;
+        
+        return view('marketplace/categoria_V',[
+                'cantidadTiendasCategoria' => $CantidadTiendas
+            ]); 
+    }
+
+    // muestra todas las tiendas de una categoria especifica, en un flayer, solo si tiene productos o esta activa
+    public function tiendasCategoria($NombreCategoria){
+        
+        //Se CONSULTA tiendas en una misma categria
+        $ComercianteCategorias = DB::connection('mysql_2')
+            ->select(
+                "SELECT ID_Comerciante, pseudonimoComerciante, categoriaComerciante, nombreImgCatalogo
+                FROM comerciantes
+                WHERE categoriaComerciante = '$NombreCategoria' AND desactivarComerciante = 0;");   
+                // return gettype($ComercianteCategorias);
+                // return($ComercianteCategorias);
+
+        //SELECT que trae nueve productos destacados por cada tienda
+        $TiendasProductosDestacados = DB::connection('mysql_2')
+            ->select("SELECT comerciantes.ID_Comerciante, nombre_img
+                FROM comerciantes 
+                INNER JOIN productos ON comerciantes.ID_Comerciante=productos.ID_Comerciante 
+                INNER JOIN imagenes ON productos.ID_Producto=imagenes.ID_Producto 
+                WHERE comerciantes.ID_Comerciante = 3 AND productos.destacar = 1 AND imagenes.fotoPrincipal = 1 
+                ORDER BY producto");   
+                // return gettype($TiendasCategorias);
+                // return($TiendasProductosDestacados);
+        
+        if($ComercianteCategorias != Array()){
+            return view('marketplace.CatalogosCategoria_V',[
+                'comercianteCategorias' => $ComercianteCategorias,
+                'comerciante_productosDestacados' => $TiendasProductosDestacados
+            ]);  
+        }
+        else{
+            return redirect()->action([MarketplaceController::class, 'categoria']);
+            die();
+        }
+    }
+    
     // Actualiza el precio en Bs de los productos en BD segun el precio del dolar a tasa de BCV
     public function dolarHoy(){
 
@@ -558,112 +703,6 @@ class MarketplaceController extends Controller
         return redirect()->action([MarketplaceController::class, 'index']);
         die();
     }
-    
-    // muestra la imagen seleccionada en la miniatura de un producto
-    public function muestraImagenSeleccionada($ID_Imagen){
-        //Se CONSULTA la imagen que se solicito en detalle
-        $ImageneMiniatura = DB::connection('mysql_2')->table('imagenes') 
-            ->select('nombre_img','ID_Comerciante') 
-            ->join('productos', 'imagenes.ID_Producto','=','productos.ID_Producto')
-            ->where('ID_Imagen', '=', $ID_Imagen)
-            ->first(); 
-            // return $ImageneMiniatura; 
-
-        return view('ajax.A_imagenSeleccionada_V', [
-            'imagenSeleccionada' => $ImageneMiniatura,
-        ]);
-    }
-    
-    // Muestra la vista donde aparecen todas las categorias
-    public function categoria(){
-       
-        //Se CONSULTAN todos los estados en los cuales existen tiendas disponibles para mostrar a usuarios
-        // $EstadosTiendas = $this->ConsultaCategoria_M->consultarEstadosTiendas();
-
-        //Se CONSULTAN todas las  tiendas
-        // $CiudadesTiendas = $this->ConsultaCategoria_M->consultarCiudadesTiendas();
-        
-        // //Se CONSULTA la cantidad de tiendas que estan afiliadas por categorias
-        $CantidadTiendas = Comerciante_M::
-            select('categoriaComerciante')           
-            ->selectRaw('COUNT("ID_Comerciante") AS cantidad')
-            ->groupBy("categoriaComerciante")
-            ->orderBy('cantidad', 'desc')
-            ->get();
-            // return gettype($CantidadTiendas);
-            // return $CantidadTiendas;
-        
-        return view('marketplace.categoria_V',[
-                'cantidadTiendasCategoria' => $CantidadTiendas
-            ]); 
-    }
-
-    // muestra las tiendas de una categoria especifica
-    public function tiendasCategoria($NombreCategoria){
-        
-        //Se CONSULTA tiendas en una misma categria
-        $TiendasCategorias = Comerciante_M::
-            select('ID_Comerciante','pseudonimoComerciante','categoriaComerciante','nombreImgCatalogo')   
-            ->where("categoriaComerciante",'=', $NombreCategoria)
-            ->get();
-            // return gettype($TiendasCategorias);
-            // return $TiendasCategorias;
-        
-        return view('marketplace.CatalogosCategoria_V',[
-            'tiendasCategorias' => $TiendasCategorias
-        ]);  
-    }
-
-    public function Secciones($ID_Comerciante, $ID_Seccion){
-        
-        //Consulta las secciones de un catalogo especifico 
-        $Secciones = DB::connection('mysql_2')
-        ->select("SELECT ID_Seccion, seccion FROM secciones WHERE ID_Comerciante = '$ID_Comerciante'; ");
-        // return gettype($Secciones);
-        // return $Secciones;
-       
-        if(is_numeric($ID_Seccion)){          
-            //Consulta los productos  de una seccion especifica
-            $ProductosSeccion = DB::connection('mysql_2')
-                ->select(
-                "SELECT productos.ID_Producto, productos.ID_Comerciante, opciones.ID_Opcion, ID_Seccion, producto, nombre_img, opcion, precioBolivar, precioDolar, cantidad, nuevo
-                FROM productos 
-                INNER JOIN imagenes ON productos.ID_Producto=imagenes.ID_Producto
-                INNER JOIN productos_opciones ON productos.ID_Producto=productos_opciones.ID_Producto
-                INNER JOIN opciones ON productos_opciones.ID_Opcion=opciones.ID_Opcion
-                INNER JOIN secciones_productos ON productos.ID_Producto=secciones_productos.ID_Producto
-                WHERE productos.ID_Comerciante = $ID_Comerciante AND ID_Seccion = $ID_Seccion AND fotoPrincipal = 1;");
-                // return gettype($ProductosSeccion);
-                // return $ProductosSeccion;
-        }
-        else{         
-            //Consulta los productos de todo el catalogo          
-            $ProductosSeccion = DB::connection('mysql_2')
-                ->select(
-                "SELECT productos.ID_Producto, productos.ID_Comerciante, opciones.ID_Opcion, ID_Seccion, producto, nombre_img, opcion, precioBolivar, precioDolar, cantidad, nuevo
-                FROM productos 
-                INNER JOIN imagenes ON productos.ID_Producto=imagenes.ID_Producto
-                INNER JOIN productos_opciones ON productos.ID_Producto=productos_opciones.ID_Producto
-                INNER JOIN opciones ON productos_opciones.ID_Opcion=opciones.ID_Opcion
-                INNER JOIN secciones_productos ON productos.ID_Producto=secciones_productos.ID_Producto
-                WHERE productos.ID_Comerciante = $ID_Comerciante AND fotoPrincipal = 1;");
-        }
-        
-        // Se consultan datos del comerciante
-        $Comerciante = Comerciante_M::
-            select('ID_Comerciante','nombreComerciante','apellidoComerciante','telefonoComerciante','pseudonimoComerciante','municipioComerciante','parroquiaComerciante','categoriaComerciante','nombreImgCatalogo')   
-            ->where("ID_Comerciante",'=', $ID_Comerciante)
-            ->first();
-            // return gettype($Comerciante);
-            // return $Comerciante;
-        
-        return view('marketplace.seccion_V',[
-            'dolarHoy' => $this->Dolar,
-            'suscriptor' => $Comerciante, //cambiar clave a comerciante, pero tomar en cuenta header_catalogo que es llamado en otras vista
-            'productos' => $ProductosSeccion,
-            'secciones' => $Secciones
-        ]);   
-    } 
 }
 
 

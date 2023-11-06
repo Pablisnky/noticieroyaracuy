@@ -22,6 +22,11 @@ class EventosController extends Controller
             ->get();
             // echo gettype($Eventos) . '<br>';
             // return $Eventos; 
+            // dd($Eventos); 
+            // echo '<pre>';
+            // print_r($Eventos);
+            // echo '</pre>';
+            // exit;
         
         return view('eventos/eventos_V', [
             'eventos' => $Eventos

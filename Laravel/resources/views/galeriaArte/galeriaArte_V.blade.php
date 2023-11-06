@@ -77,5 +77,5 @@
     </div>
 
     <script src="{{ asset('/js/funcionesVarias.js?v='. rand()) }}"></script>
-    <script src="{{ asset('/js/E_GaleriaArte.js?v='. rand()) }}"></script>
+    {{-- <script src="{{ asset('/js/E_GaleriaArte.js?v='. rand()) }}"></script> --}}
 @endsection()

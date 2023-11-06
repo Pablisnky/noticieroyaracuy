@@ -155,7 +155,7 @@
     function cerrarSecion(Ruta_CerrarSesion){
         // console.log("______ Desde cerrarSecion() ______", Ruta_CerrarSesion) 
         
-        let ConfirmaCerrarSession = confirm("Desea cerrar sesión laravel");
+        let ConfirmaCerrarSession = confirm("Desea cerrar sesión");
         
         //Se confirma si se desea cerrar sesión
         if(ConfirmaCerrarSession == true){                     

@@ -27,6 +27,8 @@ document.getElementsByTagName("body")[0].addEventListener('keydown', function(e)
 //************************************************************************************************
     //Valida el formulario de login
     function validarLogin(){
+        // console.log("______Desde validarLogin()______")   
+
         document.getElementById("Boton_Login").value = "Iniciando sesión ..."
         document.getElementById("Boton_Login").disabled = "disabled"
         document.getElementById("Boton_Login").style.backgroundColor = "var(--OficialClaro)"
