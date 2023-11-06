@@ -15,7 +15,6 @@ use App\Traits\Comprimir_Imagen;
 
 use App\Http\Controllers\SuscriptorController;
 
-
 class MarketplaceController extends Controller
 {
     use Divisas; //Traits
@@ -37,9 +36,9 @@ class MarketplaceController extends Controller
         $this->Servidor = $this->conexionServidor(); // metodo en Traits ServidorUse
     }
         
-    // Muestra la vista con todos los productos, los muestra de manera aleatoria
+    // Muestra la vista con todos los productos publicados, los muestra de manera aleatoria
     public function index(){  
-        //Consulta todos los productos publicados  
+        // Consulta todos los productos publicados  
         $Productos = DB::connection('mysql_2')->table('productos') 
             ->select('productos.ID_Producto','ID_Comerciante','opciones.ID_Opcion','producto','nombre_img','opcion', 'precioBolivar','precioDolar','cantidad','nuevo')
             ->join('imagenes', 'productos.ID_Producto','=','imagenes.ID_Producto') 
@@ -50,14 +49,18 @@ class MarketplaceController extends Controller
             ->get(); 
             // return $Productos; 
             
-            //Solicita datos del suscriptor al controlador SuscriptorController   
-            $Suscriptores = $this->Instancia_SuscriptorController->suscriptores();
+            // Consulta datos de los comerciante  
+            $Suscriptores = DB::connection('mysql_2')
+                ->select(
+                    "SELECT ID_Comerciante, parroquiaComerciante, pseudonimoComerciante 
+                    FROM comerciantes ");
+            // return gettype($Suscriptores);
             // return $Suscriptores;
         
             return view('marketplace.clasificados_V', [
                 'productos' => $Productos, 
                 'dolar' => $this->Dolar, 
-                'suscriptor' => $Suscriptores
+                'comerciante' => $Suscriptores
                 ]
             ); 
     } 
@@ -618,8 +621,17 @@ class MarketplaceController extends Controller
     
     // Muestra la vista donde aparecen todas las categorias con la cantidad de tiendas activas
     public function categoria(){
-               
-        // //Se CONSULTA la cantidad de tiendas que estan afiliadas por categorias
+        
+        // Consulta los nombres de las categorias existentes en BD
+        $Categorias = DB::connection('mysql_2')
+            ->select("SELECT ID_Categoria, categoria
+                FROM categorias
+                ORDER BY categoria
+                ASC");
+                // return gettype($Categorias);
+                // return $Categorias;
+
+        // Se CONSULTA la cantidad de tiendas que estan afiliadas por categorias
         $CantidadTiendas = DB::connection('mysql_2')
             ->select("SELECT COUNT(ID_Comerciante) AS 'cantidad', categoriaComerciante 
                 FROM comerciantes
@@ -631,7 +643,8 @@ class MarketplaceController extends Controller
                 // return $CantidadTiendas;
         
         return view('marketplace/categoria_V',[
-                'cantidadTiendasCategoria' => $CantidadTiendas
+                'cantidadTiendas' => $CantidadTiendas,
+                'categorias' => $Categorias
             ]); 
     }
 

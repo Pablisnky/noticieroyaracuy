@@ -4443,7 +4443,11 @@ ul .menuContenedor_3{
 	margin: auto;
 	padding-top: 8%;
 }
-
+.cont_directorio--contenido{
+	display: flex;
+	justify-content: center;
+	align-items: end;
+}
 .detalle_cont--divFijo{
 	background-color: white;
 	position: fixed; 

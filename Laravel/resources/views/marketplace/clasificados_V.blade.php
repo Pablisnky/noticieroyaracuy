@@ -78,14 +78,14 @@
                     
                     <!-- VENDEDOR -->
                     <div class="contOpciones--vendedor">   
-                        @foreach($suscriptor as $Key)
-                            @if($row->ID_Comerciante == $Key->ID_Suscriptor)         
+                        @foreach($comerciante as $Key)
+                            @if($row->ID_Comerciante == $Key->ID_Comerciante)         
                                 <div class="cont_vendedor--span">                        
                                     <div class="cont_vendedor--span-2">              
                                         <span class="span--vendedor--ubicacion"></span>
-                                        <img class="icono--ubicacion" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>{{ $Key->parroquiaSuscriptor }} 
+                                        <img class="icono--ubicacion" src="{{ asset('/iconos/ubicacion/outline_place_black_24dp.png') }}"/>{{ $Key->parroquiaComerciante }} 
                                     </div>
-                                    <span class="span--vendedor">Vendedor: {{ $Key->pseudonimoSuscripto }}</span> 
+                                    <span class="span--vendedor">Vendedor: {{ $Key->pseudonimoComerciante}}</span> 
                                 </div> 
                             @endif
                         @endforeach
