@@ -134,7 +134,7 @@
                         </div> 
                         {{-- Entra en el IF cuando no hay secciones creadas --}}
                         @if($secciones == null)
-                            <p>aqui</p>
+                           
                             <div class="contenedor_80C" id="Contenedor_80">
                                 <input class="login_cont--input borde--input input_12 seccionesJS" type="text" name="seccion[]" id="Seccion" placeholder="Indica una sección"/>
                                 <div class="contenedor__80div">

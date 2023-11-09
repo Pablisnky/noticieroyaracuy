@@ -378,7 +378,7 @@ class LoginController extends Controller
                         // require_once(RUTA_APP . "/controladores/Panel_Denuncias_C.php");
                         // $Denuncias = new Panel_Denuncias_C();
                         // $Cant_Denuncias = $Denuncias->denunciasSuscriptor($ID_Suscriptor);
-                        return view('panel/suscriptores/suscrip_Inicio_V', [
+                        return view('modal/modal_suscripInicio_V', [
                             //     'ID_Suscriptor' => $ID_Suscriptor,
                             //     'nombre' => $Nombre,
                             //     'apellido' => $Apellido,

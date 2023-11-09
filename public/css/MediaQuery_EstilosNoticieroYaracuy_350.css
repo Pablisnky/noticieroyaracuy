@@ -1220,7 +1220,7 @@
 	font-weight: normal;
 	text-align: center;
 	padding: 4%;
-	min-height: 11vw; /*para garantizar que cubra dos lineas y los iconos se alineen a partir de alli */
+	min-height: initial; /*para garantizar que cubra dos lineas y los iconos se alineen a partir de alli */
 	cursor: pointer;
 }
 .span_21{
@@ -2150,9 +2150,6 @@
 	text-align: center;
 	margin-bottom: 5%;
 }
-.cont_recibePedido--codigo{
-	font-size: 6vw;
-}
 .tabla2__td1{
 	font-weight: bold;
 	width: 35%;
@@ -2171,8 +2168,6 @@
 .cont_panel--titulo{
    	width: 100%;
 }
-
-
 .cont_panel--textarea{
 	min-height: 400px;
 }
@@ -2190,6 +2185,26 @@
 }
 .contGridUna{
 	padding-top: initial;
+}
+.cont_recibePedido{
+	margin-top: 90px;
+	width: 95%;
+}
+.cont_recibePedido--codigo{
+	font-size: 6vw;
+}
+.cont_directorio--main{
+	justify-content: space-between;
+	width: 100%;
+	margin: 25% auto;
+	padding-top: 8%;
+}
+.cont_directorio--img{
+	height: 8vh;
+}
+.cont_directorio--item{
+	width: 90px;
+	height: 70px;
 }
 
 

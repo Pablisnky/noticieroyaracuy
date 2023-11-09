@@ -311,9 +311,6 @@ textarea{
 	margin-top: 3%;
 	width: 90%;
 }
-.contenedor_27{
-	width: 100%;
-}
 .fieldset_3{	
 	width: 40%;
 }
@@ -644,9 +641,6 @@ textarea{
 	margin: auto;
 	margin-bottom: 2%;
 }
-.contInputRadio--carrito{
-	margin-bottom: 1% !important;
-}
 .icono--regresar{
 	display: inline-block;
 	width: 2em; 
@@ -947,7 +941,6 @@ textarea{
 	object-fit: cover; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
  }
  .cont_denuncia--video{
-	/* width: 100%;  */
 	height: 8vw;
 	margin: auto;
 	object-fit: cover; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
@@ -1151,6 +1144,7 @@ textarea{
 	 margin-top: 3%;
 	 font-size: 2em;
 	 font-family: Gruppo;
+	 text-align: center;
  }
  .cont_modal--h1_titulo{
 	color: white;
@@ -2775,14 +2769,6 @@ ul .menuContenedor_3{
 	width: 75%;
 	margin: auto;
 }
-.cont_suscriptor--h1{
-	color: black;
-	font-family: Gruppo;
-	font-size: 1.5em;
-	text-align: center;
-	margin-top: 2%;
-	cursor: pointer;
-}
 .label_5{
 	color:#040652 ;
 	text-align: center;
@@ -2852,7 +2838,7 @@ ul .menuContenedor_3{
 	margin: 2% auto;
 	padding: 1%;
 	border-radius: 15px;
-	text-align: center;
+	/* text-align: center; */
 }
 .contInputRadio--SinProductos{
 	width: 90%;
@@ -2860,6 +2846,9 @@ ul .menuContenedor_3{
 	margin-bottom: 7%;
 	text-align: left;
 	padding-left: 5%;
+}
+.contInputRadio--carrito{
+	margin-bottom: 1% !important;
 }
 .contenedor_24--widt{
 	width: 40%!important;
@@ -2901,9 +2890,7 @@ ul .menuContenedor_3{
 }
 .cont_suscriptor--item{
 	width: 45%;
-	min-height: 10vw;
 	margin-bottom: 5%;
-	cursor: pointer;
 }
 .login_cont--select{
 	height: 30px;
@@ -3079,13 +3066,41 @@ ul .menuContenedor_3{
 .contBoton--marginTop{
 	margin: 4% auto;
 }
-.cont_suscriptor{
+.cont_modal_suscriptor{
+	background-color: var(--OficialClaro);
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
-	width: 70%;
-	padding-top: 7%; 
-	margin-left: 25%;
+	justify-content: space-around;
+	width: 50%;
+	padding-top: 2%; 
+	margin: 2% auto;
+}
+.cont_modal_suscriptor--h1{
+	margin-top: 5%;
+	margin-bottom: 1%;
+	font-size: 1.5em;
+	font-weight: normal;
+	color: white;
+	text-align: center;
+}
+.cont_modal_suscriptor--p{
+	font-size: 1.2em;
+	color: white;
+	text-align: center;
+}
+.cont_modal_suscriptor--a{
+	width: 30%;
+	display: block;
+	font-size: 1.2em;
+	font-weight: normal;
+	color: black;
+	line-height: 40px;
+	text-align: center;
+	margin-bottom: 5%;
+}
+.cont_modal_suscriptor--a:hover{
+	background-color: var(--OficialOscuro);
+	color: white;
 }
 .cont_suscrip_ImgSec{
 	display:flex; 
@@ -3212,6 +3227,7 @@ ul .menuContenedor_3{
 	margin: auto;
 	margin-top: 9%;
 	display: flex;
+	justify-content: space-around;
 	flex-wrap: wrap;
 }
 .cont_catalogosCateg--item{
@@ -3233,7 +3249,6 @@ ul .menuContenedor_3{
 }
 .cont_clasificados{
 	background-color: var(--OficialClaro);
-	/* background-color: red; */
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -3304,8 +3319,7 @@ ul .menuContenedor_3{
 }
 .cont_catalogosCateg_imgDefault{
 	object-fit: contain; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
-	/* min-height: 40vh;
-	max-height: 40vh; */
+	height: 45vh; 
 	width: 40%;
 	margin: auto;
 }
@@ -4010,11 +4024,9 @@ ul .menuContenedor_3{
 	margin-bottom: 3%;
 }
 .contFlex--pagos{
-	background-color: red;
 	width: 95%;
 }
 .cont_carrito--pagos{
-   /* display: none; */
    margin-top: 0%;
 }
 .boton--centro{
@@ -4285,14 +4297,6 @@ ul .menuContenedor_3{
 	justify-content: center;
 	padding-bottom: 5%;
 }
-.cont_recibePedido{
-	margin-top: 60px;
-	padding: 2% 5%;
-	text-align: center;
-}
-.cont_recibePedido--codigo{
-	font-size: 2vw;
-}
 .tabla2__td1{
 	font-weight: bold;
 	/* width: 30%; */
@@ -4413,6 +4417,7 @@ ul .menuContenedor_3{
 	object-fit: cover;
 }
 .Componente_boton{
+	position: relative;
 	width: 100%;
 	bottom: 3pt;
 }
@@ -4442,6 +4447,16 @@ ul .menuContenedor_3{
 	width: 90%;
 	margin: auto;
 	padding-top: 8%;
+}
+.cont_directorio--item{
+	width: 15%;
+	margin: 2%;
+	height: 150px;
+	border-radius: 15px;
+}
+.cont_directorio--item:hover{
+	background-color: var(--OficialClaro);
+	cursor: pointer;
 }
 .cont_directorio--contenido{
 	display: flex;
@@ -4484,7 +4499,17 @@ ul .menuContenedor_3{
 .contenedor_83--boton{
 	margin: 5% auto;
 }
-
+.cont_recibePedido{
+	margin-top: 60px;
+	padding: 2% 5%;
+	text-align: center;
+	width: 50%;
+	margin: auto;
+	margin-top: 10%;
+}
+.cont_recibePedido--codigo{
+	font-size: 2vw;
+}
 
 
 

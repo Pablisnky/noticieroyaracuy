@@ -1326,7 +1326,7 @@
 	font-weight: normal;
 	text-align: center;
 	padding: 4%;
-	min-height: 11vw; /*para garantizar que cubra dos lineas y los iconos se alineen a partir de alli */
+	min-height: initial;
 	cursor: pointer;
 }
 .icono_2{
@@ -1913,8 +1913,6 @@
    font-size: 4.5vw;
    padding: 1%;
 }
-
-
 .cont_agenda_h1{
 	background-color:initial;
 	position: initial;
@@ -1957,6 +1955,26 @@
  .contGridUna{
 	 padding-top: initial;
  }
+ .cont_recibePedido{
+	 margin-top: 90px;
+	 width: 95%;
+ }
+ .cont_directorio--main{
+	 justify-content: space-between;
+	 width: 95%;
+	 margin: 25% auto;
+	 padding-top: 8%;
+ }
+ .cont_directorio--img{
+	 height: 6vh;
+ }
+ .cont_directorio--item{
+	 width: 90px;
+	 height: 70px;
+ }
+
+
+ 
  
 
 

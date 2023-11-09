@@ -31,7 +31,7 @@ function conexionAJAX(){
 
 //-------------------------------------------------------------------------------------------------
     function llamar_verificaCorreo(correo){
-        console.log("_____ Desde validarRegistro() _____")
+        // console.log("_____ Desde validarRegistro() _____")
 
         // remoto
         // var url="https://www.noticieroyaracuy.com/registro/verificaCorreo/" + correo;

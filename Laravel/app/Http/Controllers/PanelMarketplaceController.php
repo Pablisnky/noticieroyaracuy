@@ -319,7 +319,7 @@ class PanelMarketplaceController extends Controller
                     if(($tipo_imgProducto == 'image/jpeg') || ($tipo_imgProducto == 'image/jpg') || ($tipo_imgProducto == 'image/png')){
 
                         //Se crea el directorio donde iran las imagenes de la tienda
-                        $CarpetaProductos = $_SERVER['DOCUMENT_ROOT'] . 'images/clasificados/' . session('id_comerciante') . '/productos';
+                        $CarpetaProductos = $_SERVER['DOCUMENT_ROOT'] . '/images/clasificados/' . session('id_comerciante') . '/productos';
 
                         if(file_exists($CarpetaProductos) == false){
                             mkdir($CarpetaProductos, 0777, true);
@@ -739,8 +739,7 @@ class PanelMarketplaceController extends Controller
                 // return gettype($SeccionesInsertar);
                 // return $SeccionesInsertar;
                 // return count($SeccionesInsertar);
-               
-                
+                               
                 $SeccionesInsertar = implode(',', $SeccionesInsertar);
                 // echo '<pre>'; 
                 // print_r($SeccionesInsertar);

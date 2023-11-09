@@ -61,39 +61,13 @@
 			<!--CARITA FUERA DE HEADER-->
 			<div class="carita">
 				<!-- CARITA -->
-				<?php
-				if(!empty($_SESSION['ID_Suscriptor'])){	?>     
-					<a class="tapa-logo--ADN--font Default_quitarMovil" href="#">
+					<a class="tapa-logo--ADN--font Default_quitarMovil" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}">
 						<div class="tapa-logo--ADN">
 							<img style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png') }}" rel="noopener noreferrer"/>Iniciar sesión 
 						</div>
 					</a>
 					
-					<a class="carita--texto Default_quitarEscritorio" href="#">Iniciar sesión <img class="Default_login--movil"  style=" margin-right: 10px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png') }}"/>Iniciar sesión</a>				
-					<?php
-				}	
-				else if(empty($_SESSION['ID_Suscriptor']) AND empty($_SESSION['ID_Periodista'])){	?>     
-					<a class="tapa-logo--ADN--font Default_quitarMovil" href="#">
-						<div class="tapa-logo--ADN">
-							<img style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_no_accounts_white_24dp.png') }}" rel="noopener noreferrer"/>Iniciar sesión 
-						</div>
-					</a>
-					
-					<a class="carita--texto Default_quitarEscritorio" href="#" rel="noopener noreferrer"><img class="Default_logout--movil" style=" margin-right: 10px" src="{{ asset('/iconos/perfil/outline_no_accounts_white_24dp.png') }}"/> Iniciar sesión</a>
-					<?php
-				}				
-				else if(!empty($_SESSION['ID_Periodista'])){	?>
-									
-					<a class="tapa-logo--ADN--font Default_quitarMovil" href="#">
-						<div class="tapa-logo--ADN">
-							<img style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png') }}" rel="noopener noreferrer"/>Iniciar sesión 
-						</div>
-					</a>
-
-					<a class="carita--texto Default_quitarEscritorio" href=""><img class="Default_login--movil" style=" margin-right: 10px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png') }}"/> Iniciar sesión</a>				
-					<?php
-				}	
-					?>
+					<a class="carita--texto Default_quitarEscritorio" href="#">Iniciar sesión <img class="Default_login--movil"  style=" margin-right: 10px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png') }}"/>Iniciar sesión</a>	
 
 				<!-- NUESTRO ADN -->			            
 				<a class="Default_quitarEscritorio" style=" color: white; " href="#">

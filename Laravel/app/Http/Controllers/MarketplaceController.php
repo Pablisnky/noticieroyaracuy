@@ -630,10 +630,18 @@ class MarketplaceController extends Controller
                 ASC");
                 // return gettype($Categorias);
                 // return $Categorias;
+            
+        // Consulta si las tiendas tienen productos agregados en su inventario
+        $TiendasProductos = DB::connection('mysql_2')
+            ->select("SELECT ID_Comerciante 
+                FROM productos
+                GROUP BY ID_Comerciante ");
+                // return gettype($TiendasProductos);
+                // return $TiendasProductos;
 
         // Se CONSULTA la cantidad de tiendas que estan afiliadas por categorias
         $CantidadTiendas = DB::connection('mysql_2')
-            ->select("SELECT COUNT(ID_Comerciante) AS 'cantidad', categoriaComerciante 
+            ->select("SELECT COUNT(ID_Comerciante) AS 'cantidad', categoriaComerciante
                 FROM comerciantes
                 WHERE desactivarComerciante = 0
                 GROUP BY categoriaComerciante
@@ -644,7 +652,8 @@ class MarketplaceController extends Controller
         
         return view('marketplace/categoria_V',[
                 'cantidadTiendas' => $CantidadTiendas,
-                'categorias' => $Categorias
+                'categorias' => $Categorias, 
+                'tiendasProductos' => $TiendasProductos,
             ]); 
     }
 
@@ -660,13 +669,36 @@ class MarketplaceController extends Controller
                 // return gettype($ComercianteCategorias);
                 // return($ComercianteCategorias);
 
+        if($ComercianteCategorias != null){
+            $IDs_Comerciante = [];
+    
+            //Se obtienen los IDs de los comerciantes que se encuentran en la categoria
+            foreach($ComercianteCategorias AS $row) :
+                $TodosComerciante = $row->ID_Comerciante;
+    
+                //Se añade el ID de cada tienda al array $IDs_Comerciante
+                array_push($IDs_Comerciante, $TodosComerciante);
+            endforeach;
+            
+            //Se cambia el array $IDs_Tiendas por una cadena para enviarlo como parametro en la consulta a BD
+            $IDs_Comerciante = implode(',', $IDs_Comerciante); 
+            // echo '<pre>';
+            // print_r($IDs_Comerciante);
+            // echo '</pre>';
+            // exit;
+
+        }
+        else{
+            $IDs_Comerciante = 0;
+        }
+
         //SELECT que trae nueve productos destacados por cada tienda
         $TiendasProductosDestacados = DB::connection('mysql_2')
             ->select("SELECT comerciantes.ID_Comerciante, nombre_img
                 FROM comerciantes 
                 INNER JOIN productos ON comerciantes.ID_Comerciante=productos.ID_Comerciante 
                 INNER JOIN imagenes ON productos.ID_Producto=imagenes.ID_Producto 
-                WHERE comerciantes.ID_Comerciante = 3 AND productos.destacar = 1 AND imagenes.fotoPrincipal = 1 
+                WHERE comerciantes.ID_Comerciante IN ($IDs_Comerciante) AND productos.destacar = 1 AND imagenes.fotoPrincipal = 1 
                 ORDER BY producto");   
                 // return gettype($TiendasCategorias);
                 // return($TiendasProductosDestacados);

@@ -3,6 +3,7 @@
 @section('titulo', 'Registro exitoso')
 
 @section('contenido')
+
     <!-- muestra que se debe cargar un producto antes de entrar al inventario -->
     <section class="sectionModal">
         <div class="contenedor_24 contenedor_24--Widt">

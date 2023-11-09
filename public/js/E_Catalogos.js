@@ -21,16 +21,15 @@ if(AlContenedor != Array ()){
     if(ID_TiendaEnCarrito != ID_TiendaActual){
         let ConfirmaCarrito =  confirm("Tienes una compra pendiente en otra tienda, ¿Deseas continuarla o cancelarla?")
         
-        //Se confirma si se desea vaciar el carrito de compras
+        //Se entra a la tienda donde esta la compra pendiente
         if(ConfirmaCarrito == true){  
 
             // redirecciona a la tienda donde estan los productos que quedaron cargados anteriormente 
-
             // remoto 
-            // location.replace("https://www.noticieroyaracuy.com/marketplace/catalogo/" + ID_TiendaEnCarrito + "/" + PseudonimoSuscripto ); 
+            // location.replace("https://www.noticieroyaracuy.com/marketplace/catalogo/" + ID_TiendaEnCarrito ); 
 
             // local
-            location.replace("http://nuevonoticiero.com/marketplace/catalogo/" + ID_TiendaEnCarrito + "/" + PseudonimoSuscripto );  
+            location.replace("http://nuevonoticiero.com/marketplace/catalogo/" + ID_TiendaEnCarrito );  
             
         } 
         else{                   
@@ -53,6 +52,15 @@ if(AlContenedor != Array ()){
 
 // console.log ('LS_Carrito', LS_Carrito)
 // console.log ('AlContenedor', AlContenedor)
+//************************************************************************************************
+//Por medio de delegación de eventos se detecta cuando se hace clik en el input de cargar capture id="ImagenCapturePago"
+document.getElementById("Mostrar_Orden").addEventListener('change', function(e){
+    // console.log("______Desde función anonima que detecta CapturePago______")   
+
+    if(e.target.id == "ImagenCapturePago"){
+        CapturePago()
+    } 
+}, false)
 
 //************************************************************************************************
 //Por medio de delegación de eventos se detecta cada input donde se debe aplicar la funcion blanquearInput()
@@ -1293,8 +1301,10 @@ if(document.getElementById("Label_1")){
     }
 
 //************************************************************************************************
-    //Muestra el contenedor del capture de pago
+    // Muestra el contenedor del capture de pago
     function verCapturePago(){
+        // console.log("______Desde verCapturePago()______")
+
         document.getElementById("InputReferencia").style.display = "none"
         document.getElementById("InputCapturePago").style.display = "block"
     }
@@ -1302,27 +1312,23 @@ if(document.getElementById("Label_1")){
 //************************************************************************************************
     //Da una vista previa del capture de pago
     function CapturePago(){
+        console.log("______Desde CapturePago()______")
+
         var contenedor = document.getElementById("DivCapturePago");
         var archivos = document.getElementById("ImagenCapturePago").files;
 
         if(contenedor.childElementCount < 1){
             for(i = 0; i < archivos.length; i++){
                 imgTag = document.createElement("img");
-                imgTag.height = 300;
+                imgTag.height = 250;
                 imgTag.width = 220;   
-                imgTag.objectFit = "cover" 
+                imgTag.objectFit = "contain" 
                 imgTag.src = URL.createObjectURL(archivos[i]);
                 contenedor.appendChild(imgTag);
             }
         }
-        else{
-            //Se elimina la imagen existente
-            contenedor.removeChild(imgTag);
-
-            // Mostrar_CapturePago()
-        }
         
-        // document.getElementById("InformarPago").style.display = "block"
+        document.getElementById("InformarPago").style.display = "block"
     }
      
 //************************************************************************************************

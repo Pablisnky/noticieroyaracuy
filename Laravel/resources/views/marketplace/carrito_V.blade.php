@@ -77,7 +77,7 @@
                 </div>
             </article>
 
-            <!-- CONFIRMACION DE USUARIO REGISTRADO -->
+            <!-- USUARIO REGISTRADO -->
             <article id="ConfirmarOrden" >
                 <header id="Label--confirmar"> 
                     <h1 class="h1_1" >Confirmar orden</h1>
@@ -92,7 +92,7 @@
                     
                     <div class="Default_ocultar" id="Mostrar_Cedula">
                         <form>
-                            <input class="login_cont--input borde--input" type="text" name="cedulaUsuario" id="Cedula_Usuario" placeholder="Nº Cedula (Solo números)" autocomplete="off" value="2222222"/>
+                            <input class="login_cont--input borde--input" type="text" name="cedulaUsuario" id="Cedula_Usuario" placeholder="Nº Cedula (Solo números)" autocomplete="off"/>
 
                             <label class="boton boton--centro" for="Cedula_Usuario" onclick="soloNumeros(this.form, 'Cedula_Usuario')"/>Enviar</label>
                         </form>
@@ -320,7 +320,7 @@
                                     </tbody>
                                 </table>      
                             </div>
-
+                            
                             <!-- PAGO ACORDADO -->
                             <div class="contInforPago" id="Contenedor_60e">
                                 <h3 class="h3_2">Acuerdo con tienda</h3>
@@ -344,17 +344,17 @@
                                 </div>
 
                                 <!-- INPUT CODIGO REFERENCIA -->
-                                <div class="contOculto " id="InputReferencia">
+                                <div class="contOculto" id="InputReferencia">
                                     <input class="login_cont--input borde--input" type="text" name="codigoReferencia" id="Codigo_RegistroPago" placeholder="Código referencia"/>
                                 </div>                           
                                                          
-                                <!-- CAPTURE TRANSFERENCIA -->
-                                <div class="contOculto " id="InputCapturePago">
+                                <!-- CAPTURE PAGO -->
+                                <div class="contOculto" id="InputCapturePago">
                                     <label class="boton boton--largo boton--centro" for="ImagenCapturePago">Insertar capture</label>
-                                    <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  name="imagenCapturePago" id="ImagenCapturePago" onchange="CapturePago()"/>
+                                    <input class="Default_ocultar" type="file" accept=".jpeg, .jpg, .png, .gif, .webp" name="imagenCapturePago" id="ImagenCapturePago"/>
                                     <br>
                                     </div>
-                                    <!-- div que muestra la previsualización del capture-->
+                                    <!-- div que muestra la previsualización del capture -->
                                     <div class="contGeneralCentro" id="DivCapturePago"></div>
                                 </div> 
                             </div>

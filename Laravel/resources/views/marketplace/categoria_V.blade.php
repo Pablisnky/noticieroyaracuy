@@ -28,25 +28,34 @@
    
     <div class="cont_directorio--main">
         @foreach($categorias as $Key)        
-            <a class="contenedor_6 borde_1 Default_font--black" href="{{ route('TiendasCategoria', ['nombreCategoria' => $Key->categoria]) }}" rel="noopener noreferrer">
-                <h2 class='h2_1'>{{ $Key->categoria }}</h2>
+            <a class="cont_directorio--item borde_1 Default_font--black" href="{{ route('TiendasCategoria', ['nombreCategoria' => $Key->categoria]) }}" rel="noopener noreferrer">
+                
+                {{-- Se coloca nombre de la categoria, solo la primera palabra en casos de categorias largas --}}
+                @php($Categoria = explode('_', $Key->categoria ))
+                <h2 class='h2_1'>{{ $Categoria[0] }}</h2>
+
                 <div class="cont_directorio--contenido">
-                    <img class="" src="{{ asset('/iconos/marketplace/' . $Key->categoria . '.png') }}"/>
+                    <img class="cont_directorio--img" src="{{ asset('/iconos/marketplace/' . $Key->categoria . '.png') }}"/>
                     <div class="contenedor_106">
                         <span class="span_21 borde_1 ExisteTienda"> 
-                            @foreach($cantidadTiendas as $arr)
-                                @if($arr->categoriaComerciante == $Key->categoria) 
-                                    @php($TotalTiendas = $arr->cantidad)
-                                    {{ $TotalTiendas }}
-                                    <style>
-                                        .ExisteTienda {
-                                            background-color: var(--Aciertos);
-                                        }
-                                    </style> 
-                                @endif
-                            @endforeach 
-                            {{-- @if(!isset($TotalTiendas))                            
-                                <label>0</label>                                       
+                            {{-- @foreach($tiendasProductos as $Arr) --}}
+                                @foreach($cantidadTiendas as $arr)
+                                    {{-- @break --}}
+                                    @if($arr->categoriaComerciante == $Key->categoria)
+                                        @php($TotalTiendas = $arr->cantidad)
+                                        {{ $TotalTiendas }}
+                                        <style>
+                                            .ExisteTienda {
+                                                background-color: var(--Aciertos);                                                
+	                                            margin-left: -60%;                                             
+	                                            margin-bottom: -70%;
+                                            }
+                                        </style> 
+                                    @endif
+                                @endforeach 
+                            {{-- @endforeach --}}
+                            {{-- @if(!isset($TotalTiendas))                          
+                                <label>0</label>                                      
                                 <style>
                                     .ExisteTienda{
                                         background-color: var(--Fallos);
@@ -59,11 +68,62 @@
             </a>
         @endforeach
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    {{-- <a class="contenedor_6 borde_1 Default_font--black" href="{{ route('TiendasCategoria', ['nombreCategoria' => 'Ropa']) }}" rel="noopener noreferrer">
+        <div>
+            <h2 class='h2_1'>ROPA ZAPATO</h2>
+            <i class="fas fa-tshirt icono_2"></i>    
+            <div class="contenedor_106">
+                <span class="span_21 borde_1 ropa_js">
+                        @foreach($cantidadTiendasCategoria as $arr)
+                            @if($arr->categoriaComerciante == 'Ropa') 
+                                @php($CantidadRopa = $arr->cantidad)
+                                {{ $CantidadRopa }}
+                                <style>
+                                    .ropa_js {
+                                        background-color: var(--Aciertos);
+                                    }
+                                </style> 
+                            @endif
+                        @endforeach 
+                        @if(!isset($CantidadRopa))                                
+                            <label>0</label>                                      
+                            <style>
+                                .ropa_js{
+                                    background-color: var(--Fallos);
+                                }
+                            </style>   
+                        @endif
+                </span>
+            </div>  
+        </div> --}}
+
+
+
+
+
+
+
+
+
+
+
         
     <!-- BOTONES DEL PANEL FRONTAL (solo en dispositivos moviles)-->	
     <div class="cont_boton--categoria ">                
         <div>
-            <label class="boton boton--corto" style="width: 120%; margin: auto"><a class="Default_font--white boton_a" href="<?php //echo RUTA_URL . '/Clas@ificados_C/';?>" rel="noopener noreferrer">Ver todas las categorías</a></label> 
+            <label class="boton boton--corto" style="width: 120%; margin: auto"><a class="Default_font--white boton_a" href="{{ route('Marketplace') }}" rel="noopener noreferrer">Ver marketplace</a></label> 
         </div>         
     </div>
 

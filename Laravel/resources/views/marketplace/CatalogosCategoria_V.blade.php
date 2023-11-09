@@ -25,7 +25,7 @@
                     <div class="">
                         @if(!isset($row->nombreImgCatalogo))
                             <figure>  
-                                <a href="{{ route('Catalogo', ['id_comerciante' => $row->ID_Comerciante]) }}" rel="noopener noreferrer" target="_blank"><img class="cont_catalogosCateg_imgDefault borde_1" id="blah" alt="Fotografia del producto" src="{{ asset('/images/clasificados/tienda.png') }}"/></a>
+                                <a style="display: block;" href="{{ route('Catalogo', ['id_comerciante' => $row->ID_Comerciante]) }}" rel="noopener noreferrer" target="_blank"><img class="cont_catalogosCateg_imgDefault" id="blah" alt="Fotografia del producto" src="{{ asset('/images/clasificados/tienda.png') }}"/></a>
                             </figure>
                         @else
                             <a href="{{ route('Catalogo', ['id_comerciante' => $row->ID_Comerciante]) }}" rel="noopener noreferrer" target="_blank"><img class="cont_catalogosCateg_img borde_top" alt="Portada de catalogo" src="{{ asset('/images/clasificados/' . $row->ID_Comerciante . '/' . $row->nombreImgCatalogo) }}"/></a>
@@ -39,25 +39,26 @@
                     
                     <!-- IMAGENES MINIATURAS DE SLIDER -->
                     <article class="cont_miniaturaSlider" id="Cont_miniaturaSlider">
-                        <div class="cont_miniaturaSlider__2" id="Cont_miniaturaSlider__2">    
-                            {{-- Se quitan los espacios en el nombre de la tienda para comparar con la carpeta donde se encuentran las imagenes de la tienda --}}
+                        <div class="cont_miniaturaSlider__2" id="Cont_miniaturaSlider__2">   
                             @php($ContadorLabel = 1)
                             @foreach($comerciante_productosDestacados as $Key) 
-                                <div class="cont_miniaturaSlider__3" id="Cont_miniaturaSlider__3" >
-                                    <img class="contOpciones__img--tienda" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $Key->ID_Comerciante . '/productos/' . $Key->nombre_img) }}"/>  
-                                </div>  
+                                @if($Key->ID_Comerciante == $row->ID_Comerciante)
+                                    <div class="cont_miniaturaSlider__3" id="Cont_miniaturaSlider__3" >
+                                        <img class="contOpciones__img--tienda" alt="Fotografia del producto" src="{{ asset('/images/clasificados/' . $Key->ID_Comerciante . '/productos/' . $Key->nombre_img) }}"/>  
+                                    </div>  
+                                @endif
                             @endforeach
                         </div>
                     </article> 
                                         
                     <!-- BOTONES DELANTEROS -->
-                    <article class="Componente_boton">
+                    {{-- <article class="Componente_boton">
                         <div class="contBoton contBoton--100">
                             <label class="boton boton--corto" onclick="AtrasTarjeta({{ $row->ID_Comerciante }})">Información</label>
 
                             <a class="boton boton--corto" href="{{ route('Catalogo', ['id_comerciante' => $row->ID_Comerciante]) }}">Entrar</a>
                         </div>
-                    </article>
+                    </article> --}}
                 </div> 
             @endforeach                  
         </div>

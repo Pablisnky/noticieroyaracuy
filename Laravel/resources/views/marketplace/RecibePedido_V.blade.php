@@ -5,8 +5,8 @@
 @section('contenido')
     <section class="cont_recibePedido">
         <h1 class="h1_1">Compra realizada</h1>
-        <div class='contenedor_39'>
-            <p class="p_6">Un recibo de compra ha sido enviado a su correo</p>
+        <div class=''>
+            <p>Un recibo de compra ha sido enviado a su correo</p>
             <br>
             <h2 class="cont_recibePedido--codigo bandaAlerta">{{ $codigo_despacho }}</h2>
             <br>

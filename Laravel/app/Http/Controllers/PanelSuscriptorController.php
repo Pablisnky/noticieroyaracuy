@@ -154,7 +154,7 @@ use App\Models\Suscriptor_M;
                 // echo "</pre>";
                 // exit;
 
-                return view('panel/suscriptores/suscrip_Inicio_V', [
+                return view('modal/modal_suscripInicio_V', [
                     //     'ID_Suscriptor' => $ID_Suscriptor,
                     //     'nombre' => $Nombre,
                     //     'apellido' => $Apellido,

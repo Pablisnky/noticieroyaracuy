@@ -2030,6 +2030,37 @@
 .contGridUna{
 	padding-top: initial;
 }
+.cont_recibePedido{
+	margin-top: 90px;
+	width: 95%;
+}
+.cont_directorio--main{
+	justify-content: space-between;
+	width: 90%;
+	margin: 25% auto;
+	padding-top: 8%;
+}
+.cont_directorio--img{
+	height: 6vh;
+}
+.cont_directorio--item{
+	width: 90px;
+	height: 80px;
+}
+.h2_1{
+	max-width: 100%;
+	font-size: 3.5vw;
+	font-weight: normal;
+	text-align: center;
+	padding: 4%;
+	min-height: initial;
+	cursor: pointer;
+}
+
+
+
+
+
 
 
 

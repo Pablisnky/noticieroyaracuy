@@ -4,7 +4,7 @@
 @section('titulo', 'Fallo login')
 
 @section('contenido')
-    <section class="sectionModal" >
+    <section class="sectionModal">
         <div class="modal_falloLogin">
             <fieldset class="fieldset_1 modal_falloLogin--fieldset">
                 <h1 class="modal_falloLogin--h1">USUARIO y CONTRASEÑA</h1>
