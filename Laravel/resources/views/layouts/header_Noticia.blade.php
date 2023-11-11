@@ -17,7 +17,6 @@
 		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_370.css?v=' . rand()) }}"/>
 		<link rel="stylesheet" href="{{ asset('/css/MediaQuery_EstilosNoticieroYaracuy_800.css?v=' . rand()) }}"/>
 				
-		
 		<!-- CDN FUENTES DE GOOGLE-->
         <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=RLato|Raleway:400|Montserrat|Gruppo|Moon+Dance'>
     </head>
@@ -28,27 +27,45 @@
 			@include('layouts.partials.menu')			
 
 			<!-- BOTONES DESTACADOS -->
-			@include('layouts.partials.botones')
+			<div class="cont_botones_destacados">
+				@include('layouts.partials.botones')
+			</div>
 
-			<!-- MEMBRETE FIJO -->
-			<label class="header__titulo">Noticiero Yaracuy</label>
+			<!-- MEMBRETE FIJO -->			
+			<div class="cont_header_membrete">
+				<label class="header__titulo">Noticiero Yaracuy</label>
+			</div>
 			
 			<!-- FECHA Y CARITA -->
 			@include('layouts.partials.carita')
+			    
+			<!-- YARACUY EN VIDEO -->
+			{{-- <a class="con_portada--titulo Default_pointer" href="{{ route('YaracuyVideo') }}" rel="noopener noreferrer"><img style="width: 2em;" src="{{ asset('/iconos/video/outline_videocam_white_24dp.png') }}"/>Yaracuy<br> en video</a> --}}
 		</header>
-		
+
 		<!-- MEMBRETE DESPLAZANTE -->
 		<div class="tapa-logo" id="Tapa_Logo">
 			
 			<!-- NUESTRO ADN-->			            
-			<a class="tapa-logo--ADN--font Default_quitarMovil" href="#">
+			<a class="Default_quitarMovil" href="">
 				<div class="tapa-logo--ADN">
-					<img style="width: 2em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_groups_white_24dp.png') }}" rel="noopener noreferrer"/>Nuestro ADN
+					<div style="width: 50px; display: flex; justify-content: center;">
+						<img style="width: 2em;" src="{{ asset('/iconos/perfil/outline_groups_white_24dp.png')}}" rel="noopener noreferrer"/>
+					</div>
+					<label style="display: block; cursor: pointer; color: white;">Nuestro ADN</label> 
 				</div>
 			</a>
-			
-			<div style="position: absolute; bottom: 0pt">
-
+				
+			<!-- CONTACTANOS -->		
+				{{-- <div class="tapa-logo--ADN Default_quitarMovil" onclick="window.location.href='https://wa.me/584245374044?text=NoticieroYaracuy;%20¿En%20que%20podemos%20ayudarte?'">
+					<div style="width: 50px; display: flex; justify-content: center;">
+						<img style="width: 2em;" src="{{ asset('/iconos/telefono/outline_phone_iphone_white_24dp.png')}}" rel="noopener noreferrer"/>
+					</div>
+					<label style="display: block; cursor: pointer; color: white;">Contactanos</label>
+				</div> --}}
+						
+			<div class="tapa-logo--2">
+				
 				<!-- MEMBRETE DESPLAZANTE -->
 				<label class="tapa-logo--font">Noticiero Yaracuy</label>
 				
@@ -60,21 +77,51 @@
 
 			<!--CARITA FUERA DE HEADER-->
 			<div class="carita">
+
 				<!-- CARITA -->
-					<a class="tapa-logo--ADN--font Default_quitarMovil" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}">
+				<?php
+				if(!empty($_SESSION['ID_Suscriptor'])){	?>     
+					<a class="tapa-logo--ADN--font Default_quitarMovil" href="">
 						<div class="tapa-logo--ADN">
-							<img style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png') }}" rel="noopener noreferrer"/>Iniciar sesión 
+							<img style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png')}}" rel="noopener noreferrer"/>Iniciar sesión 
 						</div>
 					</a>
-					
-					<a class="carita--texto Default_quitarEscritorio" href="#">Iniciar sesión <img class="Default_login--movil"  style=" margin-right: 10px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png') }}"/>Iniciar sesión</a>	
+					<a class="carita--texto Default_quitarEscritorio" href="">Sesión <img class="Default_login--movil" style=" margin-right: 10px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png')}}"/>Iniciar sesión</a>				
+					<?php
+				}	
+				else if(empty($_SESSION['ID_Suscriptor']) AND empty($_SESSION['ID_Periodista'])){	?>     
+					<a class="tapa-logo--ADN--font Default_quitarMovil" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}">
+						<div class="tapa-logo--ADN">
+							<img style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_no_accounts_white_24dp.png')}}" rel="noopener noreferrer"/>Iniciar sesión 
+						</div>
+					</a>
+					<a class="carita--texto Default_quitarEscritorio" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}" rel="noopener noreferrer"><img class="Default_logout--movil" style=" margin-right: 10px" src="{{ asset('/iconos/perfil/outline_no_accounts_white_24dp.png')}}"/>Iniciar sesión</a>
+					<?php
+				}				
+				else if(!empty($_SESSION['ID_Periodista'])){	?>
+						            
+					<a class="tapa-logo--ADN--font Default_quitarMovil" href="">
+						<div class="tapa-logo--ADN">
+							<img style="width: 1.5em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png')}}" rel="noopener noreferrer"/>Iniciar sesión 
+						</div>
+					</a>
+					<a class="carita--texto Default_quitarEscritorio" href=""><img class="Default_login--movil" style="margin-right: 10px" src="{{ asset('/iconos/perfil/outline_account_circle_white_24dp.png')}}"/>Iniciar sesión</a>				
+					<?php
+				}	
+					?>
 
-				<!-- NUESTRO ADN -->			            
-				<a class="Default_quitarEscritorio" style=" color: white; " href="#">
+				<!-- NUESTRO ADN-->			            
+				<a class="Default_quitarEscritorio" style="color: white;" href="">
 					<div class="tapa-logo--ADN" style="margin-left: -10px; margin-top: 12px">
-						<img style="width: 2em; margin-lef:0px; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_groups_white_24dp.png') }}" rel="noopener noreferrer"/>Nuestro ADN
+						<img style="width: 2em; margin-lef:0px; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_groups_white_24dp.png')}}" rel="noopener noreferrer"/>Nuestro ADN
 					</div>
 				</a>
+				
+				<!-- CONTACTANOS -->					
+				<div class="cont_adn--iconos">
+					<img style="margin-left: -4px; margin-right: 5px; cursor: pointer" src="{{ asset('/iconos/telefono/outline_phone_iphone_white_24dp.png') }}" width="27" height="27" alt="Whatsapp"/>
+					<a style="display: block; cursor: pointer; color: white;" href="https://wa.me/584245374044?text=NoticieroYaracuy;%20¿En%20que%20podemos%20ayudarte?">Contacto</a>
+				</div>
 			</div>
 		</div>
 		

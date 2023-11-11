@@ -6,7 +6,7 @@
 
     <section id="Section_5">
         <div syle="height: 100%;">
-            <div style="min-height: 100%;" class="login_cont">
+            <div style="min-height: 100%;" class="login_cont cont_registro">
                 <form action="{{ route('RecibeRegistro') }}" method="POST" name="formRegistroCom" autocomplete="off" onsubmit="return validarRegistro()">
                     @csrf
                     <fieldset class="fieldset_1">
@@ -14,15 +14,15 @@
                         
                         <div class="login_cont--form">
                             <!-- NOMBRE AFILIADO -->                
-                            <label class="login_cont--label">Nombre</label>
+                            <label class="login_cont--label cont_registro--label">Nombre</label>
                             <input class="login_cont--input borde--input" type="text" name="nombre" id="Nombre"/> 
 
                             <!-- APELLIDO AFILIADO -->                
-                            <label class="login_cont--label">Apellido</label>
+                            <label class="login_cont--label cont_registro--label">Apellido</label>
                             <input class="login_cont--input borde--input" type="text" name="apellido" id="Apellido"/> 
 
                             <!-- CORREO AFILIADO -->
-                            <label class="login_cont--label">Correo electronico</label>
+                            <label class="login_cont--label cont_registro--label">Correo electronico</label>
                             <input class="login_cont--input borde--input" type="text" name="correo" id="Correo" onblur="llamar_verificaCorreo(this. value)"/>
                             <div id="Mostrar_verificaCorreo">.</div> {{-- El punto es para que el div se muestre aparentemente vacio, luego con ajax carga contenido--}}
                         </div>
@@ -33,19 +33,19 @@
                         <div class="login_cont--form">
                             
                             <!-- CLAVE -->
-                            <label class="login_cont--label">Contraseña</label>
+                            <label class="login_cont--label cont_registro--label">Contraseña</label>
                             <input class="login_cont--input borde--input" type="password" name="clave" id="Clave"/>
 
                             <!-- CONFIRMAR CLAVE -->
-                            <label class="login_cont--label">Confirmar contraseña</label>
+                            <label class="login_cont--label cont_registro--label">Confirmar contraseña</label>
                             <input class="login_cont--input borde--input" type="password" name="confirmarClave" id="ConfirmarClave"/>
                         </div>          
                     </fieldset>        
                     
                     <!-- BOTON DE ENVIO Y DATOS OCULTOS -->
-                    <div class="contBoton">  
+                    <div class="cont_registro--boton">  
                         {{-- <input class="Default_ocultar" type="text" name="id_noticia" value="<?php echo $Datos['id_noticia']?>"/>   --}}
-                        <input class="boton" id="Boton_registrar" type="submit" value="Suscribirse"/>
+                        <input class="boton" style="margin:auto" id="Boton_registrar" type="submit" value="Suscribirse"/>
                     </div>  
                 </form>
             </div>

@@ -188,7 +188,7 @@ function respuesta_UsuarioRegistrado(){
             
         } 
         else{
-            alert('Hubo problemas con la petición en llamar_UsuarioRegistrado()')
+            alert('Hubo problemas con la peticións')
         }
     }
     else{ //en caso contrario, mostramos un gif simulando una precarga

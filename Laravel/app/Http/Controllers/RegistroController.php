@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\nuevaSuscripcion_mail;
 use App\Models\Suscriptor_M; 
 use App\Models\SuscriptorPassword_M;
+use App\Models\SuscriptorRol_M;
+use App\Models\Administrador_M;
 
 class RegistroController extends Controller
 {
 
-    // Recibe los datos de un usurio que a llenado el formulario de suscripcion
+    // Recibe los datos de un usuario que a llenado el formulario de suscripcion
     public function recibeRegistroSuscriptor(Request $Request){
         //Se reciben todos los campos del formulario de suscripcion, se verifica que son enviados por POST y que no estan vacios
         // if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST["nombre"]) && !empty($_POST["correo"]) && !empty($_POST["clave"]) && !empty($_POST["confirmarClave"])){
@@ -21,7 +25,7 @@ class RegistroController extends Controller
                 'Clave' => $Request->get('clave'),
                 'ConfirmarClave' => $Request->get('confirmarClave')
             ];
-            // return $RecibeDatos;
+            // return $RecibeDatos; 
 
         // }
         // else{
@@ -39,11 +43,20 @@ class RegistroController extends Controller
         );
         $ID_Suscriptor = Suscriptor_M::latest('ID_Suscriptor')->first()->ID_Suscriptor;
         // return $ID_Suscriptor;
+        
+        // Se inserta en la tabla de Dependencia Transitiva "suscriptor_rol" el rol de suscriptor (ID 1)
+        SuscriptorRol_M::insert(
+            ['ID_Suscriptor' => $ID_Suscriptor,
+            'ID_Rol' => 1
+            ]
+        );
 
         if($RecibeDatos['Clave'] == $RecibeDatos['ConfirmarClave']){
             // se cifra la contraseña del afiliado con un algoritmo de encriptación
             // $options = ['memory_cost' => 1<<10'], 'time_cost' => 4, 'threads' => 2];
             $ClaveCifrada = password_hash($RecibeDatos["Clave"], PASSWORD_DEFAULT);
+
+            // Se inserta la contraseña del suscriptor
             SuscriptorPassword_M::insert(
                 ['ID_Suscriptor' => $ID_Suscriptor,
                 'claveCifrada' => $ClaveCifrada
@@ -56,20 +69,27 @@ class RegistroController extends Controller
             exit();
         }
 
+        // CORREOS
+        // ****************** correo para suscriptor y noticieroyaracuy 
+
         // Se consulta el correo a donde llegara la notificación de nuevo registro
-        // $CorreoAdmin = $this->ConsultaLogin_M->ConsultaCorreoAdministrador();
-        // // echo $CorreoAdmin['correoAdmin'];
-        // // exit();
+        $CorreoAdmin = Administrador_M::
+            select('correoAdmin')
+            ->where('ID_Administrador','=', 1)
+            ->first();
+            // echo gettype($NoticiasPortadas);
+            // return $CorreoAdmin;
 
-        // Se envia al correo del suscriptor la notificación de corfinmación de registrado
-        // $email_subject = 'Suscripción de nuevo usuario';
-        // $email_to = $CorreoAdmin['correoAdmin'];
-        // $headers = 'From: NoticieroYaracuy<administrador@noticieroyaracuy.com>';
-        // $email_message = $RecibeDatos['nombre'] . ' ' . $RecibeDatos['apellido'] . ' se ha registrado en la plataforma';
+        $DatosCorreo = [
+            'nombreSuscriptor' => $RecibeDatos['Nombre'],
+            'apellidoSuscriptor' => $RecibeDatos['Apellido']
+        ];
+        // return $DatosCorreo;
 
-        // mail($email_to, $email_subject, $email_message, $headers);
-        
-        return view('modal/modal_bienvenida_V');
+        Mail::to($CorreoAdmin->correoAdmin)
+        ->send(new nuevaSuscripcion_mail($DatosCorreo)); 
+                                       
+        return view('modal.modal_bienvenida_V');
     }
 
     public function verificar_correo($Correo){

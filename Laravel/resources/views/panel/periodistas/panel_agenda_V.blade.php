@@ -51,6 +51,6 @@
     <script src="{{ asset('/js/E_PanelAgenda.js?v='. rand()) }}"></script>
     <script src="{{ asset('/js/A_PanelAgenda.js?v='. rand()) }}"></script>
 
-    @include('layouts/footer')
+    {{-- @include('layouts/footer') --}}
 
 @endsection()

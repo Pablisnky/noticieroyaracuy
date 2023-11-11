@@ -299,6 +299,10 @@
 		margin-top: 15%;
 		font-size: 1.5em;
 	}
+	.cont_modal--p{
+		margin-top: 13%;
+		font-size: 1.9em;
+	}
 	.cont_modal--cerrar{
 	   font-size: 2.3em !important;	 
 	}
@@ -994,10 +998,10 @@
 	margin-right: 0%;
 }
 .header__titulo{
-	font-size: 2.3em;
-	display: block;
-	margin-top: -4%;
-	margin-left: 20%;
+	position: absolute;
+	top: 0%;
+	left: 9%;
+	margin-left: 8%;
 }
 .header__fecha{
 	font-size: 0.9em;
@@ -1497,7 +1501,7 @@
 }
 .cont_Artista--botones{
 	width: 100%;
-	margin-top: 7%;
+	margin-top: 2%;
 }
 .cont_Contraloria--texto{
    margin: 20% auto 5% auto;
@@ -2055,6 +2059,39 @@
 	padding: 4%;
 	min-height: initial;
 	cursor: pointer;
+}
+.cont_registro--label{
+	margin-top: 5%;
+}
+.cont_modal--boton{
+	font-size: 0.6em;
+	margin: auto; 
+	margin-top:10%
+}
+.partials_rol{
+	margin-top: 90px;
+	padding-left: 5%;
+	width: 100%;
+}
+.cont_roles--menuSecundario{
+	background-color: white;
+	margin: auto;
+	position: absolute;
+	transition: all .5s; /*tiempo que tarda en aplicarse desde que se manda a llamar*/
+	margin-top: -10%;
+	opacity: 0;
+	width: 60%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+.cont_roles--label{
+	font-size: 5.5vw;
+	margin-left: 2%; 
+}
+.cont_roles--icono{
+	width: 2em; 
+	margin-left: 5%; 
+	display:inline
 }
 
 

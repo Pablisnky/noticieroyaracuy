@@ -1,4 +1,4 @@
-@extends('layouts.header_Noticia')
+@extends('layouts.header_SinMembrete')
 
 @section('titulo', 'Registro exitoso')
 

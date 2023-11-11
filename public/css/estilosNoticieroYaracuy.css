@@ -705,7 +705,7 @@ textarea{
 	display: flex;
 	align-items: center;
 	padding-left: 20px;
-	margin-bottom: .5%;
+	margin-bottom: 1%;
 }
 .contenedor_15{
 	width: 70%;
@@ -1708,13 +1708,6 @@ textarea{
 	font-size: 2em;
 	padding-left: 5%;
 }
-/* .header__titulo--detalleProducto{
-	background-color: white;
-	width: 100%;
-	font-size: 2em;
-	font-family: Gruppo;
-	padding-left: 5%;
-} */
 .detalle_cont--titulo{
 	width: 90%;
 	margin: auto;
@@ -1939,9 +1932,6 @@ textarea{
 	margin: auto;
 	object-fit: contain; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
 	border-top-left-radius: 15px;
-}
-.login_cont--form{
-	padding-left: 5%;
 }
 .contBoton{
 	width: 40%;
@@ -2786,7 +2776,7 @@ ul .menuContenedor_3{
 	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
-	width: 35%;
+	width: 20%;
 	height: 50px;
 	margin-top: 0.5%;
 	margin-right: 2%;
@@ -2796,7 +2786,7 @@ ul .menuContenedor_3{
 	flex-wrap: wrap; 
 	justify-content: space-around; 
 	align-items: center;
-	width: 50%;	
+	/* width: ;	 */
 	height: 50px;
 }
 .cont_header_membrete{
@@ -2892,6 +2882,17 @@ ul .menuContenedor_3{
 	width: 45%;
 	margin-bottom: 5%;
 }
+.login_cont{
+	width: 40%;
+	margin: auto;
+	margin-top: 5%;
+	padding-top: 2%; 
+	min-height: 70%;  
+	border-radius: 15px
+}
+.login_cont--form{
+	padding-left: 5%;
+}
 .login_cont--select{
 	height: 30px;
 	width: 90%;
@@ -2901,17 +2902,14 @@ ul .menuContenedor_3{
 	padding-left: 10px !important;
 	width: 100%;
 }
+.login_cont--label{
+	display: block;
+	margin-top: 5%;
+	font-weight: bold;
+}
 .cont_panel--select{
 	height: 30px;
 	width: 90%;
-}
-.login_cont{
-	width: 40%;
-	margin: auto;
-	margin-top: 5%;
-	padding-top: 2%; 
-	min-height: 70%;  
-	border-radius: 15px
 }
 .cont_login{
 	width: 30%;
@@ -3019,11 +3017,6 @@ ul .menuContenedor_3{
 .contenedor_166{
 	margin-bottom: 5%;
 	padding-left: 2%;
-}
-.login_cont--label{
-	display: block;
-	margin-top: 5%;
-	font-weight: bold;
 }
 .cont_suscrip_productos--membrete{
 	display: flex; 
@@ -3687,17 +3680,6 @@ ul .menuContenedor_3{
 	padding-top: 1%;
 	padding-bottom: 1%;
 }
-.cont_roles--menuSecundario{
-	background-color: white;
-	margin: auto;
-	position: absolute;
-	transition: all .5s; /*tiempo que tarda en aplicarse desde que se manda a llamar*/
-	margin-top: -20%;
-	opacity: 0.3;
-	width: 21%;
-	padding-top: 1%;
-	padding-bottom: 1%;
-}
 .cont_adn{
 	display: flex;
 	justify-content: space-between;
@@ -3717,7 +3699,8 @@ ul .menuContenedor_3{
 .cont_adn--iconos{
 	display: flex;
 	align-items: center;
-	margin-bottom: 1%;
+	margin-top: 4%;
+	
 }
 .cont_galeria--icono{
 	width: 5vw;
@@ -3734,6 +3717,7 @@ ul .menuContenedor_3{
 	align-items: center;
 	padding: 0px 10px;
 	width: max-content;
+	margin-bottom: 5px;
 }
 .tapa-logo--ADN--font{
 	margin-left: 10px;
@@ -4509,6 +4493,30 @@ ul .menuContenedor_3{
 }
 .cont_recibePedido--codigo{
 	font-size: 2vw;
+}
+.cont_registro{
+	min-height: 70%;  
+}
+.cont_registro--label{
+	margin-top: 2%;
+}
+.cont_registro--boton{
+	margin-top: 4%;
+}
+.cont_roles--menuSecundario{
+	background-color: white;
+	margin: auto;
+	position: absolute;
+	transition: all .5s; /*tiempo que tarda en aplicarse desde que se manda a llamar*/
+	margin-top: -20%;
+	opacity: 0.3;
+	width: 21%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+.cont_roles--label{
+	font-size: 1.3vw;
+	margin-left: 2%; 
 }
 
 

@@ -10,7 +10,6 @@ use App\Models\Comerciante_M;
 use App\Models\Suscriptor_M; 
 use App\Models\Periodistas_M; 
 use App\Models\SuscriptorPassword_M;
-use App\Models\PeriodistaPasword_M;
 use App\Models\CodigoRecuperacion_M;
 
 use Illuminate\Support\Facades\Cookie;
@@ -152,13 +151,13 @@ class LoginController extends Controller
             // EXISTE COMO PERIODISTA
             if($Periodista != null){
                 
-                $ID_Periodista =  $Periodista->ID_Periodista; 
-                $Correo_BD =  $Periodista->correoPeriodista;
+                $ID_Periodista = $Periodista->ID_Periodista; 
+                $Correo_BD = $Periodista->correoPeriodista;
 
-                //Se CONSULTA la contraseña guardada en BD, para verificar que sea igual a la contraseña de la BD
-                $Contrasenia_BD = PeriodistaPasword_M::
+                //Se CONSULTA la contraseña guardada en BD, para verificar que sea igual a la contraseña enviada por el usuario
+                $Contrasenia_BD = SuscriptorPassword_M::
                     select('claveCifrada')
-                    ->where('ID_Periodista','=', $ID_Periodista)
+                    ->where('ID_Suscriptor','=', $ID_Periodista)
                     ->first();                    
                     // return $Contrasenia_BD;
 
@@ -187,9 +186,19 @@ class LoginController extends Controller
                     //     setcookie('id_usuario','',time() - 3600,'/');
                     //     setcookie('clave','',time() - 3600,'/');
                     // }
+                    
+                    // Se verifica si todos los datos de perfil estan llenos
+                    if($Periodista->telefonoPeriodista == null OR $Periodista->CNP == null){
+                        // Se crea una sesion que impedira navegar si el perfil esta incomleto
+                        session(['perfilCompleto' => 'total']);
 
-                    return redirect()->action([PanelPeriodistaController::class,'index']);   
-                    die();
+                        return redirect()->action([PanelPeriodistaController::class, 'perfil_periodista'],['id_periodista' => session('id_periodista')]);   
+                        die();
+                    }
+                    else{
+                        return redirect()->action([PanelPeriodistaController::class,'index']);   
+                        die();
+                    }
                 }
                 else{ //en caso de clave incorrecta
                     return view('modal/modal_falloLogin_V');
@@ -203,7 +212,7 @@ class LoginController extends Controller
                 $Correo_BD =  $Comerciante[0]->correoComerciante;
                 
                 //Se CONSULTA la contraseña guardada en BD
-                $Contrasenia_BD = SuscriptorPassword_M::
+                $Contrasenia_BD = SuscriptorPassword_M::  
                     select('claveCifrada')
                     ->where('ID_Suscriptor','=', $ID_Comerciante)
                     ->first();                    

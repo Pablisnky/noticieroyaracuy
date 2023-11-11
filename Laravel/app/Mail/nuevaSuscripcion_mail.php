@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class reciboCompra_mail extends Mailable
+class nuevaSuscripcion_mail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -24,14 +24,14 @@ class reciboCompra_mail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nueva venta por verificar',
+            subject: 'Nueva Suscripcion',
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            view: 'emails.ReciboCompra_V', 
+            view: 'emails.RegistroExitoso_V',
         );
     }
 

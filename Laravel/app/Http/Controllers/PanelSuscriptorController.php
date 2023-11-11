@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\PanelMarketplaceController;
 use App\Models\Comerciante_M;
 use App\Models\Secciones_M;
-use App\Models\Suscriptor_M;
+use App\Models\Suscriptor_M; 
+use App\Models\Periodistas_M;
 
 // use Suscriptor_M;
 
@@ -61,8 +62,31 @@ use App\Models\Suscriptor_M;
                 exit;
             }
             else if($Bandera == 'periodista'){
-                echo $Bandera;
-                exit;
+
+                // se consultan los datos basicos en la tabla suscriptor
+                $Suscriptor = Suscriptor_M::
+                    all()
+                    ->where('ID_Suscriptor','=', session('id_suscriptor'))
+                    ->first();
+                    // return $Suscriptor;
+
+                //Se cambbia la sesion suscriptor a sesion periodista
+                session(['id_periodista' => $Suscriptor->ID_Suscriptor]);
+                session(['nombrePeriodista' => $Suscriptor->nombreSuscriptor]);
+                session(['apellidoPeriodista' => $Suscriptor->apellidoSuscriptor]);
+                session()->forget('id_suscriptor');
+
+                // Se inserta en la tabla periodista los datos basicos del suscriptor nuevo con el rol de periodista
+                Periodistas_M::insert(
+                    ['ID_Periodista' => $Suscriptor->ID_Suscriptor, 
+                    'nombrePeriodista' => $Suscriptor->nombreSuscriptor,
+                    'apellidoPeriodista' => $Suscriptor->apellidoSuscriptor,
+                    'correoPeriodista' =>  $Suscriptor->correoSuscriptor
+                    ]
+                );
+
+                return redirect()->route("Perfil_periodista", ['id_periodista' => session('id_periodista')]);
+                die();
             }
             else if($Bandera == 'comerciante'){
 

@@ -38,7 +38,7 @@ document.getElementById("Anuncio").addEventListener('keydown', Llamar_AnunciosDi
 
 //************************************************************************************************
 function Llamar_seccionesDisponible(Ruta){
-    console.log("_____ Desde Llamar_seccionesDisponible() _____ ")
+    // console.log("_____ Desde Llamar_seccionesDisponible() _____ ", Ruta)
 
     var url = Ruta //en web.php se encuentra el detalle de la ruta
     http_request.open('GET', url, true)  
@@ -56,7 +56,7 @@ function respuesta_seccion(){
             document.getElementById("Contenedor_80").innerHTML = peticion.responseText
         } 
         else{
-            alert('Problemas con la petición.')
+            alert('Problemas con la petición al seleccionar seccion.')
         }
     }
     else{ //en caso contrario, mostramos un gif simulando una precarga
@@ -67,6 +67,7 @@ function respuesta_seccion(){
 // *************************************************************************************************
 function Llamar_AnunciosDisponible(){
     // console.log("_____ Desde Llamar_AnunciosDisponible() _____ ")
+    
     var url = "../Panel_C/Anuncios"
     http_request.open('GET', url, true)  
     peticion.onreadystatechange = respuesta_AnunciosDisponible

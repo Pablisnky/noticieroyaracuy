@@ -23,8 +23,8 @@ if(session('id_periodista') == 1){  ?>
     <?php
 }
 else{   ?>
-    <div class="cont_panel--menu"  id="MenuResponsive">
-        <a class="h_2 bordeAlerta" href=""">{{ session('nombreSuscriptor') }}  {{ session('apellidoSuscriptor') }}</a>             
+    <div class="cont_panel--menu"  id="MenuResponsive" onmouseover= "MostrarModal()">
+        <a class="h_2 bordeAlerta" href="{{ route('Perfil_periodista', session('id_periodista')) }}">{{ session('nombreSuscriptor') }}  {{ session('apellidoSuscriptor') }}</a>             
                 
         <ul class="cont_panel--ul">
             <li><a class="{{request()->routeIs('AgregarNoticia') ? 'active' : ''}} cont_panel--li" href="{{ route('AgregarNoticia') }}"">Agregar noticia</a></li>
@@ -34,10 +34,30 @@ else{   ?>
             <li><a class="{{request()->routeIs('Agenda') ? 'active' : ''}} cont_panel--li" href="{{ route('Agenda') }}">Agenda</a></li>
             <li><a class="{{request()->routeIs('Publicidad') ? 'active' : ''}} cont_panel--li" href="{{ route('Publicidad') }}">Anuncio publicitario</a></li>
             <li><a class="cont_panel--li" href="{{ route('NoticiasPortada') }}">Sitio web</a></li>
-
+            {{ session('perfilCompleto') }}
             <li><hr style="margin: 2%; width: 60%"></li>
             <li><p class="cont_panel--li Default_pointer" onclick = "cerrarSecion('{{ route('CerrarSesion') }}')">Cerrar sesión</p></li>
         </ul>
     </div>
     <?php
 }   ?>
+
+
+    <!-- muestra que se debe llenar todos los datos del perfil comerciante, antes de armar un catalogo -->
+    @if(session('perfilCompleto') == 'total')
+        <section class="sectionModal Default_ocultar" id="Mostrar_modal">
+            <div class="contenedor_24 contenedor_24--widt">
+                <h1 class="h1_1 h1_4 bandaAlerta">Completa tu perfil.</h1>
+
+                <p class="cont_modal--p">Antes de cargar noticias.</h2>
+            
+                <a class="boton cont_modal--boton" href="{{ route('Perfil_periodista', ['id_periodista' => session('id_periodista')]) }}">Ver perfil</a>
+            </div>
+        </section>
+    @endif
+
+    <script>
+        function MostrarModal(){
+            document.getElementById("Mostrar_modal").style.display = "block"
+        }
+    </script>

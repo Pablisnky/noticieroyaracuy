@@ -36,8 +36,10 @@
 			{{-- MENU NAVEGACION --}}
 			@include('layouts.partials.menu')
 
-			<!-- BOTONES DESTACADOS -->
-			@include('layouts.partials.botones')
+			<!-- BOTONES DESTACADOS -->			
+			<div class="cont_botones_destacados">
+				@include('layouts.partials.botones')
+			</div>
 
 			<!-- MEMBRETE FIJO -->
 			<div class="cont_header_membrete">
@@ -55,11 +57,22 @@
 		<div class="tapa-logo" id="Tapa_Logo">
 			
 			<!-- NUESTRO ADN-->			            
-			<a class="tapa-logo--ADN--font Default_quitarMovil" href="">
+			<a class="Default_quitarMovil" href="">
 				<div class="tapa-logo--ADN">
-					<img style="width: 2em; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_groups_white_24dp.png')}}" rel="noopener noreferrer"/>Nuestro ADN
+					<div style="width: 50px; display: flex; justify-content: center;">
+						<img style="width: 2em;" src="{{ asset('/iconos/perfil/outline_groups_white_24dp.png')}}" rel="noopener noreferrer"/>
+					</div>
+					<label style="display: block; cursor: pointer; color: white;">Nuestro ADN</label> 
 				</div>
 			</a>
+				
+			<!-- CONTACTANOS -->		
+				{{-- <div class="tapa-logo--ADN Default_quitarMovil" onclick="window.location.href='https://wa.me/584245374044?text=NoticieroYaracuy;%20¿En%20que%20podemos%20ayudarte?'">
+					<div style="width: 50px; display: flex; justify-content: center;">
+						<img style="width: 2em;" src="{{ asset('/iconos/telefono/outline_phone_iphone_white_24dp.png')}}" rel="noopener noreferrer"/>
+					</div>
+					<label style="display: block; cursor: pointer; color: white;">Contactanos</label>
+				</div> --}}
 						
 			<div class="tapa-logo--2">
 				
@@ -113,6 +126,12 @@
 						<img style="width: 2em; margin-lef:0px; margin-right: 5px" src="{{ asset('/iconos/perfil/outline_groups_white_24dp.png')}}" rel="noopener noreferrer"/>Nuestro ADN
 					</div>
 				</a>
+				
+				<!-- CONTACTANOS -->					
+				<div class="cont_adn--iconos">
+					<img style="margin-left: -4px; margin-right: 5px; cursor: pointer" src="{{ asset('/iconos/telefono/outline_phone_iphone_white_24dp.png') }}" width="27" height="27" alt="Whatsapp"/>
+					<a style="display: block; cursor: pointer; color: white;" href="https://wa.me/584245374044?text=NoticieroYaracuy;%20¿En%20que%20podemos%20ayudarte?">Contacto</a>
+				</div>
 			</div>
 		</div>
 		

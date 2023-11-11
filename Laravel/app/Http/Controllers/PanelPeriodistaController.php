@@ -44,7 +44,8 @@ class PanelPeriodistaController extends Controller
             return redirect()->action([Inicio_C::class]);   
             die();
         }
-        else{        
+        else{     
+
             //CONSULTA las noticias de portada
             $NoticiasPortadas = Noticias_M::
                 select('ID_Noticia','titulo','municipio','fecha')
@@ -54,7 +55,7 @@ class PanelPeriodistaController extends Controller
                 ->get();
                 // echo gettype($NoticiasPortadas);
                 // return $NoticiasPortadas;
-                        
+                            
             //CONSULTA las secciones de las noticias de portada
             $SeccionesNoticiasPortadas = Secciones_M::
                 select('noticias.ID_Noticia', 'seccion', 'fecha')
@@ -81,7 +82,7 @@ class PanelPeriodistaController extends Controller
                 ->where('fecha','=', $this->Hoy)
                 ->get();
                 // return $Publicidad;
-                    
+                        
             return view('panel/periodistas/periodistaPortada_V', [
                 'noticia' => $NoticiasPortadas, 
                 'seccionesNoticiasPortadas' => $SeccionesNoticiasPortadas,
@@ -199,7 +200,7 @@ class PanelPeriodistaController extends Controller
     }
     
     //Muestra las secciones en una ventana modal
-    public function secciones(){		
+    public function secciones(){
         // CONSULTA las secciones del periodico
         $Secciones = Secciones_M::
                 select('ID_Seccion','seccion')
@@ -233,6 +234,21 @@ class PanelPeriodistaController extends Controller
         //     header("Location:" . RUTA_URL . "/CerrarSesion_C");
         // }
     }
+
+    // Carga la vista de perfil del periodista
+    public function perfil_periodista($ID_Periodista){
+        // CONSULTA toda la información de perfil del periodista
+        $Periodista = Periodistas_M::
+            all()
+            ->where('ID_Periodista','=', $ID_Periodista)
+            ->first();
+            // return gettype($Periodista);
+            // return $Periodista;
+
+        return view('panel/periodistas/periodista_perfil_V', [
+            'periodista' => $Periodista
+        ]);
+    }
     		
     // *************************************************************************************************
     // *************************************************************************************************
@@ -242,7 +258,6 @@ class PanelPeriodistaController extends Controller
 
     // muestra formulario para agregar una noticia
     public function agregar_noticia(){
-
         //CONSULTA la fuente por defecto del periodista
         $FuenteDefault = Periodistas_M::
                 select('fuenteDefault')
@@ -692,6 +707,50 @@ class PanelPeriodistaController extends Controller
         // }				
 
         return redirect()->action([PanelPeriodistaController::class,'agenda']); 
+        die();
+    }
+
+    // recibe el formulario de perfil para actualizarlo
+    public function recibePerfilPeriodista(Request $Request){
+        //Se reciben el campo del formulario, se verifica que son enviados por POST y que no estan vacios
+        // if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['nombreSuscriptor']) && !empty($_POST['apellidoSuscriptor']) && !empty($_POST['correoSuscriptor']) && !empty($_POST['municipio']) && !empty($_POST['parroquia']) && !empty($_POST['telefono']) && !empty($_POST['pseudonimo']) && (!empty($_POST['transferencia']) || !empty($_POST['pago_movil']) || !empty($_POST['paypal']) || !empty($_POST['zelle']) || !empty($_POST['bolivar']) || !empty($_POST['dolar']) || !empty($_POST['acordado']))){
+            $RecibeDatosPeriodista = [
+                'nombrePeriodista' => $Request->get("nombrePeriodista"),
+                'apellidoPeriodista' => $Request->get('apellidoPeriodista'),
+                'correoPeriodista' => $Request->get('correoPeriodista'),
+                'telefonoPeriodista' => $Request->get("telefonoPeriodista"),
+                'cnp' => $Request->get("cnp")
+            ];
+            // return $RecibeDatosPeriodista;
+
+            //Se actualizan datos del periodista
+            $Actualizar = Periodistas_M
+                ::find(session('id_periodista'));
+                $Actualizar->nombrePeriodista = $RecibeDatosPeriodista['nombrePeriodista'];
+                $Actualizar->apellidoPeriodista = $RecibeDatosPeriodista['apellidoPeriodista'];
+                $Actualizar->correoPeriodista = $RecibeDatosPeriodista['correoPeriodista'];
+                $Actualizar->telefonoPeriodista = $RecibeDatosPeriodista['telefonoPeriodista'];
+                $Actualizar->CNP = $RecibeDatosPeriodista['cnp'];
+                $Actualizar->save();
+
+                //CONSULTA que el perfil este completo
+                $NoticiasPortadas = Periodistas_M::
+                    all()
+                    ->where('ID_Periodista','=', session('id_periodista') )
+                    ->first();
+                    // echo gettype($NoticiasPortadas);
+                    // return $NoticiasPortadas;
+
+            if($NoticiasPortadas->telefonoPeriodista != null AND $NoticiasPortadas->CNP != null){
+                // sesion creada en LoginController // se destruye porque el perfil esta completo
+                session()->forget('perfilCompleto');
+            }
+            else{
+                //Se vuelve a crear la sesion
+                session(['perfilCompleto' => 'total']);
+            }
+
+        return redirect()->route("Perfil_periodista", ['id_periodista' => session('id_periodista')]);
         die();
     }
 

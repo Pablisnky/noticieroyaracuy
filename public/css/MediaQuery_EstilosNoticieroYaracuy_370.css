@@ -107,7 +107,7 @@
 		margin: auto;
 	}
 	.header{	
-		background-color: white;
+		/* background-color: white; */
 		height: 7%;
 	}
 	.header--nav{
@@ -135,8 +135,8 @@
 		font-size: 1.5em;
 	}
 	.cont_modal--p{
-		margin-top: 20%;
-		font-size: 2.5em;
+		margin-top: 13%;
+		font-size: 2.1em;
 	}
 	.cont_modal--logo{
 		width: 95%;
@@ -925,11 +925,11 @@
 	margin-right: 0%;
 }
 .header__titulo{
-	font-size: 2.3em;
-	display: block;
-	margin-top: -4%;
-	margin-left: 15%;
-	text-align: right;
+	font-size: 10vw;
+	position: absolute;
+	top: 0%;
+	left: 9%;
+	margin-left: 8%;
 }
 .header__fecha{
 	font-size: 0.9em;
@@ -1431,7 +1431,7 @@
 }
 .cont_Artista--botones{
 	width: 100%;
-	margin-top: 7%;
+	margin-top: 2%;
 }
 .cont_Contraloria--texto{
    margin: 20% auto 3% auto;
@@ -1972,7 +1972,58 @@
 	 width: 90px;
 	 height: 70px;
  }
-
+ .cont_registro--label{
+	 margin-top: 5%;
+ }
+ .cont_modal_suscriptor{
+	 display: block;
+	 width: 70%;
+	 padding-top: 5%; 
+	 margin: 10% auto;
+ }
+ .cont_modal_suscriptor--p{
+	 font-size: 1.1em;
+	 width: 90%;
+	 margin: 5% auto;
+ }
+ .cont_modal_suscriptor--a{
+	 width: 90%;
+	 font-size: 1.2em;
+	 line-height: 40px;
+	 text-align: center;
+	 margin: auto;
+	 margin-bottom: 10%;
+ }
+ .cont_modal--boton{
+	 font-size: 0.5em;
+	 margin: auto; 
+	 margin-top:10%
+ }
+ .partials_rol{
+	 margin-top: 90px;
+	 padding-left: 5%;
+	 width: 100%;
+ }
+ .cont_roles--menuSecundario{
+	 background-color: white;
+	 margin: auto;
+	 position: absolute;
+	 transition: all .5s; /*tiempo que tarda en aplicarse desde que se manda a llamar*/
+	 margin-top: -10%;
+	 opacity: 0;
+	 width: 60%;
+	 padding-top: 1%;
+	 padding-bottom: 1%;
+ }
+ .cont_roles--label{
+	 font-size: 5.5vw;
+	 margin-left: 2%; 
+ }
+ .cont_roles--icono{
+	 width: 2em; 
+	 margin-left: 5%; 
+	 display:inline
+ }
 
  
  

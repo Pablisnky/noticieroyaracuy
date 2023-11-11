@@ -26,7 +26,7 @@
         <div class="cont_galeria--texto" id="ConoDesplegar">
             <div>
                 <h1 class="h_1">Galeria de arte</h1>
-                <small class="small_3 Default_font--black">& marketplace</small>
+                <small class="small_3 Default_font--black">Arte yaracuyano</small>                                                            
             </div>
             <!-- ICONO EXPANDIR MENU -->
             <div class="cont_galeria--icono" > 
@@ -37,23 +37,13 @@
             <div class="cont_galeria--menuSecundario borde_1" id="MenuSecundario">  
 
                 <div class="cont_detalle_Producto--suscriptor">
-                    <img style="width: 1.5em; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/pintor/outline_palette_black_24dp.png'?>"/>
+                    <img style="margin-left: -4px; margin-right: 5px; cursor: pointer" src="{{ asset('/iconos/pintor/outline_palette_black_24dp.png') }}"/>
                     <a class="cont_detalle_Producto--p Default_font--black" href="{{ route('Login', ['id_noticia' => 'sin_id_noticia', 'bandera' => 'sin_bandera', 'id_comentario' => 'sin_id_comentario']) }}">Exponer obras</a>
                 </div>
-                        
-                <!-- <div class="cont_detalle_Producto--suscriptor">
-                    <img style="width: 1.5em; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_perm_identity_black_24dp.png'?>"/>
-                    <a class="cont_detalle_Producto--p Default_font--black" href="<?php //echo RUTA_URL . '/LoginController/suscripcion/SinID_Noticia'?>">Registrarse como artista</a>
-                </div> -->
 
                 <div class="cont_detalle_Producto--suscriptor">
-                    <img style="width: 1.5em; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/listado/outline_fact_check_black_24dp.png'?>"/>
-                    <label class="cont_detalle_Producto--p">Terminos y condiciones</label>
-                </div>              
-
-                <div class="cont_detalle_Producto--suscriptor">
-                    <img style="width: 1.5em; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/telefono/outline_phone_iphone_black_24dp.png'?>"/>
-                    <label class="cont_detalle_Producto--p">Contactanos</label>
+					<img style="margin-left: -4px; margin-right: 5px; cursor: pointer" src="{{ asset('/iconos/telefono/outline_phone_iphone_black_24dp.png') }}" width="27" height="27" alt="Whatsapp"/>
+                    <a class="cont_detalle_Producto--p" style="display: block; cursor: pointer; color: black;" href="https://wa.me/584245374044?text=NoticieroYaracuy;%20¿En%20que%20podemos%20ayudarte?">Contactanos</a>
                 </div>              
             </div>
         </div>

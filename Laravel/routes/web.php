@@ -160,14 +160,15 @@ Route::get("artista/actualizar/{id_obra}", [PanelArtistaController::class, 'actu
 Route::get("artista/agregarObra/{id_artista}", [PanelArtistaController::class, 'CargarObras'])->name('AgregarObra'); 
 Route::get("artista/perfil/{id_artista}", [PanelArtistaController::class, 'perfil_artista'])->name('PerfilArtista');
 
-// PanelPeriodistaController ******************************************************
+// PanelPeriodistaController ****************************************************** 
+Route::get('panelPeriodista/agregar', [PanelPeriodistaController::class, 'agregar_noticia'])->name('AgregarNoticia');
+Route::post("panelComerciante/actualizarPerfil", [PanelPeriodistaController::class, 'recibePerfilPeriodista'])->name('ActualizaPerfilPeriodista');
 Route::get('panelPeriodista', [PanelPeriodistaController::class, 'index'])->name('Index');   
 Route::get('panelPeriodista/redSocial/{id_noticia}', [PanelPeriodistaController::class, 'instagram'])->name('Instagram'); 
 Route::get('panelPeriodista/noticiasGenerales', [PanelPeriodistaController::class, 'not_Generales'])->name('NoticiasGenerales');
 Route::get('panelPeriodista/agenda', [PanelPeriodistaController::class, 'agenda'])->name('Agenda');  
 Route::get('panelPeriodista/efemeride', [PanelPeriodistaController::class, 'efemerides'])->name('Efemerides');  
 Route::get('panelPeriodista/publicidad', [PanelPeriodistaController::class, 'publicidad'])->name('Publicidad');
-Route::get('panelPeriodista/agregar', [PanelPeriodistaController::class, 'agregar_noticia'])->name('AgregarNoticia');
 Route::get('panelPeriodista/agregarAgenda', [PanelPeriodistaController::class, 'agregar_agenda'])->name('AgregarAgenda');
 Route::get('panelPeriodista/agregarEfemeride', [PanelPeriodistaController::class, 'agregar_efemeride'])->name('AgregarEfemeride');
 Route::get('panelPeriodista/actualizar/{id_noticia}/{bandera}', [PanelPeriodistaController::class, 'actualizar_noticia'])->name('ActualizarNoticia');
@@ -181,6 +182,7 @@ Route::get('panelPeriodista/eliminaNoticia/{id_noticia}', [PanelPeriodistaContro
 Route::get('panelPeriodista/eliminaEfemeride/{id_efemeride}', [PanelPeriodistaController::class, 'eliminar_efemeride'])->name('EliminarEfemeride');   
 Route::get('panelPeriodista/eliminaAgenda/{id_agenda}', [PanelPeriodistaController::class, 'eliminar_agenda'])->name('EliminarAgenda'); 
 Route::get('panelPeriodista/actualizarNoticia/{id_imagenSec}', [PanelPeriodistaController::class, 'eliminar_imagenSecundariaNoticia'])->name('EliminarImgSecundaria');  
+Route::get('panelPeriodista/{id_periodista}', [PanelPeriodistaController::class, 'perfil_periodista'])->name('Perfil_periodista');
 
 // TRAITS ************************************************************* 
 Route::get('trait', [PagesController::class, 'index'])->name('Trait');

@@ -9,7 +9,7 @@ class SuscriptorPassword_M extends Model
 {
     use HasFactory;
 
-    public $timestamps = true;
+    public $timestamps = false;
     protected $table = 'suscriptorespassword';
     protected $primaryKey  = 'ID_Suscriptor';
 }

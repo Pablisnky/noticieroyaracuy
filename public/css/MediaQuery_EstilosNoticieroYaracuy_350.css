@@ -141,7 +141,7 @@
 }
 .cont_modal--p{
 	margin-top: 20%;
-	font-size: 1.8em;
+	font-size: 1.6em;
 }
 .cont_modal--logo{
 	width: 95%;
@@ -1417,8 +1417,9 @@
 	object-fit: cover; /*fill, cover, contain, none, scale-down, inherit, initial, unset*/
 }
 .cont_Artista--botones{
+	/* background-color: red; */
 	width: 100%;
-	margin-top: 10%;
+	/* margin-top: 2%; */
 }
 .cont_Contraloria--texto{
    	margin: 20% auto 5% auto;
@@ -1924,7 +1925,7 @@
 }
 .carita{
 	position: relative;
-	top: 30%;
+	top: 15%;
 	left: 5%;
 	width: 55%;
 }
@@ -2206,7 +2207,58 @@
 	width: 90px;
 	height: 70px;
 }
-
+.cont_registro--label{
+	margin-top: 5%;
+}
+.cont_modal_suscriptor{
+	display: block;
+	width: 70%;
+	padding-top: 5%; 
+	margin: 10% auto;
+}
+.cont_modal_suscriptor--p{
+	font-size: 1.1em;
+	width: 90%;
+	margin: 5% auto;
+}
+.cont_modal_suscriptor--a{
+	width: 90%;
+	font-size: 1.2em;
+	line-height: 40px;
+	text-align: center;
+	margin: auto;
+	margin-bottom: 10%;
+}
+.cont_modal--boton{
+	font-size: 0.6em;
+	margin: auto; 
+	margin-top:10%
+}
+.partials_rol{
+	margin-top: 80px;
+	padding-left: 5%;
+	width: 100%;
+}
+.cont_roles--menuSecundario{
+	background-color: white;
+	margin: auto;
+	position: absolute;
+	transition: all .5s; /*tiempo que tarda en aplicarse desde que se manda a llamar*/
+	margin-top: -10%;
+	opacity: 0;
+	width: 60%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+.cont_roles--label{
+	font-size: 5.5vw;
+	margin-left: 2%; 
+}
+.cont_roles--icono{
+	width: 2em; 
+	margin-left: 5%; 
+	display:inline
+}
 
 
 

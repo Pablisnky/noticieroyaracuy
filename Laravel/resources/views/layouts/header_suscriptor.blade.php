@@ -50,8 +50,10 @@
 			<!-- MEMBRETE FIJO -->
 			<label class="header__titulo">Noticiero Yaracuy</label>
 
-			{{-- ROLES --}}
-			@include('layouts.partials.roles')
+			{{-- ROLES --}}			
+			<div class="partials_rol" id="ConoDesplegar"> 
+				@include('layouts.partials.roles')
+			</div>
 			
 			<!-- CARITA -->
 			<div class="cont_header--loginFecha Default_quitarMovil">
