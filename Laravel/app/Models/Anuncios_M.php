@@ -11,5 +11,5 @@ class Anuncios_M extends Model
 
     protected $table = 'anuncios';
     protected $primaryKey  = 'ID_Anuncio ';
-    // public $TimesTamp = false; //Cuando una tabla no tiene este campo se debe colocar "false"
+    // public $timestamps = false; //Cuando una tabla no tiene este campo se debe colocar "false"
 }

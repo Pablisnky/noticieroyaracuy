@@ -11,5 +11,5 @@ class Videos_M extends Model
 
     protected $table = 'videos';
     protected $primaryKey  = 'ID_Video';
-    // public $TimesTamp = false;
+    // public $timestamps = false;
 }

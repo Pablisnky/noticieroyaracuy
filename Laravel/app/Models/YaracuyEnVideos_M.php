@@ -11,5 +11,5 @@ class YaracuyEnVideos_M extends Model
 
     protected $table = 'yaracuyenvideos';
     protected $primaryKey  = 'ID_YaracuyEnVideo';
-    // public $TimesTamp = false;
+    // public $timestamps = false;
 }

@@ -228,7 +228,7 @@
         <?php //include(RUTA_APP . "/vistas/footer/footer.php");
     // }
     // else{
-    //     header("location:" . RUTA_URL. "/Inicio_C");
+    //     header("location:" . RUTA_URL. "/InicioController");
     // }   ?>
     
 @endsection()     

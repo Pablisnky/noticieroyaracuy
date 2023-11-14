@@ -12,7 +12,7 @@ use App\Models\YaracuyEnVideos_M;
 use Carbon\Carbon;
 // use Illuminate\Support\Facades\DB;
 
-class Inicio_C extends Controller{  
+class InicioController extends Controller{  
 
     public function __invoke(){
 

@@ -3,15 +3,15 @@
 use Illuminate\Support\Facades\Route; 
 use App\Http\Controllers\DirectorioProfesionalController;
 use App\Http\Controllers\MarketplaceController;
-use App\Http\Controllers\Efemeride_C;
+use App\Http\Controllers\EfemerideController;
 use App\Http\Controllers\EventosController;
 use App\Http\Controllers\GaleriaArteController;
-use App\Http\Controllers\Inicio_C;
+use App\Http\Controllers\InicioController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NoticiasController;
 use App\Http\Controllers\PagesController; 
 use App\Http\Controllers\PanelArtistaController;
-use App\Http\Controllers\Panel_Denuncias_C;
+use App\Http\Controllers\PanelDenunciasController;
 use App\Http\Controllers\PanelPeriodistaController;
 use App\Http\Controllers\PanelMarketplaceController;
 use App\Http\Controllers\PanelSuscriptorController; 
@@ -41,11 +41,11 @@ Route::view('nuestroADN', 'nuestroADN_V')->name('nuestroADN');
 Route::view("/homepage", "homepage");
 
 // ******************************************************  
-Route::get('/', Inicio_C::class)->name('NoticiasPortada');
+Route::get('/', InicioController::class)->name('NoticiasPortada');
 Route::get("roles/{correo}", RolController::class)->name('Roles');
 
-// Efemeride_C ***************************************************** 
-Route::get('efemeride', Efemeride_C::class)->name('Efemeride');
+// EfemerideController ***************************************************** 
+Route::get('efemeride', EfemerideController::class)->name('Efemeride');
 
 // DirectorioProfesionalController ********************************* 
 Route::get('directorio/profesional', [DirectorioProfesionalController::class, 'index'])->name('DirectorioProfesional'); 
@@ -137,8 +137,8 @@ Route::get('panelMedico/{id_medico}', [PanelMedicoController::class, 'perfil_med
 // PanelSuscriptorController ******************************************************
 Route::get('panelSuscriptor/{id}/{bandera}', [PanelSuscriptorController::class, 'crear_Rol'])->name('CrearRol');
 
-// Panel_Denuncias_C **************************************************
-Route::get("denuncias/{ID_Suscriptor}", [Panel_Denuncias_C::class, 'index'])->name('SuscriptorDenuncias'); 
+// PanelDenunciasController **************************************************
+Route::get("denuncias/{ID_Suscriptor}", [PanelDenunciasController::class, 'index'])->name('SuscriptorDenuncias'); 
 
 // PanelMarketplaceController ***************************************** 
 Route::post("panelComerciante/actualizarPerfil", [PanelMarketplaceController::class, 'recibePerfilComerciante'])->name('ActualizaPerfilComerciante');

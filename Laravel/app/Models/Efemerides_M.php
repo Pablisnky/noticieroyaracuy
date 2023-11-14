@@ -11,5 +11,5 @@ class Efemerides_M extends Model
 
     protected $table = 'efemeride';
     protected $primaryKey  = 'ID_Efemeride';
-    // public $TimesTamp = false; //Cuando una tabla no tiene este campo se debe colocar "false"
+    // public $timestamps = false; //Cuando una tabla no tiene este campo se debe colocar "false"
 }

@@ -579,7 +579,7 @@ class MarketplaceController extends Controller
             );
         // }        
         // else{ 
-        //      return redirect()->action([Inicio_C::class]);   
+        //      return redirect()->action([InicioController::class]);   
         //      die();
         // }   
     }

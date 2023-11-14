@@ -6,7 +6,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<!-- ETIQUETAS OPEN-GRAPH para ayudar a la red social de turno a identificar mejor qué hay en un recurso de nuestra web que alguien está compartiendo -->
+		<!-- ETIQUETAS OPEN-GRAPH para ayudar a la red social a identificar qué recurso hay de nuestra web que alguien está compartiendo -->
 		<meta property="og:title" content="www.noticieroyaracuy.com"/>
 		<meta property="og:description" content="Noticias locales de Yaracuy"/>
 		<meta property="og:type" content="website"/>
@@ -14,7 +14,7 @@
 		<meta property="fb:app_id" content="928977633900253"/>
 		<meta property="og:image:alt" content="Imagen descriptiva de la noticia"/>
 		<meta property="og:url" content="{{ route('DetalleNoticia', $noticia->ID_Noticia) }}"/>
-		<meta property="og:image:secure_url" itemprop="image" content="{{ asset('images/noticias/' . $imagenesNoticia[0]["nombre_imagenNoticia"]) }}/>
+		<meta property="og:image:secure_url" itemprop="image" content="{{ asset('images/noticias/' . $imagenesNoticia[0]["nombre_imagenNoticia"]) }}"/>
 		<meta property="og:image:width" content="1200"/>
 		<meta property="og:image:height" content="630"/>
 		<meta property="og:locale:alternate" content="es_ES"/>

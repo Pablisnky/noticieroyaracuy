@@ -383,9 +383,9 @@ class LoginController extends Controller
                         // $Obras = new PanelArtistaController();
                         // $Cant_Obras = $Obras->cantidadObras($ID_Suscriptor);
                         
-                        // //Se CONSULTA al controlador Panel_Denuncias_C la cantidad de denunucias que ha realizado el suscriptor.
-                        // require_once(RUTA_APP . "/controladores/Panel_Denuncias_C.php");
-                        // $Denuncias = new Panel_Denuncias_C();
+                        // //Se CONSULTA al controlador PanelDenunciasController la cantidad de denunucias que ha realizado el suscriptor.
+                        // require_once(RUTA_APP . "/controladores/PanelDenunciasController.php");
+                        // $Denuncias = new PanelDenunciasController();
                         // $Cant_Denuncias = $Denuncias->denunciasSuscriptor($ID_Suscriptor);
                         return view('modal/modal_suscripInicio_V', [
                             //     'ID_Suscriptor' => $ID_Suscriptor,
@@ -568,7 +568,7 @@ class LoginController extends Controller
         session()->forget('id_suscriptor');
         session()->forget('id_comerciante');
         
-        return redirect()->action([Inicio_C::class]);   
+        return redirect()->action([InicioController::class]);   
         die();
     }
 }

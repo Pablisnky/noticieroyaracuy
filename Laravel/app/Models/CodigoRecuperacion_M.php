@@ -9,7 +9,7 @@ class CodigoRecuperacion_M extends Model
 {
     use HasFactory;
 
-    public $TimesTamp = false;
+    public $timestamps = false;
     protected $table = 'codigorecuperacion';
     protected $primaryKey  = 'ID_Codigorecuperacion ';
 }

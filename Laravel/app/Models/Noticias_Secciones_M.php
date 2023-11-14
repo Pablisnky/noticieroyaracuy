@@ -11,5 +11,5 @@ class Noticias_Secciones_M extends Model
 
     protected $table = 'noticias_secciones';
     protected $primaryKey  = 'ID_N_S';
-    // public $TimesTamp = false;
+    // public $timestamps = false;
 }

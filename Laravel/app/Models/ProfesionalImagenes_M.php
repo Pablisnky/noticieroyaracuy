@@ -11,5 +11,5 @@ class ProfesionalImagenes_M extends Model
     
     protected $table = 'imagenesdirectorio';
     protected $primaryKey  = 'ID_imagenesprofesional ';
-    public $TimesTamp = false;
+    public $timestamps = false;
 }

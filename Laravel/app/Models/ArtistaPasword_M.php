@@ -9,7 +9,7 @@ class ArtistaPasword_M extends Model
 {
     use HasFactory;
 
-    public $TimesTamp = false;
+    public $timestamps = false;
     protected $table = 'artistapasword';
     protected $primaryKey  = 'ID_Artistapasword'; 
 }

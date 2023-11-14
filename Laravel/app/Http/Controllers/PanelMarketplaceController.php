@@ -650,7 +650,7 @@ class PanelMarketplaceController extends Controller
         $this->vista('view/RecibePedido_V', $Datos);
         // }
         // else{
-        //     // header('location:' . RUTA_URL . '/Inicio_C/NoVerificaLink');
+        //     // header('location:' . RUTA_URL . '/InicioController/NoVerificaLink');
         // }
     }
 

@@ -11,5 +11,5 @@ class Profesional_M extends Model
     
     protected $table = 'directorioprofesionales';
     protected $primaryKey  = 'ID_Profesional';
-    public $TimesTamp = false;
+    public $timestamps = false;
 }

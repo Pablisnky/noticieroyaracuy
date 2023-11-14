@@ -84,7 +84,7 @@
 		<!-- MEMBRETE DESPLAZANTE -->
 		<div class="tapa-logo" id="Tapa_Logo">
 			<!-- NUESTRO ADN-->			            
-			<a class="tapa-logo--ADN--font Default_quitarMovil" href="<?php //echo RUTA_URL . '/Menu_C/nuestroADN';?>">
+			<a class="tapa-logo--ADN--font Default_quitarMovil" href="<?php //echo RUTA_URL . '/MenuController/nuestroADN';?>">
 				<div class="tapa-logo--ADN">
 					<img style="width: 2em; margin-right: 5px" src="<?php //echo RUTA_URL . '/public/iconos/perfil/outline_groups_white_24dp.png'?>" rel="noopener noreferrer"/>Nuestro ADN
 				</div>
@@ -148,7 +148,7 @@
 		<!-- FULLSCREEM -->
 		<div class="Default_ocultar" id="Miimagen">	
 			<!-- ICONO CERRAR -->
-			<a href="<?php //echo RUTA_URL ;?>/Inicio_C"><img class="cont_modal--cerrar Default_pointer" style="width: 1em;" src="<?php //echo RUTA_URL . '/public/iconos/cerrar/outline_cancel_black_24dp.png'?>"/></a>
+			<a href="<?php //echo RUTA_URL ;?>/InicioController"><img class="cont_modal--cerrar Default_pointer" style="width: 1em;" src="<?php //echo RUTA_URL . '/public/iconos/cerrar/outline_cancel_black_24dp.png'?>"/></a>
 
 			<div class="fullscreem--inicio--texto">
 				<h1 class="fullscreem--inicio--h1">Poema Yaracuy</h3>

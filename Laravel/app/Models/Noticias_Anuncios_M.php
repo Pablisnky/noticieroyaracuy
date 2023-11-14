@@ -11,5 +11,5 @@ class Noticias_Anuncios_M extends Model
 
     protected $table = 'noticias_anuncios';
     protected $primaryKey  = 'ID_N_A';
-    // public $TimesTamp = false;
+    // public $timestamps = false;
 }

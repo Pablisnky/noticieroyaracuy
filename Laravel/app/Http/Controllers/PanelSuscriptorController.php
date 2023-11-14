@@ -152,11 +152,11 @@ use App\Models\Periodistas_M;
                 $CantidadProductos = $this->Instancia_PanelMarketplaceController->clasificadoSuscriptor($ID_Suscriptor);
                 // return $CantidadProductos;
 
-                //Se comunica con al controlador Panel_Denuncias_C
-                // require_once(RUTA_APP . "/controladores/Panel_Denuncias_C.php");
-                // $this->Instancia_PanelDenuncia_C = new Panel_Denuncias_C();
+                //Se comunica con al controlador PanelDenunciasController
+                // require_once(RUTA_APP . "/controladores/PanelDenunciasController.php");
+                // $this->Instancia_PanelDenuncia_C = new PanelDenunciasController();
                 
-                //Se CONSULTA al controlador Panel_Denuncias_C la cantidad de denuncias que ha realizado el suscriptor.
+                //Se CONSULTA al controlador PanelDenunciasController la cantidad de denuncias que ha realizado el suscriptor.
                 // $Denuncias = $this->Instancia_PanelDenuncia_C->denunciasSuscriptor($ID_Suscriptor);
 
                 //CONSULTA cuantos comentarios ha realizado un suscriptor

@@ -13,5 +13,5 @@ class seriecoleccion_M extends Model
     protected $table = 'seriecoleccion';
     protected $primaryKey  = 'ID_Serie';
     protected $BorrarCampo = 'string';
-    // public $TimesTamp = false; Cuando una tabla no tiene este campo se debe colocar "false"
+    // public $timestamps = false; Cuando una tabla no tiene este campo se debe colocar "false"
 }

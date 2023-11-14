@@ -19,7 +19,7 @@
                 <h2 class="h2_9">Quejas y reclamos</h2>
                 
                 <!-- ICONO AGREGAR -->
-                <a href="<?php //echo RUTA_URL?>/Panel_Denuncias_C/denuncias/<?php //echo $_SESSION["ID_Suscriptor"];?>" rel="noopener noreferrer"><img class="cont_suscrip_productos--membrete--icono  Default_pointer" src="<?php //echo RUTA_URL . '/public/iconos/agregar/outline_add_circle_outline_black_24dp.png';?>"/></a> 
+                <a href="<?php //echo RUTA_URL?>/PanelDenunciasController/denuncias/<?php //echo $_SESSION["ID_Suscriptor"];?>" rel="noopener noreferrer"><img class="cont_suscrip_productos--membrete--icono  Default_pointer" src="<?php //echo RUTA_URL . '/public/iconos/agregar/outline_add_circle_outline_black_24dp.png';?>"/></a> 
             </div>
 
             <?php
@@ -78,7 +78,7 @@
 
                                 <!-- ACTUALIZAR - ELIMINAR -->
                                 <div class="contenedor_96" id="<?php //echo $ID_Denuncia?>">                
-                                    <a class="a_9" href="<?php //echo RUTA_URL?>/Panel_Denuncias_C/actualizarDenuncia/<?php //echo $ID_Denuncia;?>">Actualizar</a>
+                                    <a class="a_9" href="<?php //echo RUTA_URL?>/PanelDenunciasController/actualizarDenuncia/<?php //echo $ID_Denuncia;?>">Actualizar</a>
                                     
                                     <label style="color: blue;" class="Default_pointer" onclick = "EliminarDenuncia('<?php //echo $ID_Denuncia;?>')">Eliminar</label>
                                 </div>
@@ -106,7 +106,7 @@
         <?php
     // }
     // else{
-    //     header("location:" . RUTA_URL. "/Inicio_C");
+    //     header("location:" . RUTA_URL. "/InicioController");
     // }   ?>
 
 @endsection()     

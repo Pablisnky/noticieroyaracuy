@@ -11,5 +11,5 @@ class ComerciantePasword_M extends Model
 
     protected $table = 'comerciantepasword';
     protected $primaryKey  = 'ID_Comerciantepasword'; 
-    // public $TimesTamp = false;
+    // public $timestamps = false;
 }

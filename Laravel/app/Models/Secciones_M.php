@@ -12,5 +12,5 @@ class Secciones_M extends Model
 
     protected $table = 'secciones';
     protected $primaryKey  = 'ID_Seccion';
-    public $TimesTamp = false;
+    public $timestamps = false;
 }

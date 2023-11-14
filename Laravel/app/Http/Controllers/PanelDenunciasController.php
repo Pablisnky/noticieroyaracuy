@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 // use App\Models\Secciones_M;
 // use Carbon\Carbon;
 
-class Panel_Denuncias_C extends Controller{
+class PanelDenunciasController extends Controller{
     private $Consulta_PanelDenuncia_M;
     private $Comprimir;
     private $Servidor;

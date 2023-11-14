@@ -41,7 +41,7 @@ class PanelPeriodistaController extends Controller
     // muestra las noticias de portadas en el panel de periodistas
     public function index(){
         if(empty(session('id_periodista'))){ 
-            return redirect()->action([Inicio_C::class]);   
+            return redirect()->action([InicioController::class]);   
             die();
         }
         else{     
@@ -1107,7 +1107,7 @@ class PanelPeriodistaController extends Controller
         // }
         // else{
         //     echo 'La sesion no existe';
-        //     // return redirect()->action([Inicio_C::class]); 
+        //     // return redirect()->action([InicioController::class]); 
         //     die();
         // }
     }

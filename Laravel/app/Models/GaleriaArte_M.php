@@ -11,5 +11,5 @@ class GaleriaArte_M extends Model
     
     protected $table = 'obra';
     protected $primaryKey  = 'ID_Obra';
-    // public $TimesTamp = false; //Cuando una tabla no tiene este campo se debe colocar "false"
+    // public $timestamps = false; //Cuando una tabla no tiene este campo se debe colocar "false"
 }

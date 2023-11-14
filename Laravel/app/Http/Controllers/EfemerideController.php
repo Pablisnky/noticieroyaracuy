@@ -6,7 +6,7 @@ use Efemeride_M;
 use Illuminate\Http\Request;
 use App\Models\Efemerides_M;
 
-class Efemeride_C extends Controller
+class EfemerideController extends Controller
 {
     
     public function __invoke(){ 

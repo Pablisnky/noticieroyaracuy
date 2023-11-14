@@ -90,7 +90,7 @@
         <?php
     // }
     // else{
-    //     header("location:" . RUTA_URL. "/Inicio_C");
+    //     header("location:" . RUTA_URL. "/InicioController");
     // }   ?>
 
 @endsection()  

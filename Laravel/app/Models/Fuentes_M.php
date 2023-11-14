@@ -11,5 +11,5 @@ class Fuentes_M extends Model
 
     protected $table = 'fuentes';
     protected $primaryKey  = 'ID_Fuente';
-    // public $TimesTamp = false; //Cuando una tabla no tiene este campo se debe colocar "false"
+    // public $timestamps = false; //Cuando una tabla no tiene este campo se debe colocar "false"
 }

@@ -11,5 +11,5 @@ class PeriodistaPasword_M extends Model
 
     protected $table = 'periodistapasword';
     protected $primaryKey  = 'ID_periodistapasword';
-    // public $TimesTamp = false;
+    // public $timestamps = false;
 }

@@ -3,7 +3,7 @@
 @section('titulo', 'Efemeridess')
 
 @section('contenido')
-    <h1>Controlador Efemeride_C</h1>
+    <h1>Controlador EfemerideController</h1>
     <h2>metodo invoke</h2>
     
     @include('layouts/footer')

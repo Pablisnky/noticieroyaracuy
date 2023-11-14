@@ -11,5 +11,5 @@ class Comentarios_M extends Model
 
     protected $table = 'comentarios';
     protected $primaryKey  = 'ID_Comentario';
-    // public $TimesTamp = false; //Cuando una tabla no tiene este campo se debe colocar "false"
+    // public $timestamps = false; //Cuando una tabla no tiene este campo se debe colocar "false"
 }
