@@ -6,20 +6,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Traits\Divisas;
-
 use App\Traits\ServidorUse;
 use App\Traits\Comprimir_Imagen;
+use App\Traits\Roles;
 
 class PanelMarketplaceController extends Controller
 {
     use Divisas; //Traits
     use ServidorUse; //Traits
     use Comprimir_Imagen; //Traits
+    use roles; //Traits
 
     private $ConsultaClasificados_M;
     private $Dolar;
     private $Comprimir;
     private $Servidor;
+    // private $Rol;
+    private $Roles;
 
     public function __construct(){
 
@@ -27,12 +30,19 @@ class PanelMarketplaceController extends Controller
 
         // Solicita el precio del dolar al Trait Divisas
         $this->Dolar = $this->ValorDolar();
+
+        // Solicita el rol del usuario al Trait Roles
+        // $this->Rol = $this->roles(session('id_comerciante'));
+
+        // Solicita los roles disponibles en la aplicación al Trait Roles
+        $this->Roles = $this->roles();
+        
     }
 
     // Muestra todos los productos que tiene un comerciante especifico
     public function index($ID_Comerciante){
 
-        //se consultan todos los productos de una tienda
+        // se consultan todos los productos de una tienda
         $ProductosSuscriptor = DB::connection('mysql_2')->table('productos')
             ->select('productos.ID_Producto','producto','opciones.ID_Opcion','opcion','opciones.precioBolivar','opciones.precioDolar','cantidad','nombre_img')
             ->join('productos_opciones', 'productos.ID_Producto','=','productos_opciones.ID_Producto')
@@ -64,7 +74,8 @@ class PanelMarketplaceController extends Controller
             return view('panel/comerciantes/comerciante_Inicio_V', [
                 'productos' => $ProductosSuscriptor,
                 'secciones' => $Secciones,
-                'id_comerciante' => $ID_Comerciante
+                'id_comerciante' => $ID_Comerciante,
+                'roles' => $this->Roles,
             ]);
         }
     }
@@ -666,11 +677,6 @@ class PanelMarketplaceController extends Controller
                 'municipioComerciante' =>  $Request->get("municipioComerciante"),
                 'parroquiaComerciante' =>  $Request->get("parroquiaComerciante"),
                 'telefonoComerciante' =>  $Request->get("telefonoComerciante"),
-                'transferencia' =>  empty($Request->get("transferencia")) ? 0 : 1,
-                'pago_movil' =>  empty($Request->get("pago_movil")) ? 0 : 1,
-                'paypal' =>  empty($Request->get("paypal")) ? 0 : 1,
-                'criptomoneda' =>  empty($Request->get("criptomoneda")) ? 0 : 1,
-                'acordado' =>  empty($Request->get("acordado")) ? 0 : 1,
                 'desactivarComerciante' =>  empty($Request->get("desactivarComerciante")) ? 0 : 1,
                 'categoriaComerciante' => $Request->get("categoriaComerciante") 
             ];
@@ -688,11 +694,6 @@ class PanelMarketplaceController extends Controller
                     'parroquiaComerciante' => $RecibeDatosComerciante['parroquiaComerciante'],
                     'telefonoComerciante' => $RecibeDatosComerciante['telefonoComerciante'],
                     'categoriaComerciante' => $RecibeDatosComerciante['categoriaComerciante'], 
-                    'transferenciaComerciante' => $RecibeDatosComerciante['transferencia'],
-                    'pago_movilComerciante' => $RecibeDatosComerciante['pago_movil'],
-                    'paypalComerciante' => $RecibeDatosComerciante['paypal'],
-                    'criptomonedaComerciante' => $RecibeDatosComerciante['criptomoneda'],
-                    'acordadoComerciante' => $RecibeDatosComerciante['acordado'], 
                     'desactivarComerciante' => $RecibeDatosComerciante['desactivarComerciante'],                   
                 ]);
 

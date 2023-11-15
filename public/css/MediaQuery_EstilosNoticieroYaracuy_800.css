@@ -2093,11 +2093,16 @@
 	margin-left: 5%; 
 	display:inline
 }
+.cont_boton{
+	display: flex;
+	justify-content: center;
+	margin-top: 7%;
+}
 
 
 
 
-
+ 
 
 
 

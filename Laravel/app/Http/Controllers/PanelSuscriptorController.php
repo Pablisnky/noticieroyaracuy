@@ -142,7 +142,7 @@ use App\Models\Periodistas_M;
             }
         } 
         
-        //carga el dashboard de suscriptores
+        // carga el dashboard de suscriptores
         public function accesoSuscriptor($ID_Suscriptor){
             // if(!empty($_SESSION['ID_Suscriptor'])){
                 //Se consultan datos del suscriptor
@@ -193,7 +193,7 @@ use App\Models\Periodistas_M;
             // }
         }
 
-        //CONSULTA los datos de todos los suscriptores
+        // CONSULTA los datos de todos los suscriptores
         public function suscriptores(){          
 
             $Suscriptor = $this->ConsultaSuscriptor_M->consultarTodosSuscriptor();
@@ -206,7 +206,7 @@ use App\Models\Periodistas_M;
             return $Suscriptor;
         } 
                 
-        //recibe el nombre comercial, telefono y formas de pago de un suscriptor que va a publicar un clasificado
+        // recibe el nombre comercial, telefono y formas de pago de un suscriptor que va a publicar un clasificado
         public function actualizaNombreComercial(){
             //Se reciben el campo del formulario, se verifica que son enviados por POST y que no estan vacios
             if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['nombreSuscriptor']) && !empty($_POST['apellidoSuscriptor']) && !empty($_POST['correoSuscriptor']) && !empty($_POST['municipio']) && !empty($_POST['parroquia']) && !empty($_POST['telefono']) && !empty($_POST['pseudonimo']) && (!empty($_POST['transferencia']) || !empty($_POST['pago_movil']) || !empty($_POST['paypal']) || !empty($_POST['zelle']) || !empty($_POST['bolivar']) || !empty($_POST['dolar']) || !empty($_POST['acordado']))){

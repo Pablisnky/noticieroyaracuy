@@ -51,9 +51,9 @@
 			<label class="header__titulo">Noticiero Yaracuy</label>
 
 			{{-- ROLES --}}			
-			<div class="partials_rol" id="ConoDesplegar"> 
+			{{-- <div class="partials_rol" id="ConoDesplegar"> 
 				@include('layouts.partials.roles')
-			</div>
+			</div> --}}
 			
 			<!-- CARITA -->
 			<div class="cont_header--loginFecha Default_quitarMovil">

@@ -116,10 +116,9 @@ trait Comprimir_Imagen{
                 }
             }
             else if($Bandera == 'ImagenNoticia'){
-                
                 if($Servidor == 'Remoto'){
                     // Usar en remoto        
-                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/noticias/';
+                    $Patch = $_SERVER['DOCUMENT_ROOT'] . '/images/noticias/';    
                 }
                 else{
                     // usar en local        
@@ -145,8 +144,8 @@ trait Comprimir_Imagen{
                 $max_ancho = 1280;
                 $max_alto = 900;  
                 
-                if($Tipo_Imagen == 'image/png' || $Tipo_Imagen == 'image/jpeg' || $Tipo_Imagen == 'image/jpg' || $Tipo_Imagen == 'image/gif' || $Tipo_Imagen == 'image/webp'){
-                
+                if($Tipo_Imagen == 'image/png' || $Tipo_Imagen == 'image/jpeg' || $Tipo_Imagen == 'image/jpg' || $Tipo_Imagen == 'image/gif'){
+                    // echo $Tipo_Imagen . '<br>';
                     $medidasimagen= getimagesize($Temporal_Imagen);
             
                     //Si las imagenes tienen una resolución y un peso aceptable se suben tal cual
@@ -155,10 +154,11 @@ trait Comprimir_Imagen{
                         move_uploaded_file($Temporal_Imagen, $Patch . $Nombre_Imagen);	
                     }
                     else{
-                        
+                        // echo 'entra en else' . '<br>';
                         //Redimensionar
                         $rtOriginal = $Temporal_Imagen;
-            
+                        // echo $rtOriginal . '<br>';
+
                         if($Tipo_Imagen == 'image/jpeg'){
                             $original = imagecreatefromjpeg($rtOriginal);
                         }
@@ -171,9 +171,9 @@ trait Comprimir_Imagen{
                         else if($Tipo_Imagen =='image/gif'){
                             $original = imagecreatefromgif($rtOriginal);
                         }
-                        else if($Tipo_Imagen =='image/webp'){
-                            $original = imagecreatefromwebp($rtOriginal);
-                        }	
+                        // else if($Tipo_Imagen =='image/webp'){
+                        //     $original = imagecreatefromwebp($rtOriginal);
+                        // }	
             
                         list($ancho,$alto) = getimagesize($rtOriginal);
             
@@ -198,7 +198,7 @@ trait Comprimir_Imagen{
             
                         imagecopyresampled($lienzo,$original,0,0,0,0,$ancho_final,$alto_final,$ancho,$alto);
                             
-                        $cal = 8;
+                        // $cal = 8;
                         
                         if($Tipo_Imagen == 'image/jpeg'){
                             imagejpeg($lienzo, $Patch . $Nombre_Imagen);
@@ -212,15 +212,15 @@ trait Comprimir_Imagen{
                         else if($Tipo_Imagen=='image/gif'){
                             imagegif($lienzo, $Patch . $Nombre_Imagen);
                         }
-                        else if($Tipo_Imagen=='image/webp'){
-                            imagewebp($lienzo, $Patch . $Nombre_Imagen);
-                        }
+                        // else if($Tipo_Imagen=='image/webp'){
+                        //     imagewebp($lienzo, $Patch . $Nombre_Imagen);
+                        // }
                         // echo 'fichero comprimido exitosamente';
                         // exit;
                     }
                 }
                 else{
-                    echo 'fichero no soportado';
+                    echo 'fichero no soportado, verifique que la imagen no tenga errores';
                     exit;
                 } 
             }

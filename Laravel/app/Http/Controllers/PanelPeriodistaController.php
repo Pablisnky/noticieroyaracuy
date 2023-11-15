@@ -958,6 +958,7 @@ class PanelPeriodistaController extends Controller
                 // echo "Nombre_imagen: " . $Nombre_imagenPrincipal . '<br>';
                 // echo "Tipo_imagen: " .  $Tipo_imagenPrincipal . '<br>';
                 // echo "Tamanio_imagen: " .  $Tamanio_imagenPrincipal . '<br>';
+                // echo "Temporal_imagen: " .  $Temporal_imagenPrincipal . '<br>';
                 // exit;
                 
                 //Quitar de la cadena del nombre de la imagen todo lo que no sean números, letras o puntos
@@ -980,6 +981,9 @@ class PanelPeriodistaController extends Controller
                     $ActualizarImagenNoticia->tipo_imagenNoticia = $Tipo_imagenPrincipal;
                     $ActualizarImagenNoticia->save();
             }
+            // else{
+            //     return "No actualizó imagen principal";
+            // }
 
             // ACTUALIZA IMAGENES SECUNDARIAS DE NOTICIA
             if($_FILES['imagenesSecundarias']['name'][0] != ''){

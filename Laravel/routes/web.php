@@ -143,12 +143,12 @@ Route::get("denuncias/{ID_Suscriptor}", [PanelDenunciasController::class, 'index
 // PanelMarketplaceController ***************************************** 
 Route::post("panelComerciante/actualizarPerfil", [PanelMarketplaceController::class, 'recibePerfilComerciante'])->name('ActualizaPerfilComerciante');
 Route::get('panelComerciante/{id_comerciante}', [PanelMarketplaceController::class, 'perfil_comerciante'])->name('Perfil_comerciante');
-Route::get("marketplace/{id_comerciante}", [PanelMarketplaceController::class, 'index'])->name('PanelProducto');
 Route::get("marketplace/actualizar/{id_producto}/{opcion}", [PanelMarketplaceController::class, 'actualizarProducto'])->name('ActualizarProducto');
 Route::get("marketplace/agregarProducto/{id_comerciante}", [PanelMarketplaceController::class, 'agregar'])->name('AgregarProducto');
 Route::post("marketplace/productoAgregar", [PanelMarketplaceController::class, 'recibeProductoAgregar'])->name('RecibeProductoAgregado');
 Route::post("marketplace/datosActualizar", [PanelMarketplaceController::class, 'recibeAtualizarProducto'])->name('RecibeAtualizarProducto');
 Route::get('marketplace/eliminaProducto/{id_producto}/{id_opcion}', [PanelMarketplaceController::class, 'eliminarProducto'])->name('EliminarProducto'); 
+Route::get("marketplace/{id_comerciante}", [PanelMarketplaceController::class, 'index'])->name('PanelProducto');
 Route::get('marketplace/eliminarImgProducto/{id_imagenSec}', [PanelMarketplaceController::class, 'eliminar_imagenSecundariaProducto'])->name('EliminarImgSecundariaPRoducto');
 // ajax 
 Route::get('marketplace/eliminaSeccion/{id_seccion}', [PanelMarketplaceController::class, 'eliminarSeccion'])->name('EliminarSeccion'); 
@@ -160,9 +160,9 @@ Route::get("artista/actualizar/{id_obra}", [PanelArtistaController::class, 'actu
 Route::get("artista/agregarObra/{id_artista}", [PanelArtistaController::class, 'CargarObras'])->name('AgregarObra'); 
 Route::get("artista/perfil/{id_artista}", [PanelArtistaController::class, 'perfil_artista'])->name('PerfilArtista');
 
-// PanelPeriodistaController ****************************************************** 
+// PanelPeriodistaController *************************************************
 Route::get('panelPeriodista/agregar', [PanelPeriodistaController::class, 'agregar_noticia'])->name('AgregarNoticia');
-Route::post("panelComerciante/actualizarPerfil", [PanelPeriodistaController::class, 'recibePerfilPeriodista'])->name('ActualizaPerfilPeriodista');
+Route::post("panelPeriodista/actualizarPerfil", [PanelPeriodistaController::class, 'recibePerfilPeriodista'])->name('ActualizaPerfilPeriodista');
 Route::get('panelPeriodista', [PanelPeriodistaController::class, 'index'])->name('Index');   
 Route::get('panelPeriodista/redSocial/{id_noticia}', [PanelPeriodistaController::class, 'instagram'])->name('Instagram'); 
 Route::get('panelPeriodista/noticiasGenerales', [PanelPeriodistaController::class, 'not_Generales'])->name('NoticiasGenerales');

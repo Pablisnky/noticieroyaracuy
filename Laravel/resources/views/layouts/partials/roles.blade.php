@@ -6,10 +6,8 @@
     </div>
     
     <!-- MENU ROLES --> 
-    <div class="cont_roles--menuSecundario borde_1"  id="MenuSecundario"> 							
-        <label class="cont_detalle_Producto--p" style="display: block; padding-left: 10px">Periodista</label>
-        <label class="cont_detalle_Producto--p" style="display: block; padding-left: 10px">Medico</label>
-        <label class="cont_detalle_Producto--p" style="display: block; padding-left: 10px">Artista</label>
-        <label class="cont_detalle_Producto--p" style="display: block; padding-left: 10px">Profesional</label>
-        <label class="cont_detalle_Producto--p" style="display: block; padding-left: 10px">Comerciante</label>
+    <div class="cont_roles--menuSecundario borde_1"  id="MenuSecundario"> 				
+        @foreach($roles as $Row)			
+            <label class="cont_detalle_Producto--p" style="display: block; padding-left: 10px">{{ $Row->rol }}</label>
+        @endforeach
     </div>

@@ -10,7 +10,7 @@
                 <h1 class="h2_9">Cambio de rol</h1>
                 <div class="cont_roles">
                     <div class="cont_roles--div">
-                        <a class="boton boton--corto_2" href="">Periodista</a>
+                        <a class="boton boton--corto_2" href="{{ route('Perfil_periodista', ['id_periodista' => session('id_periodista')]) }}">Periodista</a>
                     </div>
                     <div>
                         <a class="boton boton--corto_2" href="">Artista</a>
