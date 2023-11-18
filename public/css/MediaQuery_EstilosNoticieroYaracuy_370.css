@@ -2029,6 +2029,9 @@
 	 justify-content: center;
 	 margin-top: 7%;
  }
+ .cont_panel--flex-right{
+	 width: 100%; 
+ }
 
  
  

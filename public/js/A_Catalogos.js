@@ -109,7 +109,7 @@ function llamar_PedidoEnCarrito(Ruta){
 function respuesta_PedidoEnCarrito(){
     if(peticion.readyState == 4){
         if(peticion.status == 200){            
-            document.getElementById("Mostrar_Orden").style.display="block"
+            document.getElementById("Mostrar_Orden").style.display = "block"
 
             //Coloca el cursor en el top de la pagina
             window.scroll(0,0)            
@@ -119,7 +119,7 @@ function respuesta_PedidoEnCarrito(){
             PedidoEnCarrito(LS_ValorDolarHoy)           
         } 
         else{
-            alert('Hubo problemas con la petición en llamar_PedidoEnCarrito()')
+            alert('Hubo problemas con la petición, no se encontro el usuario')
         }
     }
     else{ //en caso contrario, mostramos un gif simulando una precarga
@@ -130,14 +130,13 @@ function respuesta_PedidoEnCarrito(){
 //****************************************************************************************************
 //Muestra el formulario de usuario registrado
 function Llamar_UsuarioRegistrado(CedulaUsuario){
-
     // console.log("______Desde Llamar_UsuarioRegistrado()______", CedulaUsuario)
 
     // remoto
-    // var url= "https://www.noticieroyaracuy.com/marketplace/mostrarUsuario/" + CedulaUsuario
+    var url= "https://www.noticieroyaracuy.com/marketplace/mostrarUsuario/" + CedulaUsuario
    
     // local
-    var url= "http://nuevonoticiero.com/marketplace/mostrarUsuario/" + CedulaUsuario 
+    // var url= "http://nuevonoticiero.com/marketplace/mostrarUsuario/" + CedulaUsuario 
     
     http_request.open('GET', url, true);    
     peticion.onreadystatechange = respuesta_UsuarioRegistrado;
@@ -150,7 +149,8 @@ function respuesta_UsuarioRegistrado(){
         if(peticion.status == 200){                   
             
             //para debuggear respuesta AJAX
-            // document.getElementById("Cedula_Usuario").innerHTML = peticion.responseText 
+            // document.getElementById("ReadOnly").innerHTML = peticion.responseText 
+            // return
 
             //Coloca el cursor en el top de la pagina
             window.scroll(0, 0)
@@ -188,7 +188,7 @@ function respuesta_UsuarioRegistrado(){
             
         } 
         else{
-            alert('Hubo problemas con la peticións')
+            alert('Hubo problemas con la petición')
         }
     }
     else{ //en caso contrario, mostramos un gif simulando una precarga

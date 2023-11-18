@@ -246,7 +246,7 @@ class MarketplaceController extends Controller
 
                 $RecibeDatosUsuario = [                    
                     'id_comerciante' => $Request->get('id_comerciante'),
-                    'id_usuario' => $Request->get('id_usuario'),
+                    'id_usuario' => empty($Request->get('id_usuario')) ? 0 : $Request->get('id_usuario'), 
                     'nombreUsuario' => $Request->get('nombreUsuario'),
                     'apellidoUsuario' => $Request->get('apellidoUsuario'),
                     'cedulaUsuario' => str_replace('.', '',($Request->get('cedulaUsuario'))),
@@ -377,10 +377,10 @@ class MarketplaceController extends Controller
                 $CodigoReferencia = $RecibeDatosPedido['CodigoReferencia'];
             }
                  
-             //Se INSERTAN los datos del comprador en la BD si el usuario acepta
+             // Se INSERTAN los datos del comprador en la BD si el usuario acepta
             if($RecibeDatosUsuario['suscrito'] == 'Suscribir'){
 
-                 //Se consulta si el usuario ya existe en la BD
+                 // Se consulta si el usuario ya existe en la BD
                 $UsuarioPedido = DB::connection('mysql_2')->table('usuarios') 
                     ->select('nombre_usu','apellido_usu','cedula_usu','telefono_usu','correo_usu','Ciudad_usu','direccion_usu')  
                     ->where('cedula_usu', '=', $RecibeDatosUsuario['cedulaUsuario'])
@@ -398,6 +398,7 @@ class MarketplaceController extends Controller
                          'cedula_usu' => $RecibeDatosUsuario['cedulaUsuario'],
                          'telefono_usu' => $RecibeDatosUsuario['telefonoUsuario'],
                          'correo_usu' => $RecibeDatosUsuario['correoUsuario'],
+                         'estado_usu' => $RecibeDatosUsuario['estado'],
                          'ciudad_usu' => $RecibeDatosUsuario['ciudad'],
                          'direccion_usu' => $RecibeDatosUsuario['direccionUsuario'],
                          'suscrito' => $Suscrito,
@@ -410,21 +411,21 @@ class MarketplaceController extends Controller
             else{
                 // Se INSERTAN pero no se recuerdan porque e usuario no aceptó guardar datos
                 $Suscrito = 0;
-                // DB::connection('mysql_2')->table('usuarios') 
-                // ->insert(
-                //     ['nombre_usu' => $RecibeDatosUsuario['nombreUsuario'], 
-                //     'apellido_usu' => $RecibeDatosUsuario['apellidoUsuario'],
-                //     'cedula_usu' => $RecibeDatosUsuario['cedulaUsuario'],
-                //     'telefono_usu' => $RecibeDatosUsuario['telefonoUsuario'],
-                //     'correo_usu' => $RecibeDatosUsuario['correoUsuario'],
-                //     'estado_usu' => $RecibeDatosUsuario['estado'],
-                //     'ciudad_usu' => $RecibeDatosUsuario['ciudad'],
-                //     'direccion_usu' => $RecibeDatosUsuario['direccionUsuario'],
-                //     'suscrito' => $Suscrito,
-                //     'fecha' => date('Y-m-d'),
-                //     'hora' => date('H:i')
-                //     ]
-                // );
+                DB::connection('mysql_2')->table('usuarios') 
+                ->insert(
+                    ['nombre_usu' => $RecibeDatosUsuario['nombreUsuario'], 
+                    'apellido_usu' => $RecibeDatosUsuario['apellidoUsuario'],
+                    'cedula_usu' => $RecibeDatosUsuario['cedulaUsuario'],
+                    'telefono_usu' => $RecibeDatosUsuario['telefonoUsuario'],
+                    'correo_usu' => $RecibeDatosUsuario['correoUsuario'],
+                    'estado_usu' => $RecibeDatosUsuario['estado'],
+                    'ciudad_usu' => $RecibeDatosUsuario['ciudad'],
+                    'direccion_usu' => $RecibeDatosUsuario['direccionUsuario'],
+                    'suscrito' => $Suscrito,
+                    'fecha' => date('Y-m-d'),
+                    'hora' => date('H:i')
+                    ]
+                );
             }
 
             // Se INSERTAN los datos generales del pedido en la BD

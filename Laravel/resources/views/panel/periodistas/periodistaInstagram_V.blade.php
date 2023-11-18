@@ -15,13 +15,16 @@
             font-size: 2.8em !important;
         }
     </style>
-
+    <script>
+        var url = 'https://www.noticieroyaracuy.com/panelPeriodista/compartir/' +  {{ $noticia['ID_Noticia'] }}  + '/' + 'instagram'
+        onload= Llamar_compartirNoticia(url)
+    </script>
+    
     <main>
         <!-- ICONO CERRAR cont_modal--cerrar-->
         <a href='javascript: history.go(-1)'><img class="iconoRegresar" src="{{ asset('/iconos/flecha/outline_arrow_back_black_24dp.png') }}"/></a>
 
         {{-- ICONO CAPTURA DE PANTALLA --}}
-
         <section style="width: 30%; margin: auto" >
 
 
@@ -77,4 +80,6 @@
         </section>
     </main>
 @endsection()
+
+<script src="{{ asset('/js/A_NoticiasPortadas.js?v=' . rand()) }}"></script>
 

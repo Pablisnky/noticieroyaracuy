@@ -97,6 +97,9 @@
                             <label class="boton boton--centro" for="Cedula_Usuario" onclick="soloNumeros(this.form, 'Cedula_Usuario')"/>Enviar</label>
                         </form>
                     </div> 
+                    
+                    <!-- Muestra respuesta de servidor al pedir usuario registrado, (solo para debuggear) -->
+                    {{-- <div id="ReadOnly"></div> --}}
                 </div>  
             </article>
         </div>
@@ -219,7 +222,7 @@
                                 </div>  
                             </div>   
 
-                            <!-- DATOS PAGO TRANSFERENCIA -->
+                            <!-- INFORMACION PAGO TRANSFERENCIA -->
                             <div class="contInforPago" id="Contenedor_60a">
                                 <h3 class="h3_2">Datos para transferencia</h3>
                                 <table class="tabla_2">
@@ -249,7 +252,7 @@
                                 </table>
                             </div>
                             
-                            <!-- DATOS PAGOMOVIL -->
+                            <!-- INFORMACION PAGOMOVIL -->
                             <div class="contInforPago" id="Contenedor_60b">
                                 <h3 class="h3_2">Datos para PagoMovil</h3>                                
                                 <table class="tabla_2">
@@ -279,7 +282,7 @@
                                 </table>
                             </div>
 
-                            <!-- DATOS PAYPAL -->
+                            <!-- INFORMACION PAYPAL -->
                             <div class="contInforPago" id="Contenedor_60g">
                                 <h3 class="h3_2">Datos para Paypal</h3>                                
                                 <table class="tabla_2">
@@ -296,8 +299,8 @@
                                 </table>      
                             </div>
                             
-                            <!-- DATOS BITCOIN -->
-                            <div class="contInforPago" id="Contenedor_60g">
+                            <!-- INFORMACION BITCOIN -->
+                            <div class="contInforPago" id="Contenedor_60h">
                                 <h3 class="h3_2">Datos para bitcoin</h3>                                
                                 <table class="tabla_2">
                                     <tbody>
@@ -315,13 +318,13 @@
                                         </tr>
                                         <tr class="tabla2__tr1">
                                             <td class="tabla2__td1">Monto</td>
-                                            <td><input class="contInforPago--input" type="text" id="PagarDolaresPaypal" readonly></td>
+                                            <td><input class="contInforPago--input" type="text" id="PagarCriptomoneda" readonly></td>
                                         </tr>
                                     </tbody>
                                 </table>      
                             </div>
                             
-                            <!-- PAGO ACORDADO -->
+                            <!-- INFORMACION PAGO ACORDADO -->
                             <div class="contInforPago" id="Contenedor_60e">
                                 <h3 class="h3_2">Acuerdo con tienda</h3>
                                 <p>Contacta al encargado de la tienda.</p>
@@ -333,27 +336,27 @@
                                     <div>
                                         <h3 class="rompe_Flex h3_2">Informe su pago</h3>
                                     </div>
-                                    <div class="contInputRadio">
+                                    <div class="contInputRadio--carrito">
                                         <input type="radio" name="referenciaPago" id="ReferenciaPago" value="NumeroPagoBancario" onclick="verInputReferencia()"/>
                                         <label class="contInputRadio__label" for="ReferenciaPago">Codigo referencia</label> 
                                     </div>
-                                    <div class="contInputRadio">
+                                    <div class="contInputRadio--carrito">
                                         <input type="radio" name="referenciaPago" id="CapturePago" value="CapturePagoBancario" onclick="verCapturePago()"/>
                                         <label class="contInputRadio__label" for="CapturePago">Capture de pago</label> 
                                     </div>
                                 </div>
 
                                 <!-- INPUT CODIGO REFERENCIA -->
-                                <div class="contOculto" id="InputReferencia">
+                                <div class="contOculto conOculta--margin" id="InputReferencia">
                                     <input class="login_cont--input borde--input" type="text" name="codigoReferencia" id="Codigo_RegistroPago" placeholder="Código referencia"/>
                                 </div>                           
                                                          
                                 <!-- CAPTURE PAGO -->
-                                <div class="contOculto" id="InputCapturePago">
+                                <div class="contOculto conOculta--margin" id="InputCapturePago"> 
                                     <label class="boton boton--largo boton--centro" for="ImagenCapturePago">Insertar capture</label>
                                     <input class="Default_ocultar" type="file" accept=".jpeg, .jpg, .png, .gif, .webp" name="imagenCapturePago" id="ImagenCapturePago"/>
                                     <br>
-                                    </div>
+
                                     <!-- div que muestra la previsualización del capture -->
                                     <div class="contGeneralCentro" id="DivCapturePago"></div>
                                 </div> 
@@ -367,7 +370,7 @@
                                     <input class="Default_ocultar" type="text" name="id_usuario" id="ID_Usuario" />
                                     <input class="Default_ocultar" type="text" name="pedido" id="Pedido"/>
     
-                                    <input class="Default_ocultar boton boton--alto botonJS" id="InformarPago" type="submit" value="Enviar Pago"/>
+                                    <input class="Default_ocultar boton boton--alto botonJS" id="InformarPago" type="submit" value="Informar compra"/> 
                                 </div>
                             </article> 
                         </div>

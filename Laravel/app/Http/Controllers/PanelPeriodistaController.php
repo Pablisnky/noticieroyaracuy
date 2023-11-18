@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\acuseRecibo_mail;
+
 use App\Models\Noticias_M;
 use App\Models\Secciones_M;  
 use App\Models\Efemerides_M;  
@@ -13,8 +16,10 @@ use App\Models\Anuncios_M;
 use App\Models\Periodistas_M;   
 use App\Models\Fuentes_M;   
 use App\Models\Agenda_M;
+use App\Models\NoticiaCompartida_M;
 use App\Models\Noticias_Anuncios_M;
 use App\Models\Noticias_Secciones_M;
+use App\Models\Suscriptor_M;
 use App\Models\Videos_M;
 
 use App\Traits\ServidorUse;
@@ -82,12 +87,19 @@ class PanelPeriodistaController extends Controller
                 ->where('fecha','=', $this->Hoy)
                 ->get();
                 // return $Publicidad;
+
+            // CONSULTA las noticias compartidas
+            $NoticasCompartidas = NoticiaCompartida_M::
+                select('ID_Noticia', 'facebook','Twitter','instagram','correo')
+                ->get();
+                // return $NoticasCompartidas;
                         
             return view('panel/periodistas/periodistaPortada_V', [
                 'noticia' => $NoticiasPortadas, 
                 'seccionesNoticiasPortadas' => $SeccionesNoticiasPortadas,
                 'imagenesNoticiasPortadas' => $ImagenesNoticiasPortadas, 
-                'publicidad' => $Publicidad
+                'publicidad' => $Publicidad, 
+                'noticasCompartidas' => $NoticasCompartidas
             ]);
         }
     }
@@ -166,7 +178,7 @@ class PanelPeriodistaController extends Controller
         ]);
     }
     
-    //Muestra panel eventos en agenda
+    // Muestra panel eventos en agenda
     public function agenda(){ 
         
         // COSULTA los eventos que el periodista a montado en su cuenta
@@ -183,7 +195,7 @@ class PanelPeriodistaController extends Controller
         ]);
     }
     
-    //Muestra en la vista panel todos los anuncios de publicidad, incluyendo los caducados
+    // Muestra en la vista panel todos los anuncios de publicidad, incluyendo los caducados
     public function publicidad(){ 
         
         //CONSULTA los anuncios de publicidad
@@ -199,7 +211,7 @@ class PanelPeriodistaController extends Controller
         ]);
     }
     
-    //Muestra las secciones en una ventana modal
+    // Muestra las secciones en una ventana modal
     public function secciones(){
         // CONSULTA las secciones del periodico
         $Secciones = Secciones_M::
@@ -212,7 +224,7 @@ class PanelPeriodistaController extends Controller
         ]);
     }
 		
-    //Muestra panel de todas las efemerides
+    // Muestra panel de todas las efemerides
     public function efemerides(){ 
         // if(isset($_SESSION['ID_Periodista'])){
             //CONSULTA las efemerides en el panel periddistas
@@ -581,6 +593,11 @@ class PanelPeriodistaController extends Controller
             //     exit;
             // }
             
+            // Se INSERTA ID_Notica en tabla de compartir en redes sociales
+            NoticiaCompartida_M::insert(
+                ['ID_Noticia' => $ID_Noticia]
+            );
+            
             return redirect()->action([PanelPeriodistaController::class,'index']); 
             die();
         }
@@ -723,7 +740,7 @@ class PanelPeriodistaController extends Controller
             ];
             // return $RecibeDatosPeriodista;
 
-            //Se actualizan datos del periodista
+            //Se actualizan datos del periodista en la tabla periodista
             $Actualizar = Periodistas_M
                 ::find(session('id_periodista'));
                 $Actualizar->nombrePeriodista = $RecibeDatosPeriodista['nombrePeriodista'];
@@ -740,6 +757,14 @@ class PanelPeriodistaController extends Controller
                     ->first();
                     // echo gettype($NoticiasPortadas);
                     // return $NoticiasPortadas;
+
+            //Se actualizan datos del suscriptor en la tabla sucriptore
+            $ActualizarSus = Suscriptor_M
+                ::find(session('id_periodista'));
+                $ActualizarSus->nombreSuscriptor = $RecibeDatosPeriodista['nombrePeriodista'];
+                $ActualizarSus->apellidoSuscriptor = $RecibeDatosPeriodista['apellidoPeriodista'];
+                $ActualizarSus->correoSuscriptor = $RecibeDatosPeriodista['correoPeriodista'];
+                $ActualizarSus->save();
 
             if($NoticiasPortadas->telefonoPeriodista != null AND $NoticiasPortadas->CNP != null){
                 // sesion creada en LoginController // se destruye porque el perfil esta completo
@@ -837,6 +862,7 @@ class PanelPeriodistaController extends Controller
             $Fecha = $Request->get('fecha');	
             $Fuente = $Request->get('fuente');		
             $Bandera = $Request->get('bandera');
+            $NoticiaCOmpartida = $Request->input('facebook');
 
             // echo "ID_Noticia: " . $ID_Noticia . '<br>';
             // echo "Fecha : " . $Fecha . '<br>';
@@ -857,7 +883,7 @@ class PanelPeriodistaController extends Controller
                 $ActualizarNoticia->municipio = $Request->input('municipio');
                 $ActualizarNoticia->fuente = $Request->input('fuente');
                 $ActualizarNoticia->save();
-           
+
             //Se verifica si la fuente de la noticia ya existe en la BD, sino existe se inserta
             $VerificaFuente = Fuentes_M::
                 select('ID_Fuente','fuente')
@@ -959,6 +985,11 @@ class PanelPeriodistaController extends Controller
                 // echo "Tipo_imagen: " .  $Tipo_imagenPrincipal . '<br>';
                 // echo "Tamanio_imagen: " .  $Tamanio_imagenPrincipal . '<br>';
                 // echo "Temporal_imagen: " .  $Temporal_imagenPrincipal . '<br>';
+                // echo $_FILES['imagenPrincipal']['error'] . '<br>';
+                // echo ini_get('upload_max_filesize') . '<br>';
+                // echo ini_get('memory_limit') . '<br>';
+                // echo '<br>';
+                // echo '<br>';
                 // exit;
                 
                 //Quitar de la cadena del nombre de la imagen todo lo que no sean números, letras o puntos
@@ -971,8 +1002,8 @@ class PanelPeriodistaController extends Controller
                 // se comprime y se inserta el archivo en el directorio de servidor                 
                 $BanderaImg = 'ImagenNoticia';
                 // metodo en Traits Comprimir_imagen
-                $this->imagen_comprimir($BanderaImg, $this->Servidor, $Nombre_imagenPrincipal, $Tipo_imagenPrincipal,$Tamanio_imagenPrincipal, $Temporal_imagenPrincipal);	
-                
+                $this->imagen_comprimir($BanderaImg, $this->Servidor, $Nombre_imagenPrincipal, $Tipo_imagenPrincipal, $Tamanio_imagenPrincipal, $Temporal_imagenPrincipal);	
+               
                 //Se ACTUALIZA la imagen principal de la noticia en BD
                 $ActualizarImagenNoticia = Imagenes_M:: 
                     find($ID_imagen);	
@@ -1246,11 +1277,12 @@ class PanelPeriodistaController extends Controller
             //return $EliminaImagen; 
     }
 
+    // Muestra el flayer para compartir en Instagram
     public function instagram($ID_Noticia){
 
         // CONSULTA los datos de la noticia seleccionada
         $Noticia = Noticias_M::
-            select('titulo','fecha','municipio','seccion','fuente')
+            select('noticias.ID_Noticia','titulo','fecha','municipio','seccion','fuente')
             ->join('noticias_secciones', 'noticias_secciones.ID_Noticia','=','noticias.ID_Noticia')
             ->join('secciones', 'noticias_secciones.ID_Seccion','=','secciones.ID_Seccion')
             ->where('noticias.ID_Noticia','=', $ID_Noticia)
@@ -1269,5 +1301,76 @@ class PanelPeriodistaController extends Controller
             'noticia' => $Noticia, 
             'imagenNoticia' => $ImagenesNoticia
         ]);
+    }
+
+    public function acuse_recibo(Request $Request){
+        
+        $Destinatario =  $Request->input('destinatario'); 
+        $ID_Noticia =  $Request->input('id_noticia');
+        $Titulo =  $Request->input('titulo');
+        $Fuente =  $Request->input('fuente'); 
+        $Municipio =  $Request->input('municipio');
+        $Imagen =  $Request->input('imagen');
+        // return $Destinatario;
+
+        $DatosCorreo = [
+            'id_noticia' => $ID_Noticia,
+            'titulo' => $Titulo,
+            'fuente' => $Fuente,
+            'municipio' => $Municipio,
+            'imagen' => $Imagen
+        ];
+
+        // echo '<pre>';
+        // print_r($DatosCorreo);
+        // echo '</pre>';
+        // exit;  pcabeza7@gmail.com
+        
+        // Consulta el correo del periodista, para que reciba una copia del acuse de recibo
+        $CorreoPeriodista = Periodistas_M::
+            select('correoPeriodista')
+            ->where('ID_Periodista','=', session('id_periodista'))
+            ->first();
+            // return $CorreoPeriodista;
+
+        $Copia = $CorreoPeriodista->correoPeriodista;
+        
+        Mail::to($Destinatario)
+        ->bcc($Copia)
+        ->send(new acuseRecibo_mail($DatosCorreo)); 
+
+        return redirect()->action([PanelPeriodistaController::class,'index']);
+        die();
+    }
+
+    public function noticia_compartida($ID_Noticia, $RedSocial){
+        // echo $ID_Noticia . '<br>';
+        // echo $RedSocial . '<br>';
+        // exit;
+
+        // UPDATE de que la noticia fue compartida en redes sociales
+        if($RedSocial == 'facebook'){            
+            $ActualizarCompartida = NoticiaCompartida_M::
+                where('ID_Noticia', $ID_Noticia)
+                ->update(["facebook" => 1]);
+        }
+        else if($RedSocial == 'twitter'){
+            $ActualizarCompartida = NoticiaCompartida_M::
+            where('ID_Noticia', $ID_Noticia)
+            ->update(["twitter" => 1]);
+        }
+        else if($RedSocial == 'instagram'){
+            $ActualizarCompartida = NoticiaCompartida_M::
+            where('ID_Noticia', $ID_Noticia)
+            ->update(["instagram" => 1]);
+        }
+        else if($RedSocial == 'correo'){
+            $ActualizarCompartida = NoticiaCompartida_M::
+            where('ID_Noticia', $ID_Noticia)
+            ->update(["correo" => 1]);
+        }
+        
+        return redirect()->action([PanelPeriodistaController::class,'index']);
+        die();
     }
 }

@@ -33,7 +33,7 @@
                             <figure>
                                 <img class="cont_panel--imagen" alt="Fotografia Principal" id="ImagenPrincipal" src="{{ asset('/images/noticias/' . $noticiaActualizar->nombre_imagenNoticia) }}"/> 
                             </figure>                                
-                            <input class="Default_ocultar" type="file" accept=".jpeg,.jpg,.png,.gif,.webp"  accept="image/*" name="imagenPrincipal" id="imgInp"/>
+                            <input class="Default_ocultar" type="file" accept=".jpeg, .jpg, .png, .gif, .webp" name="imagenPrincipal" id="imgInp"/>
                         </div>
 
                         <!-- ANUNCIO PUBLICITARIO --> 

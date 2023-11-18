@@ -686,6 +686,9 @@ textarea{
 .contOculto{
 	display: none;
 }
+.conOculta--margin{	
+	margin-top: 7%;
+}
 .section_9{
 	width: 100%;
 }
@@ -1771,7 +1774,7 @@ textarea{
 }
 .detalle_cont--redesSociales--Panel{
 	display: flex;
-	width: 40%;
+	width: 90%;
 	margin-bottom: 1.5%;
 	justify-content: left;
 }
@@ -4517,6 +4520,12 @@ ul .menuContenedor_3{
 .cont_roles--label{
 	font-size: 1.3vw;
 	margin-left: 2%; 
+}
+.detalle_cont--correo{
+	width: 100%;
+}
+.detalle_cont--red--panel{
+	width: 15%;
 }
 
 

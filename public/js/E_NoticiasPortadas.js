@@ -26,4 +26,19 @@
         }
     }
     
-//************************************************************************************************  
+//************************************************************************************************ 
+
+var Condicion = false
+function Mostrar_Correo(ID_DireccionCorreo, ID_EnviarCorreo_){
+    if(Condicion == false){
+        document.getElementById(ID_DireccionCorreo).style.display = "block"
+        document.getElementById(ID_EnviarCorreo_).style.display = "block"
+        Condicion = true
+    }
+    else{
+        document.getElementById(ID_DireccionCorreo).style.display = "none"
+        document.getElementById(ID_EnviarCorreo_).style.display = "none"
+        Condicion = false
+
+    }
+}

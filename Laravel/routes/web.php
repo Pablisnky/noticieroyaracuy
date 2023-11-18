@@ -42,7 +42,7 @@ Route::view("/homepage", "homepage");
 
 // ******************************************************  
 Route::get('/', InicioController::class)->name('NoticiasPortada');
-Route::get("roles/{correo}", RolController::class)->name('Roles');
+Route::get("roles/{correo}", RolController::class)->name('Roles'); 
 
 // EfemerideController ***************************************************** 
 Route::get('efemeride', EfemerideController::class)->name('Efemeride');
@@ -164,6 +164,7 @@ Route::get("artista/perfil/{id_artista}", [PanelArtistaController::class, 'perfi
 Route::get('panelPeriodista/agregar', [PanelPeriodistaController::class, 'agregar_noticia'])->name('AgregarNoticia');
 Route::post("panelPeriodista/actualizarPerfil", [PanelPeriodistaController::class, 'recibePerfilPeriodista'])->name('ActualizaPerfilPeriodista');
 Route::get('panelPeriodista', [PanelPeriodistaController::class, 'index'])->name('Index');   
+Route::post("panelPeriodista/correo", [PanelPeriodistaController::class, 'acuse_recibo'])->name('AcuseRecibo');
 Route::get('panelPeriodista/redSocial/{id_noticia}', [PanelPeriodistaController::class, 'instagram'])->name('Instagram'); 
 Route::get('panelPeriodista/noticiasGenerales', [PanelPeriodistaController::class, 'not_Generales'])->name('NoticiasGenerales');
 Route::get('panelPeriodista/agenda', [PanelPeriodistaController::class, 'agenda'])->name('Agenda');  
@@ -183,6 +184,7 @@ Route::get('panelPeriodista/eliminaEfemeride/{id_efemeride}', [PanelPeriodistaCo
 Route::get('panelPeriodista/eliminaAgenda/{id_agenda}', [PanelPeriodistaController::class, 'eliminar_agenda'])->name('EliminarAgenda'); 
 Route::get('panelPeriodista/actualizarNoticia/{id_imagenSec}', [PanelPeriodistaController::class, 'eliminar_imagenSecundariaNoticia'])->name('EliminarImgSecundaria');  
 Route::get('panelPeriodista/{id_periodista}', [PanelPeriodistaController::class, 'perfil_periodista'])->name('Perfil_periodista');
+Route::get('panelPeriodista/compartir/{id_noticia}/{redSocial}', [PanelPeriodistaController::class, 'noticia_compartida'])->name('CompartirNoticia');
 
 // TRAITS ************************************************************* 
 Route::get('trait', [PagesController::class, 'index'])->name('Trait');

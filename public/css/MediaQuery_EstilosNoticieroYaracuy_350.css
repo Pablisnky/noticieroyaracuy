@@ -983,7 +983,7 @@
  }
  .detalle_cont--redesSociales--Panel{
 	display: flex;
-	width: 80%;
+	width: 95%;
 	margin-bottom: 5%;
 	justify-content: space-between;
  }
@@ -2263,6 +2263,12 @@
 	display: flex;
 	justify-content: center;
 	margin-top: 7%;
+}
+.cont_panel--flex-right{
+	width: 100%; 
+}
+.detalle_cont--red--panel{
+	width: 30%;
 }
 
 

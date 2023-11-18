@@ -1294,7 +1294,7 @@ if(document.getElementById("Label_1")){
     }
    
 //************************************************************************************************
-//Muestra el contenedor del input referencia bancaria
+// Muestra el contenedor del input referencia bancaria
     function verInputReferencia(){
         document.getElementById("InputReferencia").style.display = "block"
         document.getElementById("InputCapturePago").style.display = "none"
@@ -1310,7 +1310,7 @@ if(document.getElementById("Label_1")){
     }
 
 //************************************************************************************************
-    //Da una vista previa del capture de pago
+    // Da una vista previa del capture de pago
     function CapturePago(){
         console.log("______Desde CapturePago()______")
 
@@ -1401,6 +1401,7 @@ if(document.getElementById("Label_1")){
         document.getElementById("Contenedor_60e").style.display = "none"
         document.getElementById("Contenedor_60g").style.display = "none"
         document.getElementById("Contenedor_60f").style.display = "block"
+        document.getElementById("Contenedor_60h").style.display = "none"
         
         //Se muestra el monto total de la compra en Bolivares
         document.getElementById("PagarTransferencia").value = SeparadorMiles(MontoTotal) + " Bs."
@@ -1416,6 +1417,7 @@ if(document.getElementById("Label_1")){
         document.getElementById("Contenedor_60e").style.display = "none"
         document.getElementById("Contenedor_60g").style.display = "none"
         document.getElementById("Contenedor_60f").style.display = "block"
+        document.getElementById("Contenedor_60h").style.display = "none"
 
         //Se muestra el monto total de la compra en Bolivares
         document.getElementById("PagarPagoMovil").value = SeparadorMiles(MontoTotal) + " Bs."
@@ -1428,10 +1430,27 @@ if(document.getElementById("Label_1")){
         document.getElementById("Contenedor_60b").style.display = "none"
         document.getElementById("Contenedor_60e").style.display = "none"
         document.getElementById("Contenedor_60g").style.display = "block"
-        document.getElementById("Contenedor_60f").style.display = "block"
+        document.getElementById("Contenedor_60f").style.display = "none"
+        document.getElementById("Contenedor_60h").style.display = "none"
+        document.getElementById("InformarPago").style.display = "block"
         
         //Se muestra el monto total de la compra en Dolares
         document.getElementById("PagarDolaresPaypal").value = SeparadorMiles(MontoTotalDolares) + " USD"
+    }
+
+//************************************************************************************************
+    // muestra la informacion para pagos via Bitcoin
+    function verPagoBitcoin(){
+        document.getElementById("Contenedor_60a").style.display = "none"
+        document.getElementById("Contenedor_60b").style.display = "none"
+        document.getElementById("Contenedor_60e").style.display = "none"
+        document.getElementById("Contenedor_60g").style.display = "none"
+        document.getElementById("Contenedor_60f").style.display = "none"
+        document.getElementById("Contenedor_60h").style.display = "block"
+        document.getElementById("InformarPago").style.display = "block"
+        
+        //Se muestra el monto total de la compra en Dolares
+        document.getElementById("PagarCriptomoneda").value = SeparadorMiles(MontoTotalDolares) + " USDT"
     }
 
 //************************************************************************************************
@@ -1444,6 +1463,8 @@ if(document.getElementById("Label_1")){
         document.getElementById("Contenedor_60e").style.display = "block"
         document.getElementById("Contenedor_60g").style.display = "none"
         document.getElementById("Contenedor_60f").style.display = "none"
+        document.getElementById("Contenedor_60h").style.display = "none"
+        document.getElementById("InformarPago").style.display = "block"
     }
     
 //************************************************************************************************

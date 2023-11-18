@@ -145,15 +145,18 @@ trait Comprimir_Imagen{
                 $max_alto = 900;  
                 
                 if($Tipo_Imagen == 'image/png' || $Tipo_Imagen == 'image/jpeg' || $Tipo_Imagen == 'image/jpg' || $Tipo_Imagen == 'image/gif'){
-                    // echo $Tipo_Imagen . '<br>';
-                    $medidasimagen= getimagesize($Temporal_Imagen);
-            
+                    
+                    $medidasimagen= getimagesize($Temporal_Imagen);  
+                    // echo '<pre>';
+                    // print_r($medidasimagen);
+                    // echo '</pre>';
+
                     //Si las imagenes tienen una resolución y un peso aceptable se suben tal cual
                     if($medidasimagen[0] < 1280 && $Tamanio_Imagen < 300000){
                      
                         move_uploaded_file($Temporal_Imagen, $Patch . $Nombre_Imagen);	
                     }
-                    else{
+                    else if($Tamanio_Imagen <= 6000000){
                         // echo 'entra en else' . '<br>';
                         //Redimensionar
                         $rtOriginal = $Temporal_Imagen;
@@ -196,21 +199,22 @@ trait Comprimir_Imagen{
             
                         $lienzo = imagecreatetruecolor($ancho_final, $alto_final); 
             
-                        imagecopyresampled($lienzo,$original,0,0,0,0,$ancho_final,$alto_final,$ancho,$alto);
+                        imagecopyresampled($lienzo, $original, 0,0,0,0, $ancho_final, $alto_final, $ancho, $alto);
                             
-                        // $cal = 8;
+                        $calidad = 70;
                         
+                        // Se comprime la imagen segun su formato
                         if($Tipo_Imagen == 'image/jpeg'){
-                            imagejpeg($lienzo, $Patch . $Nombre_Imagen);
+                            imagejpeg($lienzo, $Patch . $Nombre_Imagen, $calidad);
                         }
                         // else if($Tipo_Imagen == 'image/jpg'){
                         //     imagejpg($lienzo, $Patch . $Nombre_Imagen);
                         // }
                         else if($Tipo_Imagen == 'image/png'){
-                            imagepng($lienzo, $Patch . $Nombre_Imagen);
+                            imagepng($lienzo, $Patch . $Nombre_Imagen, $calidad);
                         }
                         else if($Tipo_Imagen=='image/gif'){
-                            imagegif($lienzo, $Patch . $Nombre_Imagen);
+                            imagegif($lienzo, $Patch . $Nombre_Imagen, $calidad);
                         }
                         // else if($Tipo_Imagen=='image/webp'){
                         //     imagewebp($lienzo, $Patch . $Nombre_Imagen);
@@ -218,9 +222,13 @@ trait Comprimir_Imagen{
                         // echo 'fichero comprimido exitosamente';
                         // exit;
                     }
+                    else{
+                        echo 'La imagen debe tener un tamaña máximo de 6M';
+                        exit;
+                    }
                 }
                 else{
-                    echo 'fichero no soportado, verifique que la imagen no tenga errores';
+                    echo 'fichero no soportado, verifique que la imagen se .jpg .jpeg .gif .png';
                     exit;
                 } 
             }
